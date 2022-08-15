@@ -2,6 +2,7 @@
   "compilerOptions": {
     "target": "ESNext",
     "module": "es2015",
+    "esModuleInterop": true,
     "inlineSourceMap": true,
     "inlineSources": true,
     "moduleResolution": "node",

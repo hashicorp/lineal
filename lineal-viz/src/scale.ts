@@ -52,7 +52,7 @@ const parse = (input: string | number[]): Bounds | number[] => {
   return new Bounds(min, max);
 };
 
-class Bounds {
+export class Bounds {
   min: number | undefined;
   max: number | undefined;
 

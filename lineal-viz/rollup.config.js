@@ -14,7 +14,7 @@ export default {
   plugins: [
     // These are the modules that users should be able to import from your
     // addon. Anything not listed here may get optimized away.
-    addon.publicEntrypoints(['*.ts']),
+    addon.publicEntrypoints(['**/*.ts']),
 
     // These are the modules that should get reexported into the traditional
     // "app" tree. Things in here should also be in publicEntrypoints above, but
@@ -36,7 +36,7 @@ export default {
     // Follow the V2 Addon rules about dependencies. Your code can import from
     // `dependencies` and `peerDependencies` as well as standard Ember-provided
     // package names.
-    addon.dependencies(),
+    // addon.dependencies(),
 
     // Ensure that standalone .hbs files are properly integrated as Javascript.
     addon.hbs(),
