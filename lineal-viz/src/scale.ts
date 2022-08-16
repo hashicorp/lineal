@@ -37,7 +37,7 @@ interface ScaleConfig {
 // to Rust's range expression. This validates the expression.
 const NUMERIC_RANGE_DSL = /^(\d+)?\.\.(\d+)?$/;
 
-const parse = (input: string | number[]): Bounds | number[] => {
+export const parse = (input: string | number[]): Bounds | number[] => {
   if (input instanceof Array) return input;
   if (!NUMERIC_RANGE_DSL.test(input)) {
     throw new Error(
@@ -65,13 +65,20 @@ export class Bounds {
     return this.min != undefined && this.max != undefined;
   }
 
-  qualify(data: any[], accessor: string | ((datum: any) => number)): void {
-    if (this.min != undefined && this.max != undefined) return;
+  qualify(data: any[], accessor: string | ((datum: any) => number)): Bounds {
+    if (this.min != undefined && this.max != undefined) return this;
 
     const fn = typeof accessor === 'string' ? (d: any) => d[accessor] : accessor;
     const [min, max] = extent(data, fn);
+    if (typeof accessor === 'string' && (min == undefined || max == undefined)) {
+      throw new Error(
+        `Invalid extent for data set using field accessor "${accessor}". Is "${accessor}" defined in this dataset?`
+      );
+    }
     if (this.min == undefined) this.min = min;
     if (this.max == undefined) this.max = max;
+
+    return this;
   }
 
   get bounds(): [number, number] {
