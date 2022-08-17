@@ -53,10 +53,10 @@ abstract class ScaleContinuous {
     ];
   }
 
-  abstract get d3Scale(): scales.ScaleContinuousNumeric<number, number>;
+  abstract get _d3Scale(): scales.ScaleContinuousNumeric<number, number>;
 
-  @cached get d3ScaleTreated(): scales.ScaleContinuousNumeric<number, number> {
-    const scale = this.d3Scale;
+  @cached get d3Scale(): scales.ScaleContinuousNumeric<number, number> {
+    const scale = this._d3Scale;
     if (this.clamp) scale.clamp(true);
     if (this.nice && typeof this.nice === 'number') {
       scale.nice(this.nice);
@@ -68,12 +68,12 @@ abstract class ScaleContinuous {
   }
 
   compute(value: number): number {
-    return this.d3ScaleTreated(value);
+    return this.d3Scale(value);
   }
 }
 
 export class ScaleLinear extends ScaleContinuous {
-  get d3Scale() {
+  get _d3Scale() {
     return scales.scaleLinear(...this.scaleArgs);
   }
 }
@@ -86,7 +86,7 @@ export class ScalePow extends ScaleContinuous {
     this.exponent = config.exponent ?? 1;
   }
 
-  get d3Scale() {
+  get _d3Scale() {
     return scales.scalePow(...this.scaleArgs).exponent(this.exponent);
   }
 }
@@ -99,13 +99,13 @@ export class ScaleLog extends ScaleContinuous {
     this.base = config.base ?? 10;
   }
 
-  get d3Scale() {
+  get _d3Scale() {
     return scales.scaleLog(...this.scaleArgs).base(this.base);
   }
 }
 
 export class ScaleSqrt extends ScaleContinuous {
-  get d3Scale() {
+  get _d3Scale() {
     return scales.scaleSqrt(...this.scaleArgs);
   }
 }
