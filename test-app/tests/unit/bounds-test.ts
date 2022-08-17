@@ -98,6 +98,13 @@ module('Unit | Bounds', function () {
     assert.strictEqual(scale.min, Math.min(...TEST_DATA.map((d) => d.x * 2)));
     assert.strictEqual(scale.max, Math.max(...TEST_DATA.map((d) => d.x * 2)));
   });
+
+  test('attempting to access the scale bounds when min or max is undefined throws a useful error', function (assert) {
+    const scale = new Bounds(10);
+    assert.throws(() => {
+      scale.bounds;
+    }, /not been qualified/);
+  });
 });
 
 module('Unit | Bounds.parse', function () {
@@ -131,7 +138,7 @@ module('Unit | Bounds.parse', function () {
           Bounds.parse(t.input);
         });
       } else if (t.output instanceof Bounds) {
-        const { min, max } = Bounds.parse(t.input) as Bounds;
+        const { min, max } = Bounds.parse(t.input) as Bounds<number>;
         assert.deepEqual(
           { min, max },
           { min: t.output.min, max: t.output.max }
