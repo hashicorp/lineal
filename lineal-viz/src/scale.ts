@@ -33,9 +33,16 @@ interface ScaleConfig {
   base?: number;
 }
 
+interface DateScaleConfig {
+  domain?: Date[];
+  range?: ValueSet;
+  clamp?: boolean;
+  nice?: boolean;
+}
+
 abstract class ScaleContinuous {
-  @tracked domain: Bounds | number[];
-  @tracked range: Bounds | number[];
+  @tracked domain: Bounds<number> | number[];
+  @tracked range: Bounds<number> | number[];
   @tracked clamp: boolean = false;
   @tracked nice: boolean | number = false;
 

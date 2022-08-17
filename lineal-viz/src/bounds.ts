@@ -4,11 +4,11 @@ import { extent } from 'd3-array';
 // to Rust's range expression. This validates the expression.
 const NUMERIC_RANGE_DSL = /^(\d+)?\.\.(\d+)?$/;
 
-export default class Bounds {
-  min: number | undefined;
-  max: number | undefined;
+export default class Bounds<T> {
+  min: T | undefined;
+  max: T | undefined;
 
-  static parse(input: string | number[]): Bounds | number[] {
+  static parse(input: string | number[]): Bounds<number> | number[] {
     if (input instanceof Array) return input;
     if (!NUMERIC_RANGE_DSL.test(input)) {
       throw new Error(
@@ -20,10 +20,10 @@ export default class Bounds {
     const min = minStr ? parseInt(minStr, 10) : undefined;
     const max = maxStr ? parseInt(maxStr, 10) : undefined;
 
-    return new Bounds(min, max);
+    return new Bounds<number>(min, max);
   }
 
-  constructor(min?: number, max?: number) {
+  constructor(min?: T, max?: T) {
     this.min = min;
     this.max = max;
   }
@@ -32,7 +32,7 @@ export default class Bounds {
     return this.min != undefined && this.max != undefined;
   }
 
-  qualify(data: any[], accessor: string | ((datum: any) => number)): Bounds {
+  qualify(data: any[], accessor: string | ((datum: any) => number)): Bounds<T> {
     if (this.min != undefined && this.max != undefined) return this;
 
     const fn = typeof accessor === 'string' ? (d: any) => d[accessor] : accessor;
@@ -48,13 +48,13 @@ export default class Bounds {
     return this;
   }
 
-  get bounds(): [number, number] {
+  get bounds(): [T, T] {
     if (!this.isValid) {
       throw new Error(
         'Bounds have not been qualified! These bounds were not constructed with both a min and a max. Use `bounds.qualify` with a dataset to fill in the missing bounds'
       );
     }
 
-    return [this.min as number, this.max as number];
+    return [this.min as T, this.max as T];
   }
 }
