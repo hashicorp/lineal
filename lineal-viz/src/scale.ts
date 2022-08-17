@@ -3,10 +3,6 @@ import { tracked, cached } from '@glimmer/tracking';
 import * as scales from 'd3-scale';
 import Bounds from './bounds';
 
-// Identity = 'identity',
-// Time = 'time',
-// Utc = 'utc',
-//
 // Diverging = 'diverging',
 //
 // Quantize = 'quantize',
@@ -14,12 +10,13 @@ import Bounds from './bounds';
 // Threshold = 'threshold',
 //
 // Ordinal = 'ordinal',
-// Implicit = 'implicit',
 //
+// Implicit = 'implicit',
+// Identity = 'identity',
 // Band = 'band',
 // Point = 'point',
 
-type ValueSet = Array<any> | string;
+type ValueSet = number[] | string;
 
 interface ScaleConfig {
   domain?: ValueSet;
@@ -127,19 +124,58 @@ export class ScaleSqrt extends ScaleContinuous {
 // }
 
 export class ScaleRadial extends ScaleContinuous {
-  get d3Scale() {
+  get _d3Scale() {
     return scales.scaleRadial(...this.scaleArgs);
   }
 }
 
-// TODO: Time scales are just linear scales with dates for domain values
-// So we should be able to get some code reuse here...but thinking required.
-//
-// export class ScaleTime extends ScaleContinuous {
-//   get d3Scale() {
-//     return scales.scaleTime(...this.scaleArgs);
-//   }
-// }
-//   Utc = 'utc',
+abstract class AbstractScaleTime {
+  @tracked domain: Bounds<Date> | Date[];
+  @tracked range: Bounds<number> | number[];
+  @tracked clamp: boolean = false;
+  @tracked nice: boolean | number = false;
 
-// Welp. This is just gonna have to be multiple classes
+  constructor({ domain, range, clamp, nice }: DateScaleConfig = {}) {
+    this.domain = domain ?? new Bounds();
+    this.range = range ? Bounds.parse(range) : new Bounds();
+    this.clamp = clamp ?? false;
+    this.nice = nice ?? false;
+  }
+
+  get scaleArgs(): [Date[], number[]] {
+    return [
+      this.domain instanceof Bounds ? this.domain.bounds : this.domain,
+      this.range instanceof Bounds ? this.range.bounds : this.range,
+    ];
+  }
+
+  abstract get _d3Scale(): scales.ScaleTime<number, number>;
+
+  @cached get d3Scale(): scales.ScaleTime<number, number> {
+    const scale = this._d3Scale;
+    if (this.clamp) scale.clamp(true);
+    if (this.nice && typeof this.nice === 'number') {
+      scale.nice(this.nice);
+    } else if (this.nice) {
+      scale.nice();
+    }
+
+    return scale;
+  }
+
+  compute(value: Date): number {
+    return this.d3Scale(value);
+  }
+}
+
+export class ScaleTime extends AbstractScaleTime {
+  get _d3Scale() {
+    return scales.scaleTime(...this.scaleArgs);
+  }
+}
+
+export class ScaleUtc extends AbstractScaleTime {
+  get _d3Scale() {
+    return scales.scaleUtc(...this.scaleArgs);
+  }
+}
