@@ -32,7 +32,7 @@ export default class Bounds<T> {
     return this.min != undefined && this.max != undefined;
   }
 
-  qualify(data: any[], accessor: string | ((datum: any) => number)): Bounds<T> {
+  qualify(data: any[], accessor: string | ((datum: any) => T)): Bounds<T> {
     if (this.min != undefined && this.max != undefined) return this;
 
     const fn = typeof accessor === 'string' ? (d: any) => d[accessor] : accessor;
