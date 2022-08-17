@@ -39,9 +39,9 @@ abstract class ScaleContinuous {
   @tracked clamp: boolean = false;
   @tracked nice: boolean | number = false;
 
-  constructor({ domain, range, clamp, nice }: ScaleConfig) {
-    this.domain = domain ? Bounds.parse(domain) : [];
-    this.range = range ? Bounds.parse(range) : [];
+  constructor({ domain, range, clamp, nice }: ScaleConfig = {}) {
+    this.domain = domain ? Bounds.parse(domain) : new Bounds();
+    this.range = range ? Bounds.parse(range) : new Bounds();
     this.clamp = clamp ?? false;
     this.nice = nice ?? false;
   }
