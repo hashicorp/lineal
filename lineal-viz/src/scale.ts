@@ -37,6 +37,12 @@ interface DateScaleConfig {
   nice?: boolean;
 }
 
+interface DivergingScaleConfig {
+  domain: [number, number, number];
+  range: (t: number) => any;
+  clamp?: boolean;
+}
+
 abstract class ScaleContinuous {
   @tracked domain: Bounds<number> | number[];
   @tracked range: Bounds<number> | number[];
@@ -184,4 +190,45 @@ export class ScaleUtc extends AbstractScaleTime {
   get _d3Scale() {
     return scales.scaleUtc(...this.scaleArgs);
   }
+}
+
+export class ScaleDiverging<T> {
+  @tracked domain: [number, number, number];
+  @tracked range: (t: number) => T; // Interpolator
+  @tracked clamp: boolean = false;
+
+  protected scaleFn: (interpolator?: (t: number) => T) => scales.ScaleDiverging<any, any> =
+    scales.scaleDiverging;
+
+  constructor({ domain, range, clamp }: DivergingScaleConfig) {
+    this.domain = domain;
+    this.range = range;
+    this.clamp = clamp ?? false;
+  }
+
+  @cached get d3Scale() {
+    const scale = this.scaleFn(this.range).domain(this.domain);
+    if (this.clamp) scale.clamp(true);
+    return scale;
+  }
+
+  compute(value: number): T {
+    return this.d3Scale(value);
+  }
+}
+
+export class ScaleDivergingLog<T> extends ScaleDiverging<T> {
+  protected scaleFn = scales.scaleDivergingLog;
+}
+
+export class ScaleDivergingPow<T> extends ScaleDiverging<T> {
+  protected scaleFn = scales.scaleDivergingPow;
+}
+
+export class ScaleDivergingSqrt<T> extends ScaleDiverging<T> {
+  protected scaleFn = scales.scaleDivergingSqrt;
+}
+
+export class ScaleDivergingSymlog<T> extends ScaleDiverging<T> {
+  protected scaleFn = scales.scaleDivergingSymlog;
 }
