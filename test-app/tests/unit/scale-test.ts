@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { ScaleLinear, ScaleUtc } from 'lineal-viz/scale';
+import { ScaleLinear, ScaleUtc, ScaleDiverging } from 'lineal-viz/scale';
 import Bounds from 'lineal-viz/bounds';
 
 const NOW = Date.now();
@@ -134,7 +134,7 @@ module('Unit | ScaleUtc', function () {
     }, /not been qualified/);
   });
 
-  test('the computed d3 scale can be accessed at scale#d3scale', function (assert) {
+  test('the computed d3 scale can be accessed at scale#d3Scale', function (assert) {
     const scale = new ScaleUtc({
       range: '0..10',
       domain: [new Date(NOW - DAY), new Date(NOW)],
@@ -145,5 +145,46 @@ module('Unit | ScaleUtc', function () {
     scale.clamp = true;
     assert.ok(scale.d3Scale.clamp());
     assert.strictEqual(scale.compute(new Date(NOW + DAY)), 10);
+  });
+});
+
+module('Unit | ScaleDiverging', function () {
+  test('A diverging scale must be constructed with a domain and a range', function (assert) {
+    // Maps an input value (0-1, the d3 interpolate inerface) to an emoticon
+    const interpolateEmoticon = (n: number) => {
+      const emoticons = ['>:U', '>:(', ':(', ':|', ':)', ':D', 'XD'];
+      return emoticons[Math.floor(n * (emoticons.length - 1))];
+    };
+
+    const scale = new ScaleDiverging<string>({
+      domain: [-10, 0, 10],
+      range: interpolateEmoticon,
+    });
+
+    assert.strictEqual(scale.compute(-10), '>:U');
+    assert.strictEqual(scale.compute(0), ':|');
+    assert.strictEqual(scale.compute(10), 'XD');
+
+    // Domains can be updated, recomputing the scale
+    scale.domain = [-10, 0, 100];
+
+    // Diverging scales are like two linear scales, one on each
+    // side of the middle value.
+    assert.strictEqual(scale.compute(34), ':)');
+    assert.strictEqual(scale.compute(68), ':D');
+    assert.strictEqual(scale.compute(-4), '>:(');
+  });
+
+  test('the computed d3 scale can be accessed at scale#d3Scale', function (assert) {
+    const scale = new ScaleDiverging<number>({
+      domain: [0, 0.5, 1],
+      range: (n: number) => n,
+    });
+    assert.notOk(scale.d3Scale.clamp());
+    assert.strictEqual(scale.compute(2), 2);
+
+    scale.clamp = true;
+    assert.ok(scale.d3Scale.clamp());
+    assert.strictEqual(scale.compute(2), 1);
   });
 });
