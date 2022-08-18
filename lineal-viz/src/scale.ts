@@ -16,6 +16,15 @@ import Bounds from './bounds';
 // Band = 'band',
 // Point = 'point',
 
+// TODO: D3 scales are incredibly fluid, but we can
+// still do a better job locking down these types.
+interface Scale {
+  domain: any;
+  range: any;
+  compute: (value: any) => any;
+  d3Scale: any;
+}
+
 type ValueSet = number[] | string;
 
 interface ScaleConfig {
@@ -43,7 +52,7 @@ interface DivergingScaleConfig {
   clamp?: boolean;
 }
 
-abstract class ScaleContinuous {
+abstract class ScaleContinuous implements Scale {
   @tracked domain: Bounds<number> | number[];
   @tracked range: Bounds<number> | number[];
   @tracked clamp: boolean = false;
@@ -192,7 +201,7 @@ export class ScaleUtc extends AbstractScaleTime {
   }
 }
 
-export class ScaleDiverging<T> {
+export class ScaleDiverging<T> implements Scale {
   @tracked domain: [number, number, number];
   @tracked range: (t: number) => T; // Interpolator
   @tracked clamp: boolean = false;
