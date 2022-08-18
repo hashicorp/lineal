@@ -12,7 +12,7 @@ import CSSRange from './css-range';
 
 // TODO: D3 scales are incredibly fluid, but we can
 // still do a better job locking down these types.
-interface Scale {
+export interface Scale {
   domain: any;
   range: any;
   compute: (value: any) => any;
@@ -21,7 +21,7 @@ interface Scale {
 
 type ValueSet = number[] | string;
 
-interface ScaleConfig {
+export interface ScaleConfig {
   domain?: ValueSet;
   range?: ValueSet;
   clamp?: boolean;
@@ -33,30 +33,30 @@ interface ScaleConfig {
   base?: number;
 }
 
-interface DateScaleConfig {
+export interface DateScaleConfig {
   domain?: Date[];
   range?: ValueSet;
   clamp?: boolean;
   nice?: boolean;
 }
 
-interface DivergingScaleConfig {
+export interface DivergingScaleConfig {
   domain: [number, number, number];
   range: (t: number) => any;
   clamp?: boolean;
 }
 
-interface QuantizeScaleConfig {
+export interface QuantizeScaleConfig {
   domain?: ValueSet;
   range: CSSRange | string[];
 }
 
-interface QuantileScaleConfig {
+export interface QuantileScaleConfig {
   domain: number[];
   range: CSSRange | string[];
 }
 
-interface OrdinalScaleConfig {
+export interface OrdinalScaleConfig {
   domain: string[];
   range: CSSRange | string[];
 }
@@ -95,9 +95,9 @@ abstract class ScaleContinuous implements Scale {
     return scale;
   }
 
-  compute(value: number): number {
+  compute = (value: number): number => {
     return this.d3Scale(value);
-  }
+  };
 }
 
 export class ScaleLinear extends ScaleContinuous {
