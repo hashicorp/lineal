@@ -9,7 +9,17 @@ const addon = new Addon({
 export default {
   // This provides defaults that work well alongside `publicEntrypoints` below.
   // You can augment this if you need to.
-  output: addon.output(),
+  output: {
+    ...addon.output(),
+    // This is a magic trick to prevent rollup from generating chunks based on
+    // common imports across node_modules (which would in turn result in empty type
+    // declaration files (which would in turn result in ember-cli-typescript going boom)).
+    manualChunks(id) {
+      if (id.includes('node_modules')) {
+        return 'vendor';
+      }
+    },
+  },
 
   plugins: [
     // These are the modules that users should be able to import from your
