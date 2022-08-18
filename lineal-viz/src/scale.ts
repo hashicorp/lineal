@@ -2,15 +2,9 @@ import 'ember-cached-decorator-polyfill';
 import { tracked, cached } from '@glimmer/tracking';
 import * as scales from 'd3-scale';
 import Bounds from './bounds';
+import CSSRange from './css-range';
 
-// Diverging = 'diverging',
-//
-// Quantize = 'quantize',
-// Quantile = 'quantile',
-// Threshold = 'threshold',
-//
-// Ordinal = 'ordinal',
-//
+// TODO: Implement scale classes for the less common scales
 // Implicit = 'implicit',
 // Identity = 'identity',
 // Band = 'band',
@@ -50,6 +44,21 @@ interface DivergingScaleConfig {
   domain: [number, number, number];
   range: (t: number) => any;
   clamp?: boolean;
+}
+
+interface QuantizeScaleConfig {
+  domain?: ValueSet;
+  range: CSSRange | string[];
+}
+
+interface QuantileScaleConfig {
+  domain: number[];
+  range: CSSRange | string[];
+}
+
+interface OrdinalScaleConfig {
+  domain: string[];
+  range: CSSRange | string[];
 }
 
 abstract class ScaleContinuous implements Scale {
@@ -240,4 +249,90 @@ export class ScaleDivergingSqrt<T> extends ScaleDiverging<T> {
 
 export class ScaleDivergingSymlog<T> extends ScaleDiverging<T> {
   protected scaleFn = scales.scaleDivergingSymlog;
+}
+
+export class ScaleQuantize implements Scale {
+  @tracked domain: Bounds<number> | number[];
+  @tracked range: CSSRange | string[];
+
+  constructor({ domain, range }: QuantizeScaleConfig) {
+    this.domain = domain ? Bounds.parse(domain) : new Bounds();
+    this.range = range;
+  }
+
+  get scaleArgs(): [number[], string[]] {
+    const domain: number[] = this.domain instanceof Bounds ? this.domain.bounds : this.domain;
+    const range: string[] =
+      this.range instanceof CSSRange ? this.range.spread(domain.length) : this.range;
+    return [domain, range];
+  }
+
+  @cached get d3Scale() {
+    const [domain, range] = this.scaleArgs;
+    return scales.scaleQuantize(range).domain(domain);
+  }
+
+  compute(value: number) {
+    return this.d3Scale(value);
+  }
+}
+
+export class ScaleQuantile implements Scale {
+  @tracked domain: number[];
+  @tracked range: CSSRange | string[];
+
+  constructor({ domain, range }: QuantileScaleConfig) {
+    this.domain = domain;
+    this.range = range;
+  }
+
+  @cached get d3Scale() {
+    const range: string[] =
+      this.range instanceof CSSRange ? this.range.spread(this.domain.length) : this.range;
+    return scales.scaleQuantile(range).domain(this.domain);
+  }
+
+  compute(value: number) {
+    return this.d3Scale(value);
+  }
+}
+
+export class ScaleThreshold implements Scale {
+  @tracked domain: number[];
+  @tracked range: CSSRange | string[];
+
+  constructor({ domain, range }: QuantileScaleConfig) {
+    this.domain = domain;
+    this.range = range;
+  }
+
+  @cached get d3Scale() {
+    const range: string[] =
+      this.range instanceof CSSRange ? this.range.spread(this.domain.length + 1) : this.range;
+    return scales.scaleQuantile(range).domain(this.domain);
+  }
+
+  compute(value: number) {
+    return this.d3Scale(value);
+  }
+}
+
+export class ScaleOrdinal implements Scale {
+  @tracked domain: string[];
+  @tracked range: CSSRange | string[];
+
+  constructor({ domain, range }: OrdinalScaleConfig) {
+    this.domain = domain;
+    this.range = range;
+  }
+
+  @cached get d3Scale() {
+    const range: string[] =
+      this.range instanceof CSSRange ? this.range.spread(this.domain.length) : this.range;
+    return scales.scaleOrdinal(range).domain(this.domain);
+  }
+
+  compute(value: string) {
+    return this.d3Scale(value);
+  }
 }

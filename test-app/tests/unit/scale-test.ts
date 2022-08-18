@@ -1,6 +1,12 @@
 import { module, test } from 'qunit';
-import { ScaleLinear, ScaleUtc, ScaleDiverging } from 'lineal-viz/scale';
+import {
+  ScaleLinear,
+  ScaleUtc,
+  ScaleDiverging,
+  ScaleOrdinal,
+} from 'lineal-viz/scale';
 import Bounds from 'lineal-viz/bounds';
+import CSSRange from 'lineal-viz/css-range';
 
 const NOW = Date.now();
 const DAY = 1000 * 60 * 60 * 24;
@@ -186,5 +192,49 @@ module('Unit | ScaleDiverging', function () {
     scale.clamp = true;
     assert.ok(scale.d3Scale.clamp());
     assert.strictEqual(scale.compute(2), 1);
+  });
+});
+
+module('Unit | ScaleOrdinal', function () {
+  test('the compute method performs the scale operation', function (assert) {
+    const scale = new ScaleOrdinal({
+      domain: ['one', 'two', 'red', 'blue'],
+      range: ['A', 'B', 'C', 'D'],
+    });
+
+    assert.strictEqual(scale.compute('one'), 'A');
+    assert.strictEqual(scale.compute('two'), 'B');
+    assert.strictEqual(scale.compute('red'), 'C');
+    assert.strictEqual(scale.compute('blue'), 'D');
+  });
+
+  test('the range can be specified as a CSSRange', function (assert) {
+    const scale = new ScaleOrdinal({
+      domain: ['one', 'two', 'red', 'blue'],
+      range: new CSSRange('fish'),
+    });
+
+    assert.strictEqual(scale.compute('one'), 'fish fish-1 fish-4-1');
+    assert.strictEqual(scale.compute('two'), 'fish fish-2 fish-4-2');
+    assert.strictEqual(scale.compute('red'), 'fish fish-3 fish-4-3');
+    assert.strictEqual(scale.compute('blue'), 'fish fish-4 fish-4-4');
+  });
+
+  test('the range property carries the CSSRange type for conditional usage', function (assert) {
+    const scale = new ScaleOrdinal({
+      domain: ['one', 'two', 'red', 'blue'],
+      range: new CSSRange('fish'),
+    });
+
+    assert.ok(scale.range instanceof CSSRange);
+  });
+
+  test('the computed d3 scale can be accessed at scale#d3Scale', function (assert) {
+    const scale = new ScaleOrdinal({
+      domain: ['one', 'two', 'red', 'blue'],
+      range: ['A', 'B', 'C', 'D'],
+    });
+
+    assert.strictEqual(scale.d3Scale('one'), 'A');
   });
 });
