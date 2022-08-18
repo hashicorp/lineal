@@ -114,6 +114,12 @@ export class ScaleSqrt extends ScaleContinuous {
   }
 }
 
+export class ScaleSymlog extends ScaleContinuous {
+  get _d3Scale() {
+    return scales.scaleSymlog(...this.scaleArgs);
+  }
+}
+
 // TODO: This isn't typed as a continuous scale despite being a special form of linear scale.
 // Maybe we can just not use d3's scaleIdentity here?
 //
