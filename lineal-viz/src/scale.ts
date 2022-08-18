@@ -193,9 +193,9 @@ abstract class AbstractScaleTime {
     return scale;
   }
 
-  compute(value: Date): number {
+  compute = (value: Date): number => {
     return this.d3Scale(value);
-  }
+  };
 }
 
 export class ScaleTime extends AbstractScaleTime {
@@ -230,9 +230,9 @@ export class ScaleDiverging<T> implements Scale {
     return scale;
   }
 
-  compute(value: number): T {
+  compute = (value: number): T => {
     return this.d3Scale(value);
-  }
+  };
 }
 
 export class ScaleDivergingLog<T> extends ScaleDiverging<T> {
@@ -272,9 +272,9 @@ export class ScaleQuantize implements Scale {
     return scales.scaleQuantize(range).domain(domain);
   }
 
-  compute(value: number) {
+  compute = (value: number): string => {
     return this.d3Scale(value);
-  }
+  };
 }
 
 export class ScaleQuantile implements Scale {
@@ -292,9 +292,9 @@ export class ScaleQuantile implements Scale {
     return scales.scaleQuantile(range).domain(this.domain);
   }
 
-  compute(value: number) {
+  compute = (value: number): string => {
     return this.d3Scale(value);
-  }
+  };
 }
 
 export class ScaleThreshold implements Scale {
@@ -312,9 +312,9 @@ export class ScaleThreshold implements Scale {
     return scales.scaleQuantile(range).domain(this.domain);
   }
 
-  compute(value: number) {
+  compute = (value: number): string => {
     return this.d3Scale(value);
-  }
+  };
 }
 
 export class ScaleOrdinal implements Scale {
@@ -332,7 +332,7 @@ export class ScaleOrdinal implements Scale {
     return scales.scaleOrdinal(range).domain(this.domain);
   }
 
-  compute(value: string) {
+  compute = (value: string): string => {
     return this.d3Scale(value);
-  }
+  };
 }
