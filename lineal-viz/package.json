@@ -62,7 +62,26 @@
     "version": 2,
     "type": "addon",
     "main": "addon-main.js",
-    "app-js": {}
+    "app-js": {
+      "./helpers/css-range.js": "./dist/_app_/helpers/css-range.js",
+      "./helpers/scale-diverging-log.js": "./dist/_app_/helpers/scale-diverging-log.js",
+      "./helpers/scale-diverging-pow.js": "./dist/_app_/helpers/scale-diverging-pow.js",
+      "./helpers/scale-diverging-sqrt.js": "./dist/_app_/helpers/scale-diverging-sqrt.js",
+      "./helpers/scale-diverging-symlog.js": "./dist/_app_/helpers/scale-diverging-symlog.js",
+      "./helpers/scale-diverging.js": "./dist/_app_/helpers/scale-diverging.js",
+      "./helpers/scale-linear.js": "./dist/_app_/helpers/scale-linear.js",
+      "./helpers/scale-log.js": "./dist/_app_/helpers/scale-log.js",
+      "./helpers/scale-ordinal.js": "./dist/_app_/helpers/scale-ordinal.js",
+      "./helpers/scale-pow.js": "./dist/_app_/helpers/scale-pow.js",
+      "./helpers/scale-quantile.js": "./dist/_app_/helpers/scale-quantile.js",
+      "./helpers/scale-quantize.js": "./dist/_app_/helpers/scale-quantize.js",
+      "./helpers/scale-radial.js": "./dist/_app_/helpers/scale-radial.js",
+      "./helpers/scale-sqrt.js": "./dist/_app_/helpers/scale-sqrt.js",
+      "./helpers/scale-symlog.js": "./dist/_app_/helpers/scale-symlog.js",
+      "./helpers/scale-threshold.js": "./dist/_app_/helpers/scale-threshold.js",
+      "./helpers/scale-time.js": "./dist/_app_/helpers/scale-time.js",
+      "./helpers/scale-utc.js": "./dist/_app_/helpers/scale-utc.js"
+    }
   },
   "exports": {
     ".": "./dist/index.js",

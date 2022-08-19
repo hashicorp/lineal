@@ -11,12 +11,12 @@ Lineal is a template-first data visualization toolkit for Ember. Instead of offe
 
 Making your first chart:
 
-### 1. (soon) Create scales for your data
+### 1. Create scales for your data
 
 Lineal exports a suite of helpers for constructing scales using `d3-scale`.
 
 ```hbs
-{{let (scale-linear range=(array 0 500) domain=(extent this.data "time")) as |scale|}}
+{{let (scale-linear range=(array 0 500) domain="1..100") as |scale|}}
   {{log scale.range.min scale.range.max}}
   {{log scale.domain.min scale.domain.max}}
 {{let}}
