@@ -65,4 +65,24 @@
   {{/let}}
 </svg>
 
+<p>Line</p>
+<svg width='800' height='200'>
+  {{#let
+    (scale-linear range='15..785')
+    (scale-linear range='190..10')
+    as |xScale yScale|
+  }}
+    <Lineal::Line
+      @data={{this.population}}
+      @xScale={{xScale}}
+      @yScale={{yScale}}
+      @x='year'
+      @y='people'
+      fill='transparent'
+      stroke='black'
+      stroke-width='2'
+    />
+  {{/let}}
+</svg>
+
 {{outlet}}
