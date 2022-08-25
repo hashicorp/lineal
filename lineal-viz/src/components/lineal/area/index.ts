@@ -53,7 +53,9 @@ export default class Line extends Component<AreaArgs> {
 
     const generator = area()
       .curve(this.curve)
-      .defined(this.args.defined || ((d) => this.y.accessor(d) != null))
+      .defined(
+        this.args.defined || ((d) => this.y.accessor(d) != null && this.x.accessor(d) != null)
+      )
       .x((d) => this.xScale.compute(this.x.accessor(d)))
       .y0((d) => this.yScale.compute(this.y0.accessor(d)))
       .y1((d) => this.yScale.compute(this.y.accessor(d)));
@@ -64,7 +66,7 @@ export default class Line extends Component<AreaArgs> {
   qualifyScale(scale: Scale, encoding: Encoding, field: string) {
     if (scale.domain instanceof Bounds && !scale.domain.isValid) {
       scheduleOnce('afterRender', this, () => {
-        scale.domain = extent(this.args.data, encoding.accessor);
+        scale.domain.qualify(this.args.data, encoding.accessor);
       });
     }
 

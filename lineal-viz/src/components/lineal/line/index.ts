@@ -48,7 +48,9 @@ export default class Line extends Component<LineArgs> {
 
     const generator = line()
       .curve(this.curve)
-      .defined(this.args.defined || ((d) => this.y.accessor(d) != null))
+      .defined(
+        this.args.defined || ((d) => this.y.accessor(d) != null && this.x.accessor(d) != null)
+      )
       .x((d) => this.xScale.compute(this.x.accessor(d)))
       .y((d) => this.yScale.compute(this.y.accessor(d)));
 
@@ -58,7 +60,7 @@ export default class Line extends Component<LineArgs> {
   qualifyScale(scale: Scale, encoding: Encoding, field: string) {
     if (scale.domain instanceof Bounds && !scale.domain.isValid) {
       scheduleOnce('afterRender', this, () => {
-        scale.domain = extent(this.args.data, encoding.accessor);
+        scale.domain.qualify(this.args.data, encoding.accessor);
       });
     }
 
