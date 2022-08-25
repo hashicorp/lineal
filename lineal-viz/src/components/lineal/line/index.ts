@@ -1,41 +1,12 @@
 import { scheduleOnce } from '@ember/runloop';
 import Component from '@glimmer/component';
 import { tracked, cached } from '@glimmer/tracking';
-import * as shape from 'd3-shape';
+import { line } from 'd3-shape';
 import { extent } from 'd3-array';
 import { Scale, ScaleLinear } from '../../../scale';
 import { Accessor, Encoding } from '../../../encoding';
 import Bounds from '../../../bounds';
-
-const CURVE_MAP: { [key: string]: shape.CurveFactory | shape.CurveBundleFactory } = {
-  basis: shape.curveBasis,
-  basisClosed: shape.curveBasisClosed,
-  basisOpen: shape.curveBasisOpen,
-  bumpX: shape.curveBumpX,
-  bumpY: shape.curveBumpY,
-  bundle: shape.curveBundle, // bundle#beta
-  cardinal: shape.curveCardinal, // cardinal#tension
-  cardinalClosed: shape.curveCardinalClosed,
-  cardinalOpen: shape.curveCardinalOpen,
-  catmullRom: shape.curveCatmullRom, // catmullRom#alpha
-  catmullRomClosed: shape.curveCatmullRomClosed,
-  catmullRomOpen: shape.curveCatmullRomOpen,
-  linear: shape.curveLinear,
-  linearClosed: shape.curveLinearClosed,
-  monotoneX: shape.curveMonotoneX,
-  monotoneY: shape.curveMonotoneY,
-  natural: shape.curveNatural,
-  step: shape.curveStep,
-  stepAfter: shape.curveStepAfter,
-  stepBefore: shape.curveStepBefore,
-};
-
-type CurveArgs = {
-  name: string;
-  beta?: number;
-  tension?: number;
-  alpha?: number;
-};
+import { curveFor, CurveArgs } from '../../../utils/curves';
 
 interface LineArgs {
   data: any[];
@@ -68,45 +39,19 @@ export default class Line extends Component<LineArgs> {
     return scale;
   }
 
-  @cached get curve(): shape.CurveFactory | shape.CurveBundleFactory {
-    if (!this.args.curve) return shape.curveLinear;
-    if (typeof this.args.curve === 'string') {
-      if (!CURVE_MAP[this.args.curve]) {
-        throw new Error(
-          `No curve factory "${this.args.curve}". See all curve factories here: https://github.com/d3/d3-shape#curves`
-        );
-      }
-      return CURVE_MAP[this.args.curve];
-    }
-
-    const curveArgs: CurveArgs = this.args.curve;
-
-    if (curveArgs.name === 'bundle') {
-      return shape.curveBundle.beta(curveArgs.beta ?? 0.85);
-    } else if (curveArgs.name.startsWith('catmullRom')) {
-      return (CURVE_MAP[curveArgs.name] as shape.CurveCatmullRomFactory).alpha(
-        curveArgs.alpha ?? 0.5
-      );
-    } else if (curveArgs.name.startsWith('cardinal')) {
-      return (CURVE_MAP[curveArgs.name] as shape.CurveCardinalFactory).tension(
-        curveArgs.tension ?? 0
-      );
-    }
-
-    // In the event someone passes in curve args for a curve that takes no args,
-    // just return the appropriate scale
-    return CURVE_MAP[curveArgs.name];
+  @cached get curve() {
+    return curveFor(this.args.curve);
   }
 
   @cached get d() {
     if (!this.xScale.isValid || !this.yScale.isValid) return '';
 
-    const generator = shape
-      .line()
+    const generator = line()
       .curve(this.curve)
       .defined(this.args.defined || ((d) => this.y.accessor(d) != null))
       .x((d) => this.xScale.compute(this.x.accessor(d)))
       .y((d) => this.yScale.compute(this.y.accessor(d)));
+
     return generator(this.args.data);
   }
 
