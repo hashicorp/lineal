@@ -65,4 +65,104 @@
   {{/let}}
 </svg>
 
+<p>Line</p>
+<svg width='800' height='200'>
+  {{#let
+    (scale-linear range='15..785')
+    (scale-linear range='190..10')
+    as |xScale yScale|
+  }}
+    <Lineal::Line
+      @data={{this.population}}
+      @xScale={{xScale}}
+      @yScale={{yScale}}
+      @x='year'
+      @y='people'
+      @curve='step'
+      fill='transparent'
+      stroke='black'
+      stroke-width='2'
+    />
+    {{#if (and xScale.isValid yScale.isValid)}}
+      {{#each this.population as |d|}}
+        <circle
+          cx={{xScale.compute d.year}}
+          cy={{yScale.compute d.people}}
+          r='3'
+        ></circle>
+      {{/each}}
+    {{/if}}
+  {{/let}}
+</svg>
+
+<p>Line</p>
+<svg width='800' height='200'>
+  {{#let
+    (scale-linear range='15..785')
+    (scale-linear range='190..10')
+    as |xScale yScale|
+  }}
+    <Lineal::Area
+      @data={{this.sineFiltered}}
+      @xScale={{xScale}}
+      @yScale={{yScale}}
+      @x='x'
+      @y='y'
+      @y0={{0}}
+      fill='rgba(255,0,0,0.3)'
+      stroke-width='1'
+    />
+    <Lineal::Line
+      @data={{this.sine}}
+      @xScale={{xScale}}
+      @yScale={{yScale}}
+      @x='x'
+      @y='y'
+      fill='transparent'
+      stroke='black'
+      stroke-width='2'
+    />
+    <Lineal::Line
+      @data={{this.sineFiltered}}
+      @xScale={{xScale}}
+      @yScale={{yScale}}
+      @x='x'
+      @y='y'
+      stroke-dasharray='3 5'
+      fill='transparent'
+      stroke='black'
+      stroke-width='1'
+    />
+    {{#if (and xScale.isValid yScale.isValid)}}
+      {{#each this.sineFiltered as |d|}}
+        <circle
+          cx={{xScale.compute d.x}}
+          cy={{yScale.compute d.y}}
+          r='3'
+        ></circle>
+      {{/each}}
+    {{/if}}
+  {{/let}}
+</svg>
+
+<p>Area</p>
+<svg width='800' height='200'>
+  {{#let
+    (scale-linear range='15..785' domain='0..10')
+    (scale-linear range='190..10' domain='0..10')
+    as |xScale yScale|
+  }}
+    <Lineal::Area
+      @data={{array (hash x=0 y=5 y0=3) (hash x=10 y=10 y0=0)}}
+      @xScale={{xScale}}
+      @yScale={{yScale}}
+      @x='x'
+      @y='y'
+      @y0='y0'
+      fill='#BADA55'
+      stroke='black'
+    />
+  {{/let}}
+</svg>
+
 {{outlet}}

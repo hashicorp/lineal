@@ -1,12 +1,13 @@
 import { extent } from 'd3-array';
+import { tracked } from '@glimmer/tracking';
 
 // Ranges and domains can be specified using an expression similar
 // to Rust's range expression. This validates the expression.
 const NUMERIC_RANGE_DSL = /^(\d+)?\.\.(\d+)?$/;
 
 export default class Bounds<T> {
-  min: T | undefined;
-  max: T | undefined;
+  @tracked min: T | undefined;
+  @tracked max: T | undefined;
 
   static parse(input: string | number[]): Bounds<number> | number[] {
     if (input instanceof Array) return input;

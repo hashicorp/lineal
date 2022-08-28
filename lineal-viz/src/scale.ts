@@ -17,6 +17,7 @@ export interface Scale {
   range: any;
   compute: (value: any) => any;
   d3Scale: any;
+  isValid: boolean;
 }
 
 type ValueSet = number[] | string;
@@ -98,6 +99,12 @@ abstract class ScaleContinuous implements Scale {
   compute = (value: number): number => {
     return this.d3Scale(value);
   };
+
+  get isValid(): boolean {
+    if (this.domain instanceof Bounds && !this.domain.isValid) return false;
+    if (this.range instanceof Bounds && !this.range.isValid) return false;
+    return true;
+  }
 }
 
 export class ScaleLinear extends ScaleContinuous {
@@ -159,7 +166,7 @@ export class ScaleRadial extends ScaleContinuous {
   }
 }
 
-abstract class AbstractScaleTime {
+abstract class AbstractScaleTime implements Scale {
   @tracked domain: Bounds<Date> | Date[];
   @tracked range: Bounds<number> | number[];
   @tracked clamp: boolean = false;
@@ -196,6 +203,12 @@ abstract class AbstractScaleTime {
   compute = (value: Date): number => {
     return this.d3Scale(value);
   };
+
+  get isValid(): boolean {
+    if (this.domain instanceof Bounds && !this.domain.isValid) return false;
+    if (this.range instanceof Bounds && !this.range.isValid) return false;
+    return true;
+  }
 }
 
 export class ScaleTime extends AbstractScaleTime {
@@ -214,6 +227,9 @@ export class ScaleDiverging<T> implements Scale {
   @tracked domain: [number, number, number];
   @tracked range: (t: number) => T; // Interpolator
   @tracked clamp: boolean = false;
+
+  // Scale does not support bounds, it's always valid
+  isValid = true;
 
   protected scaleFn: (interpolator?: (t: number) => T) => scales.ScaleDiverging<any, any> =
     scales.scaleDiverging;
@@ -275,11 +291,19 @@ export class ScaleQuantize implements Scale {
   compute = (value: number): string => {
     return this.d3Scale(value);
   };
+
+  get isValid(): boolean {
+    if (this.domain instanceof Bounds && !this.domain.isValid) return false;
+    return true;
+  }
 }
 
 export class ScaleQuantile implements Scale {
   @tracked domain: number[];
   @tracked range: CSSRange | string[];
+
+  // Scale does not support bounds, it's always valid
+  isValid = true;
 
   constructor({ domain, range }: QuantileScaleConfig) {
     this.domain = domain;
@@ -301,6 +325,9 @@ export class ScaleThreshold implements Scale {
   @tracked domain: number[];
   @tracked range: CSSRange | string[];
 
+  // Scale does not support bounds, it's always valid
+  isValid = true;
+
   constructor({ domain, range }: QuantileScaleConfig) {
     this.domain = domain;
     this.range = range;
@@ -320,6 +347,9 @@ export class ScaleThreshold implements Scale {
 export class ScaleOrdinal implements Scale {
   @tracked domain: string[];
   @tracked range: CSSRange | string[];
+
+  // Scale does not support bounds, it's always valid
+  isValid = true;
 
   constructor({ domain, range }: OrdinalScaleConfig) {
     this.domain = domain;

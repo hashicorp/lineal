@@ -1,3 +1,4 @@
+import 'qunit-dom';
 import Application from 'test-app/app';
 import config from 'test-app/config/environment';
 import * as QUnit from 'qunit';

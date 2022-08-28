@@ -29,6 +29,8 @@
     "@embroider/test-setup": "^1.7.1",
     "@glimmer/component": "^1.0.4",
     "@glimmer/tracking": "^1.0.4",
+    "@types/d3-scale": "^4.0.2",
+    "@types/d3-shape": "^3.1.0",
     "@types/ember-data": "^4.4.0",
     "@types/ember-data__adapter": "^4.0.0",
     "@types/ember-data__model": "^4.0.0",
@@ -82,6 +84,7 @@
     "ember-source": "~4.5.0",
     "ember-source-channel-url": "^3.0.0",
     "ember-template-lint": "^4.2.0",
+    "ember-truth-helpers": "^3.1.1",
     "ember-try": "^2.0.0",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.4.0",
@@ -103,5 +106,10 @@
   },
   "ember": {
     "edition": "octane"
+  },
+  "dependencies": {
+    "d3-scale": "^4.0.2",
+    "d3-shape": "^3.1.0",
+    "ember-cached-decorator-polyfill": "^0.1.4"
   }
 }

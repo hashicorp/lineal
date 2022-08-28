@@ -28,6 +28,7 @@
     "@embroider/addon-shim": "^1.0.0",
     "d3-array": "^3.2.0",
     "d3-scale": "^4.0.2",
+    "d3-shape": "^3.1.0",
     "ember-cached-decorator-polyfill": "^0.1.4"
   },
   "devDependencies": {
@@ -41,6 +42,7 @@
     "@rollup/plugin-babel": "^5.3.0",
     "@types/d3-array": "^3.0.3",
     "@types/d3-scale": "^4.0.2",
+    "@types/d3-shape": "^3.1.0",
     "ember-template-lint": "^4.0.0",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
@@ -63,6 +65,8 @@
     "type": "addon",
     "main": "addon-main.js",
     "app-js": {
+      "./components/lineal/area/index.js": "./dist/_app_/components/lineal/area/index.js",
+      "./components/lineal/line/index.js": "./dist/_app_/components/lineal/line/index.js",
       "./helpers/css-range.js": "./dist/_app_/helpers/css-range.js",
       "./helpers/scale-diverging-log.js": "./dist/_app_/helpers/scale-diverging-log.js",
       "./helpers/scale-diverging-pow.js": "./dist/_app_/helpers/scale-diverging-pow.js",
