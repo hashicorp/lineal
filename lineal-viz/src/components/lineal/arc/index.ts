@@ -5,8 +5,11 @@ import { arc } from 'd3-shape';
 interface ArcArgs {
   innerRadius?: number;
   outerRadius?: number;
+  cornerRadius?: number;
+  padRadius?: number;
   startAngle?: number | string;
   endAngle?: number | string;
+  padAngle?: number | string;
 }
 
 // An angle can be defined as a number or a string ending with 'd'
@@ -34,12 +37,27 @@ export default class Line extends Component<ArcArgs> {
     return parseAngle(this.args.endAngle ?? Math.PI * 2);
   }
 
+  @cached get padAngle(): number | undefined {
+    if (this.args.padAngle) return parseAngle(this.args.padAngle);
+  }
+
   @cached get arc() {
-    return arc()
+    let generator = arc()
       .innerRadius(this.args.innerRadius ?? 0)
       .outerRadius(this.args.outerRadius ?? 100)
+      .cornerRadius(this.args.cornerRadius ?? 0)
       .startAngle(this.startAngle)
       .endAngle(this.endAngle);
+
+    if (this.padAngle) {
+      generator = generator.padAngle(this.padAngle);
+    }
+
+    if (this.args.padRadius) {
+      generator = generator.padRadius(this.args.padRadius);
+    }
+
+    return generator;
   }
 
   @cached get d() {
