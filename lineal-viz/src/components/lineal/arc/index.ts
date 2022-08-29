@@ -28,7 +28,7 @@ const parseAngle = (angle: number | string): number => {
   return (degrees * Math.PI) / 180;
 };
 
-export default class Line extends Component<ArcArgs> {
+export default class Arc extends Component<ArcArgs> {
   @cached get startAngle(): number {
     return parseAngle(this.args.startAngle ?? 0);
   }
@@ -68,7 +68,6 @@ export default class Line extends Component<ArcArgs> {
   @cached get centroid() {
     // @ts-ignore
     const [x, y] = this.arc.centroid();
-    console.log('Computing centroid!', x, y);
     return { x, y };
   }
 }
