@@ -19,7 +19,7 @@ interface AreaArgs {
   defined?: (d: any) => boolean;
 }
 
-export default class Line extends Component<AreaArgs> {
+export default class Area extends Component<AreaArgs> {
   @cached get x() {
     return new Encoding(this.args.x);
   }

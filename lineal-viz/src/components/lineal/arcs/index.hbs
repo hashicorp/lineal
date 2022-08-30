@@ -1,0 +1,17 @@
+{{#if (has-block)}}
+  {{yield this.arcs}}
+{{else}}
+  {{#each this.arcs as |arc|}}
+    <Lineal::Arc
+      @startAngle={{arc.startAngle}}
+      @endAngle={{arc.endAngle}}
+      @padAngle={{arc.padAngle}}
+      @innerRadius={{@innerRadius}}
+      @outerRadius={{@outerRadius}}
+      @cornerRadius={{@cornerRadius}}
+      class={{arc.cssClass}}
+      fill={{arc.fill}}
+      ...attributes
+    />
+  {{/each}}
+{{/if}}
