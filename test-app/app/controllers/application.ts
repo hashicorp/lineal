@@ -38,4 +38,5 @@ export default class ApplicationController extends Controller {
   }
 
   always = () => true;
+  logValue = (...args: any[]) => console.log(...args);
 }
