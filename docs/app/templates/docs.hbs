@@ -1,30 +1,38 @@
-<DocfyOutput @scope='docs' as |node|>
-  <ul>
-    {{#each node.pages as |page|}}
-      <li>
-        <DocfyLink @to={{page.url}}>
-          {{page.title}}
-        </DocfyLink>
-      </li>
-    {{/each}}
-  </ul>
-</DocfyOutput>
+<div class='docs'>
+  <DocfyOutput @scope='docs' as |node|>
+    <nav>
+      <ul>
+        {{#each node.pages as |page|}}
+          <li>
+            <DocfyLink @to={{page.url}} @activeClass='active'>
+              {{page.title}}
+            </DocfyLink>
+          </li>
+        {{/each}}
+      </ul>
+    </nav>
+  </DocfyOutput>
 
-<div>
-  {{outlet}}
+  <main>
+    <article>
+      <div>
+        {{outlet}}
+      </div>
+
+      <DocfyPreviousAndNextPage as |previous next|>
+        <div>
+          Previous:
+          {{#if previous}}
+            <DocfyLink @to={{previous.url}}>{{previous.title}}</DocfyLink>
+          {{/if}}
+        </div>
+        <div>
+          Next:
+          {{#if next}}
+            <DocfyLink @to={{next.url}}>{{next.title}}</DocfyLink>
+          {{/if}}
+        </div>
+      </DocfyPreviousAndNextPage>
+    </article>
+  </main>
 </div>
-
-<DocfyPreviousAndNextPage as |previous next|>
-  <div>
-    Previous:
-    {{#if previous}}
-      <DocfyLink @to={{previous.url}}>{{previous.title}}</DocfyLink>
-    {{/if}}
-  </div>
-  <div>
-    Next:
-    {{#if next}}
-      <DocfyLink @to={{next.url}}>{{next.title}}</DocfyLink>
-    {{/if}}
-  </div>
-</DocfyPreviousAndNextPage>

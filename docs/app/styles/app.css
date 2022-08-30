@@ -13,3 +13,77 @@
   --c-blue-line: #346c8e;
 }
 
+* {
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--c-base);
+}
+
+.docs {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 15px;
+
+  > nav {
+    padding-top: 200px;
+    width: 300px;
+    background: var(--c-base-1);
+    border-right: 2px solid var(--c-line);
+    min-height: 100vh;
+
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+
+      a {
+        color: var(--c-line);
+        padding: 10px 15px;
+        display: inline-block;
+        width: calc(100% + 2px);
+        position: relative;
+        border-right: 2px solid var(--c-line);
+        border-bottom: 3px solid transparent;
+
+        &:hover {
+          background: var(--c-base-2);
+        }
+
+        &.active,
+        &.active:hover {
+          background: var(--c-base);
+          border-bottom: 3px solid var(--c-line);
+          border-right: none;
+
+          &::after {
+            content: ' ';
+            position: absolute;
+            display: block;
+            left: 0;
+            right: 0;
+            bottom: -6px;
+            border-bottom: 1px solid var(--c-line);
+          }
+        }
+      }
+    }
+  }
+
+  > main {
+    width: 100%;
+
+    > article {
+      width: 100%;
+      padding: 30px;
+      max-width: 1000px;
+      margin: auto;
+    }
+  }
+}
