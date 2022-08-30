@@ -162,7 +162,9 @@ Donut charts can have rings if you're careful with your radii.
 
 ### Accessibility
 
-All of the above examples follow a11y best practices. They use accessible color palettes, separate marks to increase contrast, and provide descriptions that meaningfully describe the data, not just the graphic. Lineal does not provide any of this, but since Lineal also doesn't create SVGs, it isn't preventing developers from doing this work. In the future, Lineal will provide a11y tools just like it will provide data transformation tools and like how it currently provides data mapping and visual mark tools.
+Lineal does not address a11y best practices for you, but it also does not inhibit you from implementing them on your own. Since Lineal does not create any SVGs, developers have the capacity to make wise color choices, double-encode marks that rely on color, avoid scattered and dense plots, and use SVG best practices to ensure screen readers balance communicating the intent of charts without exhaustively narrating every datum.
+
+In the future, Lineal will provide a11y tools just like it will provide data transformation tools and like how it currently provides data mapping and visual mark tools.
 
 ## Next Steps
 
