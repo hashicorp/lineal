@@ -1,0 +1,237 @@
+@import './highlight.css';
+
+:root {
+  --c-base-0: #fff1d9;
+  --c-base: #d6cbaf;
+  --c-base-1: #c5b199;
+  --c-base-2: #b4a388;
+  --c-line: #160a03;
+  --c-green: #b7b283;
+  --c-green-line: #7e7944;
+  --c-yellow: #dabf8f;
+  --c-yellow-line: #bb963c;
+  --c-red: #e4a692;
+  --c-red-line: #d1675d;
+  --c-blue: #94a9af;
+  --c-blue-line: #346c8e;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--c-base);
+  color: var(--c-line);
+  font-family: sans-serif;
+}
+
+code,
+pre,
+.hljs {
+  font-family: monospace;
+}
+
+.hljs {
+  background: var(--c-base-0);
+}
+
+pre code.hljs {
+  display: block;
+  padding: 15px;
+  line-height: 1.2;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 2px solid var(--c-base-2);
+  box-shadow: inset 0 0 7px -1px var(--c-base-2);
+}
+
+.docs {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 15px;
+
+  > nav {
+    padding-top: 200px;
+    width: 300px;
+    background: var(--c-base-1);
+    border-right: 2px solid var(--c-line);
+    min-height: 100vh;
+
+    h3 {
+      padding: 30px 15px 10px;
+      margin: 0;
+    }
+
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+
+      a {
+        color: var(--c-line);
+        padding: 10px 15px;
+        display: inline-block;
+        width: calc(100% + 2px);
+        position: relative;
+        border-right: 2px solid var(--c-line);
+        border-bottom: 3px solid transparent;
+        text-decoration: none;
+
+        &:hover,
+        &:focus {
+          background: var(--c-base-2);
+          text-decoration: underline;
+        }
+
+        &.active,
+        &.active:hover,
+        &.active:focus {
+          background: var(--c-base);
+          border-bottom: 3px solid var(--c-line);
+          border-right: none;
+          text-decoration: none;
+
+          &::after {
+            content: ' ';
+            position: absolute;
+            display: block;
+            left: 0;
+            right: 0;
+            bottom: -6px;
+            border-bottom: 1px solid var(--c-line);
+          }
+        }
+      }
+    }
+  }
+
+  > main {
+    width: 100%;
+
+    > article {
+      width: 100%;
+      padding: 30px;
+      max-width: 1000px;
+      margin: auto;
+
+      p {
+        line-height: 1.3;
+      }
+
+      .brand {
+        font-size: 60px;
+        > p {
+          font-size: 22px;
+          font-style: italic;
+          font-weight: light;
+          margin-top: 0;
+        }
+      }
+
+      pre {
+        padding: 15px;
+        border-radius: 8px;
+        background: var(--c-base-1);
+        font-weight: bold;
+      }
+
+      .docfy-demo__snippet > pre {
+        padding: 0;
+        background: inherit;
+        font-weight: inherit;
+      }
+
+      .docfy-demo__example {
+        position: relative;
+        padding: 15px;
+        margin-top: 40px;
+        background: var(--c-base-1);
+        border: 2px solid var(--c-line);
+
+        &::before {
+          --spacing: -9px;
+          content: ' ';
+          position: absolute;
+          left: var(--spacing);
+          right: var(--spacing);
+          bottom: var(--spacing);
+          top: var(--spacing);
+          border: 4px solid var(--c-line);
+          pointer-events: none;
+        }
+      }
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      a {
+        position: relative;
+        color: var(--c-line);
+        text-decoration: none;
+
+        &::before {
+          position: absolute;
+          content: '#';
+          color: var(--c-base-2);
+          width: 1.5ch;
+          transform: translateX(-100%);
+        }
+
+        &:hover,
+        &:focus {
+          text-decoration: underline;
+          &::before {
+            color: var(--c-line);
+          }
+        }
+      }
+    }
+
+    a {
+      color: var(--c-blue-line);
+    }
+
+    .footer-actions {
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 3px solid var(--c-line);
+      display: flex;
+      gap: 15px;
+      flex-wrap: nowrap;
+
+      .footer-action {
+        width: 100%;
+
+        a {
+          padding: 15px;
+          width: 100%;
+          display: block;
+          text-decoration: none;
+          font-size: 22px;
+          border-radius: 8px;
+
+          &:hover,
+          &:focus {
+            background: var(--c-base-1);
+          }
+
+          p {
+            color: var(--c-line);
+            margin: 0;
+            margin-bottom: 5px;
+            font-size: 16px;
+          }
+        }
+      }
+    }
+  }
+}
