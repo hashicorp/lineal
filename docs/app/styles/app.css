@@ -1,8 +1,9 @@
 @import './highlight.css';
 
 :root {
+  --c-base-0: #fff1d9;
   --c-base: #d6cbaf;
-  --c-base-1: #cdb08e;
+  --c-base-1: #c5b199;
   --c-base-2: #b4a388;
   --c-line: #160a03;
   --c-green: #b7b283;
@@ -35,7 +36,7 @@ pre,
 }
 
 .hljs {
-  background: var(--c-base-2);
+  background: var(--c-base-0);
 }
 
 pre code.hljs {
@@ -44,6 +45,8 @@ pre code.hljs {
   line-height: 1.2;
   font-size: 16px;
   border-radius: 8px;
+  border: 2px solid var(--c-base-2);
+  box-shadow: inset 0 0 7px -1px var(--c-base-2);
 }
 
 .docs {
@@ -72,16 +75,21 @@ pre code.hljs {
         position: relative;
         border-right: 2px solid var(--c-line);
         border-bottom: 3px solid transparent;
+        text-decoration: none;
 
-        &:hover {
+        &:hover,
+        &:focus {
           background: var(--c-base-2);
+          text-decoration: underline;
         }
 
         &.active,
-        &.active:hover {
+        &.active:hover,
+        &.active:focus {
           background: var(--c-base);
           border-bottom: 3px solid var(--c-line);
           border-right: none;
+          text-decoration: none;
 
           &::after {
             content: ' ';
@@ -105,6 +113,78 @@ pre code.hljs {
       padding: 30px;
       max-width: 1000px;
       margin: auto;
+
+      .brand {
+        font-size: 60px;
+        > p {
+          font-size: 22px;
+          font-style: italic;
+          font-weight: light;
+          margin-top: 0;
+        }
+      }
+
+      pre {
+        padding: 15px;
+        border-radius: 8px;
+        background: var(--c-base-1);
+        font-weight: bold;
+      }
+
+      .docfy-demo__snippet > pre {
+        padding: 0;
+        background: inherit;
+        font-weight: inherit;
+      }
+
+      .docfy-demo__example {
+        position: relative;
+        padding: 15px;
+        margin-top: 40px;
+        background: var(--c-base-1);
+        border: 2px solid var(--c-line);
+
+        &::before {
+          --spacing: -9px;
+          content: ' ';
+          position: absolute;
+          left: var(--spacing);
+          right: var(--spacing);
+          bottom: var(--spacing);
+          top: var(--spacing);
+          border: 4px solid var(--c-line);
+          pointer-events: none;
+        }
+      }
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      a {
+        position: relative;
+        color: var(--c-line);
+        text-decoration: none;
+
+        &::before {
+          position: absolute;
+          content: '#';
+          color: var(--c-base-2);
+          width: 1.5ch;
+          transform: translateX(-100%);
+        }
+
+        &:hover,
+        &:focus {
+          text-decoration: underline;
+          &::before {
+            color: var(--c-line);
+          }
+        }
+      }
     }
   }
 }
