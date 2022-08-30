@@ -66,6 +66,7 @@
     "main": "addon-main.js",
     "app-js": {
       "./components/lineal/arc/index.js": "./dist/_app_/components/lineal/arc/index.js",
+      "./components/lineal/arcs/index.js": "./dist/_app_/components/lineal/arcs/index.js",
       "./components/lineal/area/index.js": "./dist/_app_/components/lineal/area/index.js",
       "./components/lineal/line/index.js": "./dist/_app_/components/lineal/line/index.js",
       "./helpers/css-range.js": "./dist/_app_/helpers/css-range.js",
