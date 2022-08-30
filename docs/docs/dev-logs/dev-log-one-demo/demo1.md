@@ -17,7 +17,7 @@ A line chart of U.S. population over the last few decades.
           @yScale={{yScale}}
           @x='year'
           @y='people'
-          @curve='step'
+          @curve='natural'
           fill='transparent'
           stroke='black'
           stroke-width='2'

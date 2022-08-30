@@ -57,19 +57,29 @@ Once these mappings are created, we can create proportional marks. A visualizati
 
 A line becomes a line chart when the `x` and `y` properties of each point in the line are mapped to an underlying dataset. In Lineal, this makes `x` and `y` Encodings.
 
-```
-line example
-```
-
 You can think of the architecture like this:
 
 > Marks have encodings. Encodings have scales. Scales each have a domain and a range.
 
-Lineal takes a template-first approach to codifying this architecture, which also enables developers to create their own encapsulations of patterns using components.
+Note in this example that neither the `xScale` or the `yScale` have domains. By default, Lineal marks will use the encodings to get the min and max values of a dataset for you. This process is called "qualifying" a scale. If a scale has not been qualified, it is invalid. If an invalid scale is used to compute values, an error will be thrown.
 
+Sometimes the min and max aren't the bounds you want for a domain. For instance, when making a bar chart, the best practice is to always use `0` as the lower bound (assuming no negative values) this way the area of each bar is correctly proportional. In this case, a domain can be specified as a partial bound.
+
+```hbs
+{{#let (scale-linear range='0..100' domain='0..') as |scale|}}
+{{/let}}
 ```
-component example
+
+Similarly, as seen with the ranges, both sides of a bounds can be specified using the string syntax. Or three or more values for a domain or scale can be specified with an array:
+
+```hbs
+{{#let (scale-linear range='0..100' domain=(array 0 100 1000) as |scale|}}
+{{/let}}
 ```
+
+These scale helpers use Lineal's Scale classes, which are stateful and reactive wrappers around D3 scales, which have features like piecewise interpolation built in.
+
+Lineal takes a template-first approach to codifying this architecture, which also enables developers to create their own encapsulations of patterns using components.
 
 Right now Lineal has three marks:
 
@@ -81,13 +91,74 @@ In addition to these marks, Lineal has an Arc component that has no encodings bu
 
 As it stands, with just three marks, scales, and a little bit of CSS, we can already achieve a lot.
 
-## Example Charts
+## More Examples
 
-1. Line chart with points
-2. Area chart with missing data & gradient background
-3. Gauge chart
-4. Multi-ring pie chart
-5. Distribution bar, using d3.cumsum
+A gauge chart is just a couple arcs.
+
+```hbs preview-template
+<svg width='100%' height='200' role='img' aria-label="7.2">
+  <g style="transform:translate(50%, 100%)">
+    <Lineal::Arc
+      @startAngle='271d'
+      @endAngle='450d'
+      @outerRadius={{195}}
+      @innerRadius={{185}}
+      style="fill:var(--c-base-0)"
+    />
+    {{!-- A little ugly to use plain radians here, might be able to make it nicer later? --}}
+    {{#let (scale-linear domain="0..10" range="4.71..7.85") as |scale|}}
+      {{log scale.range.min scale.range.max}}
+      <Lineal::Arc
+        @startAngle='270d'
+        {{!-- Plain functions as helpers are only available in Ember 4.5 and later --}}
+        @endAngle={{scale.compute 7.2}}
+        @outerRadius={{200}}
+        @innerRadius={{180}}
+        @cornerRadius={{10}}
+        style="fill:var(--c-blue); stroke:var(--c-blue-line)"
+        stroke-width='1'
+      />
+      <foreignObject transform="translate(-35 -100)" width="70" height="100">
+        <span style="font-size:52px; font-weight:bold; text-align:center">7.2</span>
+      </foreignObject>
+    {{/let}}
+  </g>
+</svg>
+```
+
+Donut charts can have rings if you're careful with your radii.
+
+```hbs preview-template
+<svg width='300' height='300' style='background:var(--c-base-0);' role='img'>
+  <title>
+    Values arranged in two donuts, with the dominant data point being
+    yellow with a value of 10.  The sub-donut has three values with the
+    most important data point valued at 2.
+  </title>
+  <g style="transform:translate(50%, 50%)">
+    <Lineal::Arcs
+      @data={{array (hash v=1) (hash v=10) (hash v=4)}}
+      @theta='v'
+      @colorScale='nominal'
+      @padAngle='1d'
+      @cornerRadius={{5}}
+      @innerRadius={{50}}
+      @outerRadius={{100}}
+    />
+    <Lineal::Arcs
+      @data={{array (hash v=2) (hash v=1) (hash v=1)}}
+      @theta='v'
+      @colorScale='accent-green'
+      @padAngle='1d'
+      @cornerRadius={{5}}
+      @innerRadius={{102}}
+      @outerRadius={{120}}
+      @startAngle='240d'
+      @endAngle='335d'
+    />
+  </g>
+</svg>
+```
 
 ### Accessibility
 

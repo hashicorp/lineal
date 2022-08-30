@@ -273,3 +273,36 @@ pre code.hljs {
     }
   }
 }
+
+/* Lineal CSS */
+.nominal {
+  color: var(--c-base);
+  fill: var(--c-base);
+}
+
+.nominal-1 {
+  color: var(--c-red);
+  fill: var(--c-red);
+}
+.nominal-2 {
+  color: var(--c-yellow);
+  fill: var(--c-yellow);
+}
+.nominal-3 {
+  color: var(--c-green);
+  fill: var(--c-green);
+}
+.nominal-4 {
+  color: var(--c-blue);
+  fill: var(--c-blue);
+}
+
+.accent-green {
+  color: var(--c-base-1);
+  fill: var(--c-base-1);
+}
+
+.accent-green-1 {
+  color: var(--c-green-line);
+  fill: var(--c-green-line);
+}
