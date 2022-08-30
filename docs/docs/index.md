@@ -1,3 +1,3 @@
-# This is a test for Docy
+# Welcome
 
 Hello **visitor**. This page [is going places](https://github.com).

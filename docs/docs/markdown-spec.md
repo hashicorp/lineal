@@ -1,12 +1,16 @@
-# Installation
+---
+title: Markdown Spec
+---
 
-It's an Ember addon:
+# This is a markdown test!
+
+Here is a preamble
 
 ```
 ember install lineal-viz
 ```
 
-And then you can do this:
+Here is a handlebars `preview-template` example
 
 ```hbs preview-template
 <svg width='400' height='200'>

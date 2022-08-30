@@ -10,6 +10,20 @@
           </li>
         {{/each}}
       </ul>
+
+      {{#each node.children as |child|}}
+        <h3>{{child.label}}</h3>
+
+        <ul>
+          {{#each child.pages as |page|}}
+            <li>
+              <DocfyLink @to={{page.url}} @activeClass='active'>
+                {{page.title}}
+              </DocfyLink>
+            </li>
+          {{/each}}
+        </ul>
+      {{/each}}
     </nav>
   </DocfyOutput>
 
