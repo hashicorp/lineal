@@ -1,7 +1,7 @@
 import { module, todo } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 
-module('Integration | Component | Lineal::Line', function (hooks) {
+module('Integration | Component | Lineal::Area', function (hooks) {
   setupRenderingTest(hooks);
 
   todo('test coverage', function () {
