@@ -1,10 +1,10 @@
-import { scheduleOnce } from '@ember/runloop';
 import Component from '@glimmer/component';
-import { tracked, cached } from '@glimmer/tracking';
+import { cached } from '@glimmer/tracking';
 import { pie } from 'd3-shape';
 import { Scale, ScaleOrdinal } from '../../../scale';
 import { Accessor, Encoding } from '../../../encoding';
 import CSSRange from '../../../css-range';
+import parseAngle from '../../../utils/parse-angle';
 
 interface ArcsArgs {
   data: any[];
@@ -15,22 +15,6 @@ interface ArcsArgs {
   endAngle?: number;
   padAngle?: number;
 }
-
-// An angle can be defined as a number or a string ending with 'd'
-const parseAngle = (angle: number | string): number => {
-  if (typeof angle === 'number') return angle;
-
-  const PATTERN = /(\d+)d$/;
-
-  if (!PATTERN.test(angle)) {
-    throw new Error(
-      `Could not parse string "${angle}" as degrees. To provide an angle as degrees end a string with a lower-case "d", like "180d". If the angle provided is radians, make sure to provide it as a number, like @angle={{this.angle}}`
-    );
-  }
-
-  const degrees = parseInt(angle.match(PATTERN)?.[1] ?? '0', 10);
-  return (degrees * Math.PI) / 180;
-};
 
 export default class Arcs extends Component<ArcsArgs> {
   @cached get theta() {

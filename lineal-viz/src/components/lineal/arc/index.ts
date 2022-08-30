@@ -1,6 +1,7 @@
 import Component from '@glimmer/component';
-import { tracked, cached } from '@glimmer/tracking';
+import { cached } from '@glimmer/tracking';
 import { arc } from 'd3-shape';
+import parseAngle from '../../../utils/parse-angle';
 
 interface ArcArgs {
   innerRadius?: number;
@@ -11,22 +12,6 @@ interface ArcArgs {
   endAngle?: number | string;
   padAngle?: number | string;
 }
-
-// An angle can be defined as a number or a string ending with 'd'
-const parseAngle = (angle: number | string): number => {
-  if (typeof angle === 'number') return angle;
-
-  const PATTERN = /(\d+)d$/;
-
-  if (!PATTERN.test(angle)) {
-    throw new Error(
-      `Could not parse string "${angle}" as degrees. To provide an angle as degrees end a string with a lower-case "d", like "180d". If the angle provided is radians, make sure to provide it as a number, like @angle={{this.angle}}`
-    );
-  }
-
-  const degrees = parseInt(angle.match(PATTERN)?.[1] ?? '0', 10);
-  return (degrees * Math.PI) / 180;
-};
 
 export default class Arc extends Component<ArcArgs> {
   @cached get startAngle(): number {
