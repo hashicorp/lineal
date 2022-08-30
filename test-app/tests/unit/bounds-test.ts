@@ -130,6 +130,26 @@ module('Unit | Bounds.parse', function () {
         name: 'when provided with an array, the same array is returned',
         input: [5, 10, 15],
       },
+      {
+        name: '"0.5..10.2" respects decimals and has 0.5 as min and 10.2 as max',
+        input: '0.5..10.2',
+        output: new Bounds(0.5, 10.2),
+      },
+      {
+        name: '"1.3.5..10.9" is bad input and throws',
+        input: '1.3.5..10.9',
+        output: null,
+      },
+      {
+        name: '"-3.14..3.14" respects the negative sign',
+        input: '-3.14..3.14',
+        output: new Bounds(-3.14, 3.14),
+      },
+      {
+        name: '"3.14..-3.14" respects the negative sign',
+        input: '3.14..-3.14',
+        output: new Bounds(3.14, -3.14),
+      },
     ],
     1,
     function (t, assert) {

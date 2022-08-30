@@ -3,7 +3,8 @@ import { tracked } from '@glimmer/tracking';
 
 // Ranges and domains can be specified using an expression similar
 // to Rust's range expression. This validates the expression.
-const NUMERIC_RANGE_DSL = /^(\d+)?\.\.(\d+)?$/;
+const NUMBER_PATTERN = '[+-]?\\d+.?\\d*';
+const NUMERIC_RANGE_DSL = new RegExp(`^(${NUMBER_PATTERN})?\.\.(${NUMBER_PATTERN})?$`);
 
 export default class Bounds<T> {
   @tracked min: T | undefined;
@@ -18,8 +19,8 @@ export default class Bounds<T> {
     }
 
     const [minStr, maxStr] = input.split('..');
-    const min = minStr ? parseInt(minStr, 10) : undefined;
-    const max = maxStr ? parseInt(maxStr, 10) : undefined;
+    const min = minStr ? parseFloat(minStr) : undefined;
+    const max = maxStr ? parseFloat(maxStr) : undefined;
 
     return new Bounds<number>(min, max);
   }
