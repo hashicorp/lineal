@@ -9,6 +9,7 @@
     "start": "npm-run-all --parallel start:*",
     "start:addon": "yarn workspace lineal-viz run start",
     "start:test-app": "yarn workspace test-app run start",
+    "start:docs": "yarn workspace docs run start",
     "lint": "npm-run-all --aggregate-output --continue-on-error --parallel \"lint:!(fix)\"",
     "lint:addon": "yarn workspace lineal-viz run lint",
     "lint:test-app": "yarn workspace test-app run lint",
@@ -27,6 +28,7 @@
   },
   "workspaces": [
     "lineal-viz",
-    "test-app"
+    "test-app",
+    "docs"
   ]
 }
