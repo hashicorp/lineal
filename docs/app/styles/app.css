@@ -123,6 +123,21 @@ pre code.hljs {
         line-height: 1.3;
       }
 
+      table {
+        margin-top: 20px;
+        border-collapse: collapse;
+
+        thead {
+          text-align: left;
+        }
+
+        td,
+        th {
+          font-variant-numeric: tabular-nums;
+          padding: 5px 10px;
+        }
+      }
+
       .brand {
         font-size: 60px;
         > p {
@@ -163,6 +178,29 @@ pre code.hljs {
           top: var(--spacing);
           border: 4px solid var(--c-line);
           pointer-events: none;
+        }
+      }
+
+      .docfy-demo__snippets__tabs {
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 15px;
+        margin-top: 20px;
+
+        &__button {
+          all: unset;
+          width: 100%;
+          border-bottom: 2px solid var(--c-base-1);
+          padding: 10px;
+          cursor: pointer;
+
+          &--active {
+            border-bottom: 2px solid var(--c-line);
+          }
+
+          &:hover {
+            background: var(--c-base-1);
+          }
         }
       }
     }
@@ -234,4 +272,37 @@ pre code.hljs {
       }
     }
   }
+}
+
+/* Lineal CSS */
+.nominal {
+  color: var(--c-base);
+  fill: var(--c-base);
+}
+
+.nominal-1 {
+  color: var(--c-red);
+  fill: var(--c-red);
+}
+.nominal-2 {
+  color: var(--c-yellow);
+  fill: var(--c-yellow);
+}
+.nominal-3 {
+  color: var(--c-green);
+  fill: var(--c-green);
+}
+.nominal-4 {
+  color: var(--c-blue);
+  fill: var(--c-blue);
+}
+
+.accent-green {
+  color: var(--c-base-1);
+  fill: var(--c-base-1);
+}
+
+.accent-green-1 {
+  color: var(--c-green-line);
+  fill: var(--c-green-line);
 }
