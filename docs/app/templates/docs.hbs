@@ -23,20 +23,26 @@
         {{outlet}}
       </div>
 
-      <DocfyPreviousAndNextPage as |previous next|>
-        <div>
-          Previous:
-          {{#if previous}}
-            <DocfyLink @to={{previous.url}}>{{previous.title}}</DocfyLink>
-          {{/if}}
-        </div>
-        <div>
-          Next:
-          {{#if next}}
-            <DocfyLink @to={{next.url}}>{{next.title}}</DocfyLink>
-          {{/if}}
-        </div>
-      </DocfyPreviousAndNextPage>
+      <div class='footer-actions'>
+        <DocfyPreviousAndNextPage as |previous next|>
+          <div class='footer-action'>
+            {{#if previous}}
+              <DocfyLink @to={{previous.url}}>
+                <p>Previous</p>
+                {{previous.title}}
+              </DocfyLink>
+            {{/if}}
+          </div>
+          <div class='footer-action'>
+            {{#if next}}
+              <DocfyLink @to={{next.url}}>
+                <p>Next</p>
+                {{next.title}}
+              </DocfyLink>
+            {{/if}}
+          </div>
+        </DocfyPreviousAndNextPage>
+      </div>
     </article>
   </main>
 </div>
