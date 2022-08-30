@@ -9,7 +9,7 @@ ember install lineal-viz
 And then you can do this:
 
 ```hbs preview-template
-<svg width='400' height='400'>
+<svg width='400' height='200'>
   <g transform='translate(200 200)'>
     <Lineal::Arcs
       @data={{array (hash v=1) (hash v=10) (hash v=4)}}

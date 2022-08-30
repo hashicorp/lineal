@@ -1,6 +1,7 @@
 'use strict';
 const PresetEnv = require('postcss-preset-env');
 const NestedSelectors = require('postcss-nested');
+const Import = require('postcss-import');
 
 const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
@@ -12,6 +13,7 @@ module.exports = function (defaults) {
         plugins: [
           { module: PresetEnv, options: { stage: 3 } },
           { module: NestedSelectors },
+          { module: Import },
         ],
       },
     },

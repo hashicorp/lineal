@@ -1,7 +1,9 @@
+@import './highlight.css';
+
 :root {
   --c-base: #d6cbaf;
   --c-base-1: #cdb08e;
-  --c-base-2: #908067;
+  --c-base-2: #b4a388;
   --c-line: #160a03;
   --c-green: #b7b283;
   --c-green-line: #7e7944;
@@ -15,7 +17,6 @@
 
 * {
   box-sizing: border-box;
-  font-family: sans-serif;
 }
 
 html,
@@ -23,6 +24,26 @@ body {
   margin: 0;
   padding: 0;
   background: var(--c-base);
+  color: var(--c-line);
+  font-family: sans-serif;
+}
+
+code,
+pre,
+.hljs {
+  font-family: monospace;
+}
+
+.hljs {
+  background: var(--c-base-2);
+}
+
+pre code.hljs {
+  display: block;
+  padding: 15px;
+  line-height: 1.2;
+  font-size: 16px;
+  border-radius: 8px;
 }
 
 .docs {

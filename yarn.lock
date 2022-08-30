@@ -2197,6 +2197,13 @@
     "@types/minimatch" "*"
     "@types/node" "*"
 
+"@types/hast@^2.0.0":
+  version "2.3.4"
+  resolved "https://registry.yarnpkg.com/@types/hast/-/hast-2.3.4.tgz#8aa5ef92c117d20d974a82bdfb6a648b08c0bafc"
+  integrity sha512-wLEm0QvaoawEDoTRwzTXp4b4jpwiJDvR5KMnFnVodm3scufTlBOWRD6N1OBf9TZMhjlNsSfcO5V+7AF4+Vy+9g==
+  dependencies:
+    "@types/unist" "*"
+
 "@types/htmlbars-inline-precompile@*", "@types/htmlbars-inline-precompile@^3.0.0":
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/@types/htmlbars-inline-precompile/-/htmlbars-inline-precompile-3.0.0.tgz#4d3f19eeb2af9f4605620e13a566dae3952a4f68"
@@ -7816,6 +7823,11 @@ helpertypes@^0.0.18:
   resolved "https://registry.yarnpkg.com/helpertypes/-/helpertypes-0.0.18.tgz#fd2bf5d3351cc7d80f7876732361d3adba63e5b4"
   integrity sha512-XRhfbSEmR+poXUC5/8AbmYNJb2riOT6qPzjGJZr0S9YedHiaY+/tzPYzWMUclYMEdCYo/1l8PDYrQFCj02v97w==
 
+highlight.js@~10.7.0:
+  version "10.7.3"
+  resolved "https://registry.yarnpkg.com/highlight.js/-/highlight.js-10.7.3.tgz#697272e3991356e40c3cac566a74eef681756531"
+  integrity sha512-tzcUFauisWKNHaRkN4Wjl/ZA07gENAjFl3J/c480dprkGTg5EQstgaNFqBfUqCq54kZRIEcreTsAgF/m2quD7A==
+
 hmac-drbg@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/hmac-drbg/-/hmac-drbg-1.0.1.tgz#d2745701025a6c775a6c545793ed502fc0c649a1"
@@ -9097,6 +9109,14 @@ lowercase-keys@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/lowercase-keys/-/lowercase-keys-2.0.0.tgz#2603e78b7b4b0006cbca2fbcc8a3202558ac9479"
   integrity sha512-tqNXrS78oMOE73NMxK4EMLQsQowWf8jKooH9g7xPavRT706R6bkQJ6DY2Te7QukaZsulxa30wQ7bk0pm4XiHmA==
+
+lowlight@^1.2.0:
+  version "1.20.0"
+  resolved "https://registry.yarnpkg.com/lowlight/-/lowlight-1.20.0.tgz#ddb197d33462ad0d93bf19d17b6c301aa3941888"
+  integrity sha512-8Ktj+prEb1RoCPkEOrPMYUN/nCggB7qAWe3a7OpMjWQkh3l2RD5wKRQ+o8Q8YuI9RG/xs95waaI/E6ym/7NsTw==
+  dependencies:
+    fault "^1.0.0"
+    highlight.js "~10.7.0"
 
 lru-cache@^5.1.1:
   version "5.1.1"
@@ -10403,6 +10423,11 @@ pidtree@^0.3.0:
   resolved "https://registry.yarnpkg.com/pidtree/-/pidtree-0.3.1.tgz#ef09ac2cc0533df1f3250ccf2c4d366b0d12114a"
   integrity sha512-qQbW94hLHEqCg7nhby4yRC7G2+jYHY4Rguc2bjw7Uug4GIJuu1tvf2uHaZv5Q8zdt+WKJ6qK1FOI6amaWUo5FA==
 
+pify@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/pify/-/pify-2.3.0.tgz#ed141a6ac043a849ea588498e7dca8b15330e90c"
+  integrity sha512-udgsAY+fTnvv7kI7aaxbqwWNb0AHiB0qBO89PZKPkoTmGOgdbrHDKD+0B2X4uTfJ/FT1R09r9gTsjUjNJotuog==
+
 pify@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/pify/-/pify-3.0.0.tgz#e5a4acd2c101fdf3d9a4d07f0dbc4db49dd28176"
@@ -10576,6 +10601,15 @@ postcss-image-set-function@^4.0.7:
   dependencies:
     postcss-value-parser "^4.2.0"
 
+postcss-import@^14.1.0:
+  version "14.1.0"
+  resolved "https://registry.yarnpkg.com/postcss-import/-/postcss-import-14.1.0.tgz#a7333ffe32f0b8795303ee9e40215dac922781f0"
+  integrity sha512-flwI+Vgm4SElObFVPpTIT7SU7R3qk2L7PyduMcokiaVKuWv9d/U+Gm/QAd8NDLuykTWTkcrjOeD2Pp1rMeBTGw==
+  dependencies:
+    postcss-value-parser "^4.0.0"
+    read-cache "^1.0.0"
+    resolve "^1.1.7"
+
 postcss-initial@^4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/postcss-initial/-/postcss-initial-4.0.1.tgz#529f735f72c5724a0fb30527df6fb7ac54d7de42"
@@ -10748,7 +10782,7 @@ postcss-selector-parser@^6.0.10, postcss-selector-parser@^6.0.2, postcss-selecto
     cssesc "^3.0.0"
     util-deprecate "^1.0.2"
 
-postcss-value-parser@^4.1.0, postcss-value-parser@^4.2.0:
+postcss-value-parser@^4.0.0, postcss-value-parser@^4.1.0, postcss-value-parser@^4.2.0:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/postcss-value-parser/-/postcss-value-parser-4.2.0.tgz#723c09920836ba6d3e5af019f92bc0971c02e514"
   integrity sha512-1NNCs6uurfkVbeXG4S8JFT9t19m45ICnif8zWLd5oPSZ50QnwMfK+H3jv408d4jw/7Bttv5axS5IiHoLaVNHeQ==
@@ -11041,6 +11075,13 @@ rc@1.2.8, rc@^1.2.8:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
+read-cache@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/read-cache/-/read-cache-1.0.0.tgz#e664ef31161166c9751cdbe8dbcf86b5fb58f774"
+  integrity sha512-Owdv/Ft7IjOgm/i0xvNDZ1LrRANRfew4b2prF3OWMQLxLfu3bS8FVhCsrSCMK4lR56Y9ya+AThoTpDCTxCmpRA==
+  dependencies:
+    pify "^2.3.0"
+
 read-pkg@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/read-pkg/-/read-pkg-3.0.0.tgz#9cbc686978fee65d16c00e2b19c237fcf6e38389"
@@ -11211,6 +11252,24 @@ rehype-stringify@^8.0.0:
   dependencies:
     hast-util-to-html "^7.1.1"
 
+remark-autolink-headings@^6.1.0:
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/remark-autolink-headings/-/remark-autolink-headings-6.1.0.tgz#45fa1f8860e0fc6b78bcbc4b0f5d5dd696170e04"
+  integrity sha512-oeMSIfjaNboWPDVKahQAjF8iJ8hsz5aI8KFzAmmBdznir7zBvkgUjYE/BrpWvd02DCf/mSQ1IklznLkl3dVvZQ==
+  dependencies:
+    "@types/hast" "^2.0.0"
+    extend "^3.0.0"
+    unified "^9.0.0"
+    unist-util-visit "^2.0.0"
+
+remark-code-import@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/remark-code-import/-/remark-code-import-0.4.0.tgz#94cbfe74087c55a84e65f0a972c0977cac8fc7f6"
+  integrity sha512-3UHRIfr7+kRBGOy6Bzp4c1dl8BLCLv+saBTAgW4+lPfs56vV6yBhO038i6MJTEoyXX1zli7l8tMGIHbYANdtZg==
+  dependencies:
+    to-gatsby-remark-plugin "^0.1.0"
+    unist-util-visit "^2.0.1"
+
 remark-extract-frontmatter@^3.1.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/remark-extract-frontmatter/-/remark-extract-frontmatter-3.2.0.tgz#bab57f599114f233702dea819431eec28e708656"
@@ -11239,6 +11298,14 @@ remark-hbs@^0.4.1:
   dependencies:
     unist-builder "^2.0.3"
     unist-util-visit "^2.0.3"
+
+remark-highlight.js@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/remark-highlight.js/-/remark-highlight.js-6.0.0.tgz#cb05387ddddeb078f0b61ce6299f6323f05098fc"
+  integrity sha512-eNHP/ezuDKoeh3KV+rWLeBVzU3SYVt0uu1tHdsCB6TUJYHwTNMJWZ5+nU+2fJHQXb+7PtpfGXVtFS9zk/W6qdw==
+  dependencies:
+    lowlight "^1.2.0"
+    unist-util-visit "^2.0.0"
 
 remark-normalize-headings@^2.0.0:
   version "2.0.0"
@@ -11399,7 +11466,7 @@ resolve-url@^0.2.1:
   resolved "https://registry.yarnpkg.com/resolve-url/-/resolve-url-0.2.1.tgz#2c637fe77c893afd2a663fe21aa9080068e2052a"
   integrity sha512-ZuF55hVUQaaczgOIwqWzkEcEidmlD/xl44x1UZnhOXcYuFN2S6+rcxpG+C1N3So0wvNI3DmJICUFfu2SxhBmvg==
 
-resolve@^1.10.0, resolve@^1.10.1, resolve@^1.11.1, resolve@^1.12.0, resolve@^1.13.1, resolve@^1.14.2, resolve@^1.17.0, resolve@^1.20.0, resolve@^1.22.0, resolve@^1.22.1, resolve@^1.4.0, resolve@^1.5.0:
+resolve@^1.1.7, resolve@^1.10.0, resolve@^1.10.1, resolve@^1.11.1, resolve@^1.12.0, resolve@^1.13.1, resolve@^1.14.2, resolve@^1.17.0, resolve@^1.20.0, resolve@^1.22.0, resolve@^1.22.1, resolve@^1.4.0, resolve@^1.5.0:
   version "1.22.1"
   resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.22.1.tgz#27cb2ebb53f91abb49470a928bba7558066ac177"
   integrity sha512-nBpuuYuY5jFsli/JIs1oldw6fOQCBioohqWZg/2hiaOybXOft4lonv85uDOKXdf8rhyK159cxU5cDcK/NKk8zw==
@@ -12621,6 +12688,13 @@ to-fast-properties@^2.0.0:
   resolved "https://registry.yarnpkg.com/to-fast-properties/-/to-fast-properties-2.0.0.tgz#dc5e698cbd079265bc73e0377681a4e4e83f616e"
   integrity sha512-/OaKK0xYrs3DmxRYqL/yDc+FxFUVYhDlXMhRmv3z915w2HF1tnN1omB354j8VUGO/hbRzyD6Y3sA7v7GS/ceog==
 
+to-gatsby-remark-plugin@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/to-gatsby-remark-plugin/-/to-gatsby-remark-plugin-0.1.0.tgz#34167b2c3cf3209745cf97e5a488042586f9990d"
+  integrity sha512-blmhJ/gIrytWnWLgPSRCkhCPeki6UBK2daa3k9mGahN7GjwHu8KrS7F70MvwlsG7IE794JLgwAdCbi4hU4faFQ==
+  dependencies:
+    to-vfile "^6.1.0"
+
 to-object-path@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/to-object-path/-/to-object-path-0.3.0.tgz#297588b7b0e7e0ac08e04e672f85c1f4999e17af"
@@ -12978,7 +13052,7 @@ unist-util-visit@^1.1.0:
   dependencies:
     unist-util-visit-parents "^2.0.0"
 
-unist-util-visit@^2.0.0, unist-util-visit@^2.0.2, unist-util-visit@^2.0.3:
+unist-util-visit@^2.0.0, unist-util-visit@^2.0.1, unist-util-visit@^2.0.2, unist-util-visit@^2.0.3:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/unist-util-visit/-/unist-util-visit-2.0.3.tgz#c3703893146df47203bb8a9795af47d7b971208c"
   integrity sha512-iJ4/RczbJMkD0712mGktuGpm/U4By4FfDonL7N/9tATGIF4imikjOuagyMY53tnZq3NP6BcmlrHhEKAfGWjh7Q==
