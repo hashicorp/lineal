@@ -1,9 +1,6 @@
-import { scheduleOnce } from '@ember/runloop';
 import Component from '@glimmer/component';
 import { tracked, cached } from '@glimmer/tracking';
-import { extent } from 'd3-array';
 import { Scale } from '../../../scale';
-import Bounds from '../../../bounds';
 
 enum Orientation {
   Top = 'top',
@@ -37,6 +34,18 @@ interface AreaArgs {
 }
 
 const DEFAULT_OFFSET = typeof window !== 'undefined' && window.devicePixelRatio > 1 ? 0 : 0.5;
+const TEXT_OFFSET = {
+  [OrientationInt.Top]: '0em',
+  [OrientationInt.Right]: '0.32em',
+  [OrientationInt.Bottom]: '0.71em',
+  [OrientationInt.Left]: '0.32em',
+};
+const TEXT_ANCHOR = {
+  [OrientationInt.Top]: 'middle',
+  [OrientationInt.Right]: 'start',
+  [OrientationInt.Bottom]: 'middle',
+  [OrientationInt.Left]: 'end',
+};
 
 export default class Area extends Component<AreaArgs> {
   @tracked tickValues = this.args.tickValues || null;
@@ -65,14 +74,28 @@ export default class Area extends Component<AreaArgs> {
       : Direction.Horizontal;
   }
 
-  @cached get domainPath(): string {
-    const { tickSizeOuter, offset } = this;
+  @cached get position() {
+    const copy = this.args.scale.d3Scale.copy();
+    if (copy.bandwidth) {
+      let offset = Math.max(0, copy.bandwidth() - this.offset * 2) / 2;
+      if (copy.round()) offset = Math.round(offset);
+      return (d: number) => +copy(d) + offset;
+    }
+    return (d: number) => +copy(d);
+  }
+
+  // This hints at the tick orientation top/left one way, bottom/right the other way
+  @cached get k(): number {
     const orientation = this.orientation;
+    return orientation === OrientationInt.Top || orientation === OrientationInt.Left ? -1 : 1;
+  }
+
+  @cached get domainPath(): string {
+    const { tickSizeOuter, offset, k } = this;
     const range = this.args.scale.d3Scale.range();
 
     const range0 = range[0] + offset;
     const range1 = range[range.length - 1] + offset;
-    const k = orientation === OrientationInt.Top || orientation === OrientationInt.Left ? -1 : 1;
 
     if (this.direction === Direction.Vertical) {
       return tickSizeOuter !== 0
@@ -100,7 +123,7 @@ export default class Area extends Component<AreaArgs> {
     // 3. If scale.tickFormat, return scale.tickFormat()
     // 4. Return identity function x => x
     if (this.tickFormat) return this.tickFormat;
-    if (this.args.scale.d3Scale.tickFormat) return this.args.scale.d3Scale.tickFormat;
+    if (this.args.scale.d3Scale.tickFormat) return this.args.scale.d3Scale.tickFormat();
     return (x: any) => x;
   }
 
@@ -109,6 +132,18 @@ export default class Area extends Component<AreaArgs> {
   }
 
   @cached get ticks() {
-    return [];
+    const { k, format, spacing, tickSizeInner, offset, position, direction, orientation } = this;
+
+    return this.values.map((v: any) => ({
+      transform:
+        direction === Direction.Horizontal
+          ? `translate(${position(v) + offset},0)`
+          : `translate(0,${position(v) + offset})`,
+      size: k * tickSizeInner,
+      offset: k * spacing,
+      textOffset: TEXT_OFFSET[orientation],
+      label: format(v),
+      textAnchor: TEXT_ANCHOR[orientation],
+    }));
   }
 }
