@@ -1,0 +1,11 @@
+<g class='axis' ...attributes>
+  <path class='domain' stroke='currentColor' d={{this.domainPath}}></path>
+  {{#each this.ticks as |tick|}}
+    <g transform={{tick.transform}}>
+      <line stroke='currentColor' y2={{tick.size}}></line>
+      {{#if tick.label}}
+        <text fill='currentColor' y2={{tick.offset}}>{{tick.label}}</text>
+      {{/if}}
+    </g>
+  {{/each}}
+</g>

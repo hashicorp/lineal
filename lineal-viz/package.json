@@ -68,6 +68,7 @@
       "./components/lineal/arc/index.js": "./dist/_app_/components/lineal/arc/index.js",
       "./components/lineal/arcs/index.js": "./dist/_app_/components/lineal/arcs/index.js",
       "./components/lineal/area/index.js": "./dist/_app_/components/lineal/area/index.js",
+      "./components/lineal/axis/index.js": "./dist/_app_/components/lineal/axis/index.js",
       "./components/lineal/line/index.js": "./dist/_app_/components/lineal/line/index.js",
       "./helpers/css-range.js": "./dist/_app_/helpers/css-range.js",
       "./helpers/scale-diverging-log.js": "./dist/_app_/helpers/scale-diverging-log.js",
