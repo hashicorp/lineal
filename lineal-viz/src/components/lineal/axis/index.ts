@@ -21,7 +21,7 @@ enum Direction {
   Horizontal = 'horizontal',
 }
 
-interface AreaArgs {
+interface AxisArgs {
   scale: Scale;
   orientation: Orientation;
   tickValues?: any[];
@@ -47,7 +47,7 @@ const TEXT_ANCHOR = {
   [OrientationInt.Left]: 'end',
 };
 
-export default class Area extends Component<AreaArgs> {
+export default class Axis extends Component<AxisArgs> {
   @tracked tickValues = this.args.tickValues || null;
   @tracked tickFormat = this.args.tickFormat || null;
   @tracked tickSizeInner = this.args.tickSizeInner || 6;
