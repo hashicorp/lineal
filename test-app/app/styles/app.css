@@ -10,3 +10,11 @@
 .reds-3 {
   fill: #6d360f;
 }
+
+.axis .domain {
+  fill: none;
+}
+
+.no-overflow {
+  overflow: visible;
+}
