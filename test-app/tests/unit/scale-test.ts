@@ -4,9 +4,9 @@ import {
   ScaleUtc,
   ScaleDiverging,
   ScaleOrdinal,
-} from 'lineal-viz/scale';
-import Bounds from 'lineal-viz/bounds';
-import CSSRange from 'lineal-viz/css-range';
+} from '@lineal-viz/lineal/scale';
+import Bounds from '@lineal-viz/lineal/bounds';
+import CSSRange from '@lineal-viz/lineal/css-range';
 
 const NOW = Date.now();
 const DAY = 1000 * 60 * 60 * 24;

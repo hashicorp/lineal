@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import Bounds from 'lineal-viz/bounds';
+import Bounds from '@lineal-viz/lineal/bounds';
 
 interface TableTest {
   name: string;

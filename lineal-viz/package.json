@@ -1,7 +1,7 @@
 {
-  "name": "lineal-viz",
+  "name": "@lineal-viz/lineal",
   "version": "0.0.0",
-  "description": "The default blueprint for Embroider v2 addons.",
+  "description": "A data visualization toolkit for Ember.",
   "keywords": [
     "ember-addon"
   ],
