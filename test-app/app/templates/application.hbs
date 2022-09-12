@@ -110,6 +110,21 @@
         @orientation='bottom'
         transform='translate(0,200)'
       />
+      <Lineal::Gridlines
+        @scale={{yScale}}
+        @lineValues={{array 20000000 100000000 200000000 280000000}}
+        @direction='horizontal'
+        @length={{800}}
+        stroke-dasharray='5 5'
+        opacity='0.7'
+      />
+      <Lineal::Gridlines
+        @scale={{xScale}}
+        @direction='vertical'
+        @length={{200}}
+        stroke-dasharray='5 5'
+        opacity='0.3'
+      />
       {{#each this.population as |d|}}
         <circle
           cx={{xScale.compute d.year}}
