@@ -1,5 +1,7 @@
 <g class='axis' ...attributes>
-  <path class='domain' stroke='currentColor' d={{this.domainPath}}></path>
+  {{#if this.includeDomain}}
+    <path class='domain' stroke='currentColor' d={{this.domainPath}}></path>
+  {{/if}}
   {{#if (eq this.direction 'horizontal')}}
     {{#each this.ticks as |tick|}}
       <g transform={{tick.transform}}>

@@ -31,6 +31,7 @@ interface AxisArgs {
   tickSizeOuter?: number;
   tickPadding?: number;
   offset?: number;
+  includeDomain?: boolean;
 }
 
 const DEFAULT_OFFSET = typeof window !== 'undefined' && window.devicePixelRatio > 1 ? 0 : 0.5;
@@ -48,14 +49,18 @@ const TEXT_ANCHOR = {
 };
 
 export default class Axis extends Component<AxisArgs> {
-  @tracked tickValues = this.args.tickValues || null;
-  @tracked tickFormat = this.args.tickFormat || null;
-  @tracked tickSizeInner = this.args.tickSizeInner || 6;
-  @tracked tickSizeOuter = this.args.tickSizeOuter || 6;
-  @tracked tickPadding = this.args.tickPadding || 3;
-  @tracked offset = this.args.offset || DEFAULT_OFFSET;
+  @tracked tickValues = this.args.tickValues ?? null;
+  @tracked tickFormat = this.args.tickFormat ?? null;
+  @tracked tickSizeInner = this.args.tickSizeInner ?? this.args.tickSize ?? 6;
+  @tracked tickSizeOuter = this.args.tickSizeOuter ?? this.args.tickSize ?? 6;
+  @tracked tickPadding = this.args.tickPadding ?? 3;
+  @tracked offset = this.args.offset ?? DEFAULT_OFFSET;
 
   tickArguments = [];
+
+  get includeDomain() {
+    return this.args.includeDomain ?? true;
+  }
 
   @cached get orientation(): OrientationInt {
     const mapping = {
