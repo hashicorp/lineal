@@ -16,7 +16,11 @@ function orientationTest(
 
     await render(hbs`
       <svg>
-        <Lineal::Axis @scale={{this.scale}} @orientation={{this.orientation}} @tickSize={{10}} />
+        <Lineal::Axis
+          @scale={{this.scale}}
+          @orientation={{this.orientation}}
+          @tickSize={{10}}
+          @offset={{0}} />
       </svg>
     `);
 
@@ -41,7 +45,7 @@ module('Integration | Component | Lineal::Axis', function (hooks) {
 
     await render(hbs`
       <svg>
-        <Lineal::Axis @scale={{this.scale}} @orientation="bottom" />
+        <Lineal::Axis @scale={{this.scale}} @orientation="bottom" @offset={{0}} />
       </svg>
     `);
 
@@ -102,7 +106,11 @@ module('Integration | Component | Lineal::Axis', function (hooks) {
 
     await render(hbs`
       <svg>
-        <Lineal::Axis @scale={{this.scale}} @orientation="bottom" @tickValues={{this.tickValues}} />
+        <Lineal::Axis
+          @scale={{this.scale}}
+          @orientation="bottom"
+          @tickValues={{this.tickValues}}
+          @offset={{0}} />
       </svg>
     `);
 
@@ -125,7 +133,11 @@ module('Integration | Component | Lineal::Axis', function (hooks) {
 
     await render(hbs`
       <svg>
-        <Lineal::Axis @scale={{this.scale}} @orientation="bottom" @tickFormat={{this.tickFormat}} />
+        <Lineal::Axis
+          @scale={{this.scale}}
+          @orientation="bottom"
+          @tickFormat={{this.tickFormat}}
+          @offset={{0}} />
       </svg>
     `);
 
@@ -142,7 +154,11 @@ module('Integration | Component | Lineal::Axis', function (hooks) {
 
     await render(hbs`
       <svg>
-        <Lineal::Axis @scale={{this.scale}} @orientation="bottom" @tickFormat={{this.tickFormat}} />
+        <Lineal::Axis
+          @scale={{this.scale}}
+          @orientation="bottom"
+          @tickFormat={{this.tickFormat}}
+          @offset={{0}} />
       </svg>
     `);
 
@@ -161,7 +177,11 @@ module('Integration | Component | Lineal::Axis', function (hooks) {
 
     await render(hbs`
       <svg>
-        <Lineal::Axis @scale={{this.scale}} @orientation="bottom" @tickSize={{this.tickSize}} />
+        <Lineal::Axis
+          @scale={{this.scale}}
+          @orientation="bottom"
+          @tickSize={{this.tickSize}}
+          @offset={{0}} />
       </svg>
     `);
 
@@ -187,7 +207,8 @@ module('Integration | Component | Lineal::Axis', function (hooks) {
           @scale={{this.scale}}
           @orientation="bottom"
           @tickSize={{this.tickSize}}
-          @tickSizeInner={{this.tickSizeInner}} />
+          @tickSizeInner={{this.tickSizeInner}}
+          @offset={{0}} />
       </svg>
     `);
 
@@ -213,7 +234,8 @@ module('Integration | Component | Lineal::Axis', function (hooks) {
           @scale={{this.scale}}
           @orientation="bottom"
           @tickSize={{this.tickSize}}
-          @tickSizeOuter={{this.tickSizeOuter}} />
+          @tickSizeOuter={{this.tickSizeOuter}}
+          @offset={{0}} />
       </svg>
     `);
 
@@ -240,7 +262,8 @@ module('Integration | Component | Lineal::Axis', function (hooks) {
           @scale={{this.scale}}
           @orientation={{this.orientation}}
           @tickSize={{this.tickSize}}
-          @tickPadding={{this.tickPadding}} />
+          @tickPadding={{this.tickPadding}}
+          @offset={{0}} />
       </svg>
     `);
 
@@ -267,7 +290,7 @@ module('Integration | Component | Lineal::Axis', function (hooks) {
 
     await render(hbs`
       <svg>
-        <Lineal::Axis @scale={{this.scale}} @includeDomain={{this.includeDomain}} />
+        <Lineal::Axis @scale={{this.scale}} @includeDomain={{this.includeDomain}} @offset={{0}} />
       </svg>
     `);
 
