@@ -10,3 +10,16 @@
 .reds-3 {
   fill: #6d360f;
 }
+
+.axis .domain {
+  fill: none;
+}
+
+.no-overflow {
+  overflow: visible;
+}
+
+.line-chart-example {
+  margin: 20px 100px;
+  overflow: visible;
+}

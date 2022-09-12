@@ -1,0 +1,34 @@
+<g class='axis' ...attributes>
+  {{#if this.includeDomain}}
+    <path class='domain' stroke='currentColor' d={{this.domainPath}}></path>
+  {{/if}}
+  {{#if (eq this.direction 'horizontal')}}
+    {{#each this.ticks as |tick|}}
+      <g transform={{tick.transform}}>
+        <line stroke='currentColor' y2={{tick.size}}></line>
+        {{#if tick.label}}
+          <text
+            fill='currentColor'
+            y={{tick.offset}}
+            dy={{tick.textOffset}}
+            text-anchor={{tick.textAnchor}}
+          >{{tick.label}}</text>
+        {{/if}}
+      </g>
+    {{/each}}
+  {{else}}
+    {{#each this.ticks as |tick|}}
+      <g transform={{tick.transform}}>
+        <line stroke='currentColor' x2={{tick.size}}></line>
+        {{#if tick.label}}
+          <text
+            fill='currentColor'
+            x={{tick.offset}}
+            dy={{tick.textOffset}}
+            text-anchor={{tick.textAnchor}}
+          >{{tick.label}}</text>
+        {{/if}}
+      </g>
+    {{/each}}
+  {{/if}}
+</g>

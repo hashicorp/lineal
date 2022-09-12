@@ -2,6 +2,22 @@
 
 <h2 id='title'>Welcome to Ember</h2>
 
+<p>Axes</p>
+{{#let (scale-pow range='15..785' domain='0..10' exponent='2') as |scale|}}
+  <svg class='no-overflow' width='800' height='30'>
+    <Lineal::Axis @scale={{scale}} @orientation='bottom' />
+  </svg>
+  <svg class='no-overflow' width='800' height='30'>
+    <Lineal::Axis @scale={{scale}} @orientation='top' />
+  </svg>
+  <svg class='no-overflow' width='100' height='300'>
+    <Lineal::Axis @scale={{scale}} @orientation='left' />
+  </svg>
+  <svg class='no-overflow' width='100' height='300'>
+    <Lineal::Axis @scale={{scale}} @orientation='right' />
+  </svg>
+{{/let}}
+
 <p>Scale Linear</p>
 <svg width='800' height='6'>
   {{#let (scale-linear range='15..785' domain='0..10') as |scale|}}
@@ -68,8 +84,8 @@
 <p>Line</p>
 <svg width='800' height='200'>
   {{#let
-    (scale-linear range='15..785')
-    (scale-linear range='190..10')
+    (scale-linear range='0..800')
+    (scale-linear range='200..0')
     as |xScale yScale|
   }}
     <Lineal::Line
@@ -78,12 +94,37 @@
       @yScale={{yScale}}
       @x='year'
       @y='people'
-      @curve='step'
+      @curve='natural'
       fill='transparent'
       stroke='black'
       stroke-width='2'
     />
     {{#if (and xScale.isValid yScale.isValid)}}
+      <Lineal::Axis
+        @scale={{yScale}}
+        @orientation='left'
+        @tickValues={{array 20000000 100000000 200000000 280000000}}
+      />
+      <Lineal::Axis
+        @scale={{xScale}}
+        @orientation='bottom'
+        transform='translate(0,200)'
+      />
+      <Lineal::Gridlines
+        @scale={{yScale}}
+        @lineValues={{array 20000000 100000000 200000000 280000000}}
+        @direction='horizontal'
+        @length={{800}}
+        stroke-dasharray='5 5'
+        opacity='0.7'
+      />
+      <Lineal::Gridlines
+        @scale={{xScale}}
+        @direction='vertical'
+        @length={{200}}
+        stroke-dasharray='5 5'
+        opacity='0.3'
+      />
       {{#each this.population as |d|}}
         <circle
           cx={{xScale.compute d.year}}
