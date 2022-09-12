@@ -49,14 +49,32 @@ const TEXT_ANCHOR = {
 };
 
 export default class Axis extends Component<AxisArgs> {
-  @tracked tickValues = this.args.tickValues ?? null;
-  @tracked tickFormat = this.args.tickFormat ?? null;
-  @tracked tickSizeInner = this.args.tickSizeInner ?? this.args.tickSize ?? 6;
-  @tracked tickSizeOuter = this.args.tickSizeOuter ?? this.args.tickSize ?? 6;
-  @tracked tickPadding = this.args.tickPadding ?? 3;
-  @tracked offset = this.args.offset ?? DEFAULT_OFFSET;
+  // TODO: Implement tickArguments for d3-axis parity, but maybe not the same signature.
+  //tickArguments = [];
 
-  tickArguments = [];
+  @cached get tickValues() {
+    return this.args.tickValues ?? null;
+  }
+
+  @cached get tickFormat() {
+    return this.args.tickFormat ?? null;
+  }
+
+  @cached get tickSizeInner() {
+    return this.args.tickSizeInner ?? this.args.tickSize ?? 6;
+  }
+
+  @cached get tickSizeOuter() {
+    return this.args.tickSizeOuter ?? this.args.tickSize ?? 6;
+  }
+
+  @cached get tickPadding() {
+    return this.args.tickPadding ?? 3;
+  }
+
+  @cached get offset() {
+    return this.args.offset ?? DEFAULT_OFFSET;
+  }
 
   get includeDomain() {
     return this.args.includeDomain ?? true;
