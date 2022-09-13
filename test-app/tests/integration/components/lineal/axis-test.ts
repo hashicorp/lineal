@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, findAll, TestContext, settled } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
-import { Scale, ScaleLinear } from 'lineal-viz/scale';
+import { Scale, ScaleLinear } from '@lineal-viz/lineal/scale';
 
 function orientationTest(
   orientation: string,

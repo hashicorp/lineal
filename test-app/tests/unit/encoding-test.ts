@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { Encoding } from 'lineal-viz/encoding';
+import { Encoding } from '@lineal-viz/lineal/encoding';
 
 module('Unit | Encoding', function () {
   test('The accessor may be a function', function (assert) {

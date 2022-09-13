@@ -24,7 +24,7 @@ Lineal exports a suite of helpers for constructing scales using `d3-scale`.
 
 All scales have a **domain** and a **range**. The domain represents the bounds of the data to visualize. The range represents the bounds of the pixel-space to visualize onto. Once constructed, scales are then used to translate values from data-space to pixel-space. On their own, scales aren't too exciting, but they are the foundation of visually displaying quantitative information.
 
-### 2. (soon) Create visual marks using your scales
+### 2. Create visual marks using your scales
 
 Lineal exports a suite of visual primitives called "marks". Sometimes these are as simple as sugar on top of SVG elements such as `rect` and `circle`, other times they are powerful abstractions over multiple SVG elements with complex attributes.
 
@@ -60,7 +60,43 @@ At this point, we already have a line chart...technically. Charts also tend to h
 
 ### 3. Addings axes and gridlines
 
-TBD
+Axes and gridlines are both visual representations of their underlying scales. This remains true in Lineal.
+
+```hbs
+{{#if (and xScale.isValid yScale.isValid)}}
+  <Lineal::Axis
+    @scale={{yScale}}
+    @orientation='left'
+    @tickValues={{array 20000000 100000000 200000000 280000000}}
+  />
+  <Lineal::Axis
+    @scale={{xScale}}
+    @orientation='bottom'
+    transform='translate(0,200)'
+  />
+  <Lineal::Gridlines
+    @scale={{yScale}}
+    @lineValues={{array 20000000 100000000 200000000 280000000}}
+    @direction='horizontal'
+    @length={{800}}
+    stroke-dasharray='5 5'
+    opacity='0.7'
+  />
+  <Lineal::Gridlines
+    @scale={{xScale}}
+    @direction='vertical'
+    @length={{200}}
+    stroke-dasharray='5 5'
+    opacity='0.3'
+  />
+{{/if}}
+```
+
+Here we define a left-aligned y-axis, a bottom-aligned x-axis, and horizontal and vertical gridlines. Once more these components just emit SVG elements, so we can add attributes to control features like transform and stroke qualities.
+
+The `Lineal::Axis` component is a complete Glimmer rewrite of the [d3-axis]() package and supports the same arguments, such as specific tick values that override what gets derived from the underlying scale.
+
+Traditionally in d3, gridlines are also implemented using d3-axis. In Lineal, the `Lineal::Gridlines` component paves this common pattern which means no more imperatively removing tick labels and tweaking tick dimensions to match the dimensions of the chart canvas.
 
 ### 4. Creating a tooltip
 

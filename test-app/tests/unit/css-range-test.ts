@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import CSSRange from 'lineal-viz/css-range';
+import CSSRange from '@lineal-viz/lineal/css-range';
 
 module('Unit | CSSRange', function () {
   test('CSSRanges are constructed with a string prefix', function (assert) {

@@ -1,7 +1,8 @@
 {
-  "name": "lineal-viz",
-  "version": "0.0.0",
-  "description": "The default blueprint for Embroider v2 addons.",
+  "name": "@lineal-viz/lineal",
+  "version": "0.0.2-alpha.0",
+  "private": false,
+  "description": "A data visualization toolkit for Ember.",
   "keywords": [
     "ember-addon"
   ],
@@ -22,6 +23,8 @@
     "lint:js:fix": "eslint . --fix",
     "start": "rollup --config --watch",
     "test": "echo 'A v2 addon does not have tests, run tests in test-app'",
+    "prepublishOnly": "cp ../README.md .",
+    "postpublish": "rm README.md",
     "prepare": "yarn build"
   },
   "dependencies": {
