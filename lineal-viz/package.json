@@ -32,7 +32,8 @@
     "d3-array": "^3.2.0",
     "d3-scale": "^4.0.2",
     "d3-shape": "^3.1.0",
-    "ember-cached-decorator-polyfill": "^0.1.4"
+    "ember-cached-decorator-polyfill": "^0.1.4",
+    "ember-resize-modifier": "^0.4.1"
   },
   "devDependencies": {
     "@babel/core": "^7.17.0",
