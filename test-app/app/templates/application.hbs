@@ -82,59 +82,63 @@
 </svg>
 
 <p>Line</p>
-<svg width='800' height='200'>
-  {{#let
-    (scale-linear range='0..800')
-    (scale-linear range='200..0')
-    as |xScale yScale|
-  }}
-    <Lineal::Line
-      @data={{this.population}}
-      @xScale={{xScale}}
-      @yScale={{yScale}}
-      @x='year'
-      @y='people'
-      @curve='natural'
-      fill='transparent'
-      stroke='black'
-      stroke-width='2'
-    />
-    {{#if (and xScale.isValid yScale.isValid)}}
-      <Lineal::Axis
-        @scale={{yScale}}
-        @orientation='left'
-        @tickValues={{array 20000000 100000000 200000000 280000000}}
-      />
-      <Lineal::Axis
-        @scale={{xScale}}
-        @orientation='bottom'
-        transform='translate(0,200)'
-      />
-      <Lineal::Gridlines
-        @scale={{yScale}}
-        @lineValues={{array 20000000 100000000 200000000 280000000}}
-        @direction='horizontal'
-        @length={{800}}
-        stroke-dasharray='5 5'
-        opacity='0.7'
-      />
-      <Lineal::Gridlines
-        @scale={{xScale}}
-        @direction='vertical'
-        @length={{200}}
-        stroke-dasharray='5 5'
-        opacity='0.3'
-      />
-      {{#each this.population as |d|}}
-        <circle
-          cx={{xScale.compute d.year}}
-          cy={{yScale.compute d.people}}
-          r='3'
-        ></circle>
-      {{/each}}
-    {{/if}}
-  {{/let}}
-</svg>
+<div class='fluid-chart'>
+  <Lineal::Fluid class='fluid-chart__plot' as |width height|>
+    <svg class='fluid-chart__svg'>
+      {{#let
+        (scale-linear range=(array 0 width))
+        (scale-linear range=(array height 0))
+        as |xScale yScale|
+      }}
+        <Lineal::Line
+          @data={{this.population}}
+          @xScale={{xScale}}
+          @yScale={{yScale}}
+          @x='year'
+          @y='people'
+          @curve='natural'
+          fill='transparent'
+          stroke='black'
+          stroke-width='2'
+        />
+        {{#if (and xScale.isValid yScale.isValid)}}
+          <Lineal::Axis
+            @scale={{yScale}}
+            @orientation='left'
+            @tickValues={{array 20000000 100000000 200000000 280000000}}
+          />
+          <Lineal::Axis
+            @scale={{xScale}}
+            @orientation='bottom'
+            transform='translate(0,{{height}})'
+          />
+          <Lineal::Gridlines
+            @scale={{yScale}}
+            @lineValues={{array 20000000 100000000 200000000 280000000}}
+            @direction='horizontal'
+            @length={{width}}
+            stroke-dasharray='5 5'
+            opacity='0.7'
+          />
+          <Lineal::Gridlines
+            @scale={{xScale}}
+            @direction='vertical'
+            @length={{height}}
+            stroke-dasharray='5 5'
+            opacity='0.3'
+          />
+          {{#each this.population as |d|}}
+            <circle
+              cx={{xScale.compute d.year}}
+              cy={{yScale.compute d.people}}
+              r='3'
+            ></circle>
+          {{/each}}
+        {{/if}}
+      {{/let}}
+    </svg>
+  </Lineal::Fluid>
+</div>
 
 <p>Line</p>
 <svg width='800' height='200'>
