@@ -1,6 +1,6 @@
 {
   "name": "@lineal-viz/lineal",
-  "version": "0.0.2-alpha.0",
+  "version": "0.0.2",
   "private": false,
   "description": "A data visualization toolkit for Ember.",
   "keywords": [
@@ -32,7 +32,8 @@
     "d3-array": "^3.2.0",
     "d3-scale": "^4.0.2",
     "d3-shape": "^3.1.0",
-    "ember-cached-decorator-polyfill": "^0.1.4"
+    "ember-cached-decorator-polyfill": "^0.1.4",
+    "ember-resize-modifier": "^0.4.1"
   },
   "devDependencies": {
     "@babel/core": "^7.17.0",
@@ -72,6 +73,7 @@
       "./components/lineal/arcs/index.js": "./dist/_app_/components/lineal/arcs/index.js",
       "./components/lineal/area/index.js": "./dist/_app_/components/lineal/area/index.js",
       "./components/lineal/axis/index.js": "./dist/_app_/components/lineal/axis/index.js",
+      "./components/lineal/fluid/index.js": "./dist/_app_/components/lineal/fluid/index.js",
       "./components/lineal/gridlines/index.js": "./dist/_app_/components/lineal/gridlines/index.js",
       "./components/lineal/line/index.js": "./dist/_app_/components/lineal/line/index.js",
       "./helpers/css-range.js": "./dist/_app_/helpers/css-range.js",
