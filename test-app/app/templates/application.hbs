@@ -22,7 +22,7 @@
 <svg width='800' height='6'>
   {{#let (scale-linear range='15..785' domain='0..10') as |scale|}}
     {{#each (array 0 1 2 3 4 5 6 7 8 9 10) as |v|}}
-      <circle cx={{scale.compute v}} cy='3' r='3'></circle>
+      <circle cx={{scale-fn-compute scale v}} cy='3' r='3'></circle>
     {{/each}}
   {{/let}}
 </svg>

@@ -82,6 +82,7 @@
       "./helpers/scale-diverging-sqrt.js": "./dist/_app_/helpers/scale-diverging-sqrt.js",
       "./helpers/scale-diverging-symlog.js": "./dist/_app_/helpers/scale-diverging-symlog.js",
       "./helpers/scale-diverging.js": "./dist/_app_/helpers/scale-diverging.js",
+      "./helpers/scale-fn-compute.js": "./dist/_app_/helpers/scale-fn-compute.js",
       "./helpers/scale-linear.js": "./dist/_app_/helpers/scale-linear.js",
       "./helpers/scale-log.js": "./dist/_app_/helpers/scale-log.js",
       "./helpers/scale-ordinal.js": "./dist/_app_/helpers/scale-ordinal.js",
