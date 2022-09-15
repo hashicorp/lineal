@@ -171,6 +171,279 @@ Since this is such a common pattern and since we aren't in the business of imper
 
 ## Step 5: Style everything
 
-## Step 6: Rethink dimensions
+We have a few presentational attributes on our SVG elements that we can move to CSS. And while we're at it, we can do a lot to make this chart look better. Lineal isn't in the business of styling things for you, but it is designed to encourage styling with CSS rather than setting styles or attributes with JS.
+
+```css
+/* This uses postcss for nesting */
+.demo-two-line-chart {
+  margin: 50px;
+  overflow: visible;
+
+  .line {
+    stroke: var(--c-red-line);
+    stroke-width: 4;
+    stroke-linecap: round;
+    fill: none;
+  }
+
+  .axis {
+    fill: none;
+
+    line,
+    path {
+      stroke: var(--c-base);
+      stroke-width: 2;
+    }
+
+    text {
+      fill: var(--c-line-0);
+    }
+  }
+
+  .gridlines line {
+    stroke-dasharray: 5 5;
+    stroke: var(--c-base);
+    opacity: 0.9;
+  }
+}
+```
+
+```hbs preview-template
+<svg width='800' height='200' class='demo-two-line-chart'>
+  {{#let
+    (scale-linear range='0..800')
+    (scale-linear range='200..0')
+    (generate-sine 51)
+    as |xScale yScale data|
+  }}
+    {{#if (and xScale.isValid yScale.isValid)}}
+      <Lineal::Gridlines
+        @scale={{yScale}}
+        @direction='horizontal'
+        @length={{800}}
+      />
+      <Lineal::Gridlines
+        @scale={{xScale}}
+        @direction='vertical'
+        @length={{200}}
+        @lineValues={{array 5 11 17 23.5 30 36 42 48.5}}
+      />
+      <Lineal::Axis
+        @scale={{yScale}}
+        @orientation='left'
+      />
+      <Lineal::Axis
+        @scale={{xScale}}
+        @orientation='bottom'
+        @tickValues={{array 2 8 14 20.5 27 33 39 45.5 50}}
+        transform='translate(0,{{yScale.compute 0}})'
+      />
+    {{/if}}
+    <Lineal::Line
+      @data={{data}}
+      @xScale={{xScale}}
+      @yScale={{yScale}}
+      @x='x'
+      @y='y'
+      @curve='natural'
+      class='line'
+    />
+  {{/let}}
+</svg>
+```
+
+## Step 6: Accessibility
+
+As the name would suggest, data visualizations are optimized for sighted users. However, this doesn't mean we can't do _something_ to help screen reader users, and we definitely shouldn't make the experience for screen reader users even worse.
+
+First, let's make the chart no longer actively antagonistic to screen reader users by hiding the axes. The rule of thumb is that all text should be read aloud, but tick labels are only useful in the context of visual comparison with marks. Having a screen reader say "eight six four ..." without that context is meaningless and makes the page harder to traverse.
+
+Next, let's try to make the chart somewhat useful for the screen reader experience by providing a title and description. These aren't exactly replacements for the process of reading a chart to gain insights and knowledge, but it at least makes for a cohesive experience rather than trying to pretend the primary content of the page simply isn't there. Standard alt text rules apply here: describe the essence and purpose of the graphic, not just the visual details. For instance, it's not useful to know the line is a shade of red, but it is useful to know that the magnitude of the sine wave is increasing.
+
+Finally, to prevent the loss of granular information, we'll provide a table of the underlying data. The entire premise of data visualization is that visually encoding data makes patterns, trends, and anomolies immediately apparent where they wouldn't be in a table. Given this premise, providing a table might seem counterproductive, or even a forfeit of the ideals of the data viz. I wouldn't argue that it's a forfeit of something, but consider the alternative: _no_ information for users who with low or no vision.
+
+```hbs preview-template
+{{#let (generate-sine 51) as |data|}}
+  <svg width='800' height='200' class='demo-two-line-chart'>
+    <title>A sine wave with an increasing magnitude</title>
+    <desc>
+      A sine wave with the function f(x) = sin(x) * x/5 plotted with x values
+      ranging from 0 to 50.
+    </desc>
+    {{#let
+      (scale-linear range='0..800')
+      (scale-linear range='200..0')
+      as |xScale yScale|
+    }}
+      {{#if (and xScale.isValid yScale.isValid)}}
+        <Lineal::Gridlines
+          @scale={{yScale}}
+          @direction='horizontal'
+          @length={{800}}
+        />
+        <Lineal::Gridlines
+          @scale={{xScale}}
+          @direction='vertical'
+          @length={{200}}
+          @lineValues={{array 5 11 17 23.5 30 36 42 48.5}}
+        />
+        <Lineal::Axis
+          @scale={{yScale}}
+          @orientation='left'
+          aria-hidden='true'
+        />
+        <Lineal::Axis
+          @scale={{xScale}}
+          @orientation='bottom'
+          @tickValues={{array 2 8 14 20.5 27 33 39 45.5 50}}
+          transform='translate(0,{{yScale.compute 0}})'
+          aria-hidden='true'
+        />
+      {{/if}}
+      <Lineal::Line
+        @data={{data}}
+        @xScale={{xScale}}
+        @yScale={{yScale}}
+        @x='x'
+        @y='y'
+        @curve='natural'
+        class='line'
+      />
+    {{/let}}
+  </svg>
+
+  <details>
+    <summary>Plotted sine curve dataset</summary>
+    <table>
+      <thead>
+        <tr>
+          <th>x</th>
+          <th>sin(x) * x/5</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each data as |row|}}
+          <tr>
+            <td>{{row.x}}</td>
+            <td>{{row.y}}</td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </details>
+{{/let}}
+```
+
+## Step 7: Rethink dimensions
+
+At this point we have a very respectable chart, but is it Web Scale™? As users of the web, expect charts to adapt to our screen dimensions. And as developers of the web, we expect systems of components to encapsulate common problems such as resizing and stretching to fill the contents of a containing element.
+
+With Lineal, that's where `Lineal::Fluid` comes in. It uses [ember-resize-modifier](), which uses a `ResizeObserver` to get pixel dimensions of a wrapping element and then yields those dimensions to its children. This way we can style layout components using whatever we want (`%`, or `vw`, or `fr` or whatever) while still getting pixel values to use in our scales and visual encodings.
+
+The tricky gotcha here is that our ranges cover the plottable area of a chart, which doesn't include our axes. Furthermore, we don't know the dimensions of our axes until they have been rendered. In the future Lineal will provide utilities for doing a two-pass render that dynamically updates a chart's scale's ranges based on the axes dimensions, but for now we can do something that's "good enough" with best effort CSS.
+
+We will construct a few wrapping elements like so:
+
+1. The outermost div will provide padding that makes way for our axes that are rendered outside of the SVG's dimensions.
+2. An inner div will use `Lineal::Fluid` to get dimensions for use in plotting.
+3. An SVG will use thse dimensions to set up our scales and marks.
+
+```css
+.demo-two-fluid-chart {
+  padding: 25px;
+
+  &__plot {
+    width: 100%;
+    height: 25vh;
+  }
+
+  &__svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    margin: 0;
+  }
+}
+```
 
 
+```hbs preview-template
+<div class='flex'>
+  <div class='min-col'>
+    {{#let (generate-sine 51) as |data|}}
+      <div class='demo-two-fluid-chart'>
+        <Lineal::Fluid class='demo-two-fluid-chart__plot' as |width height|>
+          <svg class='demo-two-line-chart demo-two-fluid-chart__svg'>
+            <title>A sine wave with an increasing magnitude</title>
+            <desc>
+              A sine wave with the function f(x) = sin(x) * x/5 plotted with x values
+              ranging from 0 to 50.
+            </desc>
+            {{#let
+              (scale-linear range=(array 0 width))
+              (scale-linear range=(array height 0))
+              as |xScale yScale|
+            }}
+              {{#if (and xScale.isValid yScale.isValid)}}
+                <Lineal::Gridlines
+                  @scale={{yScale}}
+                  @direction='horizontal'
+                  @length={{width}}
+                />
+                <Lineal::Gridlines
+                  @scale={{xScale}}
+                  @direction='vertical'
+                  @length={{height}}
+                  @lineValues={{array 5 11 17 23.5 30 36 42 48.5}}
+                />
+                <Lineal::Axis
+                  @scale={{yScale}}
+                  @orientation='left'
+                  aria-hidden='true'
+                />
+                <Lineal::Axis
+                  @scale={{xScale}}
+                  @orientation='bottom'
+                  @tickValues={{array 2 8 14 20.5 27 33 39 45.5 50}}
+                  transform='translate(0,{{yScale.compute 0}})'
+                  aria-hidden='true'
+                />
+              {{/if}}
+              <Lineal::Line
+                @data={{data}}
+                @xScale={{xScale}}
+                @yScale={{yScale}}
+                @x='x'
+                @y='y'
+                @curve='natural'
+                class='line'
+              />
+            {{/let}}
+          </svg>
+        </Lineal::Fluid>
+      </div>
+
+      <details>
+        <summary>Plotted sine curve dataset</summary>
+        <table>
+          <thead>
+            <tr>
+              <th>x</th>
+              <th>sin(x) * x/5</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each data as |row|}}
+              <tr>
+                <td>{{row.x}}</td>
+                <td>{{row.y}}</td>
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      </details>
+    {{/let}}
+  </div>
+  <div class='animated-gutter'></div>
+</div>
+```
