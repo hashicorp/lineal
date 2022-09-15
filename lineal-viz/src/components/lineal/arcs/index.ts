@@ -1,5 +1,5 @@
 import Component from '@glimmer/component';
-import { cached } from '@glimmer/tracking';
+import { cached } from '../../../cached';
 import { pie } from 'd3-shape';
 import { Scale, ScaleOrdinal } from '../../../scale';
 import { Accessor, Encoding } from '../../../encoding';
