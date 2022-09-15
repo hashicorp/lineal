@@ -5,6 +5,7 @@
   --c-base: #d6cbaf;
   --c-base-1: #c5b199;
   --c-base-2: #b4a388;
+  --c-line-0: #71584a;
   --c-line: #160a03;
   --c-green: #b7b283;
   --c-green-line: #7e7944;
@@ -305,4 +306,81 @@ pre code.hljs {
 .accent-green-1 {
   color: var(--c-green-line);
   fill: var(--c-green-line);
+}
+
+.demo-two-line-chart {
+  margin: 50px;
+  overflow: visible;
+
+  .line {
+    stroke: var(--c-red-line);
+    stroke-width: 4;
+    stroke-linecap: round;
+    fill: none;
+  }
+
+  .axis {
+    fill: none;
+
+    line,
+    path {
+      stroke: var(--c-base);
+      stroke-width: 2;
+    }
+
+    text {
+      fill: var(--c-line-0);
+    }
+  }
+
+  .gridlines line {
+    stroke-dasharray: 5 5;
+    stroke: var(--c-base);
+    opacity: 0.9;
+  }
+}
+
+.demo-two-fluid-chart {
+  padding: 25px;
+
+  &__plot {
+    width: 100%;
+    height: 25vh;
+  }
+
+  &__svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    margin: 0;
+  }
+}
+
+.flex {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 15px;
+  height: 100%;
+}
+
+.min-col {
+  flex-grow: 1;
+}
+
+.animated-gutter {
+  width: 50px;
+  background: var(--c-base-0);
+  height: 25vh;
+  margin: 25px 0;
+  animation: expand ease-in-out 3s infinite alternate;
+}
+
+@keyframes expand {
+  0% {
+    width: 50px;
+  }
+
+  100% {
+    width: 250px;
+  }
 }
