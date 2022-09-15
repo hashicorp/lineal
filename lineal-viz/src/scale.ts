@@ -1,5 +1,6 @@
 import 'ember-cached-decorator-polyfill';
-import { tracked, cached } from '@glimmer/tracking';
+import { tracked } from '@glimmer/tracking';
+import { cached } from './cached';
 import * as scales from 'd3-scale';
 import Bounds from './bounds';
 import CSSRange from './css-range';

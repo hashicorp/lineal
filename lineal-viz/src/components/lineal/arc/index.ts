@@ -1,5 +1,5 @@
 import Component from '@glimmer/component';
-import { cached } from '@glimmer/tracking';
+import { cached } from '../../../cached';
 import { arc } from 'd3-shape';
 import parseAngle from '../../../utils/parse-angle';
 
