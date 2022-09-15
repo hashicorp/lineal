@@ -336,9 +336,9 @@ Finally, to prevent the loss of granular information, we'll provide a table of t
 
 ## Step 7: Rethink dimensions
 
-At this point we have a very respectable chart, but is it Web Scale™? As users of the web, expect charts to adapt to our screen dimensions. And as developers of the web, we expect systems of components to encapsulate common problems such as resizing and stretching to fill the contents of a containing element.
+At this point we have a very respectable chart, but is it Web Scale™? As users of the web, we expect charts to adapt to our screen dimensions. And as developers of the web, we expect systems of components to encapsulate common problems such as resizing and stretching to fill the contents of a containing element.
 
-With Lineal, that's where `Lineal::Fluid` comes in. It uses [ember-resize-modifier](), which uses a `ResizeObserver` to get pixel dimensions of a wrapping element and then yields those dimensions to its children. This way we can style layout components using whatever we want (`%`, or `vw`, or `fr` or whatever) while still getting pixel values to use in our scales and visual encodings.
+With Lineal, that's where `Lineal::Fluid` comes in. It uses [ember-resize-modifier](https://github.com/elwayman02/ember-resize-modifier), which uses a `ResizeObserver` to get pixel dimensions of a wrapping element and then yields those dimensions to its children. This way we can style layout components using whatever we want (`%`, or `vw`, or `fr` or whatever) while still getting pixel values to use in our scales and visual encodings.
 
 The tricky gotcha here is that our ranges cover the plottable area of a chart, which doesn't include our axes. Furthermore, we don't know the dimensions of our axes until they have been rendered. In the future Lineal will provide utilities for doing a two-pass render that dynamically updates a chart's scale's ranges based on the axes dimensions, but for now we can do something that's "good enough" with best effort CSS.
 
@@ -346,7 +346,7 @@ We will construct a few wrapping elements like so:
 
 1. The outermost div will provide padding that makes way for our axes that are rendered outside of the SVG's dimensions.
 2. An inner div will use `Lineal::Fluid` to get dimensions for use in plotting.
-3. An SVG will use thse dimensions to set up our scales and marks.
+3. An SVG will use these dimensions to set up our scales and marks.
 
 ```css
 .demo-two-fluid-chart {
@@ -447,3 +447,7 @@ We will construct a few wrapping elements like so:
   <div class='animated-gutter'></div>
 </div>
 ```
+
+## Next Steps
+
+This is a big milestone for creating charts that look like charts, but there is plenty more to do. Next up is introducing interactivity!
