@@ -22,7 +22,7 @@ export default class Arcs extends Component<ArcsArgs> {
   }
 
   @cached get color() {
-    return new Encoding(this.args.theta);
+    if (this.args.color) return new Encoding(this.args.color);
   }
 
   @cached get colorScale(): Scale {
@@ -31,7 +31,9 @@ export default class Arcs extends Component<ArcsArgs> {
 
     // Or it can be specified as a string provided to CSSRange
     return new ScaleOrdinal({
-      domain: this.args.data.map((d) => this.color.accessor(d)),
+      domain: Array.from(
+        new Set(this.args.data.map(this.color ? (d) => this.color?.accessor(d) : (_, i) => i))
+      ),
       range: new CSSRange(this.args.colorScale ?? 'lineal-arcs'),
     });
   }
@@ -64,11 +66,12 @@ export default class Arcs extends Component<ArcsArgs> {
     const arcsData = generator(this.args.data);
 
     // Augment with color classes or fills
-    arcsData.forEach((d: any) => {
+    arcsData.forEach((d: any, index: number) => {
+      const colorValue = this.colorScale.compute(this.color ? this.color.accessor(d.data) : index);
       if (this.useCSSClass) {
-        d.cssClass = this.colorScale.compute(d.value);
+        d.cssClass = colorValue;
       } else {
-        d.fill = this.colorScale.compute(d.value);
+        d.fill = colorValue;
       }
     });
 
