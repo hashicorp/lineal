@@ -153,8 +153,8 @@ Donut charts can have rings if you're careful with your radii.
       @cornerRadius={{5}}
       @innerRadius={{102}}
       @outerRadius={{120}}
-      @startAngle='240d'
-      @endAngle='335d'
+      @startAngle='265d'
+      @endAngle='360d'
     />
   </g>
 </svg>

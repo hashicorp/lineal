@@ -57,7 +57,8 @@ export default class Arcs extends Component<ArcsArgs> {
       .startAngle(this.startAngle)
       .endAngle(this.endAngle)
       .padAngle(this.padAngle)
-      .value(this.theta.accessor);
+      .value(this.theta.accessor)
+      .sortValues(null);
 
     // Initial dataset
     const arcsData = generator(this.args.data);
