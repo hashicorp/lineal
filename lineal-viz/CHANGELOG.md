@@ -1,5 +1,12 @@
 # @lineal-viz/lineal
 
+## 0.1.1
+
+### Patch Changes
+
+- f50c62d: Bugfix: Correctly look up color by index or use the color accessor
+- 52934cd: Bugfix: Do not sort pie slices.
+
 ## 0.1.0
 
 ### Minor Changes
