@@ -241,10 +241,16 @@
 <svg width='400' height='400'>
   <g transform='translate(200 200)'>
     <Lineal::Arcs
-      @data={{array (hash v=1) (hash v=10) (hash v=4)}}
+      @data={{array
+        (hash v=1 c='red')
+        (hash v=0 c='blue')
+        (hash v=10 c='red')
+        (hash v=4 c='fish')
+      }}
       @theta='v'
       @startAngle='270d'
       @endAngle='450d'
+      @color='c'
       @colorScale='reds'
       as |pie|
     >
