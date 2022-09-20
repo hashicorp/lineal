@@ -9,6 +9,8 @@ interface InteractorArgs {
   x: Accessor;
   y: Accessor | Accessor[];
   distanceThreshold: number;
+  onSeek?: (data: ActiveData | null) => void;
+  onSelect?: (datum: ActiveDatum | null) => void;
 }
 
 interface ActiveDatum {
@@ -22,7 +24,11 @@ interface ActiveData {
 }
 
 export default modifier(
-  (element: HTMLElement, [], { data, xScale, x, y, distanceThreshold = 10 }: InteractorArgs) => {
+  (
+    element: HTMLElement,
+    [],
+    { data, xScale, x, y, onSeek, onSelect, distanceThreshold = 10 }: InteractorArgs
+  ) => {
     const accessors: Accessor[] = y instanceof Array ? y : [y];
     const xEnc = new Encoding(x);
     const yEncs = accessors.map((y) => new Encoding(y));
@@ -81,8 +87,7 @@ export default modifier(
 
     function seek(ev: MouseEvent) {
       const points = getDataAtPoint(ev.offsetX);
-      // call onSeek with points
-      console.log('seeking', points, ev);
+      onSeek?.(points);
     }
 
     function select(ev: MouseEvent) {
@@ -91,7 +96,8 @@ export default modifier(
     }
 
     function clear(ev: MouseEvent) {
-      // call onSeek and onSelect with null
+      onSeek?.(null);
+      onSelect?.(null);
       console.log('clearing', ev);
     }
 
