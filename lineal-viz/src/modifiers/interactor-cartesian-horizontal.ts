@@ -116,5 +116,6 @@ export default modifier(
       element.removeEventListener('mouseleave', clear);
       element.removeEventListener('keydown', keyControls);
     };
-  }
+  },
+  { eager: false }
 );
