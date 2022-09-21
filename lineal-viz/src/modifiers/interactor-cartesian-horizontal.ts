@@ -34,6 +34,8 @@ export default modifier(
     const yEncs = accessors.map((y) => new Encoding(y));
     const bis = bisector((d) => xEnc.accessor(d)).left;
 
+    let activeData = null;
+
     function getDataAtPoint(pt: number): ActiveData | null {
       // Exit early when possible
       if (!data.length) return null;
@@ -87,34 +89,36 @@ export default modifier(
 
     function seek(ev: MouseEvent) {
       const points = getDataAtPoint(ev.offsetX);
+      activeData = points;
       onSeek?.(points);
     }
 
     function select(ev: MouseEvent) {
-      // call onSelect with points
-      console.log('selecting', ev);
+      const points = getDataAtPoint(ev.offsetX);
+      activeData = points;
+      onSelect?.(points ? points.datum : null);
     }
 
-    function clear(ev: MouseEvent) {
+    function clear() {
+      activeData = null;
       onSeek?.(null);
       onSelect?.(null);
-      console.log('clearing', ev);
     }
 
-    function keyControls(ev: KeyboardEvent) {
-      console.log('key controls', ev);
-    }
+    // function keyControls(ev: KeyboardEvent) {
+    //   console.log('key controls', ev);
+    // }
 
     element.addEventListener('mousemove', seek);
     element.addEventListener('click', select);
     element.addEventListener('mouseleave', clear);
-    element.addEventListener('keydown', keyControls);
+    // element.addEventListener('keydown', keyControls);
 
     return () => {
       element.removeEventListener('mousemove', seek);
       element.removeEventListener('click', select);
       element.removeEventListener('mouseleave', clear);
-      element.removeEventListener('keydown', keyControls);
+      // element.removeEventListener('keydown', keyControls);
     };
   },
   { eager: false }
