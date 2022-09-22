@@ -29,8 +29,6 @@ enum NavKey {
   Space = ' ',
   Left = 'ArrowLeft',
   Right = 'ArrowRight',
-  Up = 'ArrowUp',
-  Down = 'ArrowDown',
 }
 
 const NAV_KEYS = Object.values(NavKey);
@@ -47,7 +45,7 @@ export default modifier(
     const bis = bisector((d) => xEnc.accessor(d)).left;
 
     let activeData: ActiveData | null = null;
-    let dataAtThisX: ActiveData[] = [];
+    let seekIndex: number = 0;
 
     function getDataAtPoint(pt: number): ActiveData | null {
       // Exit early when possible
@@ -100,15 +98,22 @@ export default modifier(
       };
     }
 
+    function setState(points: ActiveData | null) {
+      activeData = points;
+
+      const datum = points?.datum.datum;
+      seekIndex = data.indexOf(datum);
+    }
+
     function seek(ev: MouseEvent) {
       const points = getDataAtPoint(ev.offsetX);
-      activeData = points;
+      setState(points);
       onSeek?.(points);
     }
 
     function select(ev: MouseEvent) {
       const points = getDataAtPoint(ev.offsetX);
-      activeData = points;
+      setState(points);
       onSelect?.(points ? points.datum : null);
     }
 
@@ -130,14 +135,17 @@ export default modifier(
       } else if (key === NavKey.ESC) {
         onSeek?.(null);
         onSelect?.(null);
-      } else if (key === NavKey.Up) {
-        console.log('Enc - 1!');
-      } else if (key === NavKey.Down) {
-        console.log('Enc + 1!');
       } else if (key === NavKey.Right) {
-        console.log('Index + 1!');
+        seekIndex = (seekIndex + 1) % data.length;
       } else if (key === NavKey.Left) {
-        console.log('Index - 1!');
+        seekIndex--;
+        if (seekIndex < 0) seekIndex = data.length - 1;
+      }
+
+      if (key === NavKey.Right || key === NavKey.Left) {
+        const points = getDataAtPoint(xScale.compute(xEnc.accessor(data[seekIndex])));
+        setState(points);
+        onSeek?.(points);
       }
     }
 
