@@ -1,7 +1,10 @@
 import Controller from '@ember/controller';
-import { cached } from '@glimmer/tracking';
+import { tracked, cached } from '@glimmer/tracking';
+import { action } from '@ember/object';
 
 export default class ApplicationController extends Controller {
+  @tracked activeDatum = null;
+
   get population() {
     const data = this.model as any[];
     const reduction = data.reduce((agg: any, record: any) => {
@@ -39,4 +42,9 @@ export default class ApplicationController extends Controller {
 
   always = () => true;
   logValue = (...args: any[]) => console.log(...args);
+
+  @action
+  updateActiveData(activeData: any) {
+    this.activeDatum = activeData ? activeData.datum.datum : null;
+  }
 }

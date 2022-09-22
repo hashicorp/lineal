@@ -33,6 +33,7 @@
     "d3-scale": "^4.0.2",
     "d3-shape": "^3.1.0",
     "ember-cached-decorator-polyfill": "^0.1.4",
+    "ember-modifier": "^3.2.7",
     "ember-resize-modifier": "^0.4.1"
   },
   "devDependencies": {
@@ -94,7 +95,8 @@
       "./helpers/scale-symlog.js": "./dist/_app_/helpers/scale-symlog.js",
       "./helpers/scale-threshold.js": "./dist/_app_/helpers/scale-threshold.js",
       "./helpers/scale-time.js": "./dist/_app_/helpers/scale-time.js",
-      "./helpers/scale-utc.js": "./dist/_app_/helpers/scale-utc.js"
+      "./helpers/scale-utc.js": "./dist/_app_/helpers/scale-utc.js",
+      "./modifiers/interactor-cartesian-horizontal.js": "./dist/_app_/modifiers/interactor-cartesian-horizontal.js"
     }
   },
   "exports": {
