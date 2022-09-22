@@ -1,6 +1,13 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, find, triggerEvent, click } from '@ember/test-helpers';
+import {
+  render,
+  find,
+  triggerEvent,
+  triggerKeyEvent,
+  click,
+  focus,
+} from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import * as sinon from 'sinon';
 import { ScaleLinear } from '@lineal-viz/lineal/scale';
@@ -18,6 +25,21 @@ const linearData = [
   { x: 8, y: 34 },
   { x: 9, y: 55 },
   { x: 10, y: 89 },
+];
+
+const staggeredData = [
+  { x: 0, a: 1, b: 0, c: 0 },
+  { x: 1, a: 1, b: 1, c: 1 },
+  { x: 2, a: 2, b: 2, c: 2 },
+  { x: 3, a: 3, b: 3, c: 3 },
+  { x: 4, a: 5, c: 4 },
+  { x: 5, a: 8 },
+  { x: 5.2, c: 5.2 },
+  { x: 6, a: 13, b: 6, c: 6 },
+  { x: 7, a: 21, b: 7, c: 7 },
+  { x: 8, a: 34, b: 8, c: 8 },
+  { x: 9, a: 55, b: 9, c: 9 },
+  { x: 10, a: 89, b: 10, c: 10 },
 ];
 
 const triggerMouseMove = async (
@@ -231,25 +253,10 @@ module(
     });
 
     test('when multiple y encodings are provided, the data provided to onSeek includes the closest datum per encoding within the distanceThreshold', async function (assert) {
-      const linearData = [
-        { x: 0, a: 1, b: 0, c: 0 },
-        { x: 1, a: 1, b: 1, c: 1 },
-        { x: 2, a: 2, b: 2, c: 2 },
-        { x: 3, a: 3, b: 3, c: 3 },
-        { x: 4, a: 5, c: 4 },
-        { x: 5, a: 8 },
-        { x: 5.2, c: 5.2 },
-        { x: 6, a: 13, b: 6, c: 6 },
-        { x: 7, a: 21, b: 7, c: 7 },
-        { x: 8, a: 34, b: 8, c: 8 },
-        { x: 9, a: 55, b: 9, c: 9 },
-        { x: 10, a: 89, b: 10, c: 10 },
-      ];
-
       const scale = new ScaleLinear({ domain: [0, 10], range: [0, 100] });
       const onSeek = sinon.spy();
 
-      this.setProperties({ scale, onSeek, data: linearData });
+      this.setProperties({ scale, onSeek, data: staggeredData });
 
       await render(hbs`
         <svg>
@@ -283,6 +290,148 @@ module(
           .args[0].data.map((d: { encoding: Encoding }) => d.encoding.field),
         ['a', 'c']
       );
+    });
+
+    test('the left and right arrow keys cycle through the provided data', async function (assert) {
+      const scale = new ScaleLinear({ domain: [0, 10], range: [0, 100] });
+      const onSeek = sinon.spy();
+
+      this.setProperties({ scale, onSeek, data: linearData });
+
+      await render(hbs`
+        <svg>
+          <rect
+            x='0' y='0' width='100' height='10' tabindex='0'
+            {{interactor-cartesian-horizontal data=this.data xScale=this.scale x='x' y='y' onSeek=this.onSeek}}
+          ></rect>
+        </svg>
+      `);
+
+      await focus('rect');
+      await triggerKeyEvent('rect', 'keydown', 'ArrowRight');
+      await triggerKeyEvent('rect', 'keydown', 'ArrowRight');
+
+      assert.ok(onSeek.calledTwice);
+      assert.deepEqual(onSeek.getCall(0).args[0].datum.datum, linearData[1]);
+      assert.deepEqual(onSeek.getCall(1).args[0].datum.datum, linearData[2]);
+    });
+
+    test('when seeking with the keyboard, data for each encoding within the distance threshold is still captured', async function (assert) {
+      const scale = new ScaleLinear({ domain: [0, 10], range: [0, 100] });
+      const onSeek = sinon.spy();
+
+      this.setProperties({ scale, onSeek, data: staggeredData });
+
+      await render(hbs`
+        <svg>
+          <rect
+            x='0' y='0' width='100' height='10' tabindex='0'
+            {{interactor-cartesian-horizontal
+              data=this.data
+              xScale=this.scale
+              x='x'
+              y=(array 'a' 'b' 'c')
+              distanceThreshold=10
+              onSeek=this.onSeek}}
+          ></rect>
+        </svg>
+      `);
+
+      // Seek to the middle of the chart where the datasets split
+      await focus('rect');
+      for (let i = 0; i < 5; i++) {
+        await triggerKeyEvent('rect', 'keydown', 'ArrowRight');
+      }
+
+      // Each key event calls onSeek, this is the last one
+      const call = 4;
+
+      assert.deepEqual(onSeek.getCall(call).args[0].datum.datum, {
+        x: 5,
+        a: 8,
+      });
+      assert.deepEqual(
+        onSeek
+          .getCall(call)
+          .args[0].data.map((d: { datum: unknown }) => d.datum),
+        [
+          { x: 5, a: 8 },
+          { x: 5.2, c: 5.2 },
+        ]
+      );
+      assert.deepEqual(
+        onSeek
+          .getCall(call)
+          .args[0].data.map((d: { encoding: Encoding }) => d.encoding.field),
+        ['a', 'c']
+      );
+    });
+
+    test('the escape key calls onSeek and onSelect with null', async function (assert) {
+      const scale = new ScaleLinear({ domain: [0, 10], range: [0, 100] });
+      const onSeek = sinon.spy();
+      const onSelect = sinon.spy();
+
+      this.setProperties({ scale, onSeek, onSelect, data: linearData });
+
+      await render(hbs`
+        <svg>
+          <rect
+            x='0' y='0' width='100' height='10' tabindex='0'
+            {{interactor-cartesian-horizontal
+              data=this.data
+              xScale=this.scale
+              x='x'
+              y='y'
+              onSeek=this.onSeek
+              onSelect=this.onSelect}}
+          ></rect>
+        </svg>
+      `);
+
+      await focus('rect');
+      await triggerKeyEvent('rect', 'keydown', 'ArrowRight');
+      await triggerKeyEvent('rect', 'keydown', 'Escape');
+
+      assert.ok(onSeek.calledTwice);
+      assert.deepEqual(onSeek.getCall(0).args[0].datum.datum, linearData[1]);
+      assert.deepEqual(onSeek.getCall(1).args[0], null);
+
+      assert.ok(onSelect.calledOnce);
+      assert.deepEqual(onSelect.getCall(0).args[0], null);
+    });
+
+    test('the space and enter keys call onSelect, matching button semantics', async function (assert) {
+      const scale = new ScaleLinear({ domain: [0, 10], range: [0, 100] });
+      const onSeek = sinon.spy();
+      const onSelect = sinon.spy();
+
+      this.setProperties({ scale, onSeek, onSelect, data: linearData });
+
+      await render(hbs`
+        <svg>
+          <rect
+            x='0' y='0' width='100' height='10' tabindex='0'
+            {{interactor-cartesian-horizontal
+              data=this.data
+              xScale=this.scale
+              x='x'
+              y='y'
+              onSeek=this.onSeek
+              onSelect=this.onSelect}}
+          ></rect>
+        </svg>
+      `);
+
+      await focus('rect');
+      await triggerKeyEvent('rect', 'keydown', 'ArrowRight');
+      await triggerKeyEvent('rect', 'keydown', 'Enter');
+      await triggerKeyEvent('rect', 'keydown', 'ArrowRight');
+      await triggerKeyEvent('rect', 'keydown', ' ');
+
+      assert.ok(onSelect.calledTwice);
+      assert.deepEqual(onSelect.getCall(0).args[0].datum, linearData[1]);
+      assert.deepEqual(onSelect.getCall(1).args[0].datum, linearData[2]);
     });
   }
 );
