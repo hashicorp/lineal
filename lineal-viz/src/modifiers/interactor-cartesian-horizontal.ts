@@ -23,6 +23,18 @@ interface ActiveData {
   data: ActiveDatum[];
 }
 
+enum NavKey {
+  ESC = 'Escape',
+  Enter = 'Enter',
+  Space = ' ',
+  Left = 'ArrowLeft',
+  Right = 'ArrowRight',
+  Up = 'ArrowUp',
+  Down = 'ArrowDown',
+}
+
+const NAV_KEYS = Object.values(NavKey);
+
 export default modifier(
   (
     element: HTMLElement,
@@ -34,7 +46,8 @@ export default modifier(
     const yEncs = accessors.map((y) => new Encoding(y));
     const bis = bisector((d) => xEnc.accessor(d)).left;
 
-    let activeData = null;
+    let activeData: ActiveData | null = null;
+    let dataAtThisX: ActiveData[] = [];
 
     function getDataAtPoint(pt: number): ActiveData | null {
       // Exit early when possible
@@ -105,20 +118,39 @@ export default modifier(
       onSelect?.(null);
     }
 
-    // function keyControls(ev: KeyboardEvent) {
-    //   console.log('key controls', ev);
-    // }
+    function keyControls(ev: KeyboardEvent) {
+      const key: NavKey = ev.key as NavKey;
+
+      if (NAV_KEYS.includes(key)) {
+        ev.preventDefault();
+      }
+
+      if (key === NavKey.Space || key === NavKey.Enter) {
+        onSelect?.(activeData ? activeData.datum : null);
+      } else if (key === NavKey.ESC) {
+        onSeek?.(null);
+        onSelect?.(null);
+      } else if (key === NavKey.Up) {
+        console.log('Enc - 1!');
+      } else if (key === NavKey.Down) {
+        console.log('Enc + 1!');
+      } else if (key === NavKey.Right) {
+        console.log('Index + 1!');
+      } else if (key === NavKey.Left) {
+        console.log('Index - 1!');
+      }
+    }
 
     element.addEventListener('mousemove', seek);
     element.addEventListener('click', select);
     element.addEventListener('mouseleave', clear);
-    // element.addEventListener('keydown', keyControls);
+    element.addEventListener('keydown', keyControls);
 
     return () => {
       element.removeEventListener('mousemove', seek);
       element.removeEventListener('click', select);
       element.removeEventListener('mouseleave', clear);
-      // element.removeEventListener('keydown', keyControls);
+      element.removeEventListener('keydown', keyControls);
     };
   },
   { eager: false }
