@@ -8,7 +8,15 @@
     <Lineal::Axis @scale={{scale}} @orientation='bottom' />
   </svg>
   <svg class='no-overflow' width='800' height='30'>
-    <Lineal::Axis @scale={{scale}} @orientation='top' />
+    <Lineal::Axis @scale={{scale}} @orientation='top' as |tick|>
+      <text
+        fill='red'
+        y={{tick.offset}}
+        text-anchor={{tick.textAnchor}}
+      >{{tick.label}}</text>
+      <text x='15' y={{-20}} transform='rotate(-45)'>Fish!</text>
+      <circle r='3'></circle>
+    </Lineal::Axis>
   </svg>
   <svg class='no-overflow' width='100' height='300'>
     <Lineal::Axis @scale={{scale}} @orientation='left' />
