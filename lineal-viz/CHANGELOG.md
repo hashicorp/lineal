@@ -1,5 +1,13 @@
 # @lineal-viz/lineal
 
+## 0.2.0
+
+### Minor Changes
+
+- e1c39b4: Keyboard events for interactor-cartesian-horizontal
+- 94a0aab: Introduce the `interactor-cartesian-horizontal` interactor
+- 87d8957: Add a block form for Axis that gives total control of tick customization
+
 ## 0.1.1
 
 ### Patch Changes
