@@ -23,6 +23,16 @@ interface ActiveData {
   data: ActiveDatum[];
 }
 
+enum NavKey {
+  ESC = 'Escape',
+  Enter = 'Enter',
+  Space = ' ',
+  Left = 'ArrowLeft',
+  Right = 'ArrowRight',
+}
+
+const NAV_KEYS = Object.values(NavKey);
+
 export default modifier(
   (
     element: HTMLElement,
@@ -34,7 +44,8 @@ export default modifier(
     const yEncs = accessors.map((y) => new Encoding(y));
     const bis = bisector((d) => xEnc.accessor(d)).left;
 
-    let activeData = null;
+    let activeData: ActiveData | null = null;
+    let seekIndex: number = 0;
 
     function getDataAtPoint(pt: number): ActiveData | null {
       // Exit early when possible
@@ -87,15 +98,22 @@ export default modifier(
       };
     }
 
+    function setState(points: ActiveData | null) {
+      activeData = points;
+
+      const datum = points?.datum.datum;
+      seekIndex = data.indexOf(datum);
+    }
+
     function seek(ev: MouseEvent) {
       const points = getDataAtPoint(ev.offsetX);
-      activeData = points;
+      setState(points);
       onSeek?.(points);
     }
 
     function select(ev: MouseEvent) {
       const points = getDataAtPoint(ev.offsetX);
-      activeData = points;
+      setState(points);
       onSelect?.(points ? points.datum : null);
     }
 
@@ -105,20 +123,42 @@ export default modifier(
       onSelect?.(null);
     }
 
-    // function keyControls(ev: KeyboardEvent) {
-    //   console.log('key controls', ev);
-    // }
+    function keyControls(ev: KeyboardEvent) {
+      const key: NavKey = ev.key as NavKey;
+
+      if (NAV_KEYS.includes(key)) {
+        ev.preventDefault();
+      }
+
+      if (key === NavKey.Space || key === NavKey.Enter) {
+        onSelect?.(activeData ? activeData.datum : null);
+      } else if (key === NavKey.ESC) {
+        onSeek?.(null);
+        onSelect?.(null);
+      } else if (key === NavKey.Right) {
+        seekIndex = (seekIndex + 1) % data.length;
+      } else if (key === NavKey.Left) {
+        seekIndex--;
+        if (seekIndex < 0) seekIndex = data.length - 1;
+      }
+
+      if (key === NavKey.Right || key === NavKey.Left) {
+        const points = getDataAtPoint(xScale.compute(xEnc.accessor(data[seekIndex])));
+        setState(points);
+        onSeek?.(points);
+      }
+    }
 
     element.addEventListener('mousemove', seek);
     element.addEventListener('click', select);
     element.addEventListener('mouseleave', clear);
-    // element.addEventListener('keydown', keyControls);
+    element.addEventListener('keydown', keyControls);
 
     return () => {
       element.removeEventListener('mousemove', seek);
       element.removeEventListener('click', select);
       element.removeEventListener('mouseleave', clear);
-      // element.removeEventListener('keydown', keyControls);
+      element.removeEventListener('keydown', keyControls);
     };
   },
   { eager: false }

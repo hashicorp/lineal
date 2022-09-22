@@ -45,6 +45,15 @@
   overflow: visible;
 }
 
+.interactor:focus {
+  outline: none;
+}
+
+.interactor:focus-visible {
+  stroke: rgba(0, 0, 0, 0.2);
+  stroke-width: 4;
+}
+
 .interaction-overlay {
   pointer-events: none;
 }
