@@ -1,4 +1,4 @@
-import { module, test } from 'qunit';
+import { module, test, todo } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, findAll, TestContext, settled } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
@@ -301,4 +301,11 @@ module('Integration | Component | Lineal::Axis', function (hooks) {
 
     assert.dom('.domain').doesNotExist();
   });
+
+  todo(
+    'When using the block form, each tick is yielded within a translated g',
+    function () {
+      // Getting this patch out asap, will return
+    }
+  );
 });
