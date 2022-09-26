@@ -3,10 +3,10 @@
     <path class='domain' stroke='currentColor' d={{this.domainPath}}></path>
   {{/if}}
   {{#if (eq this.direction 'horizontal')}}
-    {{#each this.ticks as |tick|}}
+    {{#each this.ticks as |tick index|}}
       <g transform={{tick.transform}}>
         {{#if (has-block)}}
-          {{yield tick}}
+          {{yield tick index}}
         {{else}}
           <line stroke='currentColor' y2={{tick.size}}></line>
           {{#if tick.label}}
@@ -21,10 +21,10 @@
       </g>
     {{/each}}
   {{else}}
-    {{#each this.ticks as |tick|}}
+    {{#each this.ticks as |tick index|}}
       <g transform={{tick.transform}}>
         {{#if (has-block)}}
-          {{yield tick}}
+          {{yield tick index}}
         {{else}}
           <line stroke='currentColor' x2={{tick.size}}></line>
           {{#if tick.label}}
