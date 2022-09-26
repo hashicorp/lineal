@@ -1,5 +1,11 @@
 # @lineal-viz/lineal
 
+## 0.2.1
+
+### Patch Changes
+
+- 7c206da: Bug fixes: Yield the iteration index and the tick value from Lineal::Axis
+
 ## 0.2.0
 
 ### Minor Changes
