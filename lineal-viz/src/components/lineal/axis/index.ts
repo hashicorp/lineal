@@ -168,6 +168,7 @@ export default class Axis extends Component<AxisArgs> {
       textOffset: TEXT_OFFSET[orientation],
       label: format(v),
       textAnchor: TEXT_ANCHOR[orientation],
+      value: v,
     }));
   }
 }
