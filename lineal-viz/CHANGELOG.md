@@ -1,5 +1,11 @@
 # @lineal-viz/lineal
 
+## 0.2.2
+
+### Patch Changes
+
+- 98eda1d: Pass ResizeOberserverEntry object along through Lineal::Fluid
+
 ## 0.2.1
 
 ### Patch Changes
