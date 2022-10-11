@@ -410,7 +410,10 @@ Please ignore the part where the tooltip doesn't go away when you mouse out of t
                 />
               {{/if}}
               {{#if this.activeDatum}}
-                {{#let (xScale.compute this.activeDatum.x) (yScale.compute this.activeDatum.y) as |dx dy|}}
+                {{#let
+                  (xScale.compute this.activeDatum.x) (yScale.compute this.activeDatum.y)
+                  as |dx dy|
+                }}
                   <line class='guideline' x1='0' x2={{width}} y1={{dy}} y2={{dy}} />
                   <line class='guideline' y1='0' y2={{height}} x1={{dx}} x2={{dx}} />
                 {{/let}}
@@ -484,6 +487,39 @@ Please ignore the part where the tooltip doesn't go away when you mouse out of t
     {{/let}}
   </div>
 </div>
+```
+
+And here's the CSS that uses the computed `--x` and `--y` properties to translate the tooltip. There's also a lot more going on here, but the point is that all the styles get to live together.
+
+```css
+.chart-tooltip {
+  position: absolute;
+  transform-style: preserve-3d;
+  top: 25px;
+  left: 25px;
+  pointer-events: none;
+  background: var(--c-base-0);
+  padding: 1rem;
+  width: min-content;
+  transform: translate(
+      calc(1px * var(--x, 0)),
+      calc(-100% + 1px * var(--y, 0) - 1rem)
+    )
+    rotate(-30deg);
+  transform-origin: bottom left;
+  z-index: 100;
+
+  &::before {
+    content: ' ';
+    position: absolute;
+    bottom: -2px;
+    left: -2px;
+    width: 30px;
+    height: 30px;
+    background: black;
+    transform: translateZ(-1px);
+  }
+}
 ```
 
 ## Accessibility
