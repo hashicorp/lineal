@@ -217,12 +217,280 @@ This interactors adds `mousemove`, `click`, and `mouseleave` events and exposes 
 
 Since this is a modifier, simply adding it somewhere isn't going to result in what we expect. Even though the batteries aren't included, the wiring is.
 
-Let's update the previous example to use an interactor.
+Let's update the previous example to use an interactor. First, the diff:
 
-## Real application of the horizontal cartesian interactor
+```diff
+  {{#if (and xScale.isValid yScale.isValid)}}
+    {{#each data as |d|}}
+      <circle
+-       class='point'
++       class='point {{if (eq d this.activeDatum) 'active'}}'
+        cx={{xScale.compute d.x}}
+        cy={{yScale.compute d.y}}
+        r='5'
+-       {{on 'mouseover' (fn (mut this.activeDatum) d)}}
+-       {{on 'mouseout' (fn (mut this.activeDatum) null)}}
+      />
+    {{/each}}
++   <rect
++     tabindex='0'
++     fill='transparent'
++     x='0' y='0' width={{width}} height={{height}}
++     {{interactor-cartesian-horizontal
++       data=data
++       xScale=xScale
++       x='x'
++       y='y'
++       onSeek=(pick 'datum.datum' (fn (mut this.activeDatum)))
++     }}
++   />
+  {{/if}}
+```
 
--Making the tooltip
--Positioning the tooltip with css vars
+```hbs preview-template
+<div class='flex'>
+  <div class='min-col'>
+    {{#let (generate-sine 51) as |data|}}
+      <div class='demo-two-fluid-chart'>
+        <Lineal::Fluid class='demo-two-fluid-chart__plot' as |width height|>
+          <svg class='demo-two-line-chart demo-two-fluid-chart__svg'>
+            <title>A sine wave with an increasing magnitude</title>
+            <desc>
+              A sine wave with the function f(x) = sin(x) * x/5 plotted with x values
+              ranging from 0 to 50.
+            </desc>
+            {{#let
+              (scale-linear range=(array 0 width))
+              (scale-linear range=(array height 0))
+              as |xScale yScale|
+            }}
+              {{#if (and xScale.isValid yScale.isValid)}}
+                <Lineal::Gridlines
+                  @scale={{yScale}}
+                  @direction='horizontal'
+                  @length={{width}}
+                />
+                <Lineal::Gridlines
+                  @scale={{xScale}}
+                  @direction='vertical'
+                  @length={{height}}
+                  @lineValues={{array 5 11 17 23.5 30 36 42 48.5}}
+                />
+                <Lineal::Axis
+                  @scale={{yScale}}
+                  @orientation='left'
+                  aria-hidden='true'
+                />
+                <Lineal::Axis
+                  @scale={{xScale}}
+                  @orientation='bottom'
+                  @tickValues={{array 2 8 14 20.5 27 33 39 45.5 50}}
+                  transform='translate(0,{{yScale.compute 0}})'
+                  aria-hidden='true'
+                />
+              {{/if}}
+              <Lineal::Line
+                @data={{data}}
+                @xScale={{xScale}}
+                @yScale={{yScale}}
+                @x='x'
+                @y='y'
+                @curve='natural'
+                class='line'
+              />
+              {{#if (and xScale.isValid yScale.isValid)}}
+                {{#each data as |d|}}
+                  <circle
+                    class='point {{if (eq d this.activeDatum) 'active'}}'
+                    cx={{xScale.compute d.x}}
+                    cy={{yScale.compute d.y}}
+                    r='5'
+                  />
+                {{/each}}
+                <rect
+                  class='interactor-overlay'
+                  tabindex='0'
+                  fill='transparent'
+                  x='0' y='0' width={{width}} height={{height}}
+                  {{interactor-cartesian-horizontal
+                    data=data
+                    xScale=xScale
+                    x='x'
+                    y='y'
+                    onSeek=(pick 'datum.datum' (fn (mut this.activeDatum)))
+                  }}
+                />
+              {{/if}}
+            {{/let}}
+          </svg>
+        </Lineal::Fluid>
+      </div>
+
+      <details>
+        <summary>Plotted sine curve dataset</summary>
+        <table>
+          <thead>
+            <tr>
+              <th>x</th>
+              <th>sin(x) * x/5</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each data as |row|}}
+              <tr>
+                <td>{{row.x}}</td>
+                <td>{{row.y}}</td>
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      </details>
+    {{/let}}
+  </div>
+
+  <div class='sidebar'>
+    <h4>Active Datum</h4>
+    {{#if this.activeDatum}}
+      <dl>
+        <dt>x:</dt>
+        <dd>{{this.activeDatum.x}}</dd>
+        <dt>y:</dt>
+        <dd>{{this.activeDatum.y}}</dd>
+      </dl>
+    {{else}}
+      <em>Nothing selected.</em>
+    {{/if}}
+  </div>
+</div>
+```
+
+## What about tooltips tho?
+
+I'd be remiss to mention how to add interactivity without talking about tooltips. Sure, I said batteries aren't included, but this is such a comon pattern that it ought to be discussed.
+
+Here's one way to make a tooltip using the existing scales, [ember-style-modifier](https://github.com/jelhan/ember-style-modifier), and CSS vars.
+
+Please ignore the part where the tooltip doesn't go away when you mouse out of the interactor `rect`. There's a runtime error from abusing `pick` in this way and it's not worth trying to workaround. 
+
+```hbs preview-template
+<div class='flex'>
+  <div class='min-col'>
+    {{#let (generate-sine 51) as |data|}}
+      <div class='demo-two-fluid-chart'>
+        <Lineal::Fluid class='demo-two-fluid-chart__plot' as |width height|>
+          {{#let
+            (scale-linear range=(array 0 width))
+            (scale-linear range=(array height 0))
+            as |xScale yScale|
+          }}
+            <svg class='demo-two-line-chart demo-two-fluid-chart__svg'>
+              <title>A sine wave with an increasing magnitude</title>
+              <desc>
+                A sine wave with the function f(x) = sin(x) * x/5 plotted with x values
+                ranging from 0 to 50.
+              </desc>
+              {{#if (and xScale.isValid yScale.isValid)}}
+                <Lineal::Gridlines
+                  @scale={{yScale}}
+                  @direction='horizontal'
+                  @length={{width}}
+                />
+                <Lineal::Gridlines
+                  @scale={{xScale}}
+                  @direction='vertical'
+                  @length={{height}}
+                  @lineValues={{array 5 11 17 23.5 30 36 42 48.5}}
+                />
+                <Lineal::Axis
+                  @scale={{yScale}}
+                  @orientation='left'
+                  aria-hidden='true'
+                />
+                <Lineal::Axis
+                  @scale={{xScale}}
+                  @orientation='bottom'
+                  @tickValues={{array 2 8 14 20.5 27 33 39 45.5 50}}
+                  transform='translate(0,{{yScale.compute 0}})'
+                  aria-hidden='true'
+                />
+              {{/if}}
+              <Lineal::Line
+                @data={{data}}
+                @xScale={{xScale}}
+                @yScale={{yScale}}
+                @x='x'
+                @y='y'
+                @curve='natural'
+                class='line'
+              />
+              {{#if (and xScale.isValid yScale.isValid)}}
+                {{#each data as |d|}}
+                  <circle
+                    class='point {{if (eq d this.activeDatum) 'active'}}'
+                    cx={{xScale.compute d.x}}
+                    cy={{yScale.compute d.y}}
+                    r='5'
+                  />
+                {{/each}}
+                <rect
+                  class='interactor-overlay'
+                  tabindex='0'
+                  fill='transparent'
+                  x='0' y='0' width={{width}} height={{height}}
+                  {{interactor-cartesian-horizontal
+                    data=data
+                    xScale=xScale
+                    x='x'
+                    y='y'
+                    onSeek=(pick 'datum.datum' (fn (mut this.activeDatum)))
+                  }}
+                />
+              {{/if}}
+            </svg>
+            {{#if this.activeDatum}}
+              <div
+                class='chart-tooltip'
+                {{style
+                  --x=(str (xScale.compute this.activeDatum.x))
+                  --y=(str (yScale.compute this.activeDatum.y))
+                }}
+              >
+                <h4>Active Datum</h4>
+                <dl>
+                  <dt>x:</dt>
+                  <dd>{{this.activeDatum.x}}</dd>
+                  <dt>y:</dt>
+                  <dd>{{this.activeDatum.y}}</dd>
+                </dl>
+              </div>
+            {{/if}}
+          {{/let}}
+        </Lineal::Fluid>
+      </div>
+
+      <details>
+        <summary>Plotted sine curve dataset</summary>
+        <table>
+          <thead>
+            <tr>
+              <th>x</th>
+              <th>sin(x) * x/5</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each data as |row|}}
+              <tr>
+                <td>{{row.x}}</td>
+                <td>{{row.y}}</td>
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      </details>
+    {{/let}}
+  </div>
+</div>
+```
 
 ## Accessibility
 
