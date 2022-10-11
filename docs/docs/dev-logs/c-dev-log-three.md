@@ -10,11 +10,6 @@ The feature that shipped is the `interactor-cartesian-horizontal` modifier, but 
 
 ## The Basics
 
--Talk about binding events and the `on` modifier-
--Mention how Lineal wants to be in this business as little as possible-
--Highlight how "just events" means we can control other parts of the page in idiomatic ways-
--Hammer home that this is the whole goal of Lineal: to make data viz feel like "just ember"
-
 If you open up the latest Ember guide on events, you'll see the `on` modifier. Something like
 
 ```hbs preview-template
