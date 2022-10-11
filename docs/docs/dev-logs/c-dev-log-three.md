@@ -79,7 +79,7 @@ So extending this (with a smattering of splattributes) we can do things like thi
 </svg>
 ```
 
-And for the most part this is it and also the dream. Lineal doesn't want to be in the business of having interactivity solutions because Ember already has those. Lineal wants to facilitate in the creation of template-first ember-idiomatic data visualizations. So when possible, this is what interactivity should look like.
+And for the most part this is it, and it's ideal. Lineal doesn't want to be in the business of having interactivity solutions because Ember already has those. Lineal wants to facilitate in the creation of template-first ember-idiomatic data visualizations. So when possible, this is what interactivity should look like.
 
 However, sometimes things are more complicated than this. Sometimes interactivity in data viz is decoupled from the DOM for performance, usability, or utilitarian reasons.
 
@@ -414,6 +414,12 @@ Please ignore the part where the tooltip doesn't go away when you mouse out of t
                   aria-hidden='true'
                 />
               {{/if}}
+              {{#if this.activeDatum}}
+                {{#let (xScale.compute this.activeDatum.x) (yScale.compute this.activeDatum.y) as |dx dy|}}
+                  <line class='guideline' x1='0' x2={{width}} y1={{dy}} y2={{dy}} />
+                  <line class='guideline' y1='0' y2={{height}} x1={{dx}} x2={{dx}} />
+                {{/let}}
+              {{/if}}
               <Lineal::Line
                 @data={{data}}
                 @xScale={{xScale}}
@@ -424,14 +430,6 @@ Please ignore the part where the tooltip doesn't go away when you mouse out of t
                 class='line'
               />
               {{#if (and xScale.isValid yScale.isValid)}}
-                {{#each data as |d|}}
-                  <circle
-                    class='point {{if (eq d this.activeDatum) 'active'}}'
-                    cx={{xScale.compute d.x}}
-                    cy={{yScale.compute d.y}}
-                    r='5'
-                  />
-                {{/each}}
                 <rect
                   class='interactor-overlay'
                   tabindex='0'

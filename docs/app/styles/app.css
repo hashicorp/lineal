@@ -450,3 +450,9 @@ dl {
     margin: 0;
   }
 }
+
+.guideline {
+  stroke-width: 2px;
+  stroke: var(--c-line);
+  opacity: 0.5;
+}
