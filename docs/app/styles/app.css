@@ -431,7 +431,7 @@ dl {
       calc(1px * var(--x, 0)),
       calc(-100% + 1px * var(--y, 0) - 1rem)
     )
-    rotate(-45deg);
+    rotate(-30deg);
   transform-origin: bottom left;
   z-index: 100;
 
