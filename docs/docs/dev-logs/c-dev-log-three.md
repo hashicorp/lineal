@@ -450,6 +450,7 @@ Please ignore the part where the tooltip doesn't go away when you mouse out of t
             {{#if this.activeDatum}}
               <div
                 class='chart-tooltip'
+                role='status'
                 {{style
                   --x=(str (xScale.compute this.activeDatum.x))
                   --y=(str (yScale.compute this.activeDatum.y))
@@ -494,32 +495,56 @@ Please ignore the part where the tooltip doesn't go away when you mouse out of t
 
 ## Accessibility
 
--We're off the beaten path, we shouldn't expect a11y to come for free
--Try using an above chart with keyboard arrow keys
--Interactors are an opportunity to also encapsulate some a11y best practices and conventions
--But that's not everything. We still need to get screen reader support
+One of the many magics of the web platform is how we get for free due to rich ecosystem of tools and subsystems that are built on the declarative DOM, including the accessibility tree. For the small price of writing semantic markup we get keyboard support, narration, structure-based navigation, and so much more.
+
+But we're off the beaten path at this point.
+
+If we need a custom modifier to give us fancy mouse events, we can't expect to then get a11y conformance for free. Well, we actually can expect to get _some_ conformance for free because some of it is a matter of implementing _more_ events.
+
+Have you tried using a keyboard on the above chart? `interactor-cartesian-horizontal` will also add a listener to `keydown` for reasonable keyboard support. Left and right arrows for seeking, space/enter for selection, and esc for clearing a selection.
+
+This is done in a non-intrusive opt-in way, which is to say you need to add `tabindex='0'` yourself to the element the modifier is on to enable keyboard events. The modifier could do this on its own, but it seemed inappropriate to force this on consumers. Let me know if you disagree.
+
+Keyboard support is great, but it is only one aspect of a11y. If we want to suport screen readers we'll need to get the tooltip to be narrated when seeking. Since the interactor doesn't know or care if you are using it to make a tooltip, this behavior doesn't come for me.
+
+Fortunately ARIA was designed during the peak of the interactive web and has goodies for us, but I'll warn you now we're dealing with power tools. 
+
+ARIA live regions are a way to declare content as important enough to _interrupt current user behavior and be narrated when the content changes_. If this sounds scary it is. Again, power tools. In our case, we will only be changing content as a result of user behavior, so this cause and effect loop means there is no interrupting the user while they perform another task.
+
+To further drive home how important it is that this tool be used wisely, we won't even use a live region directly. Instead we'll use `role='status'` which is a semantic shorthand for what amounts to `aria-live='polite'`. It shouldn't need to be said, but I'll say it anyway: don't use `role='status'` on elements that aren't communicating status.
+
+This too is already in the above example. Honestly, compared to the 100+ lines in the interactor modifier, getting screen reader support in one line is pretty dreamy.
 
 ## Embracing Pluralism
 
--A11y helps remind us that not everyone is interacting with what we build in the same way
--This is true because every person is different, but it's also true because hardware is different.
--There has been a lot of tooltip talk, but "hover" and "mousemove" aren't good mobile experiences.
--This is compounded if we design tooltips that are themselves loaded with links or an abundance of info.
--Lineal dodges this problem by not giving you tooltips, but it's top of mind while designing these abstractions
+Accessibility helps remind us that not everyone is interacting with what we build in the same way. This is true because every person is different, but it's also true because hardware is different. There has been a lot of tooltip talk in the second half of this post, but we shouldn't forget that "hover" and "mousemove" are hardware concepts intrinsic to pointer devices.
 
-- There will be more interactors
-- There will likely be multiple keyboard traversal strategies
+Mobile browsers will abide by these events, diligently transposing a touch to a pointer, but the experience lacks. First, touches are blobs with centroids while cursors are pixel perfect. But even if a finger could be used with the precision of a mouse, your fleshy form is still obscuring the screen.
 
-## M1 is almost complete!
+This is compounded if we design tooltips that are themselves loaded with links or an abundance if info. Suddenly we have made an interface with a difficulty curve akin to a video game.
+
+Lineal dodges this problem by not having tooltips, but it's always top of mind while designing these abstractions. Frankly, it seems more than likely that Lineal will eventually have a tooltip component if not only to provide an exemplar to all the engineers who want to implement their own for their own organizations with their own brand's details.
+
+There will also be more interactors as well as keyboard traversal strategies for more complex charts like dense scatterplots, or more prescriptive charts like stacked bars.
+
+# Administration & Announcements
+
+Milestone 1 is almost complete! There are a couple more marks and maybe some rough edges to work on, but I'm quite happy with the progress.
+
+More excitingly, Lineal now has two consumers!! A Consul team and a Vault team are both using Lineal to create donuts and line charts respectively.
 
 ## Where things have been bad
 
-- Bounds class
-- Fluid and resize observer
-- Brutal tooling thing
+Reading these dev logs might sound like success story after success story, but that's because detailing all the time spent pacing and deleting code just to rewrite five minutes later isn't very interesting.
 
-## What's next
+Here's a few things that sound out as misses though:
 
-- Finish M1
-- Patterns
-- Too many arguments? Me too, foreshadow
+1. **Bounds class:** This thing is proving to be goofy. I still like the idea of it, but the interaction between tracked properties and the qualify method means that a scale cannot be constructed and qualified in the same render pass. This is not at all ergonomic feeling when making custom scales in JS.
+2. **Fluid and resize observer:** I cut a patch release to provide the full resize observer entry from the `Lineal::Fluid` component. Dunno why I didn't include it originally. I think a principle going forward will be to never withold information from consumers. Oh also the native resize observer of course isn't runloop aware so I need to think through a better testing strategy here.
+3. **Embroider macros and `@cached`:** This one is just a lot. It's not my wheelhouse, so peep the issue that started it all and applaud the community for taking care of things. [ember-auto-import#536](https://github.com/ef4/ember-auto-import/issues/536).
+
+## Next steps
+
+- Finish milestone 1
+- Start working on pattern support (this unblocks Nomad refactors)
+- Were you reading through these code snippets thinking "wow, there's some reptition in these arguments"? Yeah, that's foreshadow.
