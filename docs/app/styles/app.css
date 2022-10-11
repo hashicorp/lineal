@@ -319,6 +319,14 @@ pre code.hljs {
     fill: none;
   }
 
+  .point {
+    fill: var(--c-red-line);
+
+    &:hover {
+      fill: var(--c-blue-line);
+    }
+  }
+
   .axis {
     fill: none;
 
@@ -383,4 +391,17 @@ pre code.hljs {
   100% {
     width: 250px;
   }
+}
+
+dl {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  dt {
+    font-weight: bold;
+  }
+}
+
+.sidebar {
+  width: 250px;
 }
