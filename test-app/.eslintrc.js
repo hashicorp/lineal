@@ -19,7 +19,9 @@ module.exports = {
   env: {
     browser: true,
   },
-  rules: {},
+  rules: {
+    'ember/no-test-import-export': false,
+  },
   overrides: [
     // ts files
     {

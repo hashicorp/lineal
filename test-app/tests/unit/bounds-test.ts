@@ -1,11 +1,6 @@
 import { module, test } from 'qunit';
 import Bounds from '@lineal-viz/lineal/bounds';
-
-interface TableTest {
-  name: string;
-  input: any;
-  output?: any;
-}
+import tableTest from '../utils/table-test';
 
 module('Unit | Bounds', function () {
   const TEST_DATA = [
@@ -108,7 +103,7 @@ module('Unit | Bounds', function () {
 });
 
 module('Unit | Bounds.parse', function () {
-  tableTest(
+  tableTest<string | number[], Bounds<number>>(
     [
       {
         name: '".." has no min or max',
@@ -164,21 +159,8 @@ module('Unit | Bounds.parse', function () {
           { min: t.output.min, max: t.output.max }
         );
       } else {
-        assert.strictEqual(Bounds.parse(t.input), t.input);
+        assert.strictEqual(Bounds.parse(t.input), t.input as number[]);
       }
     }
   );
 });
-
-function tableTest(
-  input: TableTest[],
-  count: number,
-  fn: (t: TableTest, assert: Assert) => void
-) {
-  for (const t of input) {
-    test(t.name, function (assert) {
-      assert.expect(count);
-      fn(t, assert);
-    });
-  }
-}
