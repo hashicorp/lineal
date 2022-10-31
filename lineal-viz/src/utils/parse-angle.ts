@@ -2,7 +2,7 @@
 export default function parseAngle(angle: number | string): number {
   if (typeof angle === 'number') return angle;
 
-  const PATTERN = /(\d+)d$/;
+  const PATTERN = /^(-?\d+\.?\d*)d$/;
 
   if (!PATTERN.test(angle)) {
     throw new Error(
@@ -10,6 +10,6 @@ export default function parseAngle(angle: number | string): number {
     );
   }
 
-  const degrees = parseInt(angle.match(PATTERN)?.[1] ?? '0', 10);
+  const degrees = parseFloat(angle.match(PATTERN)?.[1] ?? '0');
   return (degrees * Math.PI) / 180;
 }
