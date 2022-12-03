@@ -57,3 +57,11 @@
 .interaction-overlay {
   pointer-events: none;
 }
+
+#ember-testing .test-svg {
+  overflow: visible;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
