@@ -315,7 +315,11 @@ module('Integration | Component | Lineal::Axis', function (hooks) {
 
     await render(hbs`
       <svg>
-        <Lineal::Axis @scale={{this.scale}} @orientation="bottom" as |tick index|>
+        <Lineal::Axis
+          @scale={{this.scale}}
+          @orientation="bottom"
+          @offset={{0}}
+        as |tick index|>
           <text>{{index}}</text>
           {{this.spy tick}}
         </Lineal::Axis>
