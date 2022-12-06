@@ -340,7 +340,7 @@ module('Integration | Component | Lineal::Axis', function (hooks) {
     );
 
     // assert tick objects
-    for (let t of spy.getCalls()) {
+    for (const t of spy.getCalls()) {
       const tick = t.args[0] as Tick;
       assert.hasProperties(tick, [
         'transform',

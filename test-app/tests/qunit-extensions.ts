@@ -1,11 +1,19 @@
 declare global {
   interface Assert {
-    hasProperties(obj: Object, props: string[], message?: string): void;
-    lacksProperties(obj: Object, props: string[], message?: string): void;
+    hasProperties(
+      obj: Record<string, unknown>,
+      props: string[],
+      message?: string
+    ): void;
+    lacksProperties(
+      obj: Record<string, unknown>,
+      props: string[],
+      message?: string
+    ): void;
   }
 }
 
-const without = (arr: string[], subset: string[]): string[] => {
+const without = (arr: Set<string> | string[], subset: string[]): string[] => {
   const asSet = new Set(arr);
   subset.forEach((str) => asSet.delete(str));
   return Array.from(asSet);
@@ -14,12 +22,13 @@ const without = (arr: string[], subset: string[]): string[] => {
 export default function extend(assert: Assert) {
   assert.hasProperties = function (
     this: Assert,
-    obj: Object,
+    obj: Record<string, unknown>,
     props: string[],
     message?: string
   ) {
-    const missingProps = props.filter((val) => !obj.hasOwnProperty(val));
-    const existingProps = props.filter((val) => obj.hasOwnProperty(val));
+    const keys = new Set(Object.keys(obj));
+    const missingProps = props.filter((val) => !keys.has(val));
+    const existingProps = props.filter((val) => keys.has(val));
 
     const result = missingProps.length === 0;
     this.pushResult({
@@ -34,12 +43,12 @@ export default function extend(assert: Assert) {
 
   assert.lacksProperties = function (
     this: Assert,
-    obj: Object,
+    obj: Record<string, unknown>,
     props: string[],
     message?: string
   ) {
-    const unexpectedProps = props.filter((val) => obj.hasOwnProperty(val));
-    const keys = Object.keys(obj);
+    const keys = new Set(Object.keys(obj));
+    const unexpectedProps = props.filter((val) => keys.has(val));
 
     const result = unexpectedProps.length === 0;
     this.pushResult({

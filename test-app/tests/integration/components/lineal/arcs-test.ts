@@ -44,7 +44,7 @@ module('Integration | Component | Lineal::Arcs', function (hooks) {
       .value((d: any) => d.value)
       .sortValues(null);
 
-    // @ts-ignore
+    // @ts-expect-error Argument of type
     const arcs = pieGenerator(data);
     // These defaults come from Lineal::Arc
     const arcGenerator = arc().innerRadius(0).outerRadius(100);
@@ -53,7 +53,7 @@ module('Integration | Component | Lineal::Arcs', function (hooks) {
       assert.dom(slice).hasAttribute('fill', colors[index] || '');
 
       const arcData = arcs[index];
-      // @ts-ignore -- This works and is normal d3 code, type definitions are just lacking
+      // @ts-expect-error Argument of type
       assert.dom(slice).hasAttribute('d', arcGenerator(arcData));
     });
   });
@@ -81,14 +81,13 @@ module('Integration | Component | Lineal::Arcs', function (hooks) {
       .value((d: any) => d)
       .sortValues(null);
 
-    // @ts-ignore
     const arcs = pieGenerator([5, 10, 7.5, 10]);
     // These defaults come from Lineal::Arc
     const arcGenerator = arc().innerRadius(0).outerRadius(100);
 
     paths.forEach((slice, index) => {
       const arcData = arcs[index];
-      // @ts-ignore -- This works and is normal d3 code, type definitions are just lacking
+      // @ts-expect-error Argument of type
       assert.dom(slice).hasAttribute('d', arcGenerator(arcData));
     });
   });
@@ -108,13 +107,6 @@ module('Integration | Component | Lineal::Arcs', function (hooks) {
 
     const paths = findAll('path');
     assert.strictEqual(paths.length, data.length);
-
-    const pieGenerator = pie()
-      .startAngle(0)
-      .endAngle(Math.PI * 2)
-      .padAngle(0)
-      .value((d: any) => d.value)
-      .sortValues(null);
 
     paths.forEach((slice, index) => {
       assert.dom(slice).hasClass('reds');
@@ -148,7 +140,7 @@ module('Integration | Component | Lineal::Arcs', function (hooks) {
 
     assert.strictEqual(spy.callCount, data.length);
 
-    for (let t of spy.getCalls()) {
+    for (const t of spy.getCalls()) {
       const arc = t.args[0] as ArcDatum;
       assert.hasProperties(arc, [
         'fill',
@@ -184,7 +176,7 @@ module('Integration | Component | Lineal::Arcs', function (hooks) {
 
     assert.strictEqual(spy.callCount, data.length);
 
-    for (let t of spy.getCalls()) {
+    for (const t of spy.getCalls()) {
       const arc = t.args[0] as ArcDatum;
       assert.lacksProperties(arc, ['fill']);
     }

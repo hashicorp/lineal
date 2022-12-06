@@ -35,7 +35,7 @@ interface AxisArgs {
   includeDomain?: boolean;
 }
 
-export interface Tick {
+export type Tick = {
   transform: String;
   size: number;
   offset: number;
@@ -43,7 +43,7 @@ export interface Tick {
   label: string;
   textAnchor: string;
   value: any;
-}
+};
 
 const DEFAULT_OFFSET = typeof window !== 'undefined' && window.devicePixelRatio > 1 ? 0 : 0.5;
 const TEXT_OFFSET = {

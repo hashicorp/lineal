@@ -16,10 +16,11 @@ interface ArcsArgs {
   padAngle?: number;
 }
 
-export interface ArcDatum extends PieArcDatum<Number> {
+export type ArcDatum = {
+  [key: string]: unknown; // Thank you TS for this gem!!
   fill?: string;
   cssClass?: string;
-}
+} & PieArcDatum<Number>;
 
 export default class Arcs extends Component<ArcsArgs> {
   @cached get theta() {

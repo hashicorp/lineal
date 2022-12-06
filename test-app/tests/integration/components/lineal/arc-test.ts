@@ -21,7 +21,7 @@ module('Integration | Component | Lineal::Arc', function (hooks) {
       .startAngle(0)
       .endAngle(Math.PI * 2);
 
-    // @ts-ignore
+    // @ts-expect-error Expected at least 1 argument
     assert.dom('path').hasAttribute('d', arcGenerator());
   });
 
@@ -49,7 +49,7 @@ module('Integration | Component | Lineal::Arc', function (hooks) {
       .endAngle((Math.PI * 3) / 4)
       .padAngle(Math.PI / 10);
 
-    // @ts-ignore
+    // @ts-expect-error Expected at least 1 argument
     assert.dom('path').hasAttribute('d', arcGenerator());
   });
 
@@ -71,7 +71,7 @@ module('Integration | Component | Lineal::Arc', function (hooks) {
       .startAngle(0)
       .endAngle(Math.PI * 2);
 
-    // @ts-ignore
+    // @ts-expect-error Expected at least 1 argument
     const [x, y] = arcGenerator.centroid();
     assert.deepEqual(spy.getCall(0).args[0], { x, y });
   });
