@@ -20,7 +20,10 @@ const DEFAULT_OFFSET = typeof window !== 'undefined' && window.devicePixelRatio 
 
 export default class Gridlines extends Component<GridlinesArgs> {
   @tracked lineValues = this.args.lineValues || null;
-  @tracked offset = this.args.offset || DEFAULT_OFFSET;
+
+  @cached get offset() {
+    return this.args.offset ?? DEFAULT_OFFSET;
+  }
 
   @cached get values() {
     if (this.lineValues) return this.lineValues;

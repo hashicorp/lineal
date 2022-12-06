@@ -1,8 +1,10 @@
-import { module, test, todo } from 'qunit';
+import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, findAll, TestContext, settled } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
-import { Scale, ScaleLinear } from '@lineal-viz/lineal/scale';
+import * as sinon from 'sinon';
+import { Scale, ScaleLinear, ScalePow } from '@lineal-viz/lineal/scale';
+import { Tick } from '@lineal-viz/lineal/components/lineal/axis/index';
 
 function orientationTest(
   orientation: string,
@@ -26,7 +28,7 @@ function orientationTest(
 
     assert.deepEqual(
       findAll('.axis g').map((el) => el.getAttribute('transform')),
-      scale.d3Scale.ticks().map((t) => translateFn(scale, t))
+      scale.d3Scale.ticks().map((t: any) => translateFn(scale, t))
     );
 
     assert.deepEqual(
@@ -302,10 +304,57 @@ module('Integration | Component | Lineal::Axis', function (hooks) {
     assert.dom('.domain').doesNotExist();
   });
 
-  todo(
-    'When using the block form, each tick is yielded within a translated g',
-    function () {
-      // Getting this patch out asap, will return
+  test('When using the block form, each tick is yielded within a translated g', async function (assert) {
+    const spy = sinon.spy();
+    const scale = new ScalePow({
+      range: '0..100',
+      domain: '1..10',
+      exponent: 2,
+    });
+    this.setProperties({ scale, spy });
+
+    await render(hbs`
+      <svg>
+        <Lineal::Axis
+          @scale={{this.scale}}
+          @orientation="bottom"
+          @offset={{0}}
+        as |tick index|>
+          <text>{{index}}</text>
+          {{this.spy tick}}
+        </Lineal::Axis>
+      </svg>
+    `);
+
+    // assert g elements and their translates
+    assert.deepEqual(
+      findAll('.axis g').map((el) => el.getAttribute('transform')),
+      scale.d3Scale.ticks().map((t) => `translate(${scale.compute(t)},0)`)
+    );
+
+    // assert rendering
+    assert.deepEqual(
+      findAll('.axis g text')
+        .map((el) => el.textContent)
+        .join(' '),
+      scale.d3Scale
+        .ticks()
+        .map((_, i) => i)
+        .join(' ')
+    );
+
+    // assert tick objects
+    for (const t of spy.getCalls()) {
+      const tick = t.args[0] as Tick;
+      assert.hasProperties(tick, [
+        'transform',
+        'size',
+        'offset',
+        'textOffset',
+        'label',
+        'textAnchor',
+        'value',
+      ]);
     }
-  );
+  });
 });

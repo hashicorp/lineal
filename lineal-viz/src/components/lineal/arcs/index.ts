@@ -1,6 +1,6 @@
 import Component from '@glimmer/component';
 import { cached } from '../../../cached';
-import { pie } from 'd3-shape';
+import { pie, PieArcDatum } from 'd3-shape';
 import { Scale, ScaleOrdinal } from '../../../scale';
 import { Accessor, Encoding } from '../../../encoding';
 import CSSRange from '../../../css-range';
@@ -15,6 +15,12 @@ interface ArcsArgs {
   endAngle?: number;
   padAngle?: number;
 }
+
+export type ArcDatum = {
+  [key: string]: unknown; // Thank you TS for this gem!!
+  fill?: string;
+  cssClass?: string;
+} & PieArcDatum<Number>;
 
 export default class Arcs extends Component<ArcsArgs> {
   @cached get theta() {
@@ -63,7 +69,7 @@ export default class Arcs extends Component<ArcsArgs> {
       .sortValues(null);
 
     // Initial dataset
-    const arcsData = generator(this.args.data);
+    const arcsData = generator(this.args.data) as ArcDatum[];
 
     // Augment with color classes or fills
     arcsData.forEach((d: any, index: number) => {

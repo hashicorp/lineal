@@ -35,6 +35,16 @@ interface AxisArgs {
   includeDomain?: boolean;
 }
 
+export type Tick = {
+  transform: String;
+  size: number;
+  offset: number;
+  textOffset: String;
+  label: string;
+  textAnchor: string;
+  value: any;
+};
+
 const DEFAULT_OFFSET = typeof window !== 'undefined' && window.devicePixelRatio > 1 ? 0 : 0.5;
 const TEXT_OFFSET = {
   [OrientationInt.Top]: '0em',
@@ -132,20 +142,12 @@ export default class Axis extends Component<AxisArgs> {
   }
 
   @cached get values() {
-    // 1. If tickValues, return tickValues
-    // 2. If tickArguments, return scale.ticks.apply(scale, tickArguments) (can we do better than this?)
-    // 3. If scale.ticks, return scale.ticks()
-    // 4. Return scale.domain()
     if (this.tickValues) return this.tickValues;
     if (this.args.scale.d3Scale.ticks) return this.args.scale.d3Scale.ticks();
     return this.args.scale.d3Scale.domain();
   }
 
   @cached get format() {
-    // 1. If tickFormat, return tickFormat
-    // 2. If tickArguments, return scale.tickFormat.apply(scale, tickArguments)
-    // 3. If scale.tickFormat, return scale.tickFormat()
-    // 4. Return identity function x => x
     if (this.tickFormat) return this.tickFormat;
     if (this.args.scale.d3Scale.tickFormat) return this.args.scale.d3Scale.tickFormat();
     return (x: any) => x;
@@ -155,7 +157,7 @@ export default class Axis extends Component<AxisArgs> {
     return Math.max(this.tickSizeInner, 0) + this.tickPadding;
   }
 
-  @cached get ticks() {
+  @cached get ticks(): Tick[] {
     const { k, format, spacing, tickSizeInner, offset, position, direction, orientation } = this;
 
     return this.values.map((v: any) => ({
