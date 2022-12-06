@@ -59,7 +59,7 @@ export interface QuantileScaleConfig {
 }
 
 export interface OrdinalScaleConfig {
-  domain: string[];
+  domain?: string[];
   range: CSSRange | string[];
 }
 
@@ -353,7 +353,7 @@ export class ScaleOrdinal implements Scale {
   isValid = true;
 
   constructor({ domain, range }: OrdinalScaleConfig) {
-    this.domain = domain;
+    this.domain = domain || [];
     this.range = range;
   }
 
