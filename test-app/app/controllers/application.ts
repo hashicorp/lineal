@@ -2,6 +2,9 @@ import Controller from '@ember/controller';
 import { tracked, cached } from '@glimmer/tracking';
 import { action } from '@ember/object';
 
+const rand = (min: number, max: number): number =>
+  Math.random() * (max - min) + min;
+
 export default class ApplicationController extends Controller {
   @tracked activeDatum = null;
 
@@ -38,6 +41,37 @@ export default class ApplicationController extends Controller {
 
   get sineFiltered() {
     return this.sine.filter((d) => d.y != undefined);
+  }
+
+  get frequencyByDay() {
+    return [
+      { dayN: 0, day: 'Monday', hour: 9, value: rand(1, 20) },
+      { dayN: 0, day: 'Monday', hour: 10, value: rand(1, 20) },
+      { dayN: 0, day: 'Monday', hour: 11, value: rand(1, 20) },
+      { dayN: 0, day: 'Monday', hour: 12, value: rand(1, 20) },
+
+      { dayN: 1, day: 'Tuesday', hour: 11, value: rand(1, 20) },
+      { dayN: 1, day: 'Tuesday', hour: 12, value: rand(1, 20) },
+      { dayN: 1, day: 'Tuesday', hour: 14, value: rand(1, 20) },
+      { dayN: 1, day: 'Tuesday', hour: 18, value: rand(1, 20) },
+
+      { dayN: 2, day: 'Wednesday', hour: 11, value: rand(1, 20) },
+      { dayN: 2, day: 'Wednesday', hour: 12, value: rand(1, 20) },
+
+      { dayN: 3, day: 'Thursday', hour: 11, value: rand(1, 20) },
+      { dayN: 3, day: 'Thursday', hour: 12, value: rand(1, 20) },
+      { dayN: 3, day: 'Thursday', hour: 14, value: rand(1, 20) },
+      { dayN: 3, day: 'Thursday', hour: 15, value: rand(1, 20) },
+      { dayN: 3, day: 'Thursday', hour: 18, value: rand(1, 20) },
+
+      { dayN: 4, day: 'Friday', hour: 17, value: rand(1, 20) },
+
+      { dayN: 6, day: 'Sunday', hour: 0, value: rand(1, 20) },
+      { dayN: 6, day: 'Sunday', hour: 1, value: rand(1, 20) },
+      { dayN: 6, day: 'Sunday', hour: 2, value: rand(1, 20) },
+      { dayN: 6, day: 'Sunday', hour: 3, value: rand(1, 20) },
+      { dayN: 6, day: 'Sunday', hour: 4, value: rand(1, 20) },
+    ];
   }
 
   always = () => true;

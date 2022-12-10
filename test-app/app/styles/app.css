@@ -14,6 +14,32 @@
   fill: #480717;
 }
 
+.ordinal {
+  fill: gray;
+}
+
+.ordinal-1 {
+  fill: #7fc97f;
+}
+.ordinal-2 {
+  fill: #beaed4;
+}
+.ordinal-3 {
+  fill: #fdc086;
+}
+.ordinal-4 {
+  fill: #ffff99;
+}
+.ordinal-5 {
+  fill: #386cb0;
+}
+.ordinal-6 {
+  fill: #f0027f;
+}
+.ordinal-7 {
+  fill: #bf5b17;
+}
+
 .axis .domain {
   fill: none;
 }
