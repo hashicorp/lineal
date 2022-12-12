@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { cached } from '../../../cached';
 import { Accessor, Encoding } from '../../../encoding';
-import { Scale, ScaleLinear, ScaleOrdinal, ScaleSqrt } from '../../../scale';
+import { Scale, ScaleLinear, ScaleOrdinal, ScaleSqrt, ScaleIdentity } from '../../../scale';
 import CSSRange from '../../../css-range';
 import { qualifyScale } from '../../../utils/mark-utils';
 
@@ -56,6 +56,10 @@ export default class Points extends Component<PointsArgs> {
   }
 
   @cached get sizeScale() {
+    if (typeof this.args.size === 'number' && this.args.sizeScale == null) {
+      return new ScaleIdentity({ range: this.args.size });
+    }
+
     const scale = this.args.sizeScale || new ScaleSqrt();
     qualifyScale(this, scale, this.size, 'size');
     return scale;
