@@ -14,7 +14,10 @@ export function qualifyScale(
   encoding: Encoding,
   field: string
 ) {
-  if (scale.domain instanceof Bounds && !scale.domain.isValid) {
+  if (
+    (scale.domain.__temp_duck_type_bounds || scale.domain instanceof Bounds) &&
+    !scale.domain.isValid
+  ) {
     scheduleOnce('afterRender', context, () => {
       scale.domain.qualify(context.args.data, encoding.accessor);
     });
