@@ -8,6 +8,7 @@ import { Scale, ScaleLinear } from '../../../scale';
 import { Accessor, Encoding } from '../../../encoding';
 import Bounds from '../../../bounds';
 import { curveFor, CurveArgs } from '../../../utils/curves';
+import { qualifyScale } from '../../../utils/mark-utils';
 
 interface AreaArgs {
   data: any[];
@@ -35,13 +36,13 @@ export default class Area extends Component<AreaArgs> {
 
   @cached get xScale() {
     const scale = this.args.xScale || new ScaleLinear();
-    this.qualifyScale(scale, this.x, 'x');
+    qualifyScale(this, scale, this.x, 'x');
     return scale;
   }
 
   @cached get yScale() {
     const scale = this.args.yScale || new ScaleLinear();
-    this.qualifyScale(scale, this.y, 'y');
+    qualifyScale(this, scale, this.y, 'y');
     return scale;
   }
 
@@ -62,19 +63,5 @@ export default class Area extends Component<AreaArgs> {
       .y1((d) => this.yScale.compute(this.y.accessor(d)));
 
     return generator(this.args.data);
-  }
-
-  qualifyScale(scale: Scale, encoding: Encoding, field: string) {
-    if (scale.domain instanceof Bounds && !scale.domain.isValid) {
-      scheduleOnce('afterRender', this, () => {
-        scale.domain.qualify(this.args.data, encoding.accessor);
-      });
-    }
-
-    if (scale.range instanceof Bounds && !scale.range.isValid) {
-      throw new Error(
-        `Qualifying @${field}Scale: Cannot determine the bounds for a range without a bounding box for the mark.`
-      );
-    }
   }
 }

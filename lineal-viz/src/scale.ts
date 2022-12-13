@@ -7,7 +7,6 @@ import CSSRange from './css-range';
 
 // TODO: Implement scale classes for the less common scales
 // Implicit = 'implicit',
-// Identity = 'identity',
 // Band = 'band',
 // Point = 'point',
 
@@ -61,6 +60,10 @@ export interface QuantileScaleConfig {
 export interface OrdinalScaleConfig {
   domain?: string[];
   range: CSSRange | string[];
+}
+
+export interface IdentityScaleConfig {
+  range: number | number[];
 }
 
 abstract class ScaleContinuous implements Scale {
@@ -364,6 +367,29 @@ export class ScaleOrdinal implements Scale {
   }
 
   compute = (value: string): string => {
+    return this.d3Scale(value);
+  };
+}
+
+export class ScaleIdentity implements Scale {
+  @tracked range: number[];
+
+  // Scale does not support bounds, it's always valid
+  isValid = true;
+
+  constructor({ range }: IdentityScaleConfig) {
+    this.range = range instanceof Array ? range : [range, range];
+  }
+
+  @cached get d3Scale() {
+    return scales.scaleIdentity(this.range);
+  }
+
+  @cached get domain() {
+    return this.range;
+  }
+
+  compute = (value: number): number => {
     return this.d3Scale(value);
   };
 }

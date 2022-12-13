@@ -25,6 +25,12 @@ export default class Bounds<T> {
     return new Bounds<number>(min, max);
   }
 
+  // TODO: Remove this when https://github.com/ef4/ember-auto-import/pull/512 is released.
+  // Right now in the test-app, Lineal is executed twice (once for the app chunk and again
+  // for the test chunk) which means instanceof checks may not work. Using this gnarly
+  // duck-typing approach is a stopgap.
+  public readonly __temp_duck_type_bounds: boolean = true;
+
   constructor(min?: T, max?: T) {
     this.min = min;
     this.max = max;
