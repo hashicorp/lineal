@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, findAll, settled } from '@ember/test-helpers';
+import { render, findAll } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { ScaleLinear } from '@lineal-viz/lineal/scale';
 import Bounds from '@lineal-viz/lineal/bounds';

@@ -84,6 +84,21 @@
   pointer-events: none;
 }
 
+.m-100 {
+  margin: 100px;
+}
+
+.svg-border {
+  fill: transparent;
+  stroke: black;
+  stroke-width: 1px;
+}
+
+.svg-border-gray {
+  stroke: gray;
+  stroke-width: 1px;
+}
+
 #ember-testing .test-svg {
   overflow: visible;
   position: fixed;

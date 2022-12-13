@@ -330,7 +330,7 @@
 </svg>
 
 <p>Points</p>
-<svg height='300' width='800' style='overflow:visible; margin:100px;'>
+<svg height='300' width='800' class='no-overflow m-100'>
   {{#let
     (scale-linear domain='0..23' range='0..800')
     (scale-linear range='0..300')
@@ -348,13 +348,7 @@
         @length='300'
       />
     {{/if}}
-    <rect
-      x='0'
-      y='0'
-      width='800'
-      height='300'
-      style='fill: transparent; stroke: black'
-    ></rect>
+    <rect x='0' y='0' width='800' height='300' class='svg-border'></rect>
     <Lineal::Points
       @data={{this.frequencyByDay}}
       @x='hour'
@@ -370,7 +364,7 @@
         )
         range=(css-range 'ordinal')
       }}
-      style='stroke-width: 1; stroke: gray'
+      class='svg-border-gray'
     />
   {{/let}}
 </svg>
