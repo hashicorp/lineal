@@ -99,6 +99,13 @@
   stroke-width: 1px;
 }
 
+.plot-label {
+  font-family: sans-serif;
+  font-size: 12px;
+  alignment-baseline: middle;
+  text-anchor: middle;
+}
+
 #ember-testing .test-svg {
   overflow: visible;
   position: fixed;

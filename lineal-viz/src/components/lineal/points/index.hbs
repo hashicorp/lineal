@@ -1,10 +1,15 @@
-{{#each this.points as |p|}}
-  <circle
-    cx={{p.x}}
-    cy={{p.y}}
-    r={{p.size}}
-    fill={{p.fill}}
-    class={{p.cssClass}}
-    ...attributes
-  ></circle>
-{{/each}}
+{{#if (or @renderCircles (not (has-block)))}}
+  {{#each this.points as |p|}}
+    <circle
+      cx={{p.x}}
+      cy={{p.y}}
+      r={{p.size}}
+      fill={{p.fill}}
+      class={{p.cssClass}}
+      ...attributes
+    ></circle>
+  {{/each}}
+{{/if}}
+{{#if (has-block)}}
+  {{yield this.points}}
+{{/if}}

@@ -16,15 +16,17 @@ interface PointsArgs {
   yScale?: Scale;
   sizeScale?: Scale;
   colorScale?: Scale;
+  renderCircles?: boolean;
 }
 
-export interface PointDatum {
+export type PointDatum = {
   x: number;
   y: number;
   size: number;
   fill?: string;
   cssClass?: string;
-}
+  datum: any;
+};
 
 export default class Points extends Component<PointsArgs> {
   @cached get x() {
@@ -90,6 +92,7 @@ export default class Points extends Component<PointsArgs> {
         x: this.xScale.compute(this.x.accessor(d)),
         y: this.yScale.compute(this.y.accessor(d)),
         size: this.sizeScale.compute(this.size.accessor(d)),
+        datum: d,
       };
 
       if (this.colorScale) {
