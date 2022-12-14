@@ -2,8 +2,10 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, findAll } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import * as sinon from 'sinon';
 import { ScaleLinear } from '@lineal-viz/lineal/scale';
 import Bounds from '@lineal-viz/lineal/bounds';
+import { PointDatum } from '@lineal-viz/lineal/components/lineal/points/index';
 
 interface Datum {
   x: number;
@@ -158,5 +160,78 @@ module('Integration | Component | Lineal::Points', function (hooks) {
       assert.dom(el).hasClass(`ordinal-${group + 1}`);
       assert.dom(el).hasClass(`ordinal-${groupClassOrder.length}-${group + 1}`);
     });
+  });
+
+  test('The component yields structured arc data', async function (assert) {
+    const spy = sinon.spy();
+    const xScale = new ScaleLinear({ domain: '..', range: '0..100' });
+    const yScale = new ScaleLinear({ domain: '-10..', range: '0..50' });
+
+    this.setProperties({ data, spy, xScale, yScale });
+
+    await render(hbs`
+      <svg class="test-svg">
+        <Lineal::Points
+          @data={{this.data}}
+          @x="x"
+          @y="y"
+          @size={{5}}
+          @color="group"
+          @xScale={{this.xScale}}
+          @yScale={{this.yScale}}
+          @colorScale="ordinal"
+        as |points|>
+          {{#each points as |p|}}
+            {{this.spy p}}
+          {{/each}}
+        </Lineal::Points>
+      </svg>
+    `);
+
+    assert.strictEqual(spy.callCount, data.length);
+    assert.strictEqual(findAll('circle').length, 0);
+
+    for (const t of spy.getCalls()) {
+      const point = t.args[0] as PointDatum;
+      assert.hasProperties(point, ['x', 'y', 'size', 'cssClass', 'datum']);
+      assert.lacksProperties(point, ['fill']);
+    }
+  });
+
+  test('When @renderCircles is true, the component renders circles for points even when using the block form', async function (assert) {
+    const spy = sinon.spy();
+    const xScale = new ScaleLinear({ domain: '..', range: '0..100' });
+    const yScale = new ScaleLinear({ domain: '-10..', range: '0..50' });
+
+    this.setProperties({ data, spy, xScale, yScale });
+
+    await render(hbs`
+      <svg class="test-svg">
+        <Lineal::Points
+          @renderCircles={{true}}
+          @data={{this.data}}
+          @x="x"
+          @y="y"
+          @size={{5}}
+          @color="group"
+          @xScale={{this.xScale}}
+          @yScale={{this.yScale}}
+          @colorScale="ordinal"
+        as |points|>
+          {{#each points as |p|}}
+            {{this.spy p}}
+          {{/each}}
+        </Lineal::Points>
+      </svg>
+    `);
+
+    assert.strictEqual(spy.callCount, data.length);
+    assert.strictEqual(findAll('circle').length, data.length);
+
+    for (const t of spy.getCalls()) {
+      const point = t.args[0] as PointDatum;
+      assert.hasProperties(point, ['x', 'y', 'size', 'cssClass', 'datum']);
+      assert.lacksProperties(point, ['fill']);
+    }
   });
 });

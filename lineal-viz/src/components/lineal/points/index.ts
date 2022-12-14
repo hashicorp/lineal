@@ -19,14 +19,14 @@ interface PointsArgs {
   renderCircles?: boolean;
 }
 
-export interface PointDatum {
+export type PointDatum = {
   x: number;
   y: number;
   size: number;
   fill?: string;
   cssClass?: string;
   datum: any;
-}
+};
 
 export default class Points extends Component<PointsArgs> {
   @cached get x() {
