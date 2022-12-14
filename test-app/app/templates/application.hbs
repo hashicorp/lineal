@@ -351,6 +351,7 @@
     <rect x='0' y='0' width='800' height='300' class='svg-border'></rect>
     <Lineal::Points
       @data={{this.frequencyByDay}}
+      @renderCircles={{true}}
       @x='hour'
       @y='dayN'
       @size='value'
@@ -365,7 +366,17 @@
         range=(css-range 'ordinal')
       }}
       class='svg-border-gray'
-    />
+      as |points|
+    >
+      {{#each points as |p|}}
+        <text
+          class='plot-label'
+          x={{p.x}}
+          y={{p.y}}
+          dy={{if (lt p.size 10) '-15'}}
+        >{{fmt p.datum.value}}</text>
+      {{/each}}
+    </Lineal::Points>
   {{/let}}
 </svg>
 
