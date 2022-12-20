@@ -7,8 +7,6 @@ import CSSRange from './css-range';
 
 // TODO: Implement scale classes for the less common scales
 // Implicit = 'implicit',
-// Band = 'band',
-// Point = 'point',
 
 // TODO: D3 scales are incredibly fluid, but we can
 // still do a better job locking down these types.
@@ -30,8 +28,18 @@ export interface ScaleConfig {
 
   // ScalePow only
   exponent?: number;
+
   // ScaleLog only
   base?: number;
+
+  // Scale Band/Point only
+  round?: boolean;
+  padding?: number;
+  align?: number;
+
+  // Scale Band only
+  paddingInner?: number;
+  paddingOuter?: number;
 }
 
 export interface DateScaleConfig {
@@ -60,10 +68,29 @@ export interface QuantileScaleConfig {
 export interface OrdinalScaleConfig {
   domain?: string[];
   range: CSSRange | string[];
+  unknown?: string;
 }
 
 export interface IdentityScaleConfig {
   range: number | number[];
+}
+
+export interface BandScaleConfig {
+  domain?: string[];
+  range?: ValueSet;
+  round?: boolean;
+  align?: number;
+  padding?: number;
+  paddingInner?: number;
+  paddingOuter?: number;
+}
+
+export interface PointScaleConfig {
+  domain?: string[];
+  range?: ValueSet;
+  round?: boolean;
+  align?: number;
+  padding?: number;
 }
 
 abstract class ScaleContinuous implements Scale {
@@ -154,15 +181,6 @@ export class ScaleSymlog extends ScaleContinuous {
     return scales.scaleSymlog(...this.scaleArgs);
   }
 }
-
-// TODO: This isn't typed as a continuous scale despite being a special form of linear scale.
-// Maybe we can just not use d3's scaleIdentity here?
-//
-// export class ScaleIdentity extends ScaleContinuous {
-//   get d3Scale() {
-//     return scales.scaleIdentity(this.scaleArgs[1]);
-//   }
-// }
 
 export class ScaleRadial extends ScaleContinuous {
   get _d3Scale() {
@@ -351,19 +369,27 @@ export class ScaleThreshold implements Scale {
 export class ScaleOrdinal implements Scale {
   @tracked domain: string[];
   @tracked range: CSSRange | string[];
+  @tracked unknown: string | undefined;
 
   // Scale does not support bounds, it's always valid
   isValid = true;
 
-  constructor({ domain, range }: OrdinalScaleConfig) {
+  constructor({ domain, range, unknown }: OrdinalScaleConfig) {
     this.domain = domain || [];
     this.range = range;
+    this.unknown = unknown;
   }
 
   @cached get d3Scale() {
     const range: string[] =
       this.range instanceof CSSRange ? this.range.spread(this.domain.length) : this.range;
-    return scales.scaleOrdinal(range).domain(this.domain);
+    const scale = scales.scaleOrdinal(range).domain(this.domain);
+
+    if (this.unknown != null) {
+      scale.unknown(this.unknown);
+    }
+
+    return scale;
   }
 
   compute = (value: string): string => {
@@ -392,4 +418,102 @@ export class ScaleIdentity implements Scale {
   compute = (value: number): number => {
     return this.d3Scale(value);
   };
+}
+
+export class ScaleBand implements Scale {
+  @tracked domain: string[];
+  @tracked range: Bounds<number> | number[];
+  @tracked round: boolean = false;
+  @tracked align: number = 0.5;
+  @tracked paddingInner: number = 0;
+  @tracked paddingOuter: number = 0;
+
+  constructor({
+    domain,
+    range,
+    round,
+    align,
+    paddingInner,
+    paddingOuter,
+    padding,
+  }: BandScaleConfig) {
+    this.domain = domain || [];
+    this.range = range ? Bounds.parse(range) : new Bounds();
+    this.round = round ?? false;
+    this.align = align ?? 0.5;
+    this.paddingInner = paddingInner ?? padding ?? 0;
+    this.paddingOuter = paddingOuter ?? padding ?? 0;
+  }
+
+  get isValid(): boolean {
+    if (this.range instanceof Bounds && !this.range.isValid) return false;
+    return true;
+  }
+
+  @cached get d3Scale() {
+    const range: number[] = this.range instanceof Bounds ? this.range.bounds : this.range;
+    return scales
+      .scaleBand(range)
+      .domain(this.domain)
+      .round(this.round)
+      .align(this.align)
+      .paddingInner(this.paddingInner)
+      .paddingOuter(this.paddingOuter);
+  }
+
+  compute = (value: string): number | undefined => {
+    return this.d3Scale(value);
+  };
+
+  get bandwidth(): number {
+    return this.d3Scale.bandwidth();
+  }
+
+  get step(): number {
+    return this.d3Scale.step();
+  }
+}
+
+export class ScalePoint implements Scale {
+  @tracked domain: string[];
+  @tracked range: Bounds<number> | number[];
+  @tracked round: boolean = false;
+  @tracked align: number = 0.5;
+  @tracked padding: number = 0;
+
+  constructor({ domain, range, round, align, padding }: PointScaleConfig) {
+    this.domain = domain || [];
+    this.range = range ? Bounds.parse(range) : new Bounds();
+    this.round = round ?? false;
+    this.align = align ?? 0.5;
+    this.padding = padding ?? 0;
+  }
+
+  get isValid(): boolean {
+    if (this.range instanceof Bounds && !this.range.isValid) return false;
+    return true;
+  }
+
+  @cached get d3Scale() {
+    const range: number[] = this.range instanceof Bounds ? this.range.bounds : this.range;
+    return scales
+      .scalePoint(range)
+      .domain(this.domain)
+      .round(this.round)
+      .align(this.align)
+      .padding(this.padding);
+  }
+
+  compute = (value: string): number | undefined => {
+    return this.d3Scale(value);
+  };
+
+  get bandwidth(): number {
+    // Always returns zero. It's here's for d3 compatability.
+    return this.d3Scale.bandwidth();
+  }
+
+  get step(): number {
+    return this.d3Scale.step();
+  }
 }

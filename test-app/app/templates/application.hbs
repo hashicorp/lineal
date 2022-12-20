@@ -333,7 +333,7 @@
 <svg height='300' width='800' class='no-overflow m-100'>
   {{#let
     (scale-linear domain='0..23' range='0..800')
-    (scale-linear range='0..300')
+    (scale-point domain=this.daysOfWeek range='0..300')
     as |xScale yScale|
   }}
     {{#if (and xScale.isValid yScale.isValid)}}
@@ -353,16 +353,14 @@
       @data={{this.frequencyByDay}}
       @renderCircles={{true}}
       @x='hour'
-      @y='dayN'
+      @y='day'
       @size='value'
       @color='day'
       @xScale={{xScale}}
       @yScale={{yScale}}
       @sizeScale={{scale-sqrt domain='1..25' range='5..25'}}
       @colorScale={{scale-ordinal
-        domain=(array
-          'Monday' 'Tuesday' 'Wednesday' 'Thursday' 'Friday' 'Saturday' 'Sunday'
-        )
+        domain=this.daysOfWeek
         range=(css-range 'ordinal')
       }}
       class='svg-border-gray'

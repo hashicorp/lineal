@@ -8,6 +8,10 @@ const rand = (min: number, max: number): number =>
 export default class ApplicationController extends Controller {
   @tracked activeDatum = null;
 
+  daysOfWeek = 'Monday Tuesday Wednesday Thursday Friday Saturday Sunday'.split(
+    ' '
+  );
+
   get population() {
     const data = this.model as any[];
     const reduction = data.reduce((agg: any, record: any) => {
@@ -45,32 +49,32 @@ export default class ApplicationController extends Controller {
 
   get frequencyByDay() {
     return [
-      { dayN: 0, day: 'Monday', hour: 9, value: rand(1, 20) },
-      { dayN: 0, day: 'Monday', hour: 10, value: rand(1, 20) },
-      { dayN: 0, day: 'Monday', hour: 11, value: rand(1, 20) },
-      { dayN: 0, day: 'Monday', hour: 12, value: rand(1, 20) },
+      { day: 'Monday', hour: 9, value: rand(1, 20) },
+      { day: 'Monday', hour: 10, value: rand(1, 20) },
+      { day: 'Monday', hour: 11, value: rand(1, 20) },
+      { day: 'Monday', hour: 12, value: rand(1, 20) },
 
-      { dayN: 1, day: 'Tuesday', hour: 11, value: rand(1, 20) },
-      { dayN: 1, day: 'Tuesday', hour: 12, value: rand(1, 20) },
-      { dayN: 1, day: 'Tuesday', hour: 14, value: rand(1, 20) },
-      { dayN: 1, day: 'Tuesday', hour: 18, value: rand(1, 20) },
+      { day: 'Tuesday', hour: 11, value: rand(1, 20) },
+      { day: 'Tuesday', hour: 12, value: rand(1, 20) },
+      { day: 'Tuesday', hour: 14, value: rand(1, 20) },
+      { day: 'Tuesday', hour: 18, value: rand(1, 20) },
 
-      { dayN: 2, day: 'Wednesday', hour: 11, value: rand(1, 20) },
-      { dayN: 2, day: 'Wednesday', hour: 12, value: rand(1, 20) },
+      { day: 'Wednesday', hour: 11, value: rand(1, 20) },
+      { day: 'Wednesday', hour: 12, value: rand(1, 20) },
 
-      { dayN: 3, day: 'Thursday', hour: 11, value: rand(1, 20) },
-      { dayN: 3, day: 'Thursday', hour: 12, value: rand(1, 20) },
-      { dayN: 3, day: 'Thursday', hour: 14, value: rand(1, 20) },
-      { dayN: 3, day: 'Thursday', hour: 15, value: rand(1, 20) },
-      { dayN: 3, day: 'Thursday', hour: 18, value: rand(1, 20) },
+      { day: 'Thursday', hour: 11, value: rand(1, 20) },
+      { day: 'Thursday', hour: 12, value: rand(1, 20) },
+      { day: 'Thursday', hour: 14, value: rand(1, 20) },
+      { day: 'Thursday', hour: 15, value: rand(1, 20) },
+      { day: 'Thursday', hour: 18, value: rand(1, 20) },
 
-      { dayN: 4, day: 'Friday', hour: 17, value: rand(1, 20) },
+      { day: 'Friday', hour: 17, value: rand(1, 20) },
 
-      { dayN: 6, day: 'Sunday', hour: 0, value: rand(1, 20) },
-      { dayN: 6, day: 'Sunday', hour: 1, value: rand(1, 20) },
-      { dayN: 6, day: 'Sunday', hour: 2, value: rand(1, 20) },
-      { dayN: 6, day: 'Sunday', hour: 3, value: rand(1, 20) },
-      { dayN: 6, day: 'Sunday', hour: 4, value: rand(1, 20) },
+      { day: 'Sunday', hour: 0, value: rand(1, 20) },
+      { day: 'Sunday', hour: 1, value: rand(1, 20) },
+      { day: 'Sunday', hour: 2, value: rand(1, 20) },
+      { day: 'Sunday', hour: 3, value: rand(1, 20) },
+      { day: 'Sunday', hour: 4, value: rand(1, 20) },
     ];
   }
 
