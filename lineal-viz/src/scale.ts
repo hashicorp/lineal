@@ -30,8 +30,18 @@ export interface ScaleConfig {
 
   // ScalePow only
   exponent?: number;
+
   // ScaleLog only
   base?: number;
+
+  // Scale Band/Point only
+  round?: boolean;
+  padding?: number;
+  align?: number;
+
+  // Scale Band only
+  paddingInner?: number;
+  paddingOuter?: number;
 }
 
 export interface DateScaleConfig {
@@ -64,6 +74,16 @@ export interface OrdinalScaleConfig {
 
 export interface IdentityScaleConfig {
   range: number | number[];
+}
+
+export interface BandScaleConfig {
+  domain?: string[];
+  range?: ValueSet;
+  round?: boolean;
+  align?: number;
+  padding?: number;
+  paddingInner?: number;
+  paddingOuter?: number;
 }
 
 abstract class ScaleContinuous implements Scale {
@@ -392,4 +412,58 @@ export class ScaleIdentity implements Scale {
   compute = (value: number): number => {
     return this.d3Scale(value);
   };
+}
+
+export class ScaleBand implements Scale {
+  @tracked domain: string[];
+  @tracked range: Bounds<number> | number[];
+  @tracked round: boolean = false;
+  @tracked align: number = 0.5;
+  @tracked paddingInner: number = 0;
+  @tracked paddingOuter: number = 0;
+
+  constructor({
+    domain,
+    range,
+    round,
+    align,
+    paddingInner,
+    paddingOuter,
+    padding,
+  }: BandScaleConfig) {
+    this.domain = domain || [];
+    this.range = range ? Bounds.parse(range) : new Bounds();
+    this.round = round ?? false;
+    this.align = align ?? 0.5;
+    this.paddingInner = paddingInner ?? padding ?? 0;
+    this.paddingOuter = paddingOuter ?? padding ?? 0;
+  }
+
+  get isValid(): boolean {
+    if (this.range instanceof Bounds && !this.range.isValid) return false;
+    return true;
+  }
+
+  @cached get d3Scale() {
+    const range: number[] = this.range instanceof Bounds ? this.range.bounds : this.range;
+    return scales
+      .scaleBand(range)
+      .domain(this.domain)
+      .round(this.round)
+      .align(this.align)
+      .paddingInner(this.paddingInner)
+      .paddingOuter(this.paddingOuter);
+  }
+
+  compute = (value: string): number | undefined => {
+    return this.d3Scale(value);
+  };
+
+  get bandwidth(): number {
+    return this.d3Scale.bandwidth();
+  }
+
+  get step(): number {
+    return this.d3Scale.step();
+  }
 }

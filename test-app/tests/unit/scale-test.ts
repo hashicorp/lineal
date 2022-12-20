@@ -4,6 +4,7 @@ import {
   ScaleUtc,
   ScaleDiverging,
   ScaleOrdinal,
+  ScaleBand,
 } from '@lineal-viz/lineal/scale';
 import Bounds from '@lineal-viz/lineal/bounds';
 import CSSRange from '@lineal-viz/lineal/css-range';
@@ -236,5 +237,122 @@ module('Unit | ScaleOrdinal', function () {
     });
 
     assert.strictEqual(scale.d3Scale('one'), 'A');
+  });
+});
+
+module('Unit | ScaleBand', function () {
+  test('the compute method performas the scale operation', function (assert) {
+    const scale = new ScaleBand({
+      domain: ['one', 'two', 'red', 'blue'],
+      range: [0, 100],
+    });
+
+    assert.strictEqual(scale.compute('one'), 0);
+    assert.strictEqual(scale.compute('two'), (100 / 8) * 2);
+    assert.strictEqual(scale.compute('red'), (100 / 8) * 4);
+    assert.strictEqual(scale.compute('blue'), (100 / 8) * 6);
+  });
+
+  test('the range can be specified as a Bounds notation string', function (assert) {
+    const scale = new ScaleBand({
+      domain: ['one', 'two', 'red', 'blue'],
+      range: '100..250',
+    });
+
+    assert.strictEqual(scale.compute('one'), 100);
+    assert.strictEqual(scale.compute('two'), (150 / 8) * 2 + 100);
+    assert.strictEqual(scale.compute('red'), (150 / 8) * 4 + 100);
+    assert.strictEqual(scale.compute('blue'), (150 / 8) * 6 + 100);
+  });
+
+  test('the computed d3 scale can be accessed at scale#d3Scale', function (assert) {
+    const scale = new ScaleBand({
+      domain: ['one', 'two', 'red', 'blue'],
+      range: [0, 100],
+    });
+
+    assert.strictEqual(scale.d3Scale('one'), 0);
+    assert.strictEqual(scale.d3Scale.step(), 100 / 4);
+  });
+
+  test('the paddingInner and paddingOuter settings override the padding setting', function (assert) {
+    const scale1 = new ScaleBand({
+      domain: ['one', 'two', 'red', 'blue'],
+      range: [0, 100],
+      padding: 10,
+      paddingInner: 5,
+    });
+
+    assert.strictEqual(scale1.paddingInner, 5);
+    assert.strictEqual(scale1.paddingOuter, 10);
+
+    const scale2 = new ScaleBand({
+      domain: ['one', 'two', 'red', 'blue'],
+      range: [0, 100],
+      padding: 10,
+      paddingOuter: 5,
+    });
+
+    assert.strictEqual(scale2.paddingInner, 10);
+    assert.strictEqual(scale2.paddingOuter, 5);
+
+    const scale3 = new ScaleBand({
+      domain: ['one', 'two', 'red', 'blue'],
+      range: [0, 100],
+      padding: 10,
+    });
+
+    assert.strictEqual(scale3.paddingInner, 10);
+    assert.strictEqual(scale3.paddingOuter, 10);
+
+    const scale4 = new ScaleBand({
+      domain: ['one', 'two', 'red', 'blue'],
+      range: [0, 100],
+      padding: 10,
+      paddingInner: 20,
+      paddingOuter: 30,
+    });
+
+    assert.strictEqual(scale4.paddingInner, 20);
+    assert.strictEqual(scale4.paddingOuter, 30);
+  });
+
+  test('the align setting is passed into the d3Scale constructor', function (assert) {
+    const scale = new ScaleBand({
+      domain: ['one', 'two', 'red', 'blue'],
+      range: [0, 100],
+      paddingOuter: 0.5,
+    });
+
+    assert.strictEqual(scale.compute('one'), scale.step * 0.5);
+
+    scale.align = 0;
+    assert.strictEqual(scale.compute('one'), scale.step * 0);
+
+    scale.align = 1;
+    assert.strictEqual(scale.compute('one'), scale.step * 1);
+
+    scale.align = 1 / 3;
+    assert.strictEqual(scale.compute('one'), scale.step * (1 / 3));
+  });
+
+  test('the bandwidth getter returns the bandwidth computed by the d3 band scale', function (assert) {
+    const scale = new ScaleBand({
+      domain: ['one', 'two', 'red', 'blue'],
+      range: [0, 100],
+      padding: 10,
+    });
+
+    assert.strictEqual(scale.bandwidth, scale.d3Scale.bandwidth());
+  });
+
+  test('the step getter returns the step computed by the d3 band scale', function (assert) {
+    const scale = new ScaleBand({
+      domain: ['one', 'two', 'red', 'blue'],
+      range: [0, 100],
+      padding: 10,
+    });
+
+    assert.strictEqual(scale.step, scale.d3Scale.step());
   });
 });
