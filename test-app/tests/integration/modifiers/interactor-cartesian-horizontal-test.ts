@@ -47,10 +47,9 @@ const triggerMouseMove = async (
   x: number,
   y: number
 ) => {
-  const el: SVGGraphicsElement | null =
-    element instanceof Element
-      ? (element as SVGGraphicsElement)
-      : find(element);
+  const el: SVGGraphicsElement | null = (
+    element instanceof Element ? element : find(element)
+  ) as SVGGraphicsElement;
 
   const bbox = el?.getBoundingClientRect();
 
@@ -70,10 +69,9 @@ const triggerClick = async (
   x: number,
   y: number
 ) => {
-  const el: SVGGraphicsElement | null =
-    element instanceof Element
-      ? (element as SVGGraphicsElement)
-      : find(element);
+  const el: SVGGraphicsElement | null = (
+    element instanceof Element ? element : find(element)
+  ) as SVGGraphicsElement;
 
   const bbox = el?.getBoundingClientRect();
 
