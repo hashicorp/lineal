@@ -231,6 +231,18 @@ module('Unit | ScaleOrdinal', function () {
     assert.ok(scale.range instanceof CSSRange);
   });
 
+  test('the unknown property will override the default implicit domain behavior of ordinal scales', function (assert) {
+    const scale = new ScaleOrdinal({
+      domain: ['one', 'two', 'red', 'blue'],
+      range: ['A', 'B', 'C', 'D'],
+    });
+
+    assert.strictEqual(scale.compute('fast'), 'A');
+
+    scale.unknown = 'idk, fish?';
+    assert.strictEqual(scale.compute('fast'), 'idk, fish?');
+  });
+
   test('the computed d3 scale can be accessed at scale#d3Scale', function (assert) {
     const scale = new ScaleOrdinal({
       domain: ['one', 'two', 'red', 'blue'],

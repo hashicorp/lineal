@@ -68,6 +68,7 @@ export interface QuantileScaleConfig {
 export interface OrdinalScaleConfig {
   domain?: string[];
   range: CSSRange | string[];
+  unknown?: string;
 }
 
 export interface IdentityScaleConfig {
@@ -368,19 +369,27 @@ export class ScaleThreshold implements Scale {
 export class ScaleOrdinal implements Scale {
   @tracked domain: string[];
   @tracked range: CSSRange | string[];
+  @tracked unknown: string | undefined;
 
   // Scale does not support bounds, it's always valid
   isValid = true;
 
-  constructor({ domain, range }: OrdinalScaleConfig) {
+  constructor({ domain, range, unknown }: OrdinalScaleConfig) {
     this.domain = domain || [];
     this.range = range;
+    this.unknown = unknown;
   }
 
   @cached get d3Scale() {
     const range: string[] =
       this.range instanceof CSSRange ? this.range.spread(this.domain.length) : this.range;
-    return scales.scaleOrdinal(range).domain(this.domain);
+    const scale = scales.scaleOrdinal(range).domain(this.domain);
+
+    if (this.unknown != null) {
+      scale.unknown(this.unknown);
+    }
+
+    return scale;
   }
 
   compute = (value: string): string => {
