@@ -86,6 +86,14 @@ export interface BandScaleConfig {
   paddingOuter?: number;
 }
 
+export interface PointScaleConfig {
+  domain?: string[];
+  range?: ValueSet;
+  round?: boolean;
+  align?: number;
+  padding?: number;
+}
+
 abstract class ScaleContinuous implements Scale {
   @tracked domain: Bounds<number> | number[];
   @tracked range: Bounds<number> | number[];
@@ -460,6 +468,50 @@ export class ScaleBand implements Scale {
   };
 
   get bandwidth(): number {
+    return this.d3Scale.bandwidth();
+  }
+
+  get step(): number {
+    return this.d3Scale.step();
+  }
+}
+
+export class ScalePoint implements Scale {
+  @tracked domain: string[];
+  @tracked range: Bounds<number> | number[];
+  @tracked round: boolean = false;
+  @tracked align: number = 0.5;
+  @tracked padding: number = 0;
+
+  constructor({ domain, range, round, align, padding }: PointScaleConfig) {
+    this.domain = domain || [];
+    this.range = range ? Bounds.parse(range) : new Bounds();
+    this.round = round ?? false;
+    this.align = align ?? 0.5;
+    this.padding = padding ?? 0;
+  }
+
+  get isValid(): boolean {
+    if (this.range instanceof Bounds && !this.range.isValid) return false;
+    return true;
+  }
+
+  @cached get d3Scale() {
+    const range: number[] = this.range instanceof Bounds ? this.range.bounds : this.range;
+    return scales
+      .scalePoint(range)
+      .domain(this.domain)
+      .round(this.round)
+      .align(this.align)
+      .padding(this.padding);
+  }
+
+  compute = (value: string): number | undefined => {
+    return this.d3Scale(value);
+  };
+
+  get bandwidth(): number {
+    // Always returns zero. It's here's for d3 compatability.
     return this.d3Scale.bandwidth();
   }
 
