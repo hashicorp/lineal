@@ -4,6 +4,11 @@
     "module": "ES2020",
     "moduleResolution": "node",
 
+    // This is not at all ideal, but I do not respond well to third-party
+    // dependencies breaking my CI pipeline. We should try removing this in
+    // the future.
+    "skipLibCheck": true,
+
     // Trying to check Ember apps and addons with `allowJs: true` is a recipe
     // for many unresolveable type errors, because with *considerable* extra
     // configuration it ends up including many files which are *not* valid and
