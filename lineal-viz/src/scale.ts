@@ -7,8 +7,6 @@ import CSSRange from './css-range';
 
 // TODO: Implement scale classes for the less common scales
 // Implicit = 'implicit',
-// Band = 'band',
-// Point = 'point',
 
 // TODO: D3 scales are incredibly fluid, but we can
 // still do a better job locking down these types.
@@ -182,15 +180,6 @@ export class ScaleSymlog extends ScaleContinuous {
     return scales.scaleSymlog(...this.scaleArgs);
   }
 }
-
-// TODO: This isn't typed as a continuous scale despite being a special form of linear scale.
-// Maybe we can just not use d3's scaleIdentity here?
-//
-// export class ScaleIdentity extends ScaleContinuous {
-//   get d3Scale() {
-//     return scales.scaleIdentity(this.scaleArgs[1]);
-//   }
-// }
 
 export class ScaleRadial extends ScaleContinuous {
   get _d3Scale() {
