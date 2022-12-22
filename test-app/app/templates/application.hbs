@@ -378,4 +378,43 @@
   {{/let}}
 </svg>
 
+<p>Bars</p>
+<svg height='300' width='800' class='no-overflow m-100'>
+  {{#let
+    (scale-band domain=this.categories range='0..800' padding=0.1)
+    (scale-linear range='0..300' domain='0..')
+    (scale-linear range='300..0' domain='0..')
+    as |xScale hScale yScale|
+  }}
+    {{#if (and xScale.isValid yScale.isValid)}}
+      <Lineal::Axis
+        @scale={{yScale}}
+        @orientation='left'
+        @includeDomain={{false}}
+      />
+      <Lineal::Axis
+        @scale={{xScale}}
+        @orientation='bottom'
+        transform='translate(0,{{hScale.range.max}})'
+      />
+      <Lineal::Gridlines
+        @scale={{yScale}}
+        @direction='horizontal'
+        @length='800'
+        stroke-dasharray='5 5'
+      />
+    {{/if}}
+    <Lineal::Bars
+      @data={{this.ageDemo}}
+      @x='bracket'
+      @y='value'
+      @height='value'
+      @width={{xScale.bandwidth}}
+      @xScale={{xScale}}
+      @yScale={{yScale}}
+      @heightScale={{hScale}}
+    />
+  {{/let}}
+</svg>
+
 {{outlet}}
