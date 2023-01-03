@@ -1,5 +1,14 @@
 # @lineal-viz/lineal
 
+## 0.3.0
+
+### Minor Changes
+
+- 83378f2: A block form for Lineal::Points
+- a1a4468: New ScalePoint and ScaleBand classes and helpers
+- 9371b12: Introduces Lineal::Bars mark
+- c7b49d6: Introduces Lineal::Points mark
+
 ## 0.2.2
 
 ### Patch Changes
