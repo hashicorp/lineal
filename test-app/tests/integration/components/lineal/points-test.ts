@@ -89,7 +89,7 @@ module('Integration | Component | Lineal::Points', function (hooks) {
     );
   });
 
-  test('When the domain provided on a scale is unqualified, Line qualifies it using the provided dataset and encoding', async function (assert) {
+  test('When the domain provided on a scale is unqualified, Points qualifies it using the provided dataset and encoding', async function (assert) {
     const xScale = new ScaleLinear({ domain: '..', range: '0..100' });
     const yScale = new ScaleLinear({ domain: '-10..', range: '0..50' });
 

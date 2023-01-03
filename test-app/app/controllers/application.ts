@@ -1,6 +1,8 @@
 import Controller from '@ember/controller';
 import { tracked, cached } from '@glimmer/tracking';
 import { action } from '@ember/object';
+import { ScaleLinear } from '@lineal-viz/lineal/scale';
+import Bounds from '@lineal-viz/lineal/bounds';
 
 const rand = (min: number, max: number): number =>
   Math.random() * (max - min) + min;
@@ -11,6 +13,8 @@ export default class ApplicationController extends Controller {
   daysOfWeek = 'Monday Tuesday Wednesday Thursday Friday Saturday Sunday'.split(
     ' '
   );
+
+  categories = '0-18 18-25 25-35 35-50 50-70 70+'.split(' ');
 
   get population() {
     const data = this.model as any[];
@@ -75,6 +79,17 @@ export default class ApplicationController extends Controller {
       { day: 'Sunday', hour: 2, value: rand(1, 20) },
       { day: 'Sunday', hour: 3, value: rand(1, 20) },
       { day: 'Sunday', hour: 4, value: rand(1, 20) },
+    ];
+  }
+
+  get ageDemo() {
+    return [
+      { bracket: '0-18', value: 10 },
+      { bracket: '18-25', value: 25 },
+      { bracket: '25-35', value: 100 },
+      { bracket: '35-50', value: 30 },
+      { bracket: '50-70', value: 150 },
+      { bracket: '70+', value: 40 },
     ];
   }
 
