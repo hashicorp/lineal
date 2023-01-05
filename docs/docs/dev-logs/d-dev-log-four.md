@@ -34,11 +34,99 @@ Instead, let's assume the data has already been binned and our task is to draw r
 
 Since we need to determine the rectangle x coordinate as well as the width, we want to use the `ScaleBand` since it has the derived `band` value in addition to the partitioning of a range.
 
-**Gridlines and Axes**
+```hbs preview-template
+<div class='demo-chart-with-axes'>
+  <svg width='500' height='600' style='overflow:visible;'>
+    <title>
+      Some sort of property in a population broken down by age
+      using Experian demographic buckets.
+    </title>
+    {{#let
+      (scale-band
+        domain=(array "0-18" "19-29" "30-39" "40-49" "50-59" "60-64" "65+")
+        range='0..500'
+        padding=0.1
+      )
+      (scale-linear range='600..0' domain='0..')
+      as |xScale yScale|
+    }}
+      {{#if (and xScale.isValid yScale.isValid)}}
+        <Lineal::Gridlines @scale={{yScale}} @direction='horizontal' @length='500' />
+        <Lineal::Axis
+          @scale={{yScale}}
+          @orientation='left'
+          @includeDomain={{false}}
+        />
+        <Lineal::Axis
+          @scale={{xScale}}
+          @orientation='bottom'
+          transform='translate(0,{{yScale.range.min}})'
+        />
+      {{/if}}
+      {{! this is just here to qualify the scales }}
+      <Lineal::Line
+        @data={{data "histogram"}}
+        @x='bin'
+        @y='value'
+        @xScale={{xScale}}
+        @yScale={{yScale}}
+        fill="transparent"
+        stroke="transparent"
+      />
+    {{/let}}
+  </svg>
+</div>
+```
 
 With our scales established, let's draw some rectangles. 
 
-**Rectangles**
+```hbs preview-template
+<div class='demo-chart-with-axes'>
+  <svg width='500' height='600' style='overflow:visible;'>
+    <title>
+      Some sort of property in a population broken down by age
+      using Experian demographic buckets.
+    </title>
+    {{#let
+      (scale-band
+        domain=(array "0-18" "19-29" "30-39" "40-49" "50-59" "60-64" "65+")
+        range='0..500'
+        padding=0.1
+      )
+      (scale-linear range='600..0' domain='0..')
+      (scale-linear range='0..600' domain='0..')
+      as |xScale yScale hScale|
+    }}
+      {{#if (and xScale.isValid yScale.isValid)}}
+        <Lineal::Gridlines @scale={{yScale}} @direction='horizontal' @length='500' />
+      {{/if}}
+      <Lineal::Bars
+        @data={{data "histogram"}}
+        @x='bin'
+        @y='value'
+        @height='value'
+        @width={{xScale.bandwidth}}
+        @xScale={{xScale}}
+        @yScale={{yScale}}
+        @heightScale={{hScale}}
+        style="fill:var(--c-blue-line);"
+      />
+      {{#if (and xScale.isValid yScale.isValid)}}
+        <Lineal::Axis
+          @scale={{yScale}}
+          @orientation='left'
+          @includeDomain={{false}}
+        />
+        <Lineal::Axis
+          @scale={{xScale}}
+          @orientation='bottom'
+          transform='translate(0,{{yScale.range.min}})'
+        />
+      {{/if}}
+    {{/let}}
+  </svg>
+</div>
+```
 
 If you look closely, you'll notice that a third scale snuck in. Recall that there are four encodings for bars: `x`, `y`, `width`, and `height`. `width` is a static number that we get from the band scale, so we need three scales for the remaining encodings.
 
@@ -48,20 +136,161 @@ A neat property of `y` and `height` for this particular chart is that they are s
 
 This is another fun chart for showing distributions across two dimensions. It also conveniently exercises the new `ScalePoint` and `Points` mark. We'll make a fairly typical activity chart here, plotting hours on the x-axis and days of the week on the y-axis. A chart like this helps analysts identity usage patterns (e.g., does activity skew towards a 9-5 schedule? Are weekends less busy than week days?).
 
-**Gridlines and Axes**
+```hbs preview-template
+<div class='demo-chart-with-axes with-left-axis'>
+<Lineal::Fluid as |width height|>
+  <svg class='fluid' height="500" style='overflow:visible;'>
+    <title>
+      Some sort of property in a population broken down by age
+      using Experian demographic buckets.
+    </title>
+    {{#let
+      (scale-linear domain='0..23' range=(array 0 width))
+      (scale-point domain=(data "days") range="0..500")
+      as |xScale yScale|
+    }}
+      {{#if (and xScale.isValid yScale.isValid)}}
+        <Lineal::Gridlines @scale={{yScale}} @direction='horizontal' @length={{width}}/>
+        <Lineal::Gridlines @scale={{xScale}} @direction='vertical' @length="500" />
+        <Lineal::Axis
+          @scale={{yScale}}
+          @orientation='left'
+        />
+        <Lineal::Axis
+          @scale={{xScale}}
+          @orientation='bottom'
+          transform='translate(0,500)'
+        />
+      {{/if}}
+      {{! this is just here to qualify the scales }}
+      <Lineal::Line
+        @data={{data "activity"}}
+        @x='hour'
+        @y='day'
+        @xScale={{xScale}}
+        @yScale={{yScale}}
+        fill="transparent"
+        stroke="transparent"
+      />
+    {{/let}}
+  </svg>
+</Lineal::Fluid>
+</div>
+```
 
 This should look pretty much the same as the axes and bars for our bar chart above. The key differences to consider are
 
   - **Using a fixed domain**: Since we know there are 7 ordered days in a week and 24 ordered hours in a day, we want to specify these rather than letting Lineal determine the domains of the dataset on its own. This would lead to errors in the event that the dataset had no data for a particular day or a particular hour.
   - **Making room for circle sizes**: The range for the size scale for the points will need to fit within the step size of both the x-scale and the y-scale. Assuming the x and y scale ranges are hardcoded, then this math can be done upfront.
 
-**Points**
+```hbs preview-template
+<div class='demo-chart-with-axes with-left-axis'>
+<Lineal::Fluid as |width height|>
+  <svg class='fluid' height="300" style='overflow:visible;'>
+    <title>
+      Some sort of property in a population broken down by age
+      using Experian demographic buckets.
+    </title>
+    {{#let
+      (scale-linear domain='0..23' range=(array 0 width))
+      (scale-point domain=(data "days") range="0..300" padding=0.5)
+      as |xScale yScale|
+    }}
+      {{#if (and xScale.isValid yScale.isValid)}}
+        <Lineal::Gridlines @scale={{yScale}} @direction='horizontal' @length={{width}}/>
+        <Lineal::Gridlines @scale={{xScale}} @direction='vertical' @length="300" />
+        <Lineal::Axis
+          @scale={{yScale}}
+          @orientation='left'
+          @includeDomain={{false}}
+        />
+        <Lineal::Axis
+          @scale={{xScale}}
+          @orientation='top'
+          @includeDomain={{false}}
+        />
+      {{/if}}
+      <Lineal::Points
+        @data={{data "activity"}}
+        @x='hour'
+        @y='day'
+        @size='value'
+        @color='day'
+        @xScale={{xScale}}
+        @yScale={{yScale}}
+        @sizeScale={{scale-sqrt domain='1..20' range=(array 2 (div width 48))}}
+        @colorScale={{scale-ordinal
+          domain=(data "days")
+          range=(css-range 'ordinal')
+        }}
+      />
+    {{/let}}
+  </svg>
+</Lineal::Fluid>
+</div>
+```
 
-Points themselves can still feel squishy from an analytics perspective. [Our perception of differences in area isn't very good](), so let's add text.
+Points themselves can still feel squishy from an analytics perspective. [Our perception of differences in area isn't very good](https://courses.ischool.berkeley.edu/i247/f05/readings/Cleveland_GraphicalPerception_Science85.pdf), so let's add text.
 
-**Points + Text**
+```hbs preview-template
+<div class='demo-chart-with-axes with-left-axis'>
+<Lineal::Fluid as |width height|>
+  <svg class='fluid' height="300" style='overflow:visible;'>
+    <title>
+      Some sort of property in a population broken down by age
+      using Experian demographic buckets.
+    </title>
+    {{#let
+      (scale-linear domain='0..23' range=(array 0 width))
+      (scale-point domain=(data "days") range="0..300" padding=0.5)
+      as |xScale yScale|
+    }}
+      {{#if (and xScale.isValid yScale.isValid)}}
+        <Lineal::Gridlines @scale={{yScale}} @direction='horizontal' @length={{width}}/>
+        <Lineal::Gridlines @scale={{xScale}} @direction='vertical' @length="300" />
+        <Lineal::Axis
+          @scale={{yScale}}
+          @orientation='left'
+          @includeDomain={{false}}
+        />
+        <Lineal::Axis
+          @scale={{xScale}}
+          @orientation='top'
+          @includeDomain={{false}}
+        />
+      {{/if}}
+      <Lineal::Points
+        @data={{data "activity"}}
+        @renderCircles={{true}}
+        @x='hour'
+        @y='day'
+        @size='value'
+        @color='day'
+        @xScale={{xScale}}
+        @yScale={{yScale}}
+        @sizeScale={{scale-sqrt domain='1..20' range=(array 2 (div width 48))}}
+        @colorScale={{scale-ordinal
+          domain=(data "days")
+          range=(css-range 'ordinal')
+        }}
+        as |points|
+      >
+        {{#each points as |p|}}
+          <text
+            class='plot-label {{if (lt p.size 12) "plot-label--dark"}}'
+            x={{p.x}}
+            y={{p.y}}
+            dy={{if (lt p.size 12) '-15'}}
+          >{{fmt p.datum.value}}</text>
+        {{/each}}
+      </Lineal::Points>
+    {{/let}}
+  </svg>
+</Lineal::Fluid>
+</div>
+```
 
-Notice that when circles are too small, the text is instead rendered above a circle instead of within it. This is a little detail that I think goes a long way towards legibility. It's also nice that this little rendering exception is implemented in the template. Imagine your frustration if you were debugging this code and found this conditional deep in some d3 spaghetti in a backing class.
+Notice that when circles are too small, the text is rendered above a circle instead of within it. This is a little detail that I think goes a long way towards legibility. It's also nice that this little rendering exception is implemented in the template. Imagine your frustration if you were debugging this code and found this conditional deep in some d3 spaghetti in a backing class.
 
 ## Accessibility!
 
@@ -71,15 +300,74 @@ Let's go over a couple little things we can do with this punchcard chart to make
 
 First, let's make sure our data is well-ordered. The `Lineal::Points` component will render points in the order the `@data` array is ordered. Maybe in the future something smarter can be done here, but for now this is the safest approach for Lineal to take. 
 
-If we assume a typical Western reading order of left to right and top to bottom, then what we want to do is pre-sort our data by y encoding and x encoding.
+If we assume a typical Western reading order of left to right and top to bottom, then what we want to do is pre-sort our data by y encoding and x encoding. But we also can't rely on the axis ticks to assist a screen reader user. A visual user will associate axis ticks with marks due to positional alignment, but that alignment isn't present in the DOM. Instead we'll mark the axes as `aria-hidden` and bake the x and y encodings into the text `aria-label`.
 
-**Sorted**
+```hbs preview-template
+<div class='demo-chart-with-axes with-left-axis'>
+<Lineal::Fluid as |width height|>
+  <svg class='fluid' height="300" style='overflow:visible;'>
+    <title>
+      Some sort of property in a population broken down by age
+      using Experian demographic buckets.
+    </title>
+    {{#let
+      (scale-linear domain='0..23' range=(array 0 width))
+      (scale-point domain=(data "days") range="0..300" padding=0.5)
+      as |xScale yScale|
+    }}
+      {{#if (and xScale.isValid yScale.isValid)}}
+        <Lineal::Gridlines @scale={{yScale}} @direction='horizontal' @length={{width}}/>
+        <Lineal::Gridlines @scale={{xScale}} @direction='vertical' @length="300" />
+        <Lineal::Axis
+          @scale={{yScale}}
+          @orientation='left'
+          @includeDomain={{false}}
+          aria-hidden="true"
+        />
+        <Lineal::Axis
+          @scale={{xScale}}
+          @orientation='top'
+          @includeDomain={{false}}
+          aria-hidden="true"
+        />
+      {{/if}}
+      <Lineal::Points
+        @data={{data "activitySorted"}}
+        @renderCircles={{true}}
+        @x='hour'
+        @y='day'
+        @size='value'
+        @color='day'
+        @xScale={{xScale}}
+        @yScale={{yScale}}
+        @sizeScale={{scale-sqrt domain='1..20' range=(array 2 (div width 48))}}
+        @colorScale={{scale-ordinal
+          domain=(data "days")
+          range=(css-range 'ordinal')
+        }}
+        as |points|
+      >
+        {{#each points as |p|}}
+          <text
+            class='plot-label {{if (lt p.size 12) "plot-label--dark"}}'
+            x={{p.x}}
+            y={{p.y}}
+            dy={{if (lt p.size 12) '-15'}}
+            aria-label="{{p.datum.day}} at {{p.datum.hour}} has activity {{fmt p.datum.value}}"
+          >{{fmt p.datum.value}}</text>
+        {{/each}}
+      </Lineal::Points>
+    {{/let}}
+  </svg>
+</Lineal::Fluid>
+</div>
+```
 
 Compare the DOM here with the DOM above.
 
 Thinking broader, is this actually how the chart is read by visual users? If a data visualization was nothing more than a table, why not just use a table? The whole point is by encoding various dimensions we can create something that is both understand immediately and also studied. Maybe it would actually be better to sort from largest to smallest. Maybe it's the hours with no activity that actually tell the story. A really good chart is going to be designed with some intention behind it that should be carried through implementation.
 
-And even still, a large part of accessibility is accommodating. This is why including a table of the underlying data that can also be downloaded to be used in a tool a person ay be more comfortable with is never a bad thing.
+And even still, a large part of accessibility is accommodating. This is why including a table of the underlying data that can also be downloaded to be used in a tool a person may be more comfortable with is never a bad thing.
 
 ## Bonus chart
 
