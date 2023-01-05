@@ -456,3 +456,112 @@ dl {
   stroke: var(--c-line);
   opacity: 0.5;
 }
+
+.demo-chart-with-axes {
+  padding: 50px;
+  margin: auto;
+  width: 100%;
+
+  &.with-left-axis {
+    padding-left: 100px;
+  }
+
+  svg {
+    display: block;
+    margin: auto;
+
+    &.fluid {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .axis .domain {
+    fill: none;
+  }
+
+  .axis text {
+    fill: var(--c-line-0);
+  }
+
+  .axis line,
+  .axis path {
+    stroke-width: 2;
+    stroke: var(--c-base);
+  }
+
+  .gridlines line {
+    stroke-dasharray: 5 5;
+    stroke-width: 2;
+    stroke: var(--c-base);
+  }
+
+  .plot-label {
+    font-size: 12px;
+    alignment-baseline: middle;
+    text-anchor: middle;
+    fill: var(--c-base-0);
+
+    &--dark {
+      fill: var(--c-line-0);
+    }
+  }
+}
+
+.ordinal {
+  fill: gray;
+}
+.ordinal-1 {
+  fill: var(--c-green-line);
+}
+.ordinal-2 {
+  fill: var(--c-yellow-line);
+}
+.ordinal-3 {
+  fill: var(--c-red-line);
+}
+.ordinal-4 {
+  fill: var(--c-blue-line);
+}
+.ordinal-5 {
+  fill: #973e6e;
+}
+.ordinal-6 {
+  fill: #b76a33;
+}
+.ordinal-7 {
+  fill: #79695f;
+}
+
+.docfy-demo__example table.heatmap {
+  margin-top: 0;
+
+  tbody td {
+    font-size: 12px;
+    text-align: center;
+    padding: 8px 3px;
+    background-color: hsla(
+      180deg,
+      calc(1% * var(--v, 0)),
+      calc(1% * var(--v, 0) / 2),
+      calc(1% * var(--v, 0))
+    );
+  }
+
+  td.domain {
+    font-size: 14px;
+    font-weight: bold;
+    text-align: right;
+    border-right: 2px solid var(--c-base);
+    padding-right: 8px;
+    background-color: transparent;
+    color: var(--c-line-0);
+  }
+
+  th.domain {
+    text-align: center;
+    border-bottom: 2px solid var(--c-base);
+    color: var(--c-line-0);
+  }
+}
