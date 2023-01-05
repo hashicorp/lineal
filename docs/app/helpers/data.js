@@ -83,6 +83,5 @@ export default helper(([dataset]) => {
   const data = datasets[dataset];
   if (!data) throw new Error(`No dataset "${dataset}".`);
 
-  console.table(data);
   return data;
 });

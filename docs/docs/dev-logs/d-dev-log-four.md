@@ -339,7 +339,7 @@ If we assume a typical Western reading order of left to right and top to bottom,
         @size='value'
         @color='day'
         @xScale={{xScale}}
-        @yScale={{yScale}}
+        @yScale={{yScale}} {{! The div helper below comes from ember-math-helpers }}
         @sizeScale={{scale-sqrt domain='1..20' range=(array 2 (div width 48))}}
         @colorScale={{scale-ordinal
           domain=(data "days")
@@ -374,6 +374,37 @@ And even still, a large part of accessibility is accommodating. This is why incl
 All this talk of tables and HTML makes for a good opportunity to use Lineal primitives for non-SVG visualizations. So here's the same punchcard dataset rendered as a heatmap in a basic HTML table. As a toolkit, Lineal wants to be useful in a variety of situations.
 
 **Table**
+
+```hbs preview-template
+{{#let
+  (scale-linear domain='0..20' range='0..75')
+  (range 0 24)
+  as |colorScale hours|
+}}
+  <table class='heatmap'>
+    <thead>
+      <th></th>
+      {{#each hours as |hour|}}
+        <th class="domain">{{hour}}</th>
+      {{/each}}
+    </thead>
+    <tbody>
+      {{#each-in (group-by "day" (data "activitySorted")) as |day activity|}}
+        <tr>
+          <td class='domain'>{{day}}</td>
+          {{#each hours as |hour|}}
+            {{#let (find-by 'hour' hour activity) as |datum|}}
+              {{#let (or datum.value 0) as |val|}}
+                <td {{style --v=(str (colorScale.compute val))}}>{{fmt val}}</td>
+              {{/let}}
+            {{/let}}
+          {{/each}}
+        </tr>
+      {{/each-in}}
+    </tbody>
+  </table>
+{{/let}}
+```
 
 ## That's all folks
 

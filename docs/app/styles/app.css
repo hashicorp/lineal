@@ -533,3 +533,35 @@ dl {
 .ordinal-7 {
   fill: #79695f;
 }
+
+.docfy-demo__example table.heatmap {
+  margin-top: 0;
+
+  tbody td {
+    font-size: 12px;
+    text-align: center;
+    padding: 8px 3px;
+    background-color: hsla(
+      180deg,
+      calc(1% * var(--v, 0)),
+      calc(1% * var(--v, 0) / 2),
+      calc(1% * var(--v, 0))
+    );
+  }
+
+  td.domain {
+    font-size: 14px;
+    font-weight: bold;
+    text-align: right;
+    border-right: 2px solid var(--c-base);
+    padding-right: 8px;
+    background-color: transparent;
+    color: var(--c-line-0);
+  }
+
+  th.domain {
+    text-align: center;
+    border-bottom: 2px solid var(--c-base);
+    color: var(--c-line-0);
+  }
+}
