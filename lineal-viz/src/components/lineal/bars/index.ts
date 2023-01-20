@@ -1,6 +1,5 @@
 import Component from '@glimmer/component';
-import { tracked } from '@glimmer/tracking';
-import { cached } from '../../../cached';
+import { tracked, cached } from '@glimmer/tracking';
 import { Accessor, Encoding } from '../../../encoding';
 import { Scale, ScaleLinear, ScaleOrdinal, ScaleSqrt, ScaleIdentity } from '../../../scale';
 import CSSRange from '../../../css-range';

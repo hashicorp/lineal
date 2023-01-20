@@ -1,6 +1,5 @@
 import Component from '@glimmer/component';
-import { tracked } from '@glimmer/tracking';
-import { cached } from '../../../cached';
+import { tracked, cached } from '@glimmer/tracking';
 import { Scale } from '../../../scale';
 
 enum Orientation {
