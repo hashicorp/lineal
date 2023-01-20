@@ -16,7 +16,7 @@ module('Integration | Component | Lineal::Fluid', function (hooks) {
     await render(hbs`
       <Lineal::Fluid style='border:1px solid black; width: 100px; height: 50px' as |width height entry|>
         <span class='output'>{{width}} {{height}}</span>
-        {{this.spy entry}}
+        {{spy this.spy entry}}
       </Lineal::Fluid>
     `);
 

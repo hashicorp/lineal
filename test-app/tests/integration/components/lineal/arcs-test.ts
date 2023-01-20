@@ -132,7 +132,7 @@ module('Integration | Component | Lineal::Arcs', function (hooks) {
           @theta="value"
         as |arcs|>
         {{#each arcs as |arc|}}
-          {{this.spy arc}}
+          {{spy this.spy arc}}
         {{/each}}
       </Lineal::Arcs>
       </svg>
@@ -168,7 +168,7 @@ module('Integration | Component | Lineal::Arcs', function (hooks) {
           @theta="value"
         as |arcs|>
         {{#each arcs as |arc|}}
-          {{this.spy arc}}
+          {{spy this.spy arc}}
         {{/each}}
       </Lineal::Arcs>
       </svg>

@@ -60,7 +60,7 @@ module('Integration | Component | Lineal::Arc', function (hooks) {
     await render(hbs`
       <svg>
         <Lineal::Arc as |arc|>
-          {{this.spy arc.centroid}}
+          {{spy this.spy arc.centroid}}
         </Lineal::Arc>
       </svg>
     `);

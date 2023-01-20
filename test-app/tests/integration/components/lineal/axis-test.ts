@@ -321,7 +321,7 @@ module('Integration | Component | Lineal::Axis', function (hooks) {
           @offset={{0}}
         as |tick index|>
           <text>{{index}}</text>
-          {{this.spy tick}}
+          {{spy this.spy tick}}
         </Lineal::Axis>
       </svg>
     `);
