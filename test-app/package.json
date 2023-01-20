@@ -112,6 +112,6 @@
   "dependencies": {
     "d3-scale": "^4.0.2",
     "d3-shape": "^3.1.0",
-    "ember-cached-decorator-polyfill": "^0.1.4"
+    "ember-cached-decorator-polyfill": "^1.0.1"
   }
 }
