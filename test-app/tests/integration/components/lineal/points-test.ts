@@ -182,7 +182,7 @@ module('Integration | Component | Lineal::Points', function (hooks) {
           @colorScale="ordinal"
         as |points|>
           {{#each points as |p|}}
-            {{this.spy p}}
+            {{spy this.spy p}}
           {{/each}}
         </Lineal::Points>
       </svg>
@@ -219,7 +219,7 @@ module('Integration | Component | Lineal::Points', function (hooks) {
           @colorScale="ordinal"
         as |points|>
           {{#each points as |p|}}
-            {{this.spy p}}
+            {{spy this.spy p}}
           {{/each}}
         </Lineal::Points>
       </svg>
