@@ -2,7 +2,6 @@
 
 # compiled output
 dist/
-lineal-viz/staged/
 
 # dependencies
 node_modules/

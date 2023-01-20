@@ -1,10 +1,9 @@
 import typescript from 'rollup-plugin-ts';
-import copy from 'rollup-plugin-copy';
 import { Addon } from '@embroider/addon-dev/rollup';
 
 const addon = new Addon({
   srcDir: 'src',
-  destDir: 'staged',
+  destDir: 'dist',
 });
 
 export default {
@@ -58,12 +57,5 @@ export default {
 
     // Remove leftover build artifacts when starting a new build.
     addon.clean(),
-
-    // Fixes an issue where rollup would delete files in dist before rewriting them,
-    // causing the test `ember serve` watching the dir to break on rebuilds.
-    copy({
-      targets: [{ src: 'staged/*', dest: 'dist' }],
-      hook: 'writeBundle',
-    }),
   ],
 };
