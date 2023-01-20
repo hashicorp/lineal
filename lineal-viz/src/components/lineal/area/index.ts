@@ -1,7 +1,7 @@
 import { scheduleOnce } from '@ember/runloop';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { cached } from '../../../cached';
+import { cached } from '@glimmer/tracking';
 import { area, CurveFactory } from 'd3-shape';
 import { extent } from 'd3-array';
 import { Scale, ScaleLinear } from '../../../scale';
