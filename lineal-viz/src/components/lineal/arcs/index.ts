@@ -6,7 +6,7 @@ import { Accessor, Encoding } from '../../../encoding';
 import CSSRange from '../../../css-range';
 import parseAngle from '../../../utils/parse-angle';
 
-interface ArcsArgs {
+export interface ArcsArgs {
   data: any[];
   theta: Accessor;
   color: Accessor;

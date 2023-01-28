@@ -2,26 +2,26 @@ import Component from '@glimmer/component';
 import { tracked, cached } from '@glimmer/tracking';
 import { Scale } from '../../../scale';
 
-enum Orientation {
+export enum Orientation {
   Top = 'top',
   Right = 'right',
   Bottom = 'bottom',
   Left = 'left',
 }
 
-enum OrientationInt {
+export enum OrientationInt {
   Top = 1,
   Right = 2,
   Bottom = 3,
   Left = 4,
 }
 
-enum Direction {
+export enum Direction {
   Vertical = 'vertical',
   Horizontal = 'horizontal',
 }
 
-interface AxisArgs {
+export interface AxisArgs {
   scale: Scale;
   orientation: Orientation;
   tickValues?: any[];

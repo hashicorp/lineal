@@ -5,7 +5,7 @@ import { Scale, ScaleLinear, ScaleOrdinal, ScaleSqrt, ScaleIdentity } from '../.
 import CSSRange from '../../../css-range';
 import { qualifyScale } from '../../../utils/mark-utils';
 
-interface BarsArgs {
+export interface BarsArgs {
   data: any[];
   x: Accessor;
   y: Accessor;
@@ -17,7 +17,7 @@ interface BarsArgs {
   heightScale?: Scale;
 }
 
-interface BarDatum {
+export interface BarDatum {
   x: number;
   y: number;
   width: number;

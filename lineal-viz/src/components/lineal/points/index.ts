@@ -5,7 +5,7 @@ import { Scale, ScaleLinear, ScaleOrdinal, ScaleSqrt, ScaleIdentity } from '../.
 import CSSRange from '../../../css-range';
 import { qualifyScale } from '../../../utils/mark-utils';
 
-interface PointsArgs {
+export interface PointsArgs {
   data: any[];
   x: Accessor;
   y: Accessor;

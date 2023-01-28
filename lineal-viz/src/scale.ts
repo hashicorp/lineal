@@ -17,7 +17,7 @@ export interface Scale {
   isValid: boolean;
 }
 
-type ValueSet = number[] | string;
+export type ValueSet = number[] | string;
 
 export interface ScaleConfig {
   domain?: ValueSet;
