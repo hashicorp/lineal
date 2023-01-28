@@ -4,16 +4,24 @@ import * as scales from 'd3-scale';
 import Bounds from './bounds';
 import CSSRange from './css-range';
 
-// TODO: Implement scale classes for the less common scales
-// Implicit = 'implicit',
-
 // TODO: D3 scales are incredibly fluid, but we can
 // still do a better job locking down these types.
+
+/**
+ * All Scales are Ember-friendly wrappers
+ * around d3 scales.
+ */
 export interface Scale {
+  /** The bounds of the scale's data space. */
   domain: any;
+  /** The bounds of the scale's visual space. */
   range: any;
+  /** The mapper from data space to visual space. */
   compute: (value: any) => any;
+  /** The underlying D3 Scale instance. */
   d3Scale: any;
+  /** Whether or not calling scale.compute will result in an error.
+   * `isValid` is `false` when the scale's domain or range are unqualified. */
   isValid: boolean;
 }
 
