@@ -1,4 +1,4 @@
 import { helper } from '@ember/component/helper';
-import { ScalePow, ScaleConfig } from '../scale';
+import { ScalePow, PowScaleConfig } from '../scale';
 
-export default helper(([], hash: ScaleConfig) => new ScalePow(hash));
+export default helper(([], hash: PowScaleConfig) => new ScalePow(hash));
