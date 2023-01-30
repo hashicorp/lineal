@@ -6,7 +6,7 @@ import { Accessor, Encoding } from '../../../encoding';
 import { curveFor, CurveArgs } from '../../../utils/curves';
 import { qualifyScale } from '../../../utils/mark-utils';
 
-interface LineArgs {
+export interface LineArgs {
   data: any[];
   x: Accessor;
   y: Accessor;

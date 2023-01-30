@@ -10,7 +10,7 @@ import Bounds from '../../../bounds';
 import { curveFor, CurveArgs } from '../../../utils/curves';
 import { qualifyScale } from '../../../utils/mark-utils';
 
-interface AreaArgs {
+export interface AreaArgs {
   data: any[];
   x: Accessor;
   y: Accessor;

@@ -2,12 +2,12 @@ import Component from '@glimmer/component';
 import { tracked, cached } from '@glimmer/tracking';
 import { Scale } from '../../../scale';
 
-enum Direction {
+export enum Direction {
   Vertical = 'vertical',
   Horizontal = 'horizontal',
 }
 
-interface GridlinesArgs {
+export interface GridlinesArgs {
   scale: Scale;
   direction: Direction;
   length: number;

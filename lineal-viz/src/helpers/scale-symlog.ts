@@ -1,4 +1,4 @@
 import { helper } from '@ember/component/helper';
-import { ScaleSymlog, ScaleConfig } from '../scale';
+import { ScaleSymlog, ContinuousScaleConfig } from '../scale';
 
-export default helper(([], hash: ScaleConfig) => new ScaleSymlog(hash));
+export default helper(([], hash: ContinuousScaleConfig) => new ScaleSymlog(hash));

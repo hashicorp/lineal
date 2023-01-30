@@ -4,7 +4,7 @@ import Bounds from '../bounds';
 import { Scale } from '../scale';
 import { Encoding } from '../encoding';
 
-interface MarkArgs {
+export interface MarkArgs {
   data: any[];
 }
 

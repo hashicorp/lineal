@@ -4,43 +4,63 @@ import * as scales from 'd3-scale';
 import Bounds from './bounds';
 import CSSRange from './css-range';
 
-// TODO: Implement scale classes for the less common scales
-// Implicit = 'implicit',
-
 // TODO: D3 scales are incredibly fluid, but we can
 // still do a better job locking down these types.
+
+/**
+ * All Scales are Ember-friendly wrappers
+ * around d3 scales.
+ */
 export interface Scale {
+  /** The bounds of the scale's data space. */
   domain: any;
+  /** The bounds of the scale's visual space. */
   range: any;
+  /** The mapper from data space to visual space. */
   compute: (value: any) => any;
+  /** The underlying D3 Scale instance. */
   d3Scale: any;
+  /** Whether or not calling scale.compute will result in an error.
+   * `isValid` is `false` when the scale's domain or range are unqualified. */
   isValid: boolean;
 }
 
-type ValueSet = number[] | string;
+/**
+ * A value set is either an array of numbers (a step-wise representation of a range)
+ * or a string (parsed as Bounds range expression).
+ */
+export type ValueSet = number[] | string;
 
-export interface ScaleConfig {
+/**
+ * Continuous scales map a continuous domain to a continuous range (e.g., Linear).
+ */
+export interface ContinuousScaleConfig {
   domain?: ValueSet;
   range?: ValueSet;
   clamp?: boolean;
   nice?: boolean;
-
-  // ScalePow only
-  exponent?: number;
-
-  // ScaleLog only
-  base?: number;
-
-  // Scale Band/Point only
-  round?: boolean;
-  padding?: number;
-  align?: number;
-
-  // Scale Band only
-  paddingInner?: number;
-  paddingOuter?: number;
 }
 
+/**
+ * Power scales are continuous scales with the additional property
+ * of the exponent.
+ */
+export interface PowScaleConfig extends ContinuousScaleConfig {
+  exponent?: number;
+}
+
+/**
+ * Logarithmic scales are continuous scales with the addition property
+ * of the log base.
+ */
+export interface LogScaleConfig extends ContinuousScaleConfig {
+  base?: number;
+}
+
+/**
+ * Date scales are like continuous scales, except the domain must be
+ * an array of Dates, since Dates have complexity beyond numbers.
+ */
 export interface DateScaleConfig {
   domain?: Date[];
   range?: ValueSet;
@@ -48,32 +68,55 @@ export interface DateScaleConfig {
   nice?: boolean;
 }
 
+/**
+ * Diverging scales take a special three-number domain where the first and
+ * last element represent the bounds and the middle element represents the
+ * neutral base value.
+ */
 export interface DivergingScaleConfig {
   domain: [number, number, number];
   range: (t: number) => any;
   clamp?: boolean;
 }
 
+/**
+ * Quantize scales map a continuous domain to discrete range.
+ */
 export interface QuantizeScaleConfig {
   domain?: ValueSet;
   range: CSSRange | string[];
 }
 
+/**
+ * Quantile scales map a continuous domain to discrete range.
+ */
 export interface QuantileScaleConfig {
   domain: number[];
   range: CSSRange | string[];
 }
 
+/**
+ * Ordinal scales map a discrete domain to a discrete range.
+ */
 export interface OrdinalScaleConfig {
   domain?: string[];
   range: CSSRange | string[];
   unknown?: string;
 }
 
+/**
+ * Identity scales always have a domain that is equivalent to its range
+ * (i.e., identify function).
+ */
 export interface IdentityScaleConfig {
   range: number | number[];
 }
 
+/**
+ * Band scales map a discrete domain to a continuous range. It additionally
+ * has padding properties that result in a derived `bandwidth` value that represents
+ * the visual space a discrete datum occupies in accordance to the padding properties.
+ */
 export interface BandScaleConfig {
   domain?: string[];
   range?: ValueSet;
@@ -84,6 +127,10 @@ export interface BandScaleConfig {
   paddingOuter?: number;
 }
 
+/**
+ * Point scales map a discrete domain to a continuous range. It is a band scale where
+ * the derived `bandwidth` is always zero.
+ */
 export interface PointScaleConfig {
   domain?: string[];
   range?: ValueSet;
@@ -98,7 +145,7 @@ abstract class ScaleContinuous implements Scale {
   @tracked clamp: boolean = false;
   @tracked nice: boolean | number = false;
 
-  constructor({ domain, range, clamp, nice }: ScaleConfig = {}) {
+  constructor({ domain, range, clamp, nice }: ContinuousScaleConfig = {}) {
     this.domain = domain ? Bounds.parse(domain) : new Bounds();
     this.range = range ? Bounds.parse(range) : new Bounds();
     this.clamp = clamp ?? false;
@@ -146,7 +193,7 @@ export class ScaleLinear extends ScaleContinuous {
 export class ScalePow extends ScaleContinuous {
   @tracked exponent: number = 1;
 
-  constructor(config: ScaleConfig) {
+  constructor(config: PowScaleConfig) {
     super(config);
     this.exponent = config.exponent ?? 1;
   }
@@ -159,7 +206,7 @@ export class ScalePow extends ScaleContinuous {
 export class ScaleLog extends ScaleContinuous {
   @tracked base: number = 10;
 
-  constructor(config: ScaleConfig) {
+  constructor(config: LogScaleConfig) {
     super(config);
     this.base = config.base ?? 10;
   }

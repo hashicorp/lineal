@@ -3,7 +3,7 @@ import { Scale } from '../scale';
 import { Accessor, Encoding } from '../encoding';
 import { bisector } from 'd3-array';
 
-interface InteractorArgs {
+export interface InteractorArgs {
   data: any[];
   xScale: Scale;
   x: Accessor;
@@ -13,12 +13,12 @@ interface InteractorArgs {
   onSelect?: (datum: ActiveDatum | null) => void;
 }
 
-interface ActiveDatum {
+export interface ActiveDatum {
   encoding: Encoding;
   datum: any;
 }
 
-interface ActiveData {
+export interface ActiveData {
   datum: ActiveDatum;
   data: ActiveDatum[];
 }

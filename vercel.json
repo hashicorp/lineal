@@ -1,0 +1,9 @@
+{
+  "framework": "ember",
+  "outputDirectory": "docs-dist",
+  "installCommand": "yarn",
+  "buildCommand": "yarn build:docs && yarn build:tsdocs && yarn publish:docs",
+  "rewrites": [
+    { "source": "/:path((?!tsdocs|assets/).*)", "destination": "/index.html" }
+  ]
+}
