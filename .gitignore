@@ -2,6 +2,8 @@
 
 # compiled output
 dist/
+docs-dist/
+lineal-viz/tsdocs/
 
 # dependencies
 node_modules/
