@@ -406,14 +406,26 @@ export class ScaleUtc extends AbstractScaleTime {
   }
 }
 
+/**
+ * A scale that maps a domain of two diverging values and a midpoint to a value between -1 and 1
+ * and then passes that number to a range interpolator.
+ */
 export class ScaleDiverging<T> implements Scale {
+  /** The bounds of the scale's data space. Diverging scales have a three-number domain
+   * representing [max-a, mid, max-b] */
   @tracked domain: [number, number, number];
-  @tracked range: (t: number) => T; // Interpolator
+  /** An interpolator that maps a value from -1-1 to a value in visual space.. */
+  @tracked range: (t: number) => T;
+  /** When `true`, values outside the domain are clamped to the min and max of the range
+   * instead of extrapolated beyond the domain's bounds. */
   @tracked clamp: boolean = false;
 
-  // Scale does not support bounds, it's always valid
+  /** Diverging scales do not support `Bounds` and are therefore always valid. */
   isValid = true;
 
+  /**
+   * The underlying d3Scale function before setting parameters.
+   */
   protected scaleFn: (interpolator?: (t: number) => T) => scales.ScaleDiverging<any, any> =
     scales.scaleDiverging;
 
@@ -423,33 +435,58 @@ export class ScaleDiverging<T> implements Scale {
     this.clamp = clamp ?? false;
   }
 
+  /**
+   * The final d3Scale used for computation.
+   */
   @cached get d3Scale() {
     const scale = this.scaleFn(this.range).domain(this.domain);
     if (this.clamp) scale.clamp(true);
     return scale;
   }
 
+  /**
+   * Computes a range value from a domain value.
+   */
   compute = (value: number): T => {
     return this.d3Scale(value);
   };
 }
 
+/**
+ * A scale that maps a domain of two diverging values and a midpoint to a value between -1 and 1
+ * along a logarithmic curve and then passes that number to a range interpolator.
+ */
 export class ScaleDivergingLog<T> extends ScaleDiverging<T> {
   protected scaleFn = scales.scaleDivergingLog;
 }
 
+/**
+ * A scale that maps a domain of two diverging values and a midpoint to a value between -1 and 1
+ * along a power curve and then passes that number to a range interpolator.
+ */
 export class ScaleDivergingPow<T> extends ScaleDiverging<T> {
   protected scaleFn = scales.scaleDivergingPow;
 }
 
+/**
+ * A scale that maps a domain of two diverging values and a midpoint to a value between -1 and 1
+ * along a square root curve and then passes that number to a range interpolator.
+ */
 export class ScaleDivergingSqrt<T> extends ScaleDiverging<T> {
   protected scaleFn = scales.scaleDivergingSqrt;
 }
 
+/**
+ * A scale that maps a domain of two diverging values and a midpoint to a value between -1 and 1
+ * along a symmetric log curve and then passes that number to a range interpolator.
+ */
 export class ScaleDivergingSymlog<T> extends ScaleDiverging<T> {
   protected scaleFn = scales.scaleDivergingSymlog;
 }
 
+/**
+ * A scale that maps a domain of values to a discrete set of range values.
+ */
 export class ScaleQuantize implements Scale {
   @tracked domain: Bounds<number> | number[];
   @tracked range: CSSRange | string[];
@@ -485,7 +522,6 @@ export class ScaleQuantile implements Scale {
   @tracked domain: number[];
   @tracked range: CSSRange | string[];
 
-  // Scale does not support bounds, it's always valid
   isValid = true;
 
   constructor({ domain, range }: QuantileScaleConfig) {
@@ -508,7 +544,6 @@ export class ScaleThreshold implements Scale {
   @tracked domain: number[];
   @tracked range: CSSRange | string[];
 
-  // Scale does not support bounds, it's always valid
   isValid = true;
 
   constructor({ domain, range }: QuantileScaleConfig) {
@@ -532,7 +567,6 @@ export class ScaleOrdinal implements Scale {
   @tracked range: CSSRange | string[];
   @tracked unknown: string | undefined;
 
-  // Scale does not support bounds, it's always valid
   isValid = true;
 
   constructor({ domain, range, unknown }: OrdinalScaleConfig) {
@@ -561,7 +595,6 @@ export class ScaleOrdinal implements Scale {
 export class ScaleIdentity implements Scale {
   @tracked range: number[];
 
-  // Scale does not support bounds, it's always valid
   isValid = true;
 
   constructor({ range }: IdentityScaleConfig) {
