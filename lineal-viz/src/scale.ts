@@ -35,9 +35,14 @@ export type ValueSet = number[] | string;
  * Continuous scales map a continuous domain to a continuous range (e.g., Linear).
  */
 export interface ContinuousScaleConfig {
+  /** The bounds of the scale's data space. */
   domain?: ValueSet;
+  /** The bounds of the scale's visual space. */
   range?: ValueSet;
+  /** When `true`, values outside the domain are clamped to the min and max of the range
+   * instead of extrapolated beyond the domain's bounds. */
   clamp?: boolean;
+  /** When `true`, domain bounds are rounded to nice numbers. */
   nice?: boolean;
 }
 
@@ -46,6 +51,7 @@ export interface ContinuousScaleConfig {
  * of the exponent.
  */
 export interface PowScaleConfig extends ContinuousScaleConfig {
+  /** The exponent of the power scale (e.g., 10 results in 10, 100, 1000 while 2 results in 2, 4, 8, 16). */
   exponent?: number;
 }
 
@@ -54,6 +60,7 @@ export interface PowScaleConfig extends ContinuousScaleConfig {
  * of the log base.
  */
 export interface LogScaleConfig extends ContinuousScaleConfig {
+  /** The base of the log scale (e.g., e results in a natural log while 10 results in the common log). */
   base?: number;
 }
 
@@ -62,9 +69,14 @@ export interface LogScaleConfig extends ContinuousScaleConfig {
  * an array of Dates, since Dates have complexity beyond numbers.
  */
 export interface DateScaleConfig {
+  /** The bounds of the scale's data space. */
   domain?: Date[];
+  /** The bounds of the scale's visual space. */
   range?: ValueSet;
+  /** When `true`, values outside the domain are clamped to the min and max of the range
+   * instead of extrapolated beyond the domain's bounds. */
   clamp?: boolean;
+  /** When `true`, domain bounds are rounded to nice numbers. */
   nice?: boolean;
 }
 
@@ -74,8 +86,13 @@ export interface DateScaleConfig {
  * neutral base value.
  */
 export interface DivergingScaleConfig {
+  /** The bounds of the scale's data space. Diverging scales have a three-number domain
+   * representing [max-a, mid, max-b] */
   domain: [number, number, number];
+  /** An interpolator that maps a value from -1-1 to a value in visual space.. */
   range: (t: number) => any;
+  /** When `true`, values outside the domain are clamped to the min and max of the range
+   * instead of extrapolated beyond the domain's bounds. */
   clamp?: boolean;
 }
 
@@ -83,7 +100,10 @@ export interface DivergingScaleConfig {
  * Quantize scales map a continuous domain to discrete range.
  */
 export interface QuantizeScaleConfig {
+  /** The extent of a dataset from which equal intervals are derived using the length
+   * of the provided range to determine the interval count.  */
   domain?: ValueSet;
+  /** The set of values for the scale's visual space. */
   range: CSSRange | string[];
 }
 
@@ -91,7 +111,11 @@ export interface QuantizeScaleConfig {
  * Quantile scales map a continuous domain to discrete range.
  */
 export interface QuantileScaleConfig {
+  /** The complete set of data form which equal frequency quantiles are derived using the
+   * length of the provided range to dermine the interval count and the data itself to
+   * determine interval size. */
   domain: number[];
+  /** The set of values for the scale's visual space. */
   range: CSSRange | string[];
 }
 
@@ -99,8 +123,11 @@ export interface QuantileScaleConfig {
  * Ordinal scales map a discrete domain to a discrete range.
  */
 export interface OrdinalScaleConfig {
+  /** The discrete set of ordinal (or nominal) input data. */
   domain?: string[];
+  /** The set of values for the scale's visual space. */
   range: CSSRange | string[];
+  /** The value to use when a computed value is not in the domain. */
   unknown?: string;
 }
 
@@ -109,6 +136,7 @@ export interface OrdinalScaleConfig {
  * (i.e., identify function).
  */
 export interface IdentityScaleConfig {
+  /** The set of values for the scale's visual space and also data space. */
   range: number | number[];
 }
 
@@ -118,12 +146,23 @@ export interface IdentityScaleConfig {
  * the visual space a discrete datum occupies in accordance to the padding properties.
  */
 export interface BandScaleConfig {
+  /** The discrete set of ordinal (or nominal) input data. */
   domain?: string[];
+  /** The bounds of the scale's visual space. */
   range?: ValueSet;
+  /** When `true`, ensures that `step` and `bandwidth` are integers. */
   round?: boolean;
+  /** A number between 0 and 1 that specifies how the outer padding in the scale's
+   * range is distributed. 0.5 represents centering bands in their range. */
   align?: number;
+  /** A convenience property for setting `paddingInner` and `paddingOuter` at once. */
   padding?: number;
+  /** A number between 0 and 1 that specifies how much spacing there is between bands
+   * in proportion to band widths (e.g., when `padding` is 0.5, gaps and bands are
+   * equal widths. */
   paddingInner?: number;
+  /** A number between 0 and 1 that specifies how much padding is placed on the outside
+   * of bands (while still subtracting available space from the `range`). */
   paddingOuter?: number;
 }
 
@@ -132,10 +171,17 @@ export interface BandScaleConfig {
  * the derived `bandwidth` is always zero.
  */
 export interface PointScaleConfig {
+  /** The discrete set of ordinal (or nominal) input data. */
   domain?: string[];
+  /** The bounds of the scale's visual space. */
   range?: ValueSet;
+  /** When `true`, ensures that `step` and `bandwidth` are integers. */
   round?: boolean;
+  /** A number between 0 and 1 that specifies how the outer padding in the scale's
+   * range is distributed. 0.5 represents centering bands in their range. */
   align?: number;
+  /** A number between 0 and 1 that specifies how much padding is placed on the outside
+   * of the points (while still subtracting available space from the `range`). */
   padding?: number;
 }
 
