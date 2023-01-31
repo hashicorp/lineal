@@ -122,7 +122,12 @@ module('Unit | Bounds.parse', function () {
       },
       { name: '"asdf" is bad input and throws', input: 'asdf', output: null },
       {
-        name: 'when provided with an array, the same array is returned',
+        name: 'when provided with a two element array, it is interpreted as [min, max]',
+        input: [5, 15],
+        output: new Bounds(5, 15),
+      },
+      {
+        name: 'when provided with an array with more than two elements, the same array is returned',
         input: [5, 10, 15],
       },
       {

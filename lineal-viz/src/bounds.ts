@@ -11,7 +11,11 @@ export default class Bounds<T> {
   @tracked max: T | undefined;
 
   static parse(input: string | number[]): Bounds<number> | number[] {
-    if (input instanceof Array) return input;
+    if (input instanceof Array) {
+      if (input.length === 2) return new Bounds<number>(...input);
+      return input;
+    }
+
     if (!NUMERIC_RANGE_DSL.test(input)) {
       throw new Error(
         'Invalid string provided as numeric range. Must match the syntax "1..1", where the min and the max are both optional (e.g., "1.." is valid).'
