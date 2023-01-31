@@ -186,9 +186,14 @@ export interface PointScaleConfig {
 }
 
 abstract class ScaleContinuous implements Scale {
+  /** The bounds of the scale's data space. */
   @tracked domain: Bounds<number> | number[];
+  /** The bounds of the scale's visual space. */
   @tracked range: Bounds<number> | number[];
+  /** When `true`, values outside the domain are clamped to the min and max of the range
+   * instead of extrapolated beyond the domain's bounds. */
   @tracked clamp: boolean = false;
+  /** When `true`, domain bounds are rounded to nice numbers. */
   @tracked nice: boolean | number = false;
 
   constructor({ domain, range, clamp, nice }: ContinuousScaleConfig = {}) {
@@ -198,6 +203,9 @@ abstract class ScaleContinuous implements Scale {
     this.nice = nice ?? false;
   }
 
+  /**
+   * The arguments for constructing a d3Scale instance, derived from the ScaleConfig.
+   */
   get scaleArgs(): [number[], number[]] {
     return [
       this.domain instanceof Bounds ? this.domain.bounds : this.domain,
@@ -205,8 +213,14 @@ abstract class ScaleContinuous implements Scale {
     ];
   }
 
+  /**
+   * The d3Scale instance without generic modifications like clamp and nice applied yet.
+   */
   abstract get _d3Scale(): scales.ScaleContinuousNumeric<number, number>;
 
+  /**
+   * The final d3Scale used for computation.
+   */
   @cached get d3Scale(): scales.ScaleContinuousNumeric<number, number> {
     const scale = this._d3Scale;
     if (this.clamp) scale.clamp(true);
@@ -219,10 +233,17 @@ abstract class ScaleContinuous implements Scale {
     return scale;
   }
 
+  /**
+   * Computes a range value from a domain value.
+   */
   compute = (value: number): number => {
     return this.d3Scale(value);
   };
 
+  /**
+   * Whether or not the Bounds for the domain and range are valid (i.e., have a valid
+   * min and max value).
+   */
   get isValid(): boolean {
     if (this.domain instanceof Bounds && !this.domain.isValid) return false;
     if (this.range instanceof Bounds && !this.range.isValid) return false;
@@ -230,13 +251,20 @@ abstract class ScaleContinuous implements Scale {
   }
 }
 
+/**
+ * A scale that maps a domain of values to a range of values on a linear curve.
+ */
 export class ScaleLinear extends ScaleContinuous {
   get _d3Scale() {
     return scales.scaleLinear(...this.scaleArgs);
   }
 }
 
+/**
+ * A scale that maps a domain of values to a range of values on a power curve.
+ */
 export class ScalePow extends ScaleContinuous {
+  /** The exponent of the power scale (e.g., 10 results in 10, 100, 1000 while 2 results in 2, 4, 8, 16). */
   @tracked exponent: number = 1;
 
   constructor(config: PowScaleConfig) {
@@ -249,7 +277,11 @@ export class ScalePow extends ScaleContinuous {
   }
 }
 
+/**
+ * A scale that maps a domain of values to a range of values on a logarithmic curve.
+ */
 export class ScaleLog extends ScaleContinuous {
+  /** The base of the log scale (e.g., e results in a natural log while 10 results in the common log). */
   @tracked base: number = 10;
 
   constructor(config: LogScaleConfig) {
@@ -262,18 +294,28 @@ export class ScaleLog extends ScaleContinuous {
   }
 }
 
+/**
+ * A scale that maps a domain of values to a range of values on a square root curve.
+ */
 export class ScaleSqrt extends ScaleContinuous {
   get _d3Scale() {
     return scales.scaleSqrt(...this.scaleArgs);
   }
 }
 
+/**
+ * A scale that maps a domain of values to a range of values on a symmetric logarithmic curve.
+ */
 export class ScaleSymlog extends ScaleContinuous {
   get _d3Scale() {
     return scales.scaleSymlog(...this.scaleArgs);
   }
 }
 
+/**
+ * A scale that maps a domain of values to a range of values on a linear curve where the range
+ * is internally squared (to encode on area instead of radius).
+ */
 export class ScaleRadial extends ScaleContinuous {
   get _d3Scale() {
     return scales.scaleRadial(...this.scaleArgs);
@@ -281,9 +323,14 @@ export class ScaleRadial extends ScaleContinuous {
 }
 
 abstract class AbstractScaleTime implements Scale {
+  /** The bounds of the scale's data space. */
   @tracked domain: Bounds<Date> | Date[];
+  /** The bounds of the scale's visual space. */
   @tracked range: Bounds<number> | number[];
+  /** When `true`, values outside the domain are clamped to the min and max of the range
+   * instead of extrapolated beyond the domain's bounds. */
   @tracked clamp: boolean = false;
+  /** When `true`, domain bounds are rounded to nice numbers. */
   @tracked nice: boolean | number = false;
 
   constructor({ domain, range, clamp, nice }: DateScaleConfig = {}) {
@@ -293,6 +340,9 @@ abstract class AbstractScaleTime implements Scale {
     this.nice = nice ?? false;
   }
 
+  /**
+   * The arguments for constructing a d3Scale instance, derived from the `DateScaleConfig`.
+   */
   get scaleArgs(): [Date[], number[]] {
     return [
       this.domain instanceof Bounds ? this.domain.bounds : this.domain,
@@ -300,8 +350,14 @@ abstract class AbstractScaleTime implements Scale {
     ];
   }
 
+  /**
+   * The d3Scale instance without generic modifications like clamp and nice applied yet.
+   */
   abstract get _d3Scale(): scales.ScaleTime<number, number>;
 
+  /**
+   * The final d3Scale used for computation.
+   */
   @cached get d3Scale(): scales.ScaleTime<number, number> {
     const scale = this._d3Scale;
     if (this.clamp) scale.clamp(true);
@@ -314,10 +370,17 @@ abstract class AbstractScaleTime implements Scale {
     return scale;
   }
 
+  /**
+   * Computes a range value from a domain value.
+   */
   compute = (value: Date): number => {
     return this.d3Scale(value);
   };
 
+  /**
+   * Whether or not the Bounds for the domain and range are valid (i.e., have a valid
+   * min and max value).
+   */
   get isValid(): boolean {
     if (this.domain instanceof Bounds && !this.domain.isValid) return false;
     if (this.range instanceof Bounds && !this.range.isValid) return false;
@@ -325,12 +388,18 @@ abstract class AbstractScaleTime implements Scale {
   }
 }
 
+/**
+ * A scale that maps a domain of date values to a range of values on linear curve.
+ */
 export class ScaleTime extends AbstractScaleTime {
   get _d3Scale() {
     return scales.scaleTime(...this.scaleArgs);
   }
 }
 
+/**
+ * A `ScaleTime`, except the timezone is UTC instead of local.
+ */
 export class ScaleUtc extends AbstractScaleTime {
   get _d3Scale() {
     return scales.scaleUtc(...this.scaleArgs);
