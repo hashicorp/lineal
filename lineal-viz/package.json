@@ -6,8 +6,12 @@
   "keywords": [
     "ember-addon"
   ],
-  "repository": "",
-  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hashicorp/lineal",
+    "directory": "lineal-viz"
+  },
+  "license": "MPL-2.0",
   "author": "",
   "files": [
     "addon-main.js",
