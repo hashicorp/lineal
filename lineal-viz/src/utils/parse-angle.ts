@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) HashiCorp, Inc.
+ * SPDX-License-Identifier: MPL-2.0
+ */
+
 // An angle can be defined as a number or a string ending with 'd'
 export default function parseAngle(angle: number | string): number {
   if (typeof angle === 'number') return angle;

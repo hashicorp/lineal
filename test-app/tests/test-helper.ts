@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) HashiCorp, Inc.
+ * SPDX-License-Identifier: MPL-2.0
+ */
+
 import 'qunit-dom';
 import Application from 'test-app/app';
 import config from 'test-app/config/environment';

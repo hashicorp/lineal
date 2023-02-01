@@ -1,4 +1,9 @@
 /**
+ * Copyright (c) HashiCorp, Inc.
+ * SPDX-License-Identifier: MPL-2.0
+ */
+
+/**
  * Used with scales that support discrete ranges (quantize, quantile, threshold, and ordinal)
  * to dynamically construct ranges that have incrementing strings. These are then used by marks
  * to specify encodings as CSS classes instead of as inline attribute values.
