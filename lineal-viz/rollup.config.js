@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) HashiCorp, Inc.
+ * SPDX-License-Identifier: MPL-2.0
+ */
+
 import typescript from 'rollup-plugin-ts';
 import { Addon } from '@embroider/addon-dev/rollup';
 

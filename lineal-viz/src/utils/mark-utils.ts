@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) HashiCorp, Inc.
+ * SPDX-License-Identifier: MPL-2.0
+ */
+
 import { scheduleOnce } from '@ember/runloop';
 import Component from '@glimmer/component';
 import Bounds from '../bounds';
