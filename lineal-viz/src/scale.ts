@@ -35,9 +35,14 @@ export type ValueSet = number[] | string;
  * Continuous scales map a continuous domain to a continuous range (e.g., Linear).
  */
 export interface ContinuousScaleConfig {
+  /** The bounds of the scale's data space. */
   domain?: ValueSet;
+  /** The bounds of the scale's visual space. */
   range?: ValueSet;
+  /** When `true`, values outside the domain are clamped to the min and max of the range
+   * instead of extrapolated beyond the domain's bounds. */
   clamp?: boolean;
+  /** When `true`, domain bounds are rounded to nice numbers. */
   nice?: boolean;
 }
 
@@ -46,6 +51,7 @@ export interface ContinuousScaleConfig {
  * of the exponent.
  */
 export interface PowScaleConfig extends ContinuousScaleConfig {
+  /** The exponent of the power scale (e.g., 10 results in 10, 100, 1000 while 2 results in 2, 4, 8, 16). */
   exponent?: number;
 }
 
@@ -54,6 +60,7 @@ export interface PowScaleConfig extends ContinuousScaleConfig {
  * of the log base.
  */
 export interface LogScaleConfig extends ContinuousScaleConfig {
+  /** The base of the log scale (e.g., e results in a natural log while 10 results in the common log). */
   base?: number;
 }
 
@@ -62,9 +69,14 @@ export interface LogScaleConfig extends ContinuousScaleConfig {
  * an array of Dates, since Dates have complexity beyond numbers.
  */
 export interface DateScaleConfig {
+  /** The bounds of the scale's data space. */
   domain?: Date[];
+  /** The bounds of the scale's visual space. */
   range?: ValueSet;
+  /** When `true`, values outside the domain are clamped to the min and max of the range
+   * instead of extrapolated beyond the domain's bounds. */
   clamp?: boolean;
+  /** When `true`, domain bounds are rounded to nice numbers. */
   nice?: boolean;
 }
 
@@ -74,8 +86,13 @@ export interface DateScaleConfig {
  * neutral base value.
  */
 export interface DivergingScaleConfig {
+  /** The bounds of the scale's data space. Diverging scales have a three-number domain
+   * representing [max-a, mid, max-b] */
   domain: [number, number, number];
+  /** An interpolator that maps a value from -1-1 to a value in visual space.. */
   range: (t: number) => any;
+  /** When `true`, values outside the domain are clamped to the min and max of the range
+   * instead of extrapolated beyond the domain's bounds. */
   clamp?: boolean;
 }
 
@@ -83,7 +100,10 @@ export interface DivergingScaleConfig {
  * Quantize scales map a continuous domain to discrete range.
  */
 export interface QuantizeScaleConfig {
+  /** The extent of a dataset from which equal intervals are derived using the length
+   * of the provided range to determine the interval count.  */
   domain?: ValueSet;
+  /** The set of values for the scale's visual space. */
   range: CSSRange | string[];
 }
 
@@ -91,7 +111,11 @@ export interface QuantizeScaleConfig {
  * Quantile scales map a continuous domain to discrete range.
  */
 export interface QuantileScaleConfig {
+  /** The complete set of data form which equal frequency quantiles are derived using the
+   * length of the provided range to dermine the interval count and the data itself to
+   * determine interval size. */
   domain: number[];
+  /** The set of values for the scale's visual space. */
   range: CSSRange | string[];
 }
 
@@ -99,8 +123,11 @@ export interface QuantileScaleConfig {
  * Ordinal scales map a discrete domain to a discrete range.
  */
 export interface OrdinalScaleConfig {
+  /** The discrete set of ordinal (or nominal) input data. */
   domain?: string[];
+  /** The set of values for the scale's visual space. */
   range: CSSRange | string[];
+  /** The value to use when a computed value is not in the domain. */
   unknown?: string;
 }
 
@@ -109,6 +136,7 @@ export interface OrdinalScaleConfig {
  * (i.e., identify function).
  */
 export interface IdentityScaleConfig {
+  /** The set of values for the scale's visual space and also data space. */
   range: number | number[];
 }
 
@@ -118,12 +146,23 @@ export interface IdentityScaleConfig {
  * the visual space a discrete datum occupies in accordance to the padding properties.
  */
 export interface BandScaleConfig {
+  /** The discrete set of ordinal (or nominal) input data. */
   domain?: string[];
+  /** The bounds of the scale's visual space. */
   range?: ValueSet;
+  /** When `true`, ensures that `step` and `bandwidth` are integers. */
   round?: boolean;
+  /** A number between 0 and 1 that specifies how the outer padding in the scale's
+   * range is distributed. 0.5 represents centering bands in their range. */
   align?: number;
+  /** A convenience property for setting `paddingInner` and `paddingOuter` at once. */
   padding?: number;
+  /** A number between 0 and 1 that specifies how much spacing there is between bands
+   * in proportion to band widths (e.g., when `padding` is 0.5, gaps and bands are
+   * equal widths. */
   paddingInner?: number;
+  /** A number between 0 and 1 that specifies how much padding is placed on the outside
+   * of bands (while still subtracting available space from the `range`). */
   paddingOuter?: number;
 }
 
@@ -132,17 +171,29 @@ export interface BandScaleConfig {
  * the derived `bandwidth` is always zero.
  */
 export interface PointScaleConfig {
+  /** The discrete set of ordinal (or nominal) input data. */
   domain?: string[];
+  /** The bounds of the scale's visual space. */
   range?: ValueSet;
+  /** When `true`, ensures that `step` and `bandwidth` are integers. */
   round?: boolean;
+  /** A number between 0 and 1 that specifies how the outer padding in the scale's
+   * range is distributed. 0.5 represents centering bands in their range. */
   align?: number;
+  /** A number between 0 and 1 that specifies how much padding is placed on the outside
+   * of the points (while still subtracting available space from the `range`). */
   padding?: number;
 }
 
 abstract class ScaleContinuous implements Scale {
+  /** The bounds of the scale's data space. */
   @tracked domain: Bounds<number> | number[];
+  /** The bounds of the scale's visual space. */
   @tracked range: Bounds<number> | number[];
+  /** When `true`, values outside the domain are clamped to the min and max of the range
+   * instead of extrapolated beyond the domain's bounds. */
   @tracked clamp: boolean = false;
+  /** When `true`, domain bounds are rounded to nice numbers. */
   @tracked nice: boolean | number = false;
 
   constructor({ domain, range, clamp, nice }: ContinuousScaleConfig = {}) {
@@ -152,6 +203,9 @@ abstract class ScaleContinuous implements Scale {
     this.nice = nice ?? false;
   }
 
+  /**
+   * The arguments for constructing a d3Scale instance, derived from the ScaleConfig.
+   */
   get scaleArgs(): [number[], number[]] {
     return [
       this.domain instanceof Bounds ? this.domain.bounds : this.domain,
@@ -159,8 +213,14 @@ abstract class ScaleContinuous implements Scale {
     ];
   }
 
+  /**
+   * The d3Scale instance without generic modifications like clamp and nice applied yet.
+   */
   abstract get _d3Scale(): scales.ScaleContinuousNumeric<number, number>;
 
+  /**
+   * The final d3Scale used for computation.
+   */
   @cached get d3Scale(): scales.ScaleContinuousNumeric<number, number> {
     const scale = this._d3Scale;
     if (this.clamp) scale.clamp(true);
@@ -173,10 +233,17 @@ abstract class ScaleContinuous implements Scale {
     return scale;
   }
 
+  /**
+   * Computes a range value from a domain value.
+   */
   compute = (value: number): number => {
     return this.d3Scale(value);
   };
 
+  /**
+   * Whether or not the Bounds for the domain and range are valid (i.e., have a valid
+   * min and max value).
+   */
   get isValid(): boolean {
     if (this.domain instanceof Bounds && !this.domain.isValid) return false;
     if (this.range instanceof Bounds && !this.range.isValid) return false;
@@ -184,13 +251,20 @@ abstract class ScaleContinuous implements Scale {
   }
 }
 
+/**
+ * A scale that maps a domain of values to a range of values on a linear curve.
+ */
 export class ScaleLinear extends ScaleContinuous {
   get _d3Scale() {
     return scales.scaleLinear(...this.scaleArgs);
   }
 }
 
+/**
+ * A scale that maps a domain of values to a range of values on a power curve.
+ */
 export class ScalePow extends ScaleContinuous {
+  /** The exponent of the power scale (e.g., 10 results in 10, 100, 1000 while 2 results in 2, 4, 8, 16). */
   @tracked exponent: number = 1;
 
   constructor(config: PowScaleConfig) {
@@ -203,7 +277,11 @@ export class ScalePow extends ScaleContinuous {
   }
 }
 
+/**
+ * A scale that maps a domain of values to a range of values on a logarithmic curve.
+ */
 export class ScaleLog extends ScaleContinuous {
+  /** The base of the log scale (e.g., e results in a natural log while 10 results in the common log). */
   @tracked base: number = 10;
 
   constructor(config: LogScaleConfig) {
@@ -216,18 +294,28 @@ export class ScaleLog extends ScaleContinuous {
   }
 }
 
+/**
+ * A scale that maps a domain of values to a range of values on a square root curve.
+ */
 export class ScaleSqrt extends ScaleContinuous {
   get _d3Scale() {
     return scales.scaleSqrt(...this.scaleArgs);
   }
 }
 
+/**
+ * A scale that maps a domain of values to a range of values on a symmetric logarithmic curve.
+ */
 export class ScaleSymlog extends ScaleContinuous {
   get _d3Scale() {
     return scales.scaleSymlog(...this.scaleArgs);
   }
 }
 
+/**
+ * A scale that maps a domain of values to a range of values on a linear curve where the range
+ * is internally squared (to encode on area instead of radius).
+ */
 export class ScaleRadial extends ScaleContinuous {
   get _d3Scale() {
     return scales.scaleRadial(...this.scaleArgs);
@@ -235,9 +323,14 @@ export class ScaleRadial extends ScaleContinuous {
 }
 
 abstract class AbstractScaleTime implements Scale {
+  /** The bounds of the scale's data space. */
   @tracked domain: Bounds<Date> | Date[];
+  /** The bounds of the scale's visual space. */
   @tracked range: Bounds<number> | number[];
+  /** When `true`, values outside the domain are clamped to the min and max of the range
+   * instead of extrapolated beyond the domain's bounds. */
   @tracked clamp: boolean = false;
+  /** When `true`, domain bounds are rounded to nice numbers. */
   @tracked nice: boolean | number = false;
 
   constructor({ domain, range, clamp, nice }: DateScaleConfig = {}) {
@@ -247,6 +340,9 @@ abstract class AbstractScaleTime implements Scale {
     this.nice = nice ?? false;
   }
 
+  /**
+   * The arguments for constructing a d3Scale instance, derived from the `DateScaleConfig`.
+   */
   get scaleArgs(): [Date[], number[]] {
     return [
       this.domain instanceof Bounds ? this.domain.bounds : this.domain,
@@ -254,8 +350,14 @@ abstract class AbstractScaleTime implements Scale {
     ];
   }
 
+  /**
+   * The d3Scale instance without generic modifications like clamp and nice applied yet.
+   */
   abstract get _d3Scale(): scales.ScaleTime<number, number>;
 
+  /**
+   * The final d3Scale used for computation.
+   */
   @cached get d3Scale(): scales.ScaleTime<number, number> {
     const scale = this._d3Scale;
     if (this.clamp) scale.clamp(true);
@@ -268,10 +370,17 @@ abstract class AbstractScaleTime implements Scale {
     return scale;
   }
 
+  /**
+   * Computes a range value from a domain value.
+   */
   compute = (value: Date): number => {
     return this.d3Scale(value);
   };
 
+  /**
+   * Whether or not the Bounds for the domain and range are valid (i.e., have a valid
+   * min and max value).
+   */
   get isValid(): boolean {
     if (this.domain instanceof Bounds && !this.domain.isValid) return false;
     if (this.range instanceof Bounds && !this.range.isValid) return false;
@@ -279,26 +388,44 @@ abstract class AbstractScaleTime implements Scale {
   }
 }
 
+/**
+ * A scale that maps a domain of date values to a range of values on linear curve.
+ */
 export class ScaleTime extends AbstractScaleTime {
   get _d3Scale() {
     return scales.scaleTime(...this.scaleArgs);
   }
 }
 
+/**
+ * A `ScaleTime`, except the timezone is UTC instead of local.
+ */
 export class ScaleUtc extends AbstractScaleTime {
   get _d3Scale() {
     return scales.scaleUtc(...this.scaleArgs);
   }
 }
 
+/**
+ * A scale that maps a domain of two diverging values and a midpoint to a value between -1 and 1
+ * and then passes that number to a range interpolator.
+ */
 export class ScaleDiverging<T> implements Scale {
+  /** The bounds of the scale's data space. Diverging scales have a three-number domain
+   * representing [max-a, mid, max-b] */
   @tracked domain: [number, number, number];
-  @tracked range: (t: number) => T; // Interpolator
+  /** An interpolator that maps a value from -1-1 to a value in visual space.. */
+  @tracked range: (t: number) => T;
+  /** When `true`, values outside the domain are clamped to the min and max of the range
+   * instead of extrapolated beyond the domain's bounds. */
   @tracked clamp: boolean = false;
 
-  // Scale does not support bounds, it's always valid
+  /** Diverging scales do not support `Bounds` and are therefore always valid. */
   isValid = true;
 
+  /**
+   * The underlying d3Scale function before setting parameters.
+   */
   protected scaleFn: (interpolator?: (t: number) => T) => scales.ScaleDiverging<any, any> =
     scales.scaleDiverging;
 
@@ -308,35 +435,64 @@ export class ScaleDiverging<T> implements Scale {
     this.clamp = clamp ?? false;
   }
 
+  /**
+   * The final d3Scale used for computation.
+   */
   @cached get d3Scale() {
     const scale = this.scaleFn(this.range).domain(this.domain);
     if (this.clamp) scale.clamp(true);
     return scale;
   }
 
+  /**
+   * Computes a range value from a domain value.
+   */
   compute = (value: number): T => {
     return this.d3Scale(value);
   };
 }
 
+/**
+ * A scale that maps a domain of two diverging values and a midpoint to a value between -1 and 1
+ * along a logarithmic curve and then passes that number to a range interpolator.
+ */
 export class ScaleDivergingLog<T> extends ScaleDiverging<T> {
   protected scaleFn = scales.scaleDivergingLog;
 }
 
+/**
+ * A scale that maps a domain of two diverging values and a midpoint to a value between -1 and 1
+ * along a power curve and then passes that number to a range interpolator.
+ */
 export class ScaleDivergingPow<T> extends ScaleDiverging<T> {
   protected scaleFn = scales.scaleDivergingPow;
 }
 
+/**
+ * A scale that maps a domain of two diverging values and a midpoint to a value between -1 and 1
+ * along a square root curve and then passes that number to a range interpolator.
+ */
 export class ScaleDivergingSqrt<T> extends ScaleDiverging<T> {
   protected scaleFn = scales.scaleDivergingSqrt;
 }
 
+/**
+ * A scale that maps a domain of two diverging values and a midpoint to a value between -1 and 1
+ * along a symmetric log curve and then passes that number to a range interpolator.
+ */
 export class ScaleDivergingSymlog<T> extends ScaleDiverging<T> {
   protected scaleFn = scales.scaleDivergingSymlog;
 }
 
+/**
+ * A scale that maps a domain of values to a discrete set of range values, with intervals portioned
+ * by the range.
+ */
 export class ScaleQuantize implements Scale {
+  /** The extent of a dataset from which equal intervals are derived using the length
+   * of the provided range to determine the interval count.  */
   @tracked domain: Bounds<number> | number[];
+  /** The set of values for the scale's visual space. */
   @tracked range: CSSRange | string[];
 
   constructor({ domain, range }: QuantizeScaleConfig) {
@@ -344,6 +500,8 @@ export class ScaleQuantize implements Scale {
     this.range = range;
   }
 
+  /** Derived number and string arrays to be used to construct a scale (when the domain is a
+   * {@link bounds.default | Bounds} or the range is a {@link css-range.default | CSSRange}). */
   get scaleArgs(): [number[], string[]] {
     const domain: number[] = this.domain instanceof Bounds ? this.domain.bounds : this.domain;
     const range: string[] =
@@ -351,26 +509,44 @@ export class ScaleQuantize implements Scale {
     return [domain, range];
   }
 
+  /**
+   * The d3Scale used for computation.
+   */
   @cached get d3Scale() {
     const [domain, range] = this.scaleArgs;
     return scales.scaleQuantize(range).domain(domain);
   }
 
+  /**
+   * Computes a range value from a domain value.
+   */
   compute = (value: number): string => {
     return this.d3Scale(value);
   };
 
+  /**
+   * Whether or not the Bounds for the domain and range are valid (i.e., have a valid
+   * min and max value).
+   */
   get isValid(): boolean {
     if (this.domain instanceof Bounds && !this.domain.isValid) return false;
     return true;
   }
 }
 
+/**
+ * A scale that maps a set of values to a discrete set of range values, with intervals portioned
+ * by the frequency of values in the dataset.
+ */
 export class ScaleQuantile implements Scale {
+  /** The complete set of data form which equal frequency quantiles are derived using the
+   * length of the provided range to dermine the interval count and the data itself to
+   * determine interval size. */
   @tracked domain: number[];
+  /** The set of values for the scale's visual space. */
   @tracked range: CSSRange | string[];
 
-  // Scale does not support bounds, it's always valid
+  /** Quantile scales do not support `Bounds` and are therefore always valid. */
   isValid = true;
 
   constructor({ domain, range }: QuantileScaleConfig) {
@@ -378,22 +554,34 @@ export class ScaleQuantile implements Scale {
     this.range = range;
   }
 
+  /**
+   * The d3Scale used for computation.
+   */
   @cached get d3Scale() {
     const range: string[] =
       this.range instanceof CSSRange ? this.range.spread(this.domain.length) : this.range;
     return scales.scaleQuantile(range).domain(this.domain);
   }
 
+  /**
+   * Computes a range value from a domain value.
+   */
   compute = (value: number): string => {
     return this.d3Scale(value);
   };
 }
 
+/**
+ * A scale that maps a set of values to a discrete set of range values, with intervals portioned
+ * by the elements set in the domain.
+ */
 export class ScaleThreshold implements Scale {
+  /** The values that define the bucket points in a dataset. */
   @tracked domain: number[];
+  /** The set of values for the scale's visual space. */
   @tracked range: CSSRange | string[];
 
-  // Scale does not support bounds, it's always valid
+  /** Threshold scales do not support `Bounds` and are therefore always valid. */
   isValid = true;
 
   constructor({ domain, range }: QuantileScaleConfig) {
@@ -401,23 +589,35 @@ export class ScaleThreshold implements Scale {
     this.range = range;
   }
 
+  /**
+   * The d3Scale used for computation.
+   */
   @cached get d3Scale() {
     const range: string[] =
       this.range instanceof CSSRange ? this.range.spread(this.domain.length + 1) : this.range;
     return scales.scaleQuantile(range).domain(this.domain);
   }
 
+  /**
+   * Computes a range value from a domain value.
+   */
   compute = (value: number): string => {
     return this.d3Scale(value);
   };
 }
 
+/**
+ * A scale that maps a discrete set of domain values to a discrete set of range values.
+ */
 export class ScaleOrdinal implements Scale {
+  /** The set of values for the scale's data space. */
   @tracked domain: string[];
+  /** The set of values for the scale's visual space. */
   @tracked range: CSSRange | string[];
+  /** The value returned for input vaues that are not in the domain. */
   @tracked unknown: string | undefined;
 
-  // Scale does not support bounds, it's always valid
+  /** Threshold scales do not support `Bounds` and are therefore always valid. */
   isValid = true;
 
   constructor({ domain, range, unknown }: OrdinalScaleConfig) {
@@ -426,6 +626,9 @@ export class ScaleOrdinal implements Scale {
     this.unknown = unknown;
   }
 
+  /**
+   * The d3Scale used for computation.
+   */
   @cached get d3Scale() {
     const range: string[] =
       this.range instanceof CSSRange ? this.range.spread(this.domain.length) : this.range;
@@ -438,40 +641,69 @@ export class ScaleOrdinal implements Scale {
     return scale;
   }
 
+  /**
+   * Computes a range value from a domain value.
+   */
   compute = (value: string): string => {
     return this.d3Scale(value);
   };
 }
 
+/**
+ * A scale with equivalent domains and ranges (like an identity function).
+ */
 export class ScaleIdentity implements Scale {
+  /** The set of values for both the scale's data space and visual space. */
   @tracked range: number[];
 
-  // Scale does not support bounds, it's always valid
+  /** Identity scales do not support `Bounds` and are therefore always valid. */
   isValid = true;
 
   constructor({ range }: IdentityScaleConfig) {
     this.range = range instanceof Array ? range : [range, range];
   }
 
+  /**
+   * The d3Scale used for computation.
+   */
   @cached get d3Scale() {
     return scales.scaleIdentity(this.range);
   }
 
+  /** The set of values for the scale's data space. Since the range and domain are always equivalent,
+   * this is here for Scale interface compatability. */
   @cached get domain() {
     return this.range;
   }
 
+  /**
+   * Computes a range value from a domain value.
+   */
   compute = (value: number): number => {
     return this.d3Scale(value);
   };
 }
 
+/**
+ * A scale that maps a discrete set of domain values to a continuous range of values by dividing the
+ * continuous range into steps that are divided between padding and band widths.
+ */
 export class ScaleBand implements Scale {
+  /** The discrete set of ordinal (or nominal) input data. */
   @tracked domain: string[];
+  /** The bounds of the scale's visual space. */
   @tracked range: Bounds<number> | number[];
+  /** When `true`, ensures that `step` and `bandwidth` are integers. */
   @tracked round: boolean = false;
+  /** A number between 0 and 1 that specifies how the outer padding in the scale's
+   * range is distributed. 0.5 represents centering bands in their range. */
   @tracked align: number = 0.5;
+  /** A number between 0 and 1 that specifies how much spacing there is between bands
+   * in proportion to band widths (e.g., when `padding` is 0.5, gaps and bands are
+   * equal widths. */
   @tracked paddingInner: number = 0;
+  /** A number between 0 and 1 that specifies how much padding is placed on the outside
+   * of bands (while still subtracting available space from the `range`). */
   @tracked paddingOuter: number = 0;
 
   constructor({
@@ -491,11 +723,18 @@ export class ScaleBand implements Scale {
     this.paddingOuter = paddingOuter ?? padding ?? 0;
   }
 
+  /**
+   * Whether or not the Bounds for the domain and range are valid (i.e., have a valid
+   * min and max value).
+   */
   get isValid(): boolean {
     if (this.range instanceof Bounds && !this.range.isValid) return false;
     return true;
   }
 
+  /**
+   * The final d3Scale used for computation.
+   */
   @cached get d3Scale() {
     const range: number[] = this.range instanceof Bounds ? this.range.bounds : this.range;
     return scales
@@ -507,24 +746,46 @@ export class ScaleBand implements Scale {
       .paddingOuter(this.paddingOuter);
   }
 
+  /**
+   * Computes a range value from a domain value.
+   */
   compute = (value: string): number | undefined => {
     return this.d3Scale(value);
   };
 
+  /**
+   * The width for a single band within the scale (this represents the width
+   * of a bar in a traditional bar chart).
+   */
   get bandwidth(): number {
     return this.d3Scale.bandwidth();
   }
 
+  /**
+   * The space bewteen two elements in the scale (this represents the width
+   * of a bar + the padding between bars in a traditional bar chart).
+   */
   get step(): number {
     return this.d3Scale.step();
   }
 }
 
+/**
+ * A scale that maps a discrete set of domain values to a continuous range of values by dividing the
+ * continuous range into steps.
+ */
 export class ScalePoint implements Scale {
+  /** The discrete set of ordinal (or nominal) input data. */
   @tracked domain: string[];
+  /** The bounds of the scale's visual space. */
   @tracked range: Bounds<number> | number[];
+  /** When `true`, ensures that `step` and `bandwidth` are integers. */
   @tracked round: boolean = false;
+  /** A number between 0 and 1 that specifies how the outer padding in the scale's
+   * range is distributed. 0.5 represents centering bands in their range. */
   @tracked align: number = 0.5;
+  /** A number between 0 and 1 that specifies how much padding is placed on the outside
+   * of the points (while still subtracting available space from the `range`). */
   @tracked padding: number = 0;
 
   constructor({ domain, range, round, align, padding }: PointScaleConfig) {
@@ -535,11 +796,18 @@ export class ScalePoint implements Scale {
     this.padding = padding ?? 0;
   }
 
+  /**
+   * Whether or not the Bounds for the domain and range are valid (i.e., have a valid
+   * min and max value).
+   */
   get isValid(): boolean {
     if (this.range instanceof Bounds && !this.range.isValid) return false;
     return true;
   }
 
+  /**
+   * The final d3Scale used for computation.
+   */
   @cached get d3Scale() {
     const range: number[] = this.range instanceof Bounds ? this.range.bounds : this.range;
     return scales
@@ -554,11 +822,19 @@ export class ScalePoint implements Scale {
     return this.d3Scale(value);
   };
 
+  /**
+   * Always returns `0`. It's here for d3 compatability (where point scales are a special form
+   * of band scale).
+   */
   get bandwidth(): number {
     // Always returns zero. It's here's for d3 compatability.
     return this.d3Scale.bandwidth();
   }
 
+  /**
+   * The space bewteen two elements in the scale (this represents the width
+   * of a bar + the padding between bars in a traditional bar chart).
+   */
   get step(): number {
     return this.d3Scale.step();
   }

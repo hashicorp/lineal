@@ -7,6 +7,11 @@ export type CurveArgs = {
   alpha?: number;
 };
 
+/**
+ * A mapping of `string`s to D3 curve factories.
+ *
+ * This is useful for safely specifying curve functions in templates.
+ */
 export const CURVES: { [key: string]: shape.CurveFactory | shape.CurveBundleFactory } = {
   basis: shape.curveBasis,
   basisClosed: shape.curveBasisClosed,
@@ -30,6 +35,14 @@ export const CURVES: { [key: string]: shape.CurveFactory | shape.CurveBundleFact
   stepBefore: shape.curveStepBefore,
 };
 
+/**
+ * Creates a curve function from a string or argument object.
+ *
+ * @param [curve] - When a string, looks up the corresponding curve factory and returns it.
+ *                  When a `CurveArgs`, looks up the corresponding curve factory based on `curve.name`,
+ *                  applies parameters, and returns the resulting curve function.
+ * @throws {Error} - When there is no curve factory for the specified curve.
+ */
 export const curveFor = (
   curve?: string | CurveArgs
 ): shape.CurveFactory | shape.CurveBundleFactory => {
@@ -55,5 +68,10 @@ export const curveFor = (
 
   // In the event someone passes in curve args for a curve that takes no args,
   // just return the appropriate scale
+  if (!CURVES[curveArgs.name]) {
+    throw new Error(
+      `No curve factory "${curveArgs.name}". See all curve factories here: https://github.com/d3/d3-shape#curves`
+    );
+  }
   return CURVES[curveArgs.name];
 };
