@@ -68,5 +68,10 @@ export const curveFor = (
 
   // In the event someone passes in curve args for a curve that takes no args,
   // just return the appropriate scale
+  if (!CURVES[curveArgs.name]) {
+    throw new Error(
+      `No curve factory "${curveArgs.name}". See all curve factories here: https://github.com/d3/d3-shape#curves`
+    );
+  }
   return CURVES[curveArgs.name];
 };
