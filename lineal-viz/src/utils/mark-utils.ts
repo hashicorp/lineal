@@ -9,10 +9,25 @@ import Bounds from '../bounds';
 import { Scale } from '../scale';
 import { Encoding } from '../encoding';
 
+/**
+ * A valid Mark component must have a `data` arg.
+ */
 export interface MarkArgs {
   data: any[];
 }
 
+/**
+ * This is used internally by Marks to qualify a scale with the data arg
+ * on the next tick of the runloop (to avoid mutating a property twice in
+ * the same render).
+ *
+ * @param context - A Lineal Mark comonent
+ * @param scale - The scale to qualify
+ * @param encoding - The encoding whose accesor to use for data lookups
+ * @param field - The name of the encoded channel (used for formatting error messages)
+ * @throws - When the scale has an invalid range (which is not computed as
+ *           part of scale qualification)
+ */
 export function qualifyScale(
   context: Component<MarkArgs>,
   scale: Scale,
