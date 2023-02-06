@@ -467,6 +467,10 @@ dl {
   margin: auto;
   width: 100%;
 
+  .lineal-fluid {
+    width: 100%;
+  }
+
   &.with-left-axis {
     padding-left: 100px;
   }
