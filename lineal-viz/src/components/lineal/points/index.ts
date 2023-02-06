@@ -50,12 +50,20 @@ export default class Points extends Component<PointsArgs> {
   }
 
   @cached get xScale() {
+    if (typeof this.args.x === 'number' && this.args.xScale == null) {
+      return new ScaleIdentity({ range: this.args.x });
+    }
+
     const scale = this.args.xScale || new ScaleLinear();
     qualifyScale(this, scale, this.x, 'x');
     return scale;
   }
 
   @cached get yScale() {
+    if (typeof this.args.y === 'number' && this.args.yScale == null) {
+      return new ScaleIdentity({ range: this.args.y });
+    }
+
     const scale = this.args.yScale || new ScaleLinear();
     qualifyScale(this, scale, this.y, 'y');
     return scale;
