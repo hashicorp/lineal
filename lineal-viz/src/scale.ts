@@ -28,6 +28,9 @@ export interface Scale {
   /** Whether or not calling scale.compute will result in an error.
    * `isValid` is `false` when the scale's domain or range are unqualified. */
   isValid: boolean;
+  /** Creates a new scale of the same type and same properties. The options Config overrides
+   * any set properties (like `Object.assign`). */
+  // derive: (options: any) => Scale;
 }
 
 /**
@@ -202,10 +205,15 @@ abstract class ScaleContinuous implements Scale {
   @tracked nice: boolean | number = false;
 
   constructor({ domain, range, clamp, nice }: ContinuousScaleConfig = {}) {
-    this.domain = domain ? Bounds.parse(domain) : new Bounds();
-    this.range = range ? Bounds.parse(range) : new Bounds();
+    this.domain = this.boundsFromArg(domain);
+    this.range = this.boundsFromArg(range);
     this.clamp = clamp ?? false;
     this.nice = nice ?? false;
+  }
+
+  private boundsFromArg(arg?: ValueSet): Bounds<number> | number[] {
+    if (arg instanceof Bounds) return arg;
+    return arg ? Bounds.parse(arg) : new Bounds();
   }
 
   /**
@@ -222,6 +230,7 @@ abstract class ScaleContinuous implements Scale {
    * The d3Scale instance without generic modifications like clamp and nice applied yet.
    */
   abstract get _d3Scale(): scales.ScaleContinuousNumeric<number, number>;
+  abstract derive(options: ContinuousScaleConfig): ScaleContinuous;
 
   /**
    * The final d3Scale used for computation.
@@ -263,6 +272,20 @@ export class ScaleLinear extends ScaleContinuous {
   get _d3Scale() {
     return scales.scaleLinear(...this.scaleArgs);
   }
+
+  derive = (options: ContinuousScaleConfig): ScaleLinear => {
+    return new ScaleLinear(
+      Object.assign(
+        {
+          domain: this.domain instanceof Bounds ? this.domain.copy() : this.domain.slice(),
+          range: this.range instanceof Bounds ? this.range.copy() : this.range.slice(),
+          clamp: this.clamp,
+          nice: this.nice,
+        },
+        options
+      )
+    );
+  };
 }
 
 /**
@@ -280,6 +303,21 @@ export class ScalePow extends ScaleContinuous {
   get _d3Scale() {
     return scales.scalePow(...this.scaleArgs).exponent(this.exponent);
   }
+
+  derive = (options: ContinuousScaleConfig): ScalePow => {
+    return new ScalePow(
+      Object.assign(
+        {
+          domain: this.domain,
+          range: this.range,
+          clamp: this.clamp,
+          nice: this.nice,
+          exponent: this.exponent,
+        },
+        options
+      )
+    );
+  };
 }
 
 /**
@@ -297,6 +335,21 @@ export class ScaleLog extends ScaleContinuous {
   get _d3Scale() {
     return scales.scaleLog(...this.scaleArgs).base(this.base);
   }
+
+  derive = (options: ContinuousScaleConfig): ScaleLog => {
+    return new ScaleLog(
+      Object.assign(
+        {
+          domain: this.domain,
+          range: this.range,
+          clamp: this.clamp,
+          nice: this.nice,
+          base: this.base,
+        },
+        options
+      )
+    );
+  };
 }
 
 /**
@@ -306,6 +359,20 @@ export class ScaleSqrt extends ScaleContinuous {
   get _d3Scale() {
     return scales.scaleSqrt(...this.scaleArgs);
   }
+
+  derive = (options: ContinuousScaleConfig): ScaleSqrt => {
+    return new ScaleSqrt(
+      Object.assign(
+        {
+          domain: this.domain,
+          range: this.range,
+          clamp: this.clamp,
+          nice: this.nice,
+        },
+        options
+      )
+    );
+  };
 }
 
 /**
@@ -315,6 +382,20 @@ export class ScaleSymlog extends ScaleContinuous {
   get _d3Scale() {
     return scales.scaleSymlog(...this.scaleArgs);
   }
+
+  derive = (options: ContinuousScaleConfig): ScaleSymlog => {
+    return new ScaleSymlog(
+      Object.assign(
+        {
+          domain: this.domain,
+          range: this.range,
+          clamp: this.clamp,
+          nice: this.nice,
+        },
+        options
+      )
+    );
+  };
 }
 
 /**
@@ -325,6 +406,20 @@ export class ScaleRadial extends ScaleContinuous {
   get _d3Scale() {
     return scales.scaleRadial(...this.scaleArgs);
   }
+
+  derive = (options: ContinuousScaleConfig): ScaleRadial => {
+    return new ScaleRadial(
+      Object.assign(
+        {
+          domain: this.domain,
+          range: this.range,
+          clamp: this.clamp,
+          nice: this.nice,
+        },
+        options
+      )
+    );
+  };
 }
 
 abstract class AbstractScaleTime implements Scale {
