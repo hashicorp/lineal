@@ -37,7 +37,7 @@ export interface Scale {
  * A value set is either an array of numbers (a step-wise representation of a range)
  * or a string (parsed as Bounds range expression).
  */
-export type ValueSet = number[] | string;
+export type ValueSet = number[] | string | Bounds<number>;
 
 /**
  * Continuous scales map a continuous domain to a continuous range (e.g., Linear).
@@ -51,7 +51,7 @@ export interface ContinuousScaleConfig {
    * instead of extrapolated beyond the domain's bounds. */
   clamp?: boolean;
   /** When `true`, domain bounds are rounded to nice numbers. */
-  nice?: boolean;
+  nice?: boolean | number;
 }
 
 /**
@@ -193,11 +193,16 @@ export interface PointScaleConfig {
   padding?: number;
 }
 
+const boundsFromArg = (arg?: ValueSet): Bounds<number> => {
+  if (arg instanceof Bounds) return arg;
+  return arg ? Bounds.parse(arg) : new Bounds();
+};
+
 abstract class ScaleContinuous implements Scale {
   /** The bounds of the scale's data space. */
-  @tracked domain: Bounds<number> | number[];
+  @tracked domain: Bounds<number>;
   /** The bounds of the scale's visual space. */
-  @tracked range: Bounds<number> | number[];
+  @tracked range: Bounds<number>;
   /** When `true`, values outside the domain are clamped to the min and max of the range
    * instead of extrapolated beyond the domain's bounds. */
   @tracked clamp: boolean = false;
@@ -205,25 +210,17 @@ abstract class ScaleContinuous implements Scale {
   @tracked nice: boolean | number = false;
 
   constructor({ domain, range, clamp, nice }: ContinuousScaleConfig = {}) {
-    this.domain = this.boundsFromArg(domain);
-    this.range = this.boundsFromArg(range);
+    this.domain = boundsFromArg(domain);
+    this.range = boundsFromArg(range);
     this.clamp = clamp ?? false;
     this.nice = nice ?? false;
-  }
-
-  private boundsFromArg(arg?: ValueSet): Bounds<number> | number[] {
-    if (arg instanceof Bounds) return arg;
-    return arg ? Bounds.parse(arg) : new Bounds();
   }
 
   /**
    * The arguments for constructing a d3Scale instance, derived from the ScaleConfig.
    */
   get scaleArgs(): [number[], number[]] {
-    return [
-      this.domain instanceof Bounds ? this.domain.bounds : this.domain,
-      this.range instanceof Bounds ? this.range.bounds : this.range,
-    ];
+    return [this.domain.bounds, this.range.bounds];
   }
 
   /**
@@ -247,6 +244,15 @@ abstract class ScaleContinuous implements Scale {
     return scale;
   }
 
+  protected get commonCopyArgs(): ContinuousScaleConfig {
+    return {
+      domain: this.domain.copy(),
+      range: this.range.copy(),
+      clamp: this.clamp,
+      nice: this.nice,
+    };
+  }
+
   /**
    * Computes a range value from a domain value.
    */
@@ -259,9 +265,7 @@ abstract class ScaleContinuous implements Scale {
    * min and max value).
    */
   get isValid(): boolean {
-    if (this.domain instanceof Bounds && !this.domain.isValid) return false;
-    if (this.range instanceof Bounds && !this.range.isValid) return false;
-    return true;
+    return this.domain.isValid && this.range.isValid;
   }
 }
 
@@ -274,17 +278,7 @@ export class ScaleLinear extends ScaleContinuous {
   }
 
   derive = (options: ContinuousScaleConfig): ScaleLinear => {
-    return new ScaleLinear(
-      Object.assign(
-        {
-          domain: this.domain instanceof Bounds ? this.domain.copy() : this.domain.slice(),
-          range: this.range instanceof Bounds ? this.range.copy() : this.range.slice(),
-          clamp: this.clamp,
-          nice: this.nice,
-        },
-        options
-      )
-    );
+    return new ScaleLinear(Object.assign(this.commonCopyArgs, options));
   };
 }
 
@@ -305,18 +299,7 @@ export class ScalePow extends ScaleContinuous {
   }
 
   derive = (options: ContinuousScaleConfig): ScalePow => {
-    return new ScalePow(
-      Object.assign(
-        {
-          domain: this.domain,
-          range: this.range,
-          clamp: this.clamp,
-          nice: this.nice,
-          exponent: this.exponent,
-        },
-        options
-      )
-    );
+    return new ScalePow(Object.assign(this.commonCopyArgs, { exponent: this.exponent }, options));
   };
 }
 
@@ -337,18 +320,7 @@ export class ScaleLog extends ScaleContinuous {
   }
 
   derive = (options: ContinuousScaleConfig): ScaleLog => {
-    return new ScaleLog(
-      Object.assign(
-        {
-          domain: this.domain,
-          range: this.range,
-          clamp: this.clamp,
-          nice: this.nice,
-          base: this.base,
-        },
-        options
-      )
-    );
+    return new ScaleLog(Object.assign(this.commonCopyArgs, { base: this.base }, options));
   };
 }
 
@@ -361,17 +333,7 @@ export class ScaleSqrt extends ScaleContinuous {
   }
 
   derive = (options: ContinuousScaleConfig): ScaleSqrt => {
-    return new ScaleSqrt(
-      Object.assign(
-        {
-          domain: this.domain,
-          range: this.range,
-          clamp: this.clamp,
-          nice: this.nice,
-        },
-        options
-      )
-    );
+    return new ScaleSqrt(Object.assign(this.commonCopyArgs, options));
   };
 }
 
@@ -384,17 +346,7 @@ export class ScaleSymlog extends ScaleContinuous {
   }
 
   derive = (options: ContinuousScaleConfig): ScaleSymlog => {
-    return new ScaleSymlog(
-      Object.assign(
-        {
-          domain: this.domain,
-          range: this.range,
-          clamp: this.clamp,
-          nice: this.nice,
-        },
-        options
-      )
-    );
+    return new ScaleSymlog(Object.assign(this.commonCopyArgs, options));
   };
 }
 
@@ -408,25 +360,15 @@ export class ScaleRadial extends ScaleContinuous {
   }
 
   derive = (options: ContinuousScaleConfig): ScaleRadial => {
-    return new ScaleRadial(
-      Object.assign(
-        {
-          domain: this.domain,
-          range: this.range,
-          clamp: this.clamp,
-          nice: this.nice,
-        },
-        options
-      )
-    );
+    return new ScaleRadial(Object.assign(this.commonCopyArgs, options));
   };
 }
 
 abstract class AbstractScaleTime implements Scale {
   /** The bounds of the scale's data space. */
-  @tracked domain: Bounds<Date> | Date[];
+  @tracked domain: Bounds<Date>;
   /** The bounds of the scale's visual space. */
-  @tracked range: Bounds<number> | number[];
+  @tracked range: Bounds<number>;
   /** When `true`, values outside the domain are clamped to the min and max of the range
    * instead of extrapolated beyond the domain's bounds. */
   @tracked clamp: boolean = false;
@@ -434,8 +376,8 @@ abstract class AbstractScaleTime implements Scale {
   @tracked nice: boolean | number = false;
 
   constructor({ domain, range, clamp, nice }: DateScaleConfig = {}) {
-    this.domain = domain ?? new Bounds();
-    this.range = range ? Bounds.parse(range) : new Bounds();
+    this.domain = domain ? new Bounds(domain) : new Bounds();
+    this.range = boundsFromArg(range);
     this.clamp = clamp ?? false;
     this.nice = nice ?? false;
   }
@@ -444,10 +386,7 @@ abstract class AbstractScaleTime implements Scale {
    * The arguments for constructing a d3Scale instance, derived from the `DateScaleConfig`.
    */
   get scaleArgs(): [Date[], number[]] {
-    return [
-      this.domain instanceof Bounds ? this.domain.bounds : this.domain,
-      this.range instanceof Bounds ? this.range.bounds : this.range,
-    ];
+    return [this.domain.bounds, this.range.bounds];
   }
 
   /**
@@ -482,9 +421,7 @@ abstract class AbstractScaleTime implements Scale {
    * min and max value).
    */
   get isValid(): boolean {
-    if (this.domain instanceof Bounds && !this.domain.isValid) return false;
-    if (this.range instanceof Bounds && !this.range.isValid) return false;
-    return true;
+    return this.domain.isValid && this.range.isValid;
   }
 }
 
@@ -591,12 +528,12 @@ export class ScaleDivergingSymlog<T> extends ScaleDiverging<T> {
 export class ScaleQuantize implements Scale {
   /** The extent of a dataset from which equal intervals are derived using the length
    * of the provided range to determine the interval count.  */
-  @tracked domain: Bounds<number> | number[];
+  @tracked domain: Bounds<number>;
   /** The set of values for the scale's visual space. */
   @tracked range: CSSRange | string[];
 
   constructor({ domain, range }: QuantizeScaleConfig) {
-    this.domain = domain ? Bounds.parse(domain) : new Bounds();
+    this.domain = boundsFromArg(domain);
     this.range = range;
   }
 
@@ -629,8 +566,7 @@ export class ScaleQuantize implements Scale {
    * min and max value).
    */
   get isValid(): boolean {
-    if (this.domain instanceof Bounds && !this.domain.isValid) return false;
-    return true;
+    return this.domain.isValid;
   }
 }
 
@@ -792,7 +728,7 @@ export class ScaleBand implements Scale {
   /** The discrete set of ordinal (or nominal) input data. */
   @tracked domain: string[];
   /** The bounds of the scale's visual space. */
-  @tracked range: Bounds<number> | number[];
+  @tracked range: Bounds<number>;
   /** When `true`, ensures that `step` and `bandwidth` are integers. */
   @tracked round: boolean = false;
   /** A number between 0 and 1 that specifies how the outer padding in the scale's
@@ -816,7 +752,7 @@ export class ScaleBand implements Scale {
     padding,
   }: BandScaleConfig) {
     this.domain = domain || [];
-    this.range = range ? Bounds.parse(range) : new Bounds();
+    this.range = boundsFromArg(range);
     this.round = round ?? false;
     this.align = align ?? 0.5;
     this.paddingInner = paddingInner ?? padding ?? 0;
@@ -828,8 +764,7 @@ export class ScaleBand implements Scale {
    * min and max value).
    */
   get isValid(): boolean {
-    if (this.range instanceof Bounds && !this.range.isValid) return false;
-    return true;
+    return this.range.isValid;
   }
 
   /**
@@ -878,7 +813,7 @@ export class ScalePoint implements Scale {
   /** The discrete set of ordinal (or nominal) input data. */
   @tracked domain: string[];
   /** The bounds of the scale's visual space. */
-  @tracked range: Bounds<number> | number[];
+  @tracked range: Bounds<number>;
   /** When `true`, ensures that `step` and `bandwidth` are integers. */
   @tracked round: boolean = false;
   /** A number between 0 and 1 that specifies how the outer padding in the scale's
@@ -890,7 +825,7 @@ export class ScalePoint implements Scale {
 
   constructor({ domain, range, round, align, padding }: PointScaleConfig) {
     this.domain = domain || [];
-    this.range = range ? Bounds.parse(range) : new Bounds();
+    this.range = boundsFromArg(range);
     this.round = round ?? false;
     this.align = align ?? 0.5;
     this.padding = padding ?? 0;
@@ -901,8 +836,7 @@ export class ScalePoint implements Scale {
    * min and max value).
    */
   get isValid(): boolean {
-    if (this.range instanceof Bounds && !this.range.isValid) return false;
-    return true;
+    return this.range.isValid;
   }
 
   /**
