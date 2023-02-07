@@ -31,6 +31,19 @@ export default class Bounds<T> {
   /** The upper bound. When `undefined`, the Bounds instance is invalid. */
   @tracked max: T | undefined;
 
+  // TODO: Right now it's possible to first create a piecewise Bounds
+  // and then update the min or the max to be within the steps set in the
+  // constructor. Since piecewise Bounds read straight from steps, setting min
+  // or max has no impact on the bounds getter (which is used in scales). It still
+  // results in a bad surprise from a developer perspective.
+  private steps: T[];
+
+  /** True when the Bounds was constructed with an array with more than two
+   * elements (a min, N pieces, a max). */
+  get isPiecewise() {
+    return this.steps.length > 2;
+  }
+
   /**
    * Parses a Bounds instance from a Rust-style range expression.
    *
@@ -47,11 +60,8 @@ export default class Bounds<T> {
    * @throws - When the provided string is malformed.
    * @returns - Either a Bounds object or a numeric array (the same one passed as input).
    */
-  static parse(input: string | number[]): Bounds<number> | number[] {
-    if (input instanceof Array) {
-      if (input.length === 2) return new Bounds<number>(...input);
-      return input;
-    }
+  static parse(input: string | number[]): Bounds<number> {
+    if (input instanceof Array) return new Bounds<number>(input);
 
     if (!NUMERIC_RANGE_DSL.test(input)) {
       throw new Error(
@@ -80,9 +90,26 @@ export default class Bounds<T> {
    * @param [min] - the min value of the bounds, or `undefined` when not yet known.
    * @param [max] - the max value of the bounds, or `undefined` when not yet known.
    */
-  constructor(min?: T, max?: T) {
-    this.min = min;
-    this.max = max;
+  constructor(min?: T | T[], max?: T) {
+    if (min instanceof Array) {
+      if (min.length === 0) {
+        this.min = undefined;
+        this.max = undefined;
+        this.steps = [];
+      } else if (min.length === 1) {
+        this.min = min[0];
+        this.max = min[0];
+        this.steps = [min[0], min[0]];
+      } else {
+        this.min = min[0];
+        this.max = min[min.length - 1];
+        this.steps = min.slice();
+      }
+    } else {
+      this.min = min;
+      this.max = max;
+      this.steps = min != undefined && max != undefined ? [min as T, max as T] : [];
+    }
   }
 
   /**
@@ -119,6 +146,12 @@ export default class Bounds<T> {
    * @throws - When a `min` and `max` cannot be computed using the given dataset and accessor.
    */
   qualify(data: any[], accessor: string | ((datum: any) => T)): Bounds<T> {
+    if (this.isPiecewise) {
+      throw new Error(
+        `Cannot qualify a piecewise Bounds. The steps of this Bounds are "${this.steps}".`
+      );
+    }
+
     if (this.min != undefined && this.max != undefined) return this;
 
     const fn = typeof accessor === 'string' ? (d: any) => d[accessor] : accessor;
@@ -130,8 +163,16 @@ export default class Bounds<T> {
     }
     if (this.min == undefined) this.min = min;
     if (this.max == undefined) this.max = max;
+    this.steps = [this.min as T, this.max as T];
 
     return this;
+  }
+
+  /**
+   * Creates a new Bounds identical to this one.
+   */
+  copy(): Bounds<T> {
+    return this.isPiecewise ? new Bounds<T>(this.steps) : new Bounds<T>(this.min, this.max);
   }
 
   /**
@@ -140,12 +181,14 @@ export default class Bounds<T> {
    *
    * @throws - When the Bounds instance is invalid.
    */
-  get bounds(): [T, T] {
+  get bounds(): T[] {
     if (!this.isValid) {
       throw new Error(
         'Bounds have not been qualified! These bounds were not constructed with both a min and a max. Use `bounds.qualify` with a dataset to fill in the missing bounds'
       );
     }
+
+    if (this.isPiecewise) return this.steps;
 
     return [this.min as T, this.max as T];
   }

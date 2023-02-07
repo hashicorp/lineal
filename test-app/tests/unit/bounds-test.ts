@@ -105,6 +105,17 @@ module('Unit | Bounds', function () {
       scale.bounds;
     }, /not been qualified/);
   });
+
+  test('copy returns a new Bounds instance with identical properties', function (assert) {
+    const bounds = new Bounds(0, 100);
+    const unqualifiedBounds = Bounds.parse('10..');
+    const piecewiseBounds = new Bounds<number>([0, 20, 80, 1000]);
+
+    assert.deepEqual(bounds.bounds, bounds.copy().bounds);
+    assert.deepEqual(unqualifiedBounds.min, unqualifiedBounds.copy().min);
+    assert.deepEqual(unqualifiedBounds.max, unqualifiedBounds.copy().max);
+    assert.deepEqual(piecewiseBounds.bounds, piecewiseBounds.copy().bounds);
+  });
 });
 
 module('Unit | Bounds.parse', function () {
@@ -132,8 +143,19 @@ module('Unit | Bounds.parse', function () {
         output: new Bounds(5, 15),
       },
       {
-        name: 'when provided with an array with more than two elements, the same array is returned',
+        name: 'when provided with an array with more than two elements, a piecewise Bounds is returned',
         input: [5, 10, 15],
+        output: new Bounds<number>([5, 10, 15]),
+      },
+      {
+        name: 'when provided with an array with one element, a bounds with equal min and max is returend',
+        input: [5],
+        output: new Bounds(5, 5),
+      },
+      {
+        name: 'when provided with an array with zero elements, a bounds with undefiend min and max is returend',
+        input: [],
+        output: new Bounds(),
       },
       {
         name: '"0.5..10.2" respects decimals and has 0.5 as min and 10.2 as max',
@@ -162,14 +184,12 @@ module('Unit | Bounds.parse', function () {
         assert.throws(() => {
           Bounds.parse(t.input);
         });
-      } else if (t.output instanceof Bounds) {
+      } else if (t.output) {
         const { min, max } = Bounds.parse(t.input) as Bounds<number>;
         assert.deepEqual(
           { min, max },
           { min: t.output.min, max: t.output.max }
         );
-      } else {
-        assert.strictEqual(Bounds.parse(t.input), t.input as number[]);
       }
     }
   );
