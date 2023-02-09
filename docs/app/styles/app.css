@@ -576,3 +576,19 @@ dl {
     color: var(--c-line-0);
   }
 }
+
+blockquote {
+  background: var(--c-base-0);
+  margin: 2em 0;
+  padding: 1em;
+  font-weight: bold;
+  border-left: 3px solid var(--c-base-1);
+
+  p {
+    margin: 0;
+  }
+
+  p + p {
+    margin-top: 1em;
+  }
+}
