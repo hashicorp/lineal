@@ -129,12 +129,102 @@ Presented in an imperative form like this doesn't get the whole effect across, b
 
 ## Types of scales
 
+Lineal has a class and a helper for almost all D3 Scales.
+
+### Linear
+
 ```hbs preview-template
 <ScaleDemo
   @scale={{scale-linear domain=".."}}
   @data={{generate-linear 21 step=5 start=0}}
 />
 ```
+
+### Power
+
+```hbs preview-template
+<ScaleDemo
+  @scale={{scale-pow domain=".." exponent=2}}
+  @data={{generate-linear 21 step=5 start=0}}
+/>
+```
+
+### Logarithmic
+
+```hbs preview-template
+<ScaleDemo
+  @scale={{scale-log domain=".." base=10}}
+  @data={{generate-linear 21 step=5 start=1}}
+/>
+```
+
+### Square Root
+
+```hbs preview-template
+<ScaleDemo
+  @scale={{scale-sqrt domain=".."}}
+  @data={{generate-linear 21 step=5 start=0}}
+/>
+```
+
+### Symmetric Logarithmic
+
+```hbs preview-template
+<ScaleDemo
+  @scale={{scale-symlog domain=".."}}
+  @data={{generate-linear 21 step=5 start=-50}}
+/>
+```
+
+### Radial
+
+```hbs preview-template
+<div class='demo-chart-with-axes'>
+  <Lineal::Fluid as |width|>
+    <svg width='100%' height='300px' style='overflow:visible'>
+      <g transform='translate({{div width 2}},150)'>
+        {{#let
+          (scale-radial domain='..' range=(array 40 (div (min width 300) 1.5)))
+          as |scale|
+        }}
+          {{#if scale.isValid}}
+            <g class='axis'>
+              {{#each scale.ticks as |tick|}}
+                <circle
+                  r={{scale.compute tick}}
+                ></circle>
+              {{/each}}
+            </g>
+          {{/if}}
+          <Lineal::Points
+            @data={{generate-linear 21 step=5 start=0}}
+            @x='x'
+            @xScale={{scale}}
+            @y={{0}}
+            @size={{3}}
+          />
+        {{/let}}
+      </g>
+    </svg>
+  </Lineal::Fluid>
+</div>
+```
+
+> ScaleTime and ScaleUtc
+
+> ScaleDiverging, ScaleDivergingPow, ScaleDivergingLog, ScaleDivergingSqrt, ScaleDivergingSymlog
+
+> ScaleQuantize
+
+> ScaleQuantile
+
+> ScaleThreshold
+
+> ScaleOrdinal
+
+> ScaleBand
+
+> ScalePoint
 
 ## CSS Range
 

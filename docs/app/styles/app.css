@@ -495,9 +495,11 @@ dl {
   }
 
   .axis line,
-  .axis path {
+  .axis path,
+  .axis circle {
     stroke-width: 2;
     stroke: var(--c-base);
+    fill: transparent;
   }
 
   .gridlines line {
