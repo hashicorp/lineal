@@ -83,6 +83,17 @@ module('Unit | ScaleLinear', function () {
     assert.ok(scale.d3Scale.clamp());
     assert.strictEqual(scale.compute(11), 100);
   });
+
+  test('derive creates a copy of the original scale, overriding properties set in the provided config', function (assert) {
+    const scale = new ScaleLinear({ range: '10..100', domain: '1..10' });
+    const newScale = scale.derive({ clamp: true, range: '0..200' });
+
+    assert.notStrictEqual(scale, newScale);
+    assert.deepEqual((newScale.range as Bounds<number>).bounds, [0, 200]);
+    assert.ok(newScale.clamp);
+    assert.notOk(scale.clamp);
+    assert.notStrictEqual(scale.domain, newScale.domain);
+  });
 });
 
 module('Unit | ScaleUtc', function () {

@@ -47,4 +47,8 @@ export default class CSSRange {
     }
     return range;
   }
+
+  copy(): CSSRange {
+    return new CSSRange(this.name);
+  }
 }

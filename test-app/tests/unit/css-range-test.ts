@@ -25,4 +25,11 @@ module('Unit | CSSRange', function () {
       'foo foo-3 foo-3-3',
     ]);
   });
+
+  test('The copy method returns a new CSSRange instance with the same name', function (assert) {
+    const range = new CSSRange('clone');
+    const copy = range.copy();
+    assert.strictEqual(range.name, copy.name);
+    assert.notStrictEqual(range, copy);
+  });
 });
