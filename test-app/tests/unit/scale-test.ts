@@ -94,6 +94,12 @@ module('Unit | ScaleLinear', function () {
     assert.notOk(scale.clamp);
     assert.notStrictEqual(scale.domain, newScale.domain);
   });
+
+  test('the ticks getter returns the d3Scale ticks with default args', function (assert) {
+    const scale = new ScaleLinear({ range: '10..100', domain: '1..10' });
+
+    assert.deepEqual(scale.ticks, scale.d3Scale.ticks());
+  });
 });
 
 module('Unit | ScaleUtc', function () {

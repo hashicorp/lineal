@@ -272,6 +272,13 @@ abstract class ScaleContinuous implements Scale {
   get isValid(): boolean {
     return this.domain.isValid && this.range.isValid;
   }
+
+  /**
+   * The default tick values for the scale. These are domain values, not range values.
+   */
+  get ticks() {
+    return this.d3Scale.ticks();
+  }
 }
 
 /**
@@ -470,6 +477,13 @@ abstract class AbstractScaleTime implements Scale {
    */
   get isValid(): boolean {
     return this.domain.isValid && this.range.isValid;
+  }
+
+  /**
+   * The default tick values for the scale. These are domain values, not range values.
+   */
+  get ticks() {
+    return this.d3Scale.ticks();
   }
 }
 
@@ -697,6 +711,13 @@ export class ScaleQuantize implements Scale {
   get isValid(): boolean {
     return this.domain.isValid;
   }
+
+  /**
+   * The default tick values for the scale. These are domain values, not range values.
+   */
+  get ticks() {
+    return this.d3Scale.ticks();
+  }
 }
 
 /**
@@ -911,6 +932,13 @@ export class ScaleIdentity implements Scale {
       )
     );
   };
+
+  /**
+   * The default tick values for the scale. These are domain values, not range values.
+   */
+  get ticks() {
+    return this.d3Scale.ticks();
+  }
 }
 
 /**
