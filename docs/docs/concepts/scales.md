@@ -210,9 +210,89 @@ Lineal has a class and a helper for almost all D3 Scales.
 </div>
 ```
 
-> ScaleTime and ScaleUtc
+### Time
 
-> ScaleDiverging, ScaleDivergingPow, ScaleDivergingLog, ScaleDivergingSqrt, ScaleDivergingSymlog
+```hbs preview-template
+<ScaleDemo
+  @scale={{scale-time domain=(array (date "01/01/2023") (date "06/01/2023"))}}
+  @data={{generate-linear-dates 21 start="01/01/2023" step=7}}
+/>
+```
+
+### UTC
+
+```hbs preview-template
+<ScaleDemo
+  @scale={{scale-utc domain=(array (date "01/01/2023") (date "01/07/2023"))}}
+  @data={{generate-linear-dates 21 start="01/01/2023" step=0.25}} />
+```
+
+### Diverging
+
+```hbs preview-template
+{{! The color-interpolator helper is NOT in Lineal, it's here as an example }}
+<DivergingScaleDemo
+  @data={{generate-linear 21 step=5 start=-50}}
+  @scale={{scale-diverging
+    domain=(array -50 0 50)
+    range=(color-interpolator 'interpolateRdBu')
+  }}
+/>
+```
+
+### Diverging Power
+
+```hbs preview-template
+{{! The color-interpolator helper is NOT in Lineal, it's here as an example }}
+<DivergingScaleDemo
+  @data={{generate-linear 21 step=5 start=-50}}
+  @scale={{scale-diverging-pow
+    domain=(array -50 0 50)
+    range=(color-interpolator 'interpolateRdBu')
+    exponent=3
+  }}
+/>
+```
+
+### Diverging Log
+
+```hbs preview-template
+{{! The color-interpolator helper is NOT in Lineal, it's here as an example }}
+<DivergingScaleDemo
+  @data={{generate-linear 21 step=50 start=0}}
+  @scale={{scale-diverging-log
+    domain=(array 1 250 1000)
+    range=(color-interpolator 'interpolateRdBu')
+    base=10
+  }}
+/>
+```
+
+### Diverging Square Root
+
+```hbs preview-template
+{{! The color-interpolator helper is NOT in Lineal, it's here as an example }}
+<DivergingScaleDemo
+  @data={{generate-linear 21 step=10 start=-100}}
+  @scale={{scale-diverging-sqrt
+    domain=(array -100 0 100)
+    range=(color-interpolator 'interpolateRdBu')
+  }}
+/>
+```
+
+### Diverging Symmetric Logarithmic
+
+```hbs preview-template
+{{! The color-interpolator helper is NOT in Lineal, it's here as an example }}
+<DivergingScaleDemo
+  @data={{generate-linear 21 step=10 start=-100}}
+  @scale={{scale-diverging-symlog
+    domain=(array -100 0 100)
+    range=(color-interpolator 'interpolateRdBu')
+  }}
+/>
+```
 
 > ScaleQuantize
 
