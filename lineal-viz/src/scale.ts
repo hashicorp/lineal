@@ -102,6 +102,9 @@ export interface DivergingScaleConfig {
   /** When `true`, values outside the domain are clamped to the min and max of the range
    * instead of extrapolated beyond the domain's bounds. */
   clamp?: boolean;
+
+  exponent?: number;
+  base?: number;
 }
 
 /**
@@ -589,7 +592,27 @@ export class ScaleDiverging<T> implements Scale {
  * along a logarithmic curve and then passes that number to a range interpolator.
  */
 export class ScaleDivergingLog<T> extends ScaleDiverging<T> {
+  @tracked base: number;
+
   protected scaleFn = scales.scaleDivergingLog;
+
+  constructor(config: DivergingScaleConfig) {
+    super(config);
+    this.base = config.base ?? 1;
+  }
+
+  @cached get d3Scale() {
+    console.log('Hm', this.base);
+    // @ts-ignore
+    const scale = this.scaleFn(this.range).domain(this.domain).base(this.base);
+    if (this.clamp) scale.clamp(true);
+    return scale;
+  }
+
+  get copyArgs(): DivergingScaleConfig {
+    const { base } = this;
+    return Object.assign(super.copyArgs, { base });
+  }
 
   /**
    * Creates a new scale of the same type and same properties. The options arg overrides
@@ -605,7 +628,26 @@ export class ScaleDivergingLog<T> extends ScaleDiverging<T> {
  * along a power curve and then passes that number to a range interpolator.
  */
 export class ScaleDivergingPow<T> extends ScaleDiverging<T> {
+  @tracked exponent: number;
+
   protected scaleFn = scales.scaleDivergingPow;
+
+  constructor(config: DivergingScaleConfig) {
+    super(config);
+    this.exponent = config.exponent ?? 1;
+  }
+
+  @cached get d3Scale() {
+    // @ts-ignore
+    const scale = this.scaleFn(this.range).domain(this.domain).exponent(this.exponent);
+    if (this.clamp) scale.clamp(true);
+    return scale;
+  }
+
+  get copyArgs(): DivergingScaleConfig {
+    const { exponent } = this;
+    return Object.assign(super.copyArgs, { exponent });
+  }
 
   /**
    * Creates a new scale of the same type and same properties. The options arg overrides
