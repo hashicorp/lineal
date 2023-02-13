@@ -1,0 +1,8 @@
+<div class='flex-grid'>
+  {{#each @data as |d|}}
+    <div class='diverging-scale-datum'>
+      {{d.x}}
+      <div {{style background-color=(@scale.compute d.x)}}></div>
+    </div>
+  {{/each}}
+</div>
