@@ -129,7 +129,25 @@ Presented in an imperative form like this doesn't get the whole effect across, b
 
 ## CSS Range
 
-TBW
+It is common when visualizing data to encode discrete characteristics. This could be a color within a predefined set for an ordinal color scale, or a pattern for a partitioned map, or iconography or whatever other stylistic motifs. Typically, this is done using a scale with a discrete range (e.g., Theshold or Ordinal) to map a data value to a presentational value (color hex or class name). Lineal wants to use the platform as much as possible while also respecting the separation of concerns among document structure, behavior, and styles.
+
+For this reason, it is a best practice to map data to discrete CSS class names so that CSS can be in control of setting styles as much as possible. Lineal has a `CSSRange` class and `css-range` helper for making this as easy as possible.
+
+```js
+const range = new CSSRange('blues');
+const classes = range.spread(3);
+console.log(classes);
+// [
+//   'blues blues-1 blues-3-1',
+//   'blues blues-2 blues-3-2',
+//   'blues blues-3 blues-3-3'
+// ]
+
+const scale = new ScaleOrdinal({ range, domain: ['A', 'B', 'C', 'D'] });
+console.log(scale.compute('B')); // 'blues blues-2 blues-4-2'
+// Note that range.spread gets called internally in the ScaleOrdinal class with
+// the appropriate count based on the length of the scale's domain.
+```
 
 ## Types of scales
 
