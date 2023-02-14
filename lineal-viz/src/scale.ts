@@ -102,6 +102,9 @@ export interface DivergingScaleConfig {
   /** When `true`, values outside the domain are clamped to the min and max of the range
    * instead of extrapolated beyond the domain's bounds. */
   clamp?: boolean;
+
+  exponent?: number;
+  base?: number;
 }
 
 /**
@@ -113,6 +116,8 @@ export interface QuantizeScaleConfig {
   domain?: ValueSet;
   /** The set of values for the scale's visual space. */
   range: CSSRange | string[];
+
+  count?: number;
 }
 
 /**
@@ -125,6 +130,8 @@ export interface QuantileScaleConfig {
   domain: number[];
   /** The set of values for the scale's visual space. */
   range: CSSRange | string[];
+
+  count?: number;
 }
 
 /**
@@ -589,7 +596,26 @@ export class ScaleDiverging<T> implements Scale {
  * along a logarithmic curve and then passes that number to a range interpolator.
  */
 export class ScaleDivergingLog<T> extends ScaleDiverging<T> {
+  @tracked base: number;
+
   protected scaleFn = scales.scaleDivergingLog;
+
+  constructor(config: DivergingScaleConfig) {
+    super(config);
+    this.base = config.base ?? 1;
+  }
+
+  @cached get d3Scale() {
+    // @ts-ignore
+    const scale = this.scaleFn(this.range).domain(this.domain).base(this.base);
+    if (this.clamp) scale.clamp(true);
+    return scale;
+  }
+
+  get copyArgs(): DivergingScaleConfig {
+    const { base } = this;
+    return Object.assign(super.copyArgs, { base });
+  }
 
   /**
    * Creates a new scale of the same type and same properties. The options arg overrides
@@ -605,7 +631,26 @@ export class ScaleDivergingLog<T> extends ScaleDiverging<T> {
  * along a power curve and then passes that number to a range interpolator.
  */
 export class ScaleDivergingPow<T> extends ScaleDiverging<T> {
+  @tracked exponent: number;
+
   protected scaleFn = scales.scaleDivergingPow;
+
+  constructor(config: DivergingScaleConfig) {
+    super(config);
+    this.exponent = config.exponent ?? 1;
+  }
+
+  @cached get d3Scale() {
+    // @ts-ignore
+    const scale = this.scaleFn(this.range).domain(this.domain).exponent(this.exponent);
+    if (this.clamp) scale.clamp(true);
+    return scale;
+  }
+
+  get copyArgs(): DivergingScaleConfig {
+    const { exponent } = this;
+    return Object.assign(super.copyArgs, { exponent });
+  }
 
   /**
    * Creates a new scale of the same type and same properties. The options arg overrides
@@ -658,10 +703,13 @@ export class ScaleQuantize implements Scale {
   @tracked domain: Bounds<number>;
   /** The set of values for the scale's visual space. */
   @tracked range: CSSRange | string[];
+  /** When range is a CSSRange, this becomes the interval count. */
+  @tracked count?: number;
 
-  constructor({ domain, range }: QuantizeScaleConfig) {
+  constructor({ domain, range, count }: QuantizeScaleConfig) {
     this.domain = boundsFromArg(domain);
     this.range = range;
+    this.count = count;
   }
 
   /** Derived number and string arrays to be used to construct a scale (when the domain is a
@@ -669,7 +717,7 @@ export class ScaleQuantize implements Scale {
   get scaleArgs(): [number[], string[]] {
     const domain: number[] = this.domain instanceof Bounds ? this.domain.bounds : this.domain;
     const range: string[] =
-      this.range instanceof CSSRange ? this.range.spread(domain.length) : this.range;
+      this.range instanceof CSSRange ? this.range.spread(this.count ?? domain.length) : this.range;
     return [domain, range];
   }
 
@@ -698,6 +746,7 @@ export class ScaleQuantize implements Scale {
         {
           domain: this.domain.copy(),
           range: this.range instanceof CSSRange ? this.range.copy() : this.range.slice(),
+          count: this.count,
         },
         options
       )
@@ -731,13 +780,16 @@ export class ScaleQuantile implements Scale {
   @tracked domain: number[];
   /** The set of values for the scale's visual space. */
   @tracked range: CSSRange | string[];
+  /** When range is a CSSRange, this becomes the interval count. */
+  @tracked count?: number;
 
   /** Quantile scales do not support `Bounds` and are therefore always valid. */
   isValid = true;
 
-  constructor({ domain, range }: QuantileScaleConfig) {
+  constructor({ domain, range, count }: QuantileScaleConfig) {
     this.domain = domain;
     this.range = range;
+    this.count = count;
   }
 
   /**
@@ -745,7 +797,9 @@ export class ScaleQuantile implements Scale {
    */
   @cached get d3Scale() {
     const range: string[] =
-      this.range instanceof CSSRange ? this.range.spread(this.domain.length) : this.range;
+      this.range instanceof CSSRange
+        ? this.range.spread(this.count ?? this.domain.length)
+        : this.range;
     return scales.scaleQuantile(range).domain(this.domain);
   }
 
@@ -766,6 +820,7 @@ export class ScaleQuantile implements Scale {
         {
           domain: this.domain.slice(),
           range: this.range instanceof CSSRange ? this.range.copy() : this.range.slice(),
+          count: this.count,
         },
         options
       )
@@ -797,7 +852,7 @@ export class ScaleThreshold implements Scale {
   @cached get d3Scale() {
     const range: string[] =
       this.range instanceof CSSRange ? this.range.spread(this.domain.length + 1) : this.range;
-    return scales.scaleQuantile(range).domain(this.domain);
+    return scales.scaleThreshold(range).domain(this.domain);
   }
 
   /**
