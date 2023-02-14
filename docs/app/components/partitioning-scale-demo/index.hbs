@@ -1,0 +1,7 @@
+{{#if this.scale.isValid}}
+  <div class='waffle-chart'>
+    {{#each @data as |d|}}
+      <div class={{this.scale.compute d.y}}><span>{{fmt d.y}}</span></div>
+    {{/each}}
+  </div>
+{{/if}}
