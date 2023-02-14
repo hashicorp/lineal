@@ -20,6 +20,8 @@
   --c-red-line: #d1675d;
   --c-blue: #94a9af;
   --c-blue-line: #346c8e;
+  --c-purple: #d483af;
+  --c-purple-line: #973e6e;
 }
 
 * {
@@ -302,6 +304,10 @@ pre code.hljs {
   color: var(--c-blue);
   fill: var(--c-blue);
 }
+.nominal-5 {
+  color: var(--c-purple);
+  fill: var(--c-purple);
+}
 
 .accent-green {
   color: var(--c-base-1);
@@ -462,10 +468,23 @@ dl {
   opacity: 0.5;
 }
 
+.demo-chart {
+  margin: auto;
+  width: 100%;
+
+  .lineal-fluid {
+    width: 100%;
+  }
+}
+
 .demo-chart-with-axes {
   padding: 50px;
   margin: auto;
   width: 100%;
+
+  .lineal-fluid {
+    width: 100%;
+  }
 
   &.with-left-axis {
     padding-left: 100px;
@@ -491,9 +510,11 @@ dl {
   }
 
   .axis line,
-  .axis path {
+  .axis path,
+  .axis circle {
     stroke-width: 2;
     stroke: var(--c-base);
+    fill: transparent;
   }
 
   .gridlines line {
@@ -568,5 +589,110 @@ dl {
     text-align: center;
     border-bottom: 2px solid var(--c-base);
     color: var(--c-line-0);
+  }
+}
+
+blockquote {
+  background: var(--c-base-0);
+  margin: 2em 0;
+  padding: 1em;
+  font-weight: bold;
+  border-left: 3px solid var(--c-base-1);
+
+  p {
+    margin: 0;
+  }
+
+  p + p {
+    margin-top: 1em;
+  }
+}
+
+.flex-grid {
+  display: flex;
+  flex-direction: row;
+  height: 25px;
+  gap: 2px;
+
+  .diverging-scale-datum {
+    text-align: center;
+    color: var(--c-line-0);
+    width: 100%;
+
+    div {
+      height: 10px;
+      width: 100%;
+      margin-top: 5px;
+    }
+  }
+}
+
+.waffle-chart {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 45px);
+  gap: 2px;
+
+  > div {
+    border: 1px solid black;
+    text-align: center;
+    font-size: 12px;
+    padding: 8px 0;
+    background: currentcolor;
+
+    span {
+      color: var(--c-line);
+    }
+  }
+}
+
+.fruit-list {
+  li::before {
+    content: var(--fruit);
+    padding-right: 1ch;
+  }
+
+  .fruit-apple {
+    --fruit: '🍎';
+  }
+  .fruit-banana {
+    --fruit: '🍌';
+  }
+  .fruit-grapes {
+    --fruit: '🍇';
+  }
+}
+
+.relative-bars {
+  position: relative;
+  height: 30px;
+
+  .bar {
+    position: absolute;
+    top: 0;
+    color: var(--c-line);
+    background: var(--c-red);
+    border: 1px solid var(--c-red-line);
+    text-align: center;
+    padding: 5px 0;
+  }
+}
+
+.relative-points {
+  position: relative;
+  height: 30px;
+
+  .point {
+    position: absolute;
+    top: 0;
+    left: -15px;
+    padding: 15px 0;
+    width: 30px;
+    line-height: 0;
+    border-radius: 100%;
+    color: var(--c-line);
+    background: var(--c-green);
+    border: 1px solid var(--c-green-line);
+    box-sizing: content-box;
+    text-align: center;
   }
 }

@@ -23,5 +23,6 @@ module.exports = {
   ],
   labels: {
     'dev-logs': 'Dev Logs',
+    concepts: 'Concepts',
   },
 };

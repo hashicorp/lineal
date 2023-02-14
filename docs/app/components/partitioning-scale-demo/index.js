@@ -1,0 +1,18 @@
+import Component from '@glimmer/component';
+import { cached } from '@glimmer/tracking';
+import { scheduleOnce } from '@ember/runloop';
+import Bounds from '@lineal-viz/lineal/bounds';
+
+export default class PartitioningScaleDemo extends Component {
+  @cached get scale() {
+    const scale = this.args.scale;
+
+    if (scale.domain instanceof Bounds && !scale.domain.isValid) {
+      scheduleOnce('afterRender', this, () => {
+        scale.domain.qualify(this.args.data, 'y');
+      });
+    }
+
+    return scale;
+  }
+}
