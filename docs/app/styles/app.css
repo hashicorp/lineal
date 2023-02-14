@@ -468,6 +468,15 @@ dl {
   opacity: 0.5;
 }
 
+.demo-chart {
+  margin: auto;
+  width: 100%;
+
+  .lineal-fluid {
+    width: 100%;
+  }
+}
+
 .demo-chart-with-axes {
   padding: 50px;
   margin: auto;
@@ -653,3 +662,37 @@ blockquote {
   }
 }
 
+.relative-bars {
+  position: relative;
+  height: 30px;
+
+  .bar {
+    position: absolute;
+    top: 0;
+    color: var(--c-line);
+    background: var(--c-red);
+    border: 1px solid var(--c-red-line);
+    text-align: center;
+    padding: 5px 0;
+  }
+}
+
+.relative-points {
+  position: relative;
+  height: 30px;
+
+  .point {
+    position: absolute;
+    top: 0;
+    left: -15px;
+    padding: 15px 0;
+    width: 30px;
+    line-height: 0;
+    border-radius: 100%;
+    color: var(--c-line);
+    background: var(--c-green);
+    border: 1px solid var(--c-green-line);
+    box-sizing: content-box;
+    text-align: center;
+  }
+}

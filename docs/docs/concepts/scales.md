@@ -344,4 +344,41 @@ Lineal has a class and a helper for almost all D3 Scales.
 {{/let}}
 ```
 
+### Band
+
+```hbs preview-template
+<div class='demo-chart relative-bars'>
+  <Lineal::Fluid as |width|>
+    {{#let (array 'A' 'B' 'C' 'D') as |data|}}
+      {{#let (scale-band domain=data range=(array 0 width) padding=0.1) as |scale|}}
+        {{#each data as |d|}}
+          <div class='bar' {{style
+            transform=(concat 'translateX(' (scale.compute d) 'px)')
+            width=(concat scale.bandwidth 'px')
+          }}>{{d}}</div>
+        {{/each}}
+      {{/let}}
+    {{/let}}
+  </Lineal::Fluid>
+</div>
+```
+
+### Point
+
+```hbs preview-template
+<div class='demo-chart relative-points'>
+  <Lineal::Fluid as |width|>
+    {{#let (array 'A' 'B' 'C' 'D') as |data|}}
+      {{#let (scale-point domain=data range=(array 0 width) padding=0.5) as |scale|}}
+        {{#each data as |d|}}
+          <div class='point' {{style
+            transform=(concat 'translateX(' (scale.compute d) 'px)')
+          }}>{{d}}</div>
+        {{/each}}
+      {{/let}}
+    {{/let}}
+  </Lineal::Fluid>
+</div>
+```
+
 ## Further reading
