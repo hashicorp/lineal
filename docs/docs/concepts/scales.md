@@ -127,6 +127,10 @@ console.log(data.map(d => dynamic.compute(d))); // [7.7, 7.7, 15.4, 23.0, 38.5, 
 
 Presented in an imperative form like this doesn't get the whole effect across, but the Marks concept documentation will have more examples where scales won't have to be qualified manually.
 
+## CSS Range
+
+TBW
+
 ## Types of scales
 
 Lineal has a class and a helper for almost all D3 Scales.
@@ -294,18 +298,50 @@ Lineal has a class and a helper for almost all D3 Scales.
 />
 ```
 
-> ScaleQuantize
+### Quantize
 
-> ScaleQuantile
+```hbs preview-template
+<PartitioningScaleDemo
+  @data={{generate-normal 100 stddev=2 sort=true}}
+  @scale={{scale-quantize domain='..' range=(css-range 'nominal') count=4}}
+/>
+```
 
-> ScaleThreshold
+### Quantile
 
-> ScaleOrdinal
+```hbs preview-template
+{{#let (generate-normal 100 stddev=2 sort=true) as |data|}}
+  <PartitioningScaleDemo
+    @data={{data}}
+    @scale={{scale-quantile domain=(map-by 'y' data) range=(css-range 'nominal') count=4}}
+  />
+{{/let}}
+```
 
-> ScaleBand
+### Threshold
 
-> ScalePoint
+```hbs preview-template
+<PartitioningScaleDemo
+  @data={{generate-normal 100 mean=75 stddev=8 sort=true}}
+  @scale={{scale-threshold domain=(array 60 70 80 90) range=(css-range 'nominal')}}
+/>
+```
 
-## CSS Range
+### Ordinal
+
+```hbs preview-template
+{{#let
+  (scale-ordinal
+    domain=(array 'apple' 'grapes' 'banana')
+    range=(array 'fruit-apple' 'fruit-grapes' 'fruit-banana')
+  ) as |scale|
+}}
+  <ol class='fruit-list'>
+    {{#each (array 'apple' 'grapes' 'apple' 'apple' 'banana' 'banana' 'grapes') as |fruit|}}
+      <li class='{{scale.compute fruit}}'>{{fruit}}</li>
+    {{/each}}
+  </ol>
+{{/let}}
+```
 
 ## Further reading

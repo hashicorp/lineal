@@ -20,6 +20,8 @@
   --c-red-line: #d1675d;
   --c-blue: #94a9af;
   --c-blue-line: #346c8e;
+  --c-purple: #d483af;
+  --c-purple-line: #973e6e;
 }
 
 * {
@@ -301,6 +303,10 @@ pre code.hljs {
 .nominal-4 {
   color: var(--c-blue);
   fill: var(--c-blue);
+}
+.nominal-5 {
+  color: var(--c-purple);
+  fill: var(--c-purple);
 }
 
 .accent-green {
@@ -611,3 +617,39 @@ blockquote {
     }
   }
 }
+
+.waffle-chart {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 45px);
+  gap: 2px;
+
+  > div {
+    border: 1px solid black;
+    text-align: center;
+    font-size: 12px;
+    padding: 8px 0;
+    background: currentcolor;
+
+    span {
+      color: var(--c-line);
+    }
+  }
+}
+
+.fruit-list {
+  li::before {
+    content: var(--fruit);
+    padding-right: 1ch;
+  }
+
+  .fruit-apple {
+    --fruit: '🍎';
+  }
+  .fruit-banana {
+    --fruit: '🍌';
+  }
+  .fruit-grapes {
+    --fruit: '🍇';
+  }
+}
+
