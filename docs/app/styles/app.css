@@ -493,6 +493,7 @@ dl {
   svg {
     display: block;
     margin: auto;
+    overflow: visible;
 
     &.fluid {
       margin: 0;
