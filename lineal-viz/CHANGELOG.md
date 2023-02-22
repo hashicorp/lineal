@@ -1,5 +1,19 @@
 # @lineal-viz/lineal
 
+## 0.4.0
+
+### Minor Changes
+
+- 68f6212: New scale.ticks getter for scales that support ticks
+- f721209: Upgrade ember-cached-decorator-polyfill so everyone gets to benefit from @cached
+- 73e0a03: Fixed a bug where ScaleThreshold used the wrong scale & DivergignPow/Log didn't expose exponent/base
+- e13330c: New Scale#derive method available on all scales
+
+### Patch Changes
+
+- 12f95f0: Update package.json so properly state MPL-2.0 license instead of MIT
+- 7636725: Bounds.parse converts two value arrays into Bounds instances
+
 ## 0.3.0
 
 ### Minor Changes
