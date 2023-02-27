@@ -11,7 +11,7 @@
 
 ### Patch Changes
 
-- 12f95f0: Update package.json so properly state MPL-2.0 license instead of MIT
+- 12f95f0: Update package.json to properly state MPL-2.0 license instead of MIT
 - 7636725: Bounds.parse converts two value arrays into Bounds instances
 
 ## 0.3.0
