@@ -6,8 +6,8 @@
 import { scheduleOnce } from '@ember/runloop';
 import Component from '@glimmer/component';
 import Bounds from '../bounds';
-import { Scale } from '../scale';
-import { Encoding } from '../encoding';
+import { Scale, ScaleIdentity } from '../scale';
+import { Accessor, Encoding } from '../encoding';
 
 /**
  * A valid Mark component must have a `data` arg.
@@ -33,7 +33,9 @@ export function qualifyScale(
   scale: Scale,
   encoding: Encoding,
   field: string
-) {
+): void {
+  if (scale instanceof ScaleIdentity) return;
+
   if (
     (scale.domain.__temp_duck_type_bounds || scale.domain instanceof Bounds) &&
     !scale.domain.isValid
@@ -48,4 +50,21 @@ export function qualifyScale(
       `Qualifying @${field}Scale: Cannot determine the bounds for a range without a bounding box for the mark.`
     );
   }
+}
+
+/**
+ * Given an argument value and maybe a Scale object, determines what Scale should be
+ * returned (the Scale, if provided, or an Identity "pass-through" scale if the arg is
+ * a static value instead of a field or accessor.
+ *
+ * @param arg - An accessor, typically from a Mark component's args
+ * @param scale - A scale, typically from a Mark component's args
+ * @returns A scale, either the provided scale or a ScaleIdentity
+ */
+export function scaleFrom(arg: Accessor, scale?: Scale): ScaleIdentity | Scale | undefined {
+  if (typeof arg === 'number' && scale == null) {
+    return new ScaleIdentity({ range: arg });
+  }
+
+  return scale;
 }
