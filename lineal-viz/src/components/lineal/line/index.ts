@@ -9,7 +9,7 @@ import { line } from 'd3-shape';
 import { Scale, ScaleLinear } from '../../../scale';
 import { Accessor, Encoding } from '../../../encoding';
 import { curveFor, CurveArgs } from '../../../utils/curves';
-import { qualifyScale } from '../../../utils/mark-utils';
+import { scaleFrom, qualifyScale } from '../../../utils/mark-utils';
 
 export interface LineArgs {
   data: any[];
@@ -31,13 +31,13 @@ export default class Line extends Component<LineArgs> {
   }
 
   @cached get xScale() {
-    const scale = this.args.xScale || new ScaleLinear();
+    const scale = scaleFrom(this.args.x, this.args.xScale) || new ScaleLinear();
     qualifyScale(this, scale, this.x, 'x');
     return scale;
   }
 
   @cached get yScale() {
-    const scale = this.args.yScale || new ScaleLinear();
+    const scale = scaleFrom(this.args.y, this.args.yScale) || new ScaleLinear();
     qualifyScale(this, scale, this.y, 'y');
     return scale;
   }
