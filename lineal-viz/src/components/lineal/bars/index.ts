@@ -4,11 +4,10 @@
  */
 
 import Component from '@glimmer/component';
-import { tracked, cached } from '@glimmer/tracking';
+import { cached } from '@glimmer/tracking';
 import { Accessor, Encoding } from '../../../encoding';
-import { Scale, ScaleLinear, ScaleOrdinal, ScaleSqrt, ScaleIdentity } from '../../../scale';
-import CSSRange from '../../../css-range';
-import { qualifyScale } from '../../../utils/mark-utils';
+import { Scale, ScaleLinear } from '../../../scale';
+import { qualifyScale, scaleFrom } from '../../../utils/mark-utils';
 
 export interface BarsArgs {
   data: any[];
@@ -48,41 +47,25 @@ export default class Bars extends Component<BarsArgs> {
   }
 
   @cached get xScale() {
-    if (typeof this.args.x === 'number' && this.args.xScale == null) {
-      return new ScaleIdentity({ range: this.args.x });
-    }
-
-    const scale = this.args.xScale || new ScaleLinear();
+    const scale = scaleFrom(this.args.x, this.args.xScale) || new ScaleLinear();
     qualifyScale(this, scale, this.x, 'x');
     return scale;
   }
 
   @cached get yScale() {
-    if (typeof this.args.y === 'number' && this.args.yScale == null) {
-      return new ScaleIdentity({ range: this.args.y });
-    }
-
-    const scale = this.args.yScale || new ScaleLinear();
+    const scale = scaleFrom(this.args.y, this.args.yScale) || new ScaleLinear();
     qualifyScale(this, scale, this.y, 'y');
     return scale;
   }
 
   @cached get widthScale() {
-    if (typeof this.args.width === 'number' && this.args.widthScale == null) {
-      return new ScaleIdentity({ range: this.args.width });
-    }
-
-    const scale = this.args.widthScale || new ScaleLinear();
+    const scale = scaleFrom(this.args.width, this.args.widthScale) || new ScaleLinear();
     qualifyScale(this, scale, this.width, 'width');
     return scale;
   }
 
   @cached get heightScale() {
-    if (typeof this.args.height === 'number' && this.args.heightScale == null) {
-      return new ScaleIdentity({ range: this.args.height });
-    }
-
-    const scale = this.args.heightScale || new ScaleLinear();
+    const scale = scaleFrom(this.args.height, this.args.heightScale) || new ScaleLinear();
     qualifyScale(this, scale, this.height, 'height');
     return scale;
   }
