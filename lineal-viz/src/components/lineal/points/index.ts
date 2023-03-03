@@ -4,11 +4,11 @@
  */
 
 import Component from '@glimmer/component';
-import { tracked, cached } from '@glimmer/tracking';
+import { cached } from '@glimmer/tracking';
 import { Accessor, Encoding } from '../../../encoding';
 import { Scale, ScaleLinear, ScaleOrdinal, ScaleSqrt, ScaleIdentity } from '../../../scale';
 import CSSRange from '../../../css-range';
-import { qualifyScale } from '../../../utils/mark-utils';
+import { scaleFrom, qualifyScale } from '../../../utils/mark-utils';
 
 export interface PointsArgs {
   data: any[];
@@ -50,31 +50,19 @@ export default class Points extends Component<PointsArgs> {
   }
 
   @cached get xScale() {
-    if (typeof this.args.x === 'number' && this.args.xScale == null) {
-      return new ScaleIdentity({ range: this.args.x });
-    }
-
-    const scale = this.args.xScale || new ScaleLinear();
+    const scale = scaleFrom(this.args.x, this.args.xScale) || new ScaleLinear();
     qualifyScale(this, scale, this.x, 'x');
     return scale;
   }
 
   @cached get yScale() {
-    if (typeof this.args.y === 'number' && this.args.yScale == null) {
-      return new ScaleIdentity({ range: this.args.y });
-    }
-
-    const scale = this.args.yScale || new ScaleLinear();
+    const scale = scaleFrom(this.args.y, this.args.yScale) || new ScaleLinear();
     qualifyScale(this, scale, this.y, 'y');
     return scale;
   }
 
   @cached get sizeScale() {
-    if (typeof this.args.size === 'number' && this.args.sizeScale == null) {
-      return new ScaleIdentity({ range: this.args.size });
-    }
-
-    const scale = this.args.sizeScale || new ScaleSqrt();
+    const scale = scaleFrom(this.args.size, this.args.sizeScale) || new ScaleSqrt();
     qualifyScale(this, scale, this.size, 'size');
     return scale;
   }
