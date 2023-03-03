@@ -3,17 +3,13 @@
  * SPDX-License-Identifier: MPL-2.0
  */
 
-import { scheduleOnce } from '@ember/runloop';
 import Component from '@glimmer/component';
-import { tracked } from '@glimmer/tracking';
 import { cached } from '@glimmer/tracking';
 import { area, CurveFactory } from 'd3-shape';
-import { extent } from 'd3-array';
 import { Scale, ScaleLinear } from '../../../scale';
 import { Accessor, Encoding } from '../../../encoding';
-import Bounds from '../../../bounds';
 import { curveFor, CurveArgs } from '../../../utils/curves';
-import { qualifyScale } from '../../../utils/mark-utils';
+import { scaleFrom, qualifyScale } from '../../../utils/mark-utils';
 
 export interface AreaArgs {
   data: any[];
@@ -40,13 +36,13 @@ export default class Area extends Component<AreaArgs> {
   }
 
   @cached get xScale() {
-    const scale = this.args.xScale || new ScaleLinear();
+    const scale = scaleFrom(this.args.x, this.args.xScale) || new ScaleLinear();
     qualifyScale(this, scale, this.x, 'x');
     return scale;
   }
 
   @cached get yScale() {
-    const scale = this.args.yScale || new ScaleLinear();
+    const scale = scaleFrom(this.args.y, this.args.yScale) || new ScaleLinear();
     qualifyScale(this, scale, this.y, 'y');
     return scale;
   }
