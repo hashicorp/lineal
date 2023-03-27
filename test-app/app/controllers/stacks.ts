@@ -1,14 +1,16 @@
 import Controller from '@ember/controller';
+import { tracked } from '@glimmer/tracking';
+import { action } from '@ember/object';
 
 const rand = (min: number, max: number): number =>
   Math.random() * (max - min) + min;
 
-export default class PointsBandsController extends Controller {
+export default class StacksController extends Controller {
+  @tracked activePop = null;
+
   daysOfWeek = 'Monday Tuesday Wednesday Thursday Friday Saturday Sunday'.split(
     ' '
   );
-
-  categories = '0-18 18-25 25-35 35-50 50-70 70+'.split(' ');
 
   get frequencyByDay() {
     return [
@@ -58,14 +60,9 @@ export default class PointsBandsController extends Controller {
     return data;
   }
 
-  get ageDemo() {
-    return [
-      { bracket: '0-18', value: 10 },
-      { bracket: '18-25', value: 25 },
-      { bracket: '25-35', value: 100 },
-      { bracket: '35-50', value: 30 },
-      { bracket: '50-70', value: 150 },
-      { bracket: '70+', value: 40 },
-    ];
+  @action
+  updateActiveDataPop(activeData: any) {
+    console.log('activePop', activeData);
+    this.activePop = activeData;
   }
 }

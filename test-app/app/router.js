@@ -18,4 +18,5 @@ Router.map(function () {
   this.route('arcs');
   this.route('points-bands');
   this.route('reactivity');
+  this.route('stacks');
 });
