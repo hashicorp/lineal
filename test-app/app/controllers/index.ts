@@ -6,13 +6,11 @@
 import Controller from '@ember/controller';
 import { tracked, cached } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { ScaleLinear } from '@lineal-viz/lineal/scale';
-import Bounds from '@lineal-viz/lineal/bounds';
 
 const rand = (min: number, max: number): number =>
   Math.random() * (max - min) + min;
 
-export default class ApplicationController extends Controller {
+export default class IndexController extends Controller {
   @tracked activeDatum = null;
 
   daysOfWeek = 'Monday Tuesday Wednesday Thursday Friday Saturday Sunday'.split(
