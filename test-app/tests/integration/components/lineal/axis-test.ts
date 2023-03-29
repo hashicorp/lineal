@@ -106,6 +106,33 @@ module('Integration | Component | Lineal::Axis', function (hooks) {
     )
   );
 
+  test('The tickCount arg is used to influence the number of ticks', async function (assert) {
+    const scale = new ScaleLinear({ range: '0..100', domain: '0..10' });
+    const tickCount = 3;
+    this.setProperties({ scale, tickCount });
+
+    await render(hbs`
+      <svg>
+        <Lineal::Axis
+          @scale={{this.scale}}
+          @orientation="bottom"
+          @tickCount={{this.tickCount}}
+          @offset={{0}} />
+      </svg>
+    `);
+
+    assert.dom('.axis line').exists({ count: tickCount });
+
+    this.set('tickCount', 8);
+
+    assert
+      .dom('.axis line')
+      .exists(
+        { count: 11 },
+        'when the specified tickCount is not appropriate for the domain/scale, a better number is used'
+      );
+  });
+
   test('The tickValues arg is used to manually specify rendered ticks', async function (assert) {
     const scale = new ScaleLinear({ range: '0..100', domain: '0..10' });
     const tickValues = [0, 0.5, 1.5, 3, 5, 7.5];

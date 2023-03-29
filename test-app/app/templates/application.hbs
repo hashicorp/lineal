@@ -5,7 +5,7 @@
 <p>Axes</p>
 {{#let (scale-pow range='15..785' domain='0..10' exponent='2') as |scale|}}
   <svg class='no-overflow' width='800' height='30'>
-    <Lineal::Axis @scale={{scale}} @orientation='bottom' />
+    <Lineal::Axis @scale={{scale}} @tickCount={{3}} @orientation='bottom' />
   </svg>
   <svg class='no-overflow' width='800' height='30'>
     <Lineal::Axis @scale={{scale}} @orientation='top' as |tick|>
@@ -102,7 +102,7 @@
           <Lineal::Axis
             @scale={{yScale}}
             @orientation='left'
-            @tickValues={{array 20000000 100000000 200000000 280000000}}
+            @tickCount={{100}}
           />
           <Lineal::Axis
             @scale={{xScale}}
@@ -111,7 +111,7 @@
           />
           <Lineal::Gridlines
             @scale={{yScale}}
-            @lineValues={{array 20000000 100000000 200000000 280000000}}
+            @lineCount={{100}}
             @direction='horizontal'
             @length={{width}}
             stroke-dasharray='5 5'

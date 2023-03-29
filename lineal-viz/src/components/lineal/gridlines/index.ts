@@ -16,6 +16,7 @@ export interface GridlinesArgs {
   scale: Scale;
   direction: Direction;
   length: number;
+  lineCount?: number;
   lineValues?: any[];
   offset?: number;
 }
@@ -23,7 +24,13 @@ export interface GridlinesArgs {
 const DEFAULT_OFFSET = typeof window !== 'undefined' && window.devicePixelRatio > 1 ? 0 : 0.5;
 
 export default class Gridlines extends Component<GridlinesArgs> {
-  @tracked lineValues = this.args.lineValues || null;
+  @cached get lineValues() {
+    return this.args.lineValues ?? null;
+  }
+
+  @cached get lineCount() {
+    return this.args.lineCount ?? null;
+  }
 
   @cached get offset() {
     return this.args.offset ?? DEFAULT_OFFSET;
@@ -31,8 +38,13 @@ export default class Gridlines extends Component<GridlinesArgs> {
 
   @cached get values() {
     if (this.lineValues) return this.lineValues;
-    if (this.args.scale.d3Scale.ticks) return this.args.scale.d3Scale.ticks();
-    return this.args.scale.d3Scale.domain();
+
+    const scale = this.args.scale?.d3Scale;
+    if (scale?.ticks) {
+      return this.lineCount != null ? scale.ticks(this.lineCount) : scale.ticks();
+    }
+
+    return scale?.domain();
   }
 
   @cached get position() {

@@ -29,6 +29,7 @@ export enum Direction {
 export interface AxisArgs {
   scale: Scale;
   orientation: Orientation;
+  tickCount?: number;
   tickValues?: any[];
   tickFormat?: (t: any) => string;
   tickSize?: number;
@@ -64,8 +65,9 @@ const TEXT_ANCHOR = {
 };
 
 export default class Axis extends Component<AxisArgs> {
-  // TODO: Implement tickArguments for d3-axis parity, but maybe not the same signature.
-  //tickArguments = [];
+  @cached get tickCount() {
+    return this.args.tickCount ?? null;
+  }
 
   @cached get tickValues() {
     return this.args.tickValues ?? null;
@@ -147,8 +149,13 @@ export default class Axis extends Component<AxisArgs> {
 
   @cached get values() {
     if (this.tickValues) return this.tickValues;
-    if (this.args.scale.d3Scale.ticks) return this.args.scale.d3Scale.ticks();
-    return this.args.scale.d3Scale.domain();
+
+    const scale = this.args.scale?.d3Scale;
+    if (scale?.ticks) {
+      return this.tickCount != null ? scale.ticks(this.tickCount) : scale.ticks();
+    }
+
+    return scale?.domain();
   }
 
   @cached get format() {

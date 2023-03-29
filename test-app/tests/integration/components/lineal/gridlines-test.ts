@@ -47,6 +47,34 @@ module('Integration | Component | Lineal::Gridlines', function (hooks) {
     );
   });
 
+  test('The lineCount arg is used to influence the number of lines', async function (assert) {
+    const scale = new ScaleLinear({ range: '0..100', domain: '0..10' });
+    const lineCount = 3;
+    this.setProperties({ scale, lineCount });
+
+    await render(hbs`
+      <svg>
+        <Lineal::Gridlines
+          @scale={{this.scale}}
+          @lineCount={{this.lineCount}}
+          @direction="vertical"
+          @length={{100}}
+          @offset={{0}} />
+      </svg>
+    `);
+
+    assert.dom('.gridlines line').exists({ count: lineCount });
+
+    this.set('lineCount', 8);
+
+    assert
+      .dom('.gridlines line')
+      .exists(
+        { count: 11 },
+        'when the specified lineCount is not appropriate for the domain/scale, a better number is used'
+      );
+  });
+
   test('The lineValues arg is used to manually specify gridline positions', async function (assert) {
     const scale = new ScaleLinear({ range: '0..100', domain: '0..10' });
     const lineValues = [0, 10, 20, 30, 50, 80];
