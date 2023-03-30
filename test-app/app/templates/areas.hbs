@@ -1,0 +1,19 @@
+<h2>Area</h2>
+<svg width='800' height='200'>
+  {{#let
+    (scale-linear range='15..785' domain='0..10')
+    (scale-linear range='190..10' domain='0..10')
+    as |xScale yScale|
+  }}
+    <Lineal::Area
+      @data={{array (hash x=0 y=5 y0=3) (hash x=10 y=10 y0=0)}}
+      @xScale={{xScale}}
+      @yScale={{yScale}}
+      @x='x'
+      @y='y'
+      @y0='y0'
+      fill='#BADA55'
+      stroke='black'
+    />
+  {{/let}}
+</svg>

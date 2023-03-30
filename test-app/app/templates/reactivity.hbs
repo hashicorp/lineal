@@ -1,6 +1,6 @@
 <h2>Updating data</h2>
 {{#if this.wave.length}}
-  <svg width='800' height='200' style='margin:50px; overflow:visible'>
+  <svg width='800' height='200' class='no-overflow m-100'>
     {{#let (scale-linear range='200..0') as |yScale|}}
       {{#if (and this.xScale.isValid yScale.isValid)}}
         <Lineal::Axis

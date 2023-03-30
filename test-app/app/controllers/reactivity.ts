@@ -17,7 +17,7 @@ function* sine(length: number, start = 0) {
   }
 }
 
-export default class FooController extends Controller {
+export default class ReactivityController extends Controller {
   @tracked wave: any[] = [];
   @tracked xScale = new ScaleTime({ range: '0..800' });
 
