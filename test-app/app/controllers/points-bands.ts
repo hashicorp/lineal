@@ -1,60 +1,14 @@
-/**
- * Copyright (c) HashiCorp, Inc.
- * SPDX-License-Identifier: MPL-2.0
- */
-
 import Controller from '@ember/controller';
-import { tracked, cached } from '@glimmer/tracking';
-import { action } from '@ember/object';
-import { ScaleLinear } from '@lineal-viz/lineal/scale';
-import Bounds from '@lineal-viz/lineal/bounds';
 
 const rand = (min: number, max: number): number =>
   Math.random() * (max - min) + min;
 
-export default class ApplicationController extends Controller {
-  @tracked activeDatum = null;
-
+export default class PointsBandsController extends Controller {
   daysOfWeek = 'Monday Tuesday Wednesday Thursday Friday Saturday Sunday'.split(
     ' '
   );
 
   categories = '0-18 18-25 25-35 35-50 50-70 70+'.split(' ');
-
-  get population() {
-    const data = this.model as any[];
-    const reduction = data.reduce((agg: any, record: any) => {
-      agg[record.year] = agg[record.year]
-        ? agg[record.year] + record.people
-        : record.people;
-      return agg;
-    }, {});
-
-    return Object.entries(reduction).map(([year, people]) => ({
-      year,
-      people,
-    }));
-  }
-
-  @cached
-  get sine() {
-    const data: { x: number; y?: number }[] = [];
-    for (let x = 0; x < 50; x += Math.PI / 8) {
-      data.push({ x, y: Math.sin(x) });
-    }
-
-    // Corrode some data
-    for (let i = 0; i < 30; i++) {
-      const datum = data[Math.floor(Math.random() * data.length)];
-      if (datum) datum.y = undefined;
-    }
-
-    return data;
-  }
-
-  get sineFiltered() {
-    return this.sine.filter((d) => d.y != undefined);
-  }
 
   get frequencyByDay() {
     return [
@@ -96,13 +50,5 @@ export default class ApplicationController extends Controller {
       { bracket: '50-70', value: 150 },
       { bracket: '70+', value: 40 },
     ];
-  }
-
-  always = () => true;
-  logValue = (...args: any[]) => console.log(...args);
-
-  @action
-  updateActiveData(activeData: any) {
-    this.activeDatum = activeData ? activeData.datum.datum : null;
   }
 }
