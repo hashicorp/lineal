@@ -3,6 +3,71 @@
  * SPDX-License-Identifier: MPL-2.0
  */
 
+html,
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  min-height: 100vh;
+  font-family: sans-serif;
+}
+
+.page {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+
+.page > nav {
+  width: 200px;
+  min-height: 100vh;
+  background: rgba(230, 230, 230, 0.5);
+  border: none;
+  border-right: 1px solid #cccccc;
+}
+
+.page > nav .sticky {
+  position: sticky;
+  top: 30px;
+}
+
+.page > nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.page > nav h3 {
+  padding: 0 10px;
+}
+
+.page > nav ul > li > a {
+  padding: 10px;
+  display: block;
+  border-bottom: 1px solid #ddd;
+  width: auto;
+  color: black;
+}
+
+.page > nav ul > li > a:hover,
+.page > nav ul > li > a.active {
+  background: #e6e6e6;
+}
+
+.page > main {
+  width: 100%;
+  min-height: 100vh;
+  margin: auto;
+  background: #fff;
+  padding: 30px;
+}
+
+@media (max-width: 800px) {
+  .page {
+    flex-direction: column;
+  }
+}
+
 .reds {
   fill: red;
 }

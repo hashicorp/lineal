@@ -1,2 +1,15 @@
 {{page-title 'TestApp'}}
-{{outlet}}
+<div class='page'>
+  <nav class='main-nav'>
+    <div class='sticky'>
+      <h3>Test Pages</h3>
+      <ul>
+        <li><LinkTo @route='index'>Index</LinkTo></li>
+        <li><LinkTo @route='foo'>Foo</LinkTo></li>
+      </ul>
+    </div>
+  </nav>
+  <main>
+    {{outlet}}
+  </main>
+</div>
