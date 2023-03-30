@@ -18,6 +18,11 @@ import CSSRange from '@lineal-viz/lineal/css-range';
 const NOW = Date.now();
 const DAY = 1000 * 60 * 60 * 24;
 
+// TODO: Remove this when https://github.com/ef4/ember-auto-import/pull/512 is released.
+function isBounds<T>(b: Bounds<T>) {
+  return b.__temp_duck_type_bounds || b instanceof Bounds;
+}
+
 module('Unit | ScaleLinear', function () {
   test('the compute method performs the scale operation', function (assert) {
     const scale = new ScaleLinear({
@@ -36,8 +41,8 @@ module('Unit | ScaleLinear', function () {
 
   test('can be constructed with no arguments', function (assert) {
     const scale = new ScaleLinear();
-    assert.ok(scale.domain instanceof Bounds);
-    assert.ok(scale.range instanceof Bounds);
+    assert.ok(isBounds<number>(scale.domain));
+    assert.ok(isBounds<number>(scale.range));
 
     const domainBounds = scale.domain as Bounds<number>;
     const rangeBounds = scale.range as Bounds<number>;
@@ -120,8 +125,8 @@ module('Unit | ScaleUtc', function () {
 
   test('can be constructed with no arguments', function (assert) {
     const scale = new ScaleUtc();
-    assert.ok(scale.domain instanceof Bounds);
-    assert.ok(scale.range instanceof Bounds);
+    assert.ok(isBounds<Date>(scale.domain));
+    assert.ok(isBounds<number>(scale.range));
 
     const domainBounds = scale.domain as Bounds<Date>;
     const rangeBounds = scale.range as Bounds<number>;
