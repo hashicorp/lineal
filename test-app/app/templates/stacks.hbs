@@ -74,3 +74,42 @@
     {{/if}}
   {{/let}}
 </svg>
+
+<h2>Stacked Area 2</h2>
+<svg height='300' width='800' class='no-overflow m-100'>
+  {{! (stack-y data=this.paddedFrequencyByDay x='hour' y='value' z='day') }}
+  {{#let
+    (scale-linear range='0..800' domain='..')
+    (scale-linear range='300..0' domain='0..')
+    this.stacked
+    as |xScale yScale stacked|
+  }}
+    {{#if (and xScale.isValid yScale.isValid)}}
+      <Lineal::Axis
+        @scale={{yScale}}
+        @orientation='left'
+        @includeDomain={{false}}
+      />
+      <Lineal::Axis
+        @scale={{xScale}}
+        @orientation='bottom'
+        transform='translate(0,300)'
+      />
+      <Lineal::Gridlines
+        @scale={{yScale}}
+        @direction='horizontal'
+        @length='800'
+        stroke-dasharray='5 5'
+      />
+    {{/if}}
+    <Lineal::Area
+      @data={{stacked.data}}
+      @curve='natural'
+      @x='x'
+      @y='y'
+      @xScale={{xScale}}
+      @yScale={{yScale}}
+      @colorScale='ordinal'
+    />
+  {{/let}}
+</svg>

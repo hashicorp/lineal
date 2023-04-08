@@ -6,6 +6,7 @@ import { tracked, cached } from '@glimmer/tracking';
 type OrderFn = (series: shape.Series<any, any>) => number[];
 type OffsetFn = (series: shape.Series<any, any>, order: Iterable<number>) => void;
 type Direction = 'vertical' | 'horizontal';
+type D3StackSeries = shape.Series<{ [key: string]: number }, string>;
 type D3StackSeriesPoint = shape.SeriesPoint<{ [key: string]: number }>;
 
 export const ORDERS: { [key: string]: OrderFn } = {
@@ -51,8 +52,15 @@ export interface StackDatumVertical {
   data: { [key: string]: any };
 }
 
-export type StackSeriesHorizontal = StackDatumHorizontal[];
-export type StackSeriesVertical = StackDatumVertical[];
+export interface StackSeriesHorizontal extends Array<StackDatumHorizontal> {
+  key: string;
+  index: number;
+}
+
+export interface StackSeriesVertical extends Array<StackDatumVertical> {
+  key: string;
+  index: number;
+}
 
 export default class Stack {
   @tracked dataIn: any[] = [];
@@ -93,7 +101,9 @@ export default class Stack {
   }
 
   @cached get categories(): any[] {
-    return Array.from(new Set(this.dataIn.map((d) => this.z.accessor(d))));
+    const cats = Array.from(new Set(this.dataIn.map((d) => this.z.accessor(d))));
+    console.log('Heyo, categories', cats);
+    return cats;
   }
 
   @cached get table() {
@@ -123,7 +133,8 @@ export default class Stack {
 
   @cached get data(): StackSeriesVertical[] | StackSeriesHorizontal[] {
     // Convert the table of data into stacks of data
-    const d3Stack = shape.stack().keys(this.categories)(this.table);
+    const stacker = shape.stack().order(this.order).offset(this.offset).keys(this.categories);
+    const d3Stack = stacker(this.table);
 
     const isVertical = this.direction === 'vertical';
 
@@ -142,9 +153,14 @@ export default class Stack {
       data: d.data,
     });
 
+    const tag = (
+      arr: StackDatumVertical[] | StackDatumHorizontal[],
+      { key, index }: D3StackSeries
+    ): StackSeriesVertical | StackSeriesHorizontal => Object.assign(arr, { key, index });
+
     // Convert the [y0,y1] data format into {y0, y1} format
     return isVertical
-      ? d3Stack.map((series) => series.map(verticalMap))
-      : d3Stack.map((series) => series.map(horizontalMap));
+      ? d3Stack.map((series) => tag(series.map(verticalMap), series) as StackSeriesVertical)
+      : d3Stack.map((series) => tag(series.map(horizontalMap), series) as StackSeriesHorizontal);
   }
 }

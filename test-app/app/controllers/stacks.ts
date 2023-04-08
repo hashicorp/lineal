@@ -1,6 +1,7 @@
 import Controller from '@ember/controller';
-import { tracked } from '@glimmer/tracking';
+import { tracked, cached } from '@glimmer/tracking';
 import { action } from '@ember/object';
+import Stack from '@lineal-viz/lineal/transforms/stack';
 
 const rand = (min: number, max: number): number =>
   Math.random() * (max - min) + min;
@@ -43,7 +44,7 @@ export default class StacksController extends Controller {
     ];
   }
 
-  get paddedFrequencyByDay() {
+  @cached get paddedFrequencyByDay() {
     const freq = this.frequencyByDay;
     const data = [];
     for (const day of this.daysOfWeek) {
@@ -58,6 +59,15 @@ export default class StacksController extends Controller {
       }
     }
     return data;
+  }
+
+  @cached get stacked() {
+    return new Stack({
+      data: this.paddedFrequencyByDay,
+      x: 'hour',
+      y: 'value',
+      z: 'day',
+    });
   }
 
   @action
