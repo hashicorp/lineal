@@ -10,6 +10,7 @@ let d = 6;
 
 export default class StacksController extends Controller {
   @tracked activePop = null;
+  @tracked activeStackSlice = null;
 
   @tracked stacked = new Stack({
     data: this.newData,
@@ -111,7 +112,11 @@ export default class StacksController extends Controller {
 
   @action
   updateActiveDataPop(activeData: any) {
-    console.log('activePop', activeData);
     this.activePop = activeData;
+  }
+
+  @action
+  updateActiveStackDatum(activeData: any) {
+    this.activeStackSlice = activeData;
   }
 }

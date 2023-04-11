@@ -15,6 +15,7 @@ import Stack, {
   verticalStackMap,
   StackDatumVertical,
   StackSeriesVertical,
+  KeyedStackDatumVertical,
 } from '@lineal-viz/lineal/transforms/stack';
 
 type SeriesStd = Series<{ [key: string]: number }, string>;
@@ -374,5 +375,28 @@ module('Unit | Transforms | Stack', function () {
     );
   });
 
-  test('Calling stack.stack on a slice of data stacks the slice using the order and offset of the full stack structure', function (assert) {});
+  test('Calling stack.stack on a slice of data stacks the slice using the order and offset of the full stack structure', function (assert) {
+    const stack = new Stack({
+      data: TEST_DATA,
+      order: 'descending',
+      x: 'hour',
+      y: 'value',
+      z: 'day',
+    });
+
+    const data = stack.data as StackSeriesVertical[];
+    const stackSlice = stack.stack(
+      TEST_DATA.filter((d) => d.hour === 6)
+    ) as KeyedStackDatumVertical[];
+
+    const y0y1 = (obj?: { y0: number; y1: number }) => {
+      if (!obj) return {};
+      return { y0: obj.y0, y1: obj.y1 };
+    };
+
+    assert.deepEqual(
+      stackSlice.map(({ y0, y1 }: KeyedStackDatumVertical) => ({ y0, y1 })),
+      [y0y1(data[0]?.[6]), y0y1(data[1]?.[6]), y0y1(data[2]?.[6])]
+    );
+  });
 });

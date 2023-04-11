@@ -112,5 +112,52 @@
       @yScale={{yScale}}
       @colorScale='ordinal'
     />
+    {{#if (and xScale.isValid yScale.isValid)}}
+      {{#if this.activeStackSlice}}
+        <g class='interaction-overlay'>
+          <line
+            stroke='red'
+            stroke-width='2'
+            x1={{xScale.compute this.activeStackSlice.datum.datum.hour}}
+            x2={{xScale.compute this.activeStackSlice.datum.datum.hour}}
+            y1='0'
+            y2='300'
+          ></line>
+          {{#each
+            (stacked.stack (map-by 'datum' this.activeStackSlice.data))
+            as |d|
+          }}
+            <circle
+              cx={{xScale.compute d.x}}
+              cy={{yScale.compute d.y}}
+              r='5'
+              fill='black'
+            ></circle>
+            <text
+              x={{xScale.compute d.x}}
+              y={{yScale.compute d.y}}
+              dx='10'
+              text-anchor='start'
+            >{{d.key}}</text>
+          {{/each}}
+        </g>
+      {{/if}}
+    {{/if}}
+    <rect
+      x='0'
+      y='0'
+      width='800'
+      height='300'
+      tabindex='0'
+      fill='transparent'
+      class='interactor'
+      {{interactor-cartesian-horizontal
+        data=stacked.dataIn
+        xScale=xScale
+        x='hour'
+        y='value'
+        onSeek=this.updateActiveStackDatum
+      }}
+    ></rect>
   {{/let}}
 </svg>

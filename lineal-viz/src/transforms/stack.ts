@@ -53,6 +53,14 @@ export interface StackDatumVertical {
   data: { [key: string]: any };
 }
 
+export interface KeyedStackDatumHorizontal extends StackDatumHorizontal {
+  key: string;
+}
+
+export interface KeyedStackDatumVertical extends StackDatumVertical {
+  key: string;
+}
+
 export interface StackSeriesHorizontal extends Array<StackDatumHorizontal> {
   key: string;
   index: number;
@@ -83,6 +91,12 @@ const tag = (
   arr: StackDatumVertical[] | StackDatumHorizontal[],
   { key, index }: D3StackSeries
 ): StackSeriesVertical | StackSeriesHorizontal => Object.assign(arr, { key, index });
+
+const indicesToProperties = (data: D3StackSeries[], isVertical: boolean) => {
+  return isVertical
+    ? data.map((series) => tag(series.map(verticalStackMap), series) as StackSeriesVertical)
+    : data.map((series) => tag(series.map(horizontalStackMap), series) as StackSeriesHorizontal);
+};
 
 export default class Stack {
   @tracked dataIn: any[] = [];
@@ -142,7 +156,7 @@ export default class Stack {
     return Array.from(new Set(this.dataIn.map((d) => this.z.accessor(d))));
   }
 
-  @cached get table() {
+  tabulate(data: any[]) {
     // Transform from records into a table using the x-accessor as ID and the y-accessor as the cell value
     // (or the y-accessor as ID and the x-accessor as the cell value when stacked horizontally)
 
@@ -151,7 +165,7 @@ export default class Stack {
     const cell = this.direction === 'vertical' ? this.y : this.x;
     const idField = this.direction === 'vertical' ? 'x' : 'y';
 
-    const grouped = group(this.dataIn, id.accessor, this.z.accessor);
+    const grouped = group(data, id.accessor, this.z.accessor);
 
     return Array.from(grouped).reduce((rows, [idVal, records]) => {
       rows.push({
@@ -167,29 +181,49 @@ export default class Stack {
     }, [] as any[]);
   }
 
-  @cached get data(): StackSeriesVertical[] | StackSeriesHorizontal[] {
-    // Convert the table of data into stacks of data. Once data has been computed once,
-    // the category order is persisted for future data stacking. This prevents the jarring
-    // visual re-ordering of series.
-    const stacker = shape
+  @cached get table() {
+    return this.tabulate(this.dataIn);
+  }
+
+  get stacker() {
+    return shape
       .stack()
       .order(this._categories ? ORDERS.none : this.order)
       .offset(this.offset)
       .keys(this._categories ?? this.categories);
+  }
 
-    const d3Stack = stacker(this.table).sort((a, b) => a.index - b.index);
+  @cached get data(): StackSeriesVertical[] | StackSeriesHorizontal[] {
+    // Convert the table of data into stacks of data.
+    const d3Stack = this.stacker(this.table).sort((a, b) => a.index - b.index);
 
+    // Once data has been computed once, the category order is persisted for future data stacking.
+    // This prevents the jarring visual re-ordering of series.
     if (!this._categories && this.stable) {
       this._categories = d3Stack.map((d) => d.key);
     }
 
-    const isVertical = this.direction === 'vertical';
-
     // Convert the array indexing format to a more Ember friendly property accessor format
-    return isVertical
-      ? d3Stack.map((series) => tag(series.map(verticalStackMap), series) as StackSeriesVertical)
-      : d3Stack.map(
-          (series) => tag(series.map(horizontalStackMap), series) as StackSeriesHorizontal
-        );
+    return indicesToProperties(d3Stack, this.direction === 'vertical');
   }
+
+  stack = (slice: any[]): KeyedStackDatumVertical[] | KeyedStackDatumHorizontal[] => {
+    // First table it
+    const table = this.tabulate(slice);
+
+    // Then stack it
+    const stack = indicesToProperties(
+      this.stacker(table).sort((a, b) => a.index - b.index),
+      this.direction === 'vertical'
+    );
+
+    // Finally flatten it ([ [{}], [{}], [{}] ] -> [{}, {}, {}] ])
+    // These two mappers are identical, but they are typed differently to prevent the eventual map
+    // from being typed as (StackSeriesVertical | StackSeriesHorizontal)[]
+    const vMap = (d: StackSeriesVertical): KeyedStackDatumVertical => ({ ...d[0], key: d.key });
+    const hMap = (d: StackSeriesHorizontal): KeyedStackDatumHorizontal => ({ ...d[0], key: d.key });
+    return this.direction === 'vertical'
+      ? (stack as StackSeriesVertical[]).map(vMap)
+      : (stack as StackSeriesHorizontal[]).map(hMap);
+  };
 }
