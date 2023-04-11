@@ -288,4 +288,7 @@ module('Unit | Transforms | Stack', function () {
       )[1]
     );
   });
+
+  test('When the data property is updated, the stack is recomputed but the order and offset persist', function (assert) {});
+  test('Calling stack.stack on a slice of data stacks the slice using the order and offset of the full stack structure', function (assert) {});
 });

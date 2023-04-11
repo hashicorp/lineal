@@ -96,6 +96,8 @@ export default class Stack {
   @tracked zAccessor: Accessor | string;
   @tracked direction: Direction;
 
+  _categories: string[] | null = null;
+
   constructor({ order, offset, data, direction, x, y, z }: StackConfig) {
     this.offset = offset ? OFFSETS[offset] ?? OFFSETS.none : OFFSETS.none;
     this.order = order
@@ -154,9 +156,20 @@ export default class Stack {
   }
 
   @cached get data(): StackSeriesVertical[] | StackSeriesHorizontal[] {
-    // Convert the table of data into stacks of data
-    const stacker = shape.stack().order(this.order).offset(this.offset).keys(this.categories);
+    // Convert the table of data into stacks of data. Once data has been computed once,
+    // the category order is persisted for future data stacking. This prevents the jarring
+    // visual re-ordering of series.
+    const stacker = shape
+      .stack()
+      .order(this._categories ? ORDERS.none : this.order)
+      .offset(this.offset)
+      .keys(this._categories ?? this.categories);
+
     const d3Stack = stacker(this.table);
+
+    if (!this._categories) {
+      this._categories = d3Stack.sort((a, b) => a.index - b.index).map((d) => d.key);
+    }
 
     const isVertical = this.direction === 'vertical';
 
