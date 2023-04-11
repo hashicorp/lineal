@@ -17,13 +17,17 @@ import Stack, {
   StackSeriesVertical,
 } from '@lineal-viz/lineal/transforms/stack';
 
+type SeriesStd = Series<{ [key: string]: number }, string>;
+
 const tag = (
   arr: StackDatumVertical[],
-  { key, index }: Series<{ [key: string]: number }, string>
+  { key, index }: SeriesStd
 ): StackSeriesVertical => Object.assign(arr, { key, index });
 
-const convert = (data: Series<{ [key: string]: number }, string>[]) =>
+const convert = (data: SeriesStd[]) =>
   data.map((series) => tag(series.map(verticalStackMap), series));
+
+const sortByIndex = (a: SeriesStd, b: SeriesStd) => a.index - b.index;
 
 const TEST_DATA = [
   { day: 'Sunday', hour: 0, value: 1 },
@@ -202,6 +206,7 @@ module('Unit | Transforms | Stack', function () {
         d3Stack()
           .order(stackOrderDescending)
           .keys(['Sunday', 'Monday', 'Tuesday'])(stack.table)
+          .sort(sortByIndex)
       )[1]
     );
 
@@ -213,6 +218,7 @@ module('Unit | Transforms | Stack', function () {
         d3Stack()
           .order(stackOrderReverse)
           .keys(['Sunday', 'Monday', 'Tuesday'])(stack.table)
+          .sort(sortByIndex)
       )[1]
     );
   });
@@ -234,6 +240,7 @@ module('Unit | Transforms | Stack', function () {
           .order(stackOrderDescending)
           .offset(stackOffsetExpand)
           .keys(['Sunday', 'Monday', 'Tuesday'])(stack.table)
+          .sort(sortByIndex)
       )[1]
     );
 
@@ -246,6 +253,7 @@ module('Unit | Transforms | Stack', function () {
           .order(stackOrderDescending)
           .offset(stackOffsetSilhouette)
           .keys(['Sunday', 'Monday', 'Tuesday'])(stack.table)
+          .sort(sortByIndex)
       )[1]
     );
   });
@@ -265,6 +273,7 @@ module('Unit | Transforms | Stack', function () {
           .order(stackOrderNone)
           .offset(stackOffsetNone)
           .keys(['Sunday', 'Monday', 'Tuesday'])(stack.table)
+          .sort(sortByIndex)
       )[1]
     );
   });
@@ -286,6 +295,7 @@ module('Unit | Transforms | Stack', function () {
           .offset(stackOffsetWiggle)
           .order(stackOrderInsideOut)
           .keys(['Sunday', 'Monday', 'Tuesday'])(stack.table)
+          .sort(sortByIndex)
       )[1]
     );
   });
@@ -305,6 +315,7 @@ module('Unit | Transforms | Stack', function () {
         d3Stack()
           .order(stackOrderDescending)
           .keys(['Sunday', 'Monday', 'Tuesday'])(stack.table)
+          .sort(sortByIndex)
       )[1]
     );
 
@@ -317,7 +328,11 @@ module('Unit | Transforms | Stack', function () {
 
     assert.deepEqual(
       stack.data[1],
-      convert(d3Stack().keys(['Tuesday', 'Monday', 'Sunday'])(stack.table))[1]
+      convert(
+        d3Stack()
+          .keys(['Tuesday', 'Monday', 'Sunday'])(stack.table)
+          .sort(sortByIndex)
+      )[1]
     );
   });
 

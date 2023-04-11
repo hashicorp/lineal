@@ -165,13 +165,10 @@ export default class Stack {
       .offset(this.offset)
       .keys(this._categories ?? this.categories);
 
-    const d3Stack = stacker(this.table);
+    const d3Stack = stacker(this.table).sort((a, b) => a.index - b.index);
 
     if (!this._categories) {
-      this._categories = d3Stack
-        .slice()
-        .sort((a, b) => a.index - b.index)
-        .map((d) => d.key);
+      this._categories = d3Stack.map((d) => d.key);
     }
 
     const isVertical = this.direction === 'vertical';
