@@ -27,13 +27,14 @@ export const OFFSETS: { [key: string]: OffsetFn } = {
 };
 
 export interface StackConfig {
-  order?: string;
-  offset?: string;
   data: any[];
-  direction?: Direction;
   x: Accessor | string;
   y: Accessor | string;
   z: Accessor | string;
+  order?: string;
+  offset?: string;
+  stable?: boolean;
+  direction?: Direction;
 }
 
 export interface StackDatumHorizontal {
@@ -90,6 +91,7 @@ export default class Stack {
   // are constructed via string?
   @tracked order: OrderFn;
   @tracked offset: OffsetFn;
+  @tracked _stable: boolean = true;
 
   @tracked xAccessor: Accessor | string;
   @tracked yAccessor: Accessor | string;
@@ -98,7 +100,7 @@ export default class Stack {
 
   _categories: string[] | null = null;
 
-  constructor({ order, offset, data, direction, x, y, z }: StackConfig) {
+  constructor({ order, offset, data, direction, x, y, z, stable }: StackConfig) {
     this.offset = offset ? OFFSETS[offset] ?? OFFSETS.none : OFFSETS.none;
     this.order = order
       ? ORDERS[order] ?? ORDERS.none
@@ -110,8 +112,18 @@ export default class Stack {
     this.yAccessor = y;
     this.zAccessor = z;
     this.direction = direction ?? 'vertical';
+    this.stable = stable ?? true;
 
     this.dataIn = data;
+  }
+
+  set stable(val: boolean) {
+    this._categories = null;
+    this._stable = val;
+  }
+
+  get stable() {
+    return this._stable;
   }
 
   @cached get x() {
@@ -167,7 +179,7 @@ export default class Stack {
 
     const d3Stack = stacker(this.table).sort((a, b) => a.index - b.index);
 
-    if (!this._categories) {
+    if (!this._categories && this.stable) {
       this._categories = d3Stack.map((d) => d.key);
     }
 

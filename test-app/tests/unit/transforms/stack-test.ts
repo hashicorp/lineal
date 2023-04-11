@@ -336,7 +336,43 @@ module('Unit | Transforms | Stack', function () {
     );
   });
 
-  test('When @stable=false, the is stack order is recomputed', function (assert) {});
+  test('When stable=false, the is stack order is recomputed', function (assert) {
+    const stack = new Stack({
+      data: TEST_DATA,
+      order: 'descending',
+      x: 'hour',
+      y: 'value',
+      z: 'day',
+      stable: false,
+    });
+
+    assert.deepEqual(
+      stack.data[1],
+      convert(
+        d3Stack()
+          .order(stackOrderDescending)
+          .keys(['Sunday', 'Monday', 'Tuesday'])(stack.table)
+          .sort(sortByIndex)
+      )[1]
+    );
+
+    stack.dataIn = [
+      ...TEST_DATA,
+      { day: 'Sunday', hour: 12, value: 100 }, // Increasing the value of Sunday makes it first in desc order
+      { day: 'Monday', hour: 12, value: 5 },
+      { day: 'Tuesday', hour: 12, value: 3 },
+    ];
+
+    assert.deepEqual(
+      stack.data[1],
+      convert(
+        d3Stack()
+          .order(stackOrderDescending)
+          .keys(['Sunday', 'Monday', 'Tuesday'])(stack.table)
+          .sort(sortByIndex)
+      )[1]
+    );
+  });
 
   test('Calling stack.stack on a slice of data stacks the slice using the order and offset of the full stack structure', function (assert) {});
 });
