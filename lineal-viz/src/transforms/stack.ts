@@ -168,7 +168,10 @@ export default class Stack {
     const d3Stack = stacker(this.table);
 
     if (!this._categories) {
-      this._categories = d3Stack.sort((a, b) => a.index - b.index).map((d) => d.key);
+      this._categories = d3Stack
+        .slice()
+        .sort((a, b) => a.index - b.index)
+        .map((d) => d.key);
     }
 
     const isVertical = this.direction === 'vertical';

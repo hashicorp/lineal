@@ -191,8 +191,8 @@ module('Unit | Transforms | Stack', function () {
     const stack = new Stack({
       data: TEST_DATA,
       order: 'descending',
-      x: 'value',
-      y: 'hour',
+      x: 'hour',
+      y: 'value',
       z: 'day',
     });
 
@@ -222,8 +222,8 @@ module('Unit | Transforms | Stack', function () {
       data: TEST_DATA,
       order: 'descending',
       offset: 'expand',
-      x: 'value',
-      y: 'hour',
+      x: 'hour',
+      y: 'value',
       z: 'day',
     });
 
@@ -253,8 +253,8 @@ module('Unit | Transforms | Stack', function () {
   test('The defaults are direction=vertical, order=none, and offset=none', function (assert) {
     const stack = new Stack({
       data: TEST_DATA,
-      x: 'value',
-      y: 'hour',
+      x: 'hour',
+      y: 'value',
       z: 'day',
     });
 
@@ -273,8 +273,9 @@ module('Unit | Transforms | Stack', function () {
     const stack = new Stack({
       data: TEST_DATA,
       offset: 'wiggle',
-      x: 'value',
-      y: 'hour',
+      order: 'insideOut',
+      x: 'hour',
+      y: 'value',
       z: 'day',
     });
 
@@ -289,6 +290,38 @@ module('Unit | Transforms | Stack', function () {
     );
   });
 
-  test('When the data property is updated, the stack is recomputed but the order and offset persist', function (assert) {});
+  test('When the data property is updated, the stack is recomputed but the order persists', function (assert) {
+    const stack = new Stack({
+      data: TEST_DATA,
+      order: 'descending',
+      x: 'hour',
+      y: 'value',
+      z: 'day',
+    });
+
+    assert.deepEqual(
+      stack.data[1],
+      convert(
+        d3Stack()
+          .order(stackOrderDescending)
+          .keys(['Sunday', 'Monday', 'Tuesday'])(stack.table)
+      )[1]
+    );
+
+    stack.dataIn = [
+      ...TEST_DATA,
+      { day: 'Sunday', hour: 12, value: 100 }, // Increasing the value of Sunday makes it first in desc order
+      { day: 'Monday', hour: 12, value: 5 },
+      { day: 'Tuesday', hour: 12, value: 3 },
+    ];
+
+    assert.deepEqual(
+      stack.data[1],
+      convert(d3Stack().keys(['Tuesday', 'Monday', 'Sunday'])(stack.table))[1]
+    );
+  });
+
+  test('When @stable=false, the is stack order is recomputed', function (assert) {});
+
   test('Calling stack.stack on a slice of data stacks the slice using the order and offset of the full stack structure', function (assert) {});
 });

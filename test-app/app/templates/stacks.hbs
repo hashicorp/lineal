@@ -76,10 +76,12 @@
 </svg>
 
 <h2>Stacked Area 2</h2>
+<button type='button' {{on 'click' this.appendTestData}}>Append</button>
+<p>{{this.stacked._categories}}</p>
 <svg height='300' width='800' class='no-overflow m-100'>
   {{! (stack-y data=this.paddedFrequencyByDay x='hour' y='value' z='day') }}
   {{#let
-    (scale-linear range='0..800' domain='..')
+    (scale-linear range='0..800' domain='0..30')
     (scale-linear range='300..0' domain='0..')
     this.stacked
     as |xScale yScale stacked|
@@ -104,7 +106,6 @@
     {{/if}}
     <Lineal::Area
       @data={{stacked.data}}
-      @curve='step'
       @x='x'
       @y='y'
       @xScale={{xScale}}

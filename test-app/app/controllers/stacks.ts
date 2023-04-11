@@ -6,8 +6,18 @@ import Stack from '@lineal-viz/lineal/transforms/stack';
 const rand = (min: number, max: number): number =>
   Math.random() * (max - min) + min;
 
+let d = 6;
+
 export default class StacksController extends Controller {
   @tracked activePop = null;
+
+  @tracked stacked = new Stack({
+    data: this.newData,
+    order: 'ascending',
+    x: 'hour',
+    y: 'value',
+    z: 'day',
+  });
 
   daysOfWeek = 'Monday Tuesday Wednesday Thursday Friday Saturday Sunday'.split(
     ' '
@@ -61,15 +71,42 @@ export default class StacksController extends Controller {
     return data;
   }
 
-  @cached get stacked() {
-    return new Stack({
-      data: this.paddedFrequencyByDay,
-      offset: 'expand',
-      order: 'insideOut',
-      x: 'hour',
-      y: 'value',
-      z: 'day',
-    });
+  @cached get newData() {
+    return [
+      { day: 'Sunday', hour: 0, value: 1 },
+      { day: 'Sunday', hour: 1, value: 2 },
+      { day: 'Sunday', hour: 2, value: 1 },
+      { day: 'Sunday', hour: 3, value: 2 },
+      { day: 'Sunday', hour: 4, value: 1 },
+      { day: 'Sunday', hour: 5, value: 2 },
+
+      { day: 'Monday', hour: 0, value: 1 },
+      { day: 'Monday', hour: 1, value: 2 },
+      { day: 'Monday', hour: 2, value: 3 },
+      { day: 'Monday', hour: 3, value: 4 },
+      { day: 'Monday', hour: 4, value: 5 },
+      { day: 'Monday', hour: 5, value: 6 },
+
+      { day: 'Tuesday', hour: 0, value: 5 },
+      { day: 'Tuesday', hour: 1, value: 0 },
+      { day: 'Tuesday', hour: 2, value: 5 },
+      { day: 'Tuesday', hour: 3, value: 0 },
+      { day: 'Tuesday', hour: 4, value: 10 },
+      { day: 'Tuesday', hour: 5, value: 0 },
+    ];
+  }
+
+  @action
+  appendTestData() {
+    const hour = ++d;
+    this.stacked.dataIn = [
+      ...this.stacked.dataIn,
+      ...['Sunday', 'Monday', 'Tuesday'].map((day) => ({
+        day,
+        hour,
+        value: Math.random() * 5 + 1,
+      })),
+    ];
   }
 
   @action
