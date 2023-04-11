@@ -1,5 +1,29 @@
 import { module, test } from 'qunit';
-import Stack from '@lineal-viz/lineal/transforms/stack';
+import {
+  stack as d3Stack,
+  stackOrderDescending,
+  stackOrderReverse,
+  stackOrderNone,
+  stackOrderInsideOut,
+  stackOffsetExpand,
+  stackOffsetSilhouette,
+  stackOffsetNone,
+  stackOffsetWiggle,
+  Series,
+} from 'd3-shape';
+import Stack, {
+  verticalStackMap,
+  StackDatumVertical,
+  StackSeriesVertical,
+} from '@lineal-viz/lineal/transforms/stack';
+
+const tag = (
+  arr: StackDatumVertical[],
+  { key, index }: Series<{ [key: string]: number }, string>
+): StackSeriesVertical => Object.assign(arr, { key, index });
+
+const convert = (data: Series<{ [key: string]: number }, string>[]) =>
+  data.map((series) => tag(series.map(verticalStackMap), series));
 
 const TEST_DATA = [
   { day: 'Sunday', hour: 0, value: 1 },
@@ -71,39 +95,45 @@ module('Unit | Transforms | Stack', function () {
 
     assert.deepEqual(
       stack.data[0],
-      [
-        { y0: 0, y1: 1, y: 1, x: 0, data: stack.table[0] },
-        { y0: 0, y1: 2, y: 2, x: 1, data: stack.table[1] },
-        { y0: 0, y1: 1, y: 1, x: 2, data: stack.table[2] },
-        { y0: 0, y1: 2, y: 2, x: 3, data: stack.table[3] },
-        { y0: 0, y1: 1, y: 1, x: 4, data: stack.table[4] },
-        { y0: 0, y1: 2, y: 2, x: 5, data: stack.table[5] },
-        { y0: 0, y1: 1, y: 1, x: 6, data: stack.table[6] },
-        { y0: 0, y1: 2, y: 2, x: 7, data: stack.table[7] },
-        { y0: 0, y1: 1, y: 1, x: 8, data: stack.table[8] },
-        { y0: 0, y1: 2, y: 2, x: 9, data: stack.table[9] },
-        { y0: 0, y1: 1, y: 1, x: 10, data: stack.table[10] },
-        { y0: 0, y1: 2, y: 2, x: 11, data: stack.table[11] },
-      ],
+      Object.assign(
+        [
+          { y0: 0, y1: 1, y: 1, x: 0, data: stack.table[0] },
+          { y0: 0, y1: 2, y: 2, x: 1, data: stack.table[1] },
+          { y0: 0, y1: 1, y: 1, x: 2, data: stack.table[2] },
+          { y0: 0, y1: 2, y: 2, x: 3, data: stack.table[3] },
+          { y0: 0, y1: 1, y: 1, x: 4, data: stack.table[4] },
+          { y0: 0, y1: 2, y: 2, x: 5, data: stack.table[5] },
+          { y0: 0, y1: 1, y: 1, x: 6, data: stack.table[6] },
+          { y0: 0, y1: 2, y: 2, x: 7, data: stack.table[7] },
+          { y0: 0, y1: 1, y: 1, x: 8, data: stack.table[8] },
+          { y0: 0, y1: 2, y: 2, x: 9, data: stack.table[9] },
+          { y0: 0, y1: 1, y: 1, x: 10, data: stack.table[10] },
+          { y0: 0, y1: 2, y: 2, x: 11, data: stack.table[11] },
+        ],
+        { key: 'Sunday', index: 0 }
+      ),
       'Each stack series has y0, y1, and x properties in addition to the full corresponding table record'
     );
 
     assert.deepEqual(
       stack.data[1],
-      [
-        { y0: 1, y1: 2, y: 2, x: 0, data: stack.table[0] },
-        { y0: 2, y1: 4, y: 4, x: 1, data: stack.table[1] },
-        { y0: 1, y1: 4, y: 4, x: 2, data: stack.table[2] },
-        { y0: 2, y1: 6, y: 6, x: 3, data: stack.table[3] },
-        { y0: 1, y1: 6, y: 6, x: 4, data: stack.table[4] },
-        { y0: 2, y1: 8, y: 8, x: 5, data: stack.table[5] },
-        { y0: 1, y1: 8, y: 8, x: 6, data: stack.table[6] },
-        { y0: 2, y1: 10, y: 10, x: 7, data: stack.table[7] },
-        { y0: 1, y1: 10, y: 10, x: 8, data: stack.table[8] },
-        { y0: 2, y1: 12, y: 12, x: 9, data: stack.table[9] },
-        { y0: 1, y1: 12, y: 12, x: 10, data: stack.table[10] },
-        { y0: 2, y1: 14, y: 14, x: 11, data: stack.table[11] },
-      ],
+      Object.assign(
+        [
+          { y0: 1, y1: 2, y: 2, x: 0, data: stack.table[0] },
+          { y0: 2, y1: 4, y: 4, x: 1, data: stack.table[1] },
+          { y0: 1, y1: 4, y: 4, x: 2, data: stack.table[2] },
+          { y0: 2, y1: 6, y: 6, x: 3, data: stack.table[3] },
+          { y0: 1, y1: 6, y: 6, x: 4, data: stack.table[4] },
+          { y0: 2, y1: 8, y: 8, x: 5, data: stack.table[5] },
+          { y0: 1, y1: 8, y: 8, x: 6, data: stack.table[6] },
+          { y0: 2, y1: 10, y: 10, x: 7, data: stack.table[7] },
+          { y0: 1, y1: 10, y: 10, x: 8, data: stack.table[8] },
+          { y0: 2, y1: 12, y: 12, x: 9, data: stack.table[9] },
+          { y0: 1, y1: 12, y: 12, x: 10, data: stack.table[10] },
+          { y0: 2, y1: 14, y: 14, x: 11, data: stack.table[11] },
+        ],
+        { key: 'Monday', index: 1 }
+      ),
       'Each series in a stack stacks on the previous series'
     );
   });
@@ -136,21 +166,126 @@ module('Unit | Transforms | Stack', function () {
 
     assert.deepEqual(
       stack.data[1],
-      [
-        { x0: 1, x1: 2, x: 2, y: 0, data: stack.table[0] },
-        { x0: 2, x1: 4, x: 4, y: 1, data: stack.table[1] },
-        { x0: 1, x1: 4, x: 4, y: 2, data: stack.table[2] },
-        { x0: 2, x1: 6, x: 6, y: 3, data: stack.table[3] },
-        { x0: 1, x1: 6, x: 6, y: 4, data: stack.table[4] },
-        { x0: 2, x1: 8, x: 8, y: 5, data: stack.table[5] },
-        { x0: 1, x1: 8, x: 8, y: 6, data: stack.table[6] },
-        { x0: 2, x1: 10, x: 10, y: 7, data: stack.table[7] },
-        { x0: 1, x1: 10, x: 10, y: 8, data: stack.table[8] },
-        { x0: 2, x1: 12, x: 12, y: 9, data: stack.table[9] },
-        { x0: 1, x1: 12, x: 12, y: 10, data: stack.table[10] },
-        { x0: 2, x1: 14, x: 14, y: 11, data: stack.table[11] },
-      ],
+      Object.assign(
+        [
+          { x0: 1, x1: 2, x: 2, y: 0, data: stack.table[0] },
+          { x0: 2, x1: 4, x: 4, y: 1, data: stack.table[1] },
+          { x0: 1, x1: 4, x: 4, y: 2, data: stack.table[2] },
+          { x0: 2, x1: 6, x: 6, y: 3, data: stack.table[3] },
+          { x0: 1, x1: 6, x: 6, y: 4, data: stack.table[4] },
+          { x0: 2, x1: 8, x: 8, y: 5, data: stack.table[5] },
+          { x0: 1, x1: 8, x: 8, y: 6, data: stack.table[6] },
+          { x0: 2, x1: 10, x: 10, y: 7, data: stack.table[7] },
+          { x0: 1, x1: 10, x: 10, y: 8, data: stack.table[8] },
+          { x0: 2, x1: 12, x: 12, y: 9, data: stack.table[9] },
+          { x0: 1, x1: 12, x: 12, y: 10, data: stack.table[10] },
+          { x0: 2, x1: 14, x: 14, y: 11, data: stack.table[11] },
+        ],
+        { key: 'Monday', index: 1 }
+      ),
       'Each series in a stack stacks on the previous series'
+    );
+  });
+
+  test('The order property is passed to the D3 stack constructor', function (assert) {
+    const stack = new Stack({
+      data: TEST_DATA,
+      order: 'descending',
+      x: 'value',
+      y: 'hour',
+      z: 'day',
+    });
+
+    assert.deepEqual(
+      stack.data[1],
+      convert(
+        d3Stack()
+          .order(stackOrderDescending)
+          .keys(['Sunday', 'Monday', 'Tuesday'])(stack.table)
+      )[1]
+    );
+
+    stack.order = stackOrderReverse;
+
+    assert.deepEqual(
+      stack.data[1],
+      convert(
+        d3Stack()
+          .order(stackOrderReverse)
+          .keys(['Sunday', 'Monday', 'Tuesday'])(stack.table)
+      )[1]
+    );
+  });
+
+  test('The offset property is passed to the D3 stack constructor', function (assert) {
+    const stack = new Stack({
+      data: TEST_DATA,
+      order: 'descending',
+      offset: 'expand',
+      x: 'value',
+      y: 'hour',
+      z: 'day',
+    });
+
+    assert.deepEqual(
+      stack.data[1],
+      convert(
+        d3Stack()
+          .order(stackOrderDescending)
+          .offset(stackOffsetExpand)
+          .keys(['Sunday', 'Monday', 'Tuesday'])(stack.table)
+      )[1]
+    );
+
+    stack.offset = stackOffsetSilhouette;
+
+    assert.deepEqual(
+      stack.data[1],
+      convert(
+        d3Stack()
+          .order(stackOrderDescending)
+          .offset(stackOffsetSilhouette)
+          .keys(['Sunday', 'Monday', 'Tuesday'])(stack.table)
+      )[1]
+    );
+  });
+
+  test('The defaults are direction=vertical, order=none, and offset=none', function (assert) {
+    const stack = new Stack({
+      data: TEST_DATA,
+      x: 'value',
+      y: 'hour',
+      z: 'day',
+    });
+
+    assert.deepEqual(
+      stack.data[1],
+      convert(
+        d3Stack()
+          .order(stackOrderNone)
+          .offset(stackOffsetNone)
+          .keys(['Sunday', 'Monday', 'Tuesday'])(stack.table)
+      )[1]
+    );
+  });
+
+  test('When the offset is wiggle, the default order is insideOut', function (assert) {
+    const stack = new Stack({
+      data: TEST_DATA,
+      offset: 'wiggle',
+      x: 'value',
+      y: 'hour',
+      z: 'day',
+    });
+
+    assert.deepEqual(
+      stack.data[1],
+      convert(
+        d3Stack()
+          .offset(stackOffsetWiggle)
+          .order(stackOrderInsideOut)
+          .keys(['Sunday', 'Monday', 'Tuesday'])(stack.table)
+      )[1]
     );
   });
 });

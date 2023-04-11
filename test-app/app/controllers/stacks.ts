@@ -64,6 +64,8 @@ export default class StacksController extends Controller {
   @cached get stacked() {
     return new Stack({
       data: this.paddedFrequencyByDay,
+      offset: 'expand',
+      order: 'insideOut',
       x: 'hour',
       y: 'value',
       z: 'day',

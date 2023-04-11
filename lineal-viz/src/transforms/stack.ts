@@ -1,5 +1,5 @@
 import * as shape from 'd3-shape';
-import { group, merge } from 'd3-array';
+import { group } from 'd3-array';
 import { Accessor, Encoding } from '../encoding';
 import { tracked, cached } from '@glimmer/tracking';
 
@@ -62,8 +62,32 @@ export interface StackSeriesVertical extends Array<StackDatumVertical> {
   index: number;
 }
 
+export const verticalStackMap = (d: D3StackSeriesPoint): StackDatumVertical => ({
+  y0: d[0],
+  y1: d[1],
+  y: d[1],
+  x: d.data.x,
+  data: d.data,
+});
+
+export const horizontalStackMap = (d: D3StackSeriesPoint): StackDatumHorizontal => ({
+  x0: d[0],
+  x1: d[1],
+  x: d[1],
+  y: d.data.y,
+  data: d.data,
+});
+
+const tag = (
+  arr: StackDatumVertical[] | StackDatumHorizontal[],
+  { key, index }: D3StackSeries
+): StackSeriesVertical | StackSeriesHorizontal => Object.assign(arr, { key, index });
+
 export default class Stack {
   @tracked dataIn: any[] = [];
+
+  // TODO: People will probably want to set these via string since they
+  // are constructed via string?
   @tracked order: OrderFn;
   @tracked offset: OffsetFn;
 
@@ -101,9 +125,7 @@ export default class Stack {
   }
 
   @cached get categories(): any[] {
-    const cats = Array.from(new Set(this.dataIn.map((d) => this.z.accessor(d))));
-    console.log('Heyo, categories', cats);
-    return cats;
+    return Array.from(new Set(this.dataIn.map((d) => this.z.accessor(d))));
   }
 
   @cached get table() {
@@ -138,29 +160,11 @@ export default class Stack {
 
     const isVertical = this.direction === 'vertical';
 
-    const verticalMap = (d: D3StackSeriesPoint): StackDatumVertical => ({
-      y0: d[0],
-      y1: d[1],
-      y: d[1],
-      x: d.data.x,
-      data: d.data,
-    });
-    const horizontalMap = (d: D3StackSeriesPoint): StackDatumHorizontal => ({
-      x0: d[0],
-      x1: d[1],
-      x: d[1],
-      y: d.data.y,
-      data: d.data,
-    });
-
-    const tag = (
-      arr: StackDatumVertical[] | StackDatumHorizontal[],
-      { key, index }: D3StackSeries
-    ): StackSeriesVertical | StackSeriesHorizontal => Object.assign(arr, { key, index });
-
-    // Convert the [y0,y1] data format into {y0, y1} format
+    // Convert the array indexing format to a more Ember friendly property accessor format
     return isVertical
-      ? d3Stack.map((series) => tag(series.map(verticalMap), series) as StackSeriesVertical)
-      : d3Stack.map((series) => tag(series.map(horizontalMap), series) as StackSeriesHorizontal);
+      ? d3Stack.map((series) => tag(series.map(verticalStackMap), series) as StackSeriesVertical)
+      : d3Stack.map(
+          (series) => tag(series.map(horizontalStackMap), series) as StackSeriesHorizontal
+        );
   }
 }
