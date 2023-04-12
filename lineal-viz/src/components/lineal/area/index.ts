@@ -5,8 +5,8 @@
 
 import Component from '@glimmer/component';
 import { cached } from '@glimmer/tracking';
-import { area, stack, CurveFactory, SeriesPoint } from 'd3-shape';
-import { group, merge } from 'd3-array';
+import { area, CurveFactory, SeriesPoint } from 'd3-shape';
+import { merge } from 'd3-array';
 import { Scale, ScaleLinear, ScaleOrdinal } from '../../../scale';
 import { Accessor, Encoding } from '../../../encoding';
 import CSSRange from '../../../css-range';
@@ -54,7 +54,11 @@ export default class Area extends Component<AreaArgs> {
 
   @cached get xScale() {
     const scale = scaleFrom(this.args.x, this.args.xScale) || new ScaleLinear();
-    qualifyScale(this, scale, this.x, 'x', this.isActualStack ? merge(this.data) : this.args.data);
+    if (this.isStacked) {
+      qualifyScale(this, scale, new Encoding('x'), 'x', merge(this.data));
+    } else {
+      qualifyScale(this, scale, this.x, 'x');
+    }
     return scale;
   }
 
@@ -65,13 +69,7 @@ export default class Area extends Component<AreaArgs> {
     // stack data since the cumulative y-values for an x-value will be greater than
     // any individual y-value in the original dataset.
     if (this.isStacked) {
-      qualifyScale(
-        this,
-        scale,
-        new Encoding((d) => (this.isActualStack ? d.y : d[1])),
-        'y',
-        merge(this.data)
-      );
+      qualifyScale(this, scale, new Encoding('y'), 'y', merge(this.data));
     } else {
       qualifyScale(this, scale, this.y, 'y');
     }
@@ -79,52 +77,35 @@ export default class Area extends Component<AreaArgs> {
   }
 
   @cached get categories(): undefined | any[] {
-    if (this.isActualStack) {
-      return this.args.data.map((series) => series.key);
+    if (this.isStacked) {
+      return this.data.map((series) => series.key);
     }
-    if (!this.color) return;
-    return Array.from(new Set(this.args.data.map((d) => this.color?.accessor(d))));
   }
 
-  get isStacked(): boolean {
-    return this.args.data[0] instanceof Array || !!this.categories;
-  }
-
-  @cached get isActualStack(): boolean {
-    return this.args.data[0] instanceof Array;
+  @cached get isStacked(): boolean {
+    return !!this.color || this.args.data[0] instanceof Array;
   }
 
   @cached get data(): any[] {
-    // Data is only pre-transformed when the data is stacked.
-    if (!this.isStacked || !this.color || this.args.data[0] instanceof Array) return this.args.data;
+    // When data isn't stacked, pass through
+    if (!this.isStacked) return this.args.data;
 
-    const categories = this.categories ?? [];
-    const xField = this.x.field ?? 'x';
+    // When data is already stacked, pass through
+    if (this.args.data[0] instanceof Array) return this.args.data;
 
-    // Transform from records into table using x-accessor as ID and y-accessor as cell value
-    const groupByX = group(this.args.data, this.x.accessor, this.color.accessor);
-
-    const table = Array.from(groupByX).reduce((rows, [id, records]) => {
-      rows.push({
-        [xField]: id,
-        ...categories.reduce((columns, category) => {
-          // It is assumed that there is a single record per category, otherwise it would
-          // mean there were duplicte records in the source data.
-          columns[category] = this.y.accessor(records.get(category)?.[0] ?? {});
-          return columns;
-        }, {}),
-      });
-      return rows;
-    }, [] as any[]);
-
-    // Stack tabular into matrix for use with area generator
-    return stack().keys(categories)(table);
+    // Finally, stack data that should be stacked but isn't yet
+    return new Stack({
+      x: this.args.x,
+      y: this.args.y,
+      z: this.args.color,
+      data: this.args.data,
+    }).data;
   }
 
   // When there is no color scale, don't color-code drawn points
   @cached get colorScale(): Scale | undefined {
     const scale = this.args.colorScale;
-    if (scale && (this.color || this.isActualStack)) {
+    if (scale && this.isStacked) {
       if (scale instanceof Object) return scale;
 
       return new ScaleOrdinal({
@@ -148,9 +129,9 @@ export default class Area extends Component<AreaArgs> {
     if (this.isStacked) {
       const generator = area<MaybeStackDatum>()
         .curve(this.curve)
-        .x((d) => this.xScale.compute(this.isActualStack ? d.x : this.x.accessor(d.data)))
-        .y0((d) => this.yScale.compute(this.isActualStack ? d.y0 : d[0]))
-        .y1((d) => this.yScale.compute(this.isActualStack ? d.y1 : d[1]));
+        .x((d) => this.xScale.compute(d.x))
+        .y0((d) => this.yScale.compute(d.y0))
+        .y1((d) => this.yScale.compute(d.y1));
 
       return this.data.map((series) => {
         const d: AreaSeries = { d: generator(series) };

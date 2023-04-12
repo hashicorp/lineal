@@ -6,7 +6,6 @@
     as |xScale yScale|
   }}
     {{#if (and xScale.isValid yScale.isValid)}}
-      {{log yScale}}
       <Lineal::Axis
         @scale={{yScale}}
         @orientation='left'
@@ -34,44 +33,6 @@
       @yScale={{yScale}}
       @colorScale='ordinal'
     />
-    <rect
-      x='0'
-      y='0'
-      width='800'
-      height='300'
-      tabindex='0'
-      fill='transparent'
-      class='interactor'
-      {{interactor-cartesian-horizontal
-        data=this.paddedFrequencyByDay
-        xScale=xScale
-        x='hour'
-        y='value'
-        onSeek=this.updateActiveDataPop
-      }}
-    ></rect>
-    {{#if (and xScale.isValid yScale.isValid)}}
-      {{#if this.activePop}}
-        <g class='interaction-overlay'>
-          <line
-            stroke='red'
-            stroke-width='2'
-            x1={{xScale.compute this.activePop.datum.datum.hour}}
-            x2={{xScale.compute this.activePop.datum.datum.hour}}
-            y1='0'
-            y2='300'
-          ></line>
-          {{#each this.activePop.data as |d|}}
-            <circle
-              cx={{xScale.compute d.datum.hour}}
-              cy={{yScale.compute d.datum.value}}
-              r='5'
-              fill='black'
-            ></circle>
-          {{/each}}
-        </g>
-      {{/if}}
-    {{/if}}
   {{/let}}
 </svg>
 
