@@ -75,7 +75,7 @@
     "remark-autolink-headings": "^6.1.0",
     "remark-code-import": "^0.4.0",
     "remark-highlight.js": "^6.0.0",
-    "webpack": "^5.69.1"
+    "webpack": "^5.76.0"
   },
   "engines": {
     "node": "12.* || 14.* || >= 16"
