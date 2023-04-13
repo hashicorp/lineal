@@ -30,6 +30,7 @@
     "@glimmer/component": "^1.0.4",
     "@glimmer/tracking": "^1.0.4",
     "@lineal-viz/lineal": "*",
+    "@types/d3-array": "^3.0.4",
     "@types/d3-scale": "^4.0.2",
     "@types/d3-shape": "^3.1.0",
     "@types/ember-data": "^4.4.0",
@@ -112,6 +113,7 @@
     "edition": "octane"
   },
   "dependencies": {
+    "d3-array": "^3.2.3",
     "d3-scale": "^4.0.2",
     "d3-shape": "^3.1.0",
     "ember-cached-decorator-polyfill": "^1.0.1"
