@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) HashiCorp, Inc.
+ * SPDX-License-Identifier: MPL-2.0
+ */
+
 import * as shape from 'd3-shape';
 import { group } from 'd3-array';
 import { Accessor, Encoding } from '../encoding';
