@@ -98,7 +98,12 @@ export default modifier(
           datum = dx - xEnc.accessor(dLeft) > xEnc.accessor(dRight) - dx ? dRight : dLeft;
         }
 
-        agg.push({ encoding, datum });
+        // Collect all data with the same x value as the active datum (generally means a
+        // multi-series dataset).
+        const matchVal = xEnc.accessor(datum);
+        const relatedData = subjectData.filter((d) => xEnc.accessor(d) === matchVal);
+
+        agg.push(...relatedData.map((datum) => ({ encoding, datum })));
         return agg;
       }, []);
 

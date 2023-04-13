@@ -17,6 +17,7 @@ import { hbs } from 'ember-cli-htmlbars';
 import * as sinon from 'sinon';
 import { ScaleLinear } from '@lineal-viz/lineal/scale';
 import { Encoding } from '@lineal-viz/lineal/encoding';
+import { ActiveDatum } from '@lineal-viz/lineal/modifiers/interactor-cartesian-horizontal';
 
 const linearData = [
   { x: 0, y: 1 },
@@ -194,6 +195,61 @@ module(
       await triggerEvent('rect', 'mouseleave');
 
       assert.ok(true);
+    });
+
+    test('when multiple data points have the same x value, they are all provided to onSeek', async function (assert) {
+      const multiSeriesData = [
+        { x: 0, y: 1, group: 'A' },
+        { x: 0, y: 1 * 5, group: 'B' },
+        { x: 1, y: 1, group: 'A' },
+        { x: 1, y: 1 * 5, group: 'B' },
+        { x: 2, y: 2, group: 'A' },
+        { x: 2, y: 2 * 5, group: 'B' },
+        { x: 3, y: 3, group: 'A' },
+        { x: 3, y: 3 * 5, group: 'B' },
+        { x: 4, y: 5, group: 'A' },
+        { x: 4, y: 5 * 5, group: 'B' },
+        { x: 5, y: 8, group: 'A' },
+        { x: 5, y: 8 * 5, group: 'B' },
+      ];
+
+      const scale = new ScaleLinear({ domain: [0, 5], range: [0, 100] });
+      const onSeek = sinon.spy();
+      const onSelect = sinon.spy();
+
+      this.setProperties({ scale, onSeek, onSelect, data: multiSeriesData });
+
+      await render(hbs`
+        <svg>
+          <rect
+            x='0' y='0' width='100' height='10'
+            {{interactor-cartesian-horizontal
+              data=this.data
+              xScale=this.scale
+              x='x'
+              y='y'
+              onSeek=this.onSeek
+              onSelect=this.onSelect
+            }}
+          ></rect>
+        </svg>
+      `);
+
+      await triggerMouseMove('rect', 40, 25);
+
+      assert.ok(onSeek.calledOnce);
+      assert.deepEqual(
+        onSeek.getCall(0).args[0].data.map((d: ActiveDatum) => d.datum),
+        multiSeriesData.filter((d) => d.x === scale.d3Scale.invert(40))
+      );
+
+      await triggerClick('rect', 43, 25);
+
+      assert.ok(onSelect.calledOnce);
+      assert.deepEqual(
+        onSelect.getCall(0).args[0].datum,
+        multiSeriesData.find((d) => d.x === scale.d3Scale.invert(40))
+      );
     });
 
     test('when multiple y encodings are provided, the datum provided to onSeek and onSelect is the one closest to the cursor', async function (assert) {

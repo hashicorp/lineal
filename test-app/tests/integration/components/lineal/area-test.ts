@@ -9,11 +9,14 @@ import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { area, curveStep, curveCardinal } from 'd3-shape';
 import { scaleLinear } from 'd3-scale';
+import { merge } from 'd3-array';
+import Stack, { StackDatumVertical } from '@lineal-viz/lineal/transforms/stack';
 
 interface Datum {
   foo: number;
   bar: number;
   barPrev: number;
+  cat?: string;
 }
 
 interface NullishDatum {
@@ -30,6 +33,23 @@ const data = [
   { foo: 5, bar: 5, barPrev: 3 },
   { foo: 6, bar: 8, barPrev: 5 },
   { foo: 7, bar: 13, barPrev: 8 },
+];
+
+const stackableData = [
+  { foo: 1, bar: 1, cat: 'a' },
+  { foo: 2, bar: 1, cat: 'a' },
+  { foo: 3, bar: 2, cat: 'a' },
+  { foo: 4, bar: 3, cat: 'a' },
+
+  { foo: 1, bar: 5, cat: 'b' },
+  { foo: 2, bar: 5, cat: 'b' },
+  { foo: 3, bar: 5, cat: 'b' },
+  { foo: 4, bar: 5, cat: 'b' },
+
+  { foo: 1, bar: 3, cat: 'c' },
+  { foo: 2, bar: 2, cat: 'c' },
+  { foo: 3, bar: 1, cat: 'c' },
+  { foo: 4, bar: 1, cat: 'c' },
 ];
 
 module('Integration | Component | Lineal::Area', function (hooks) {
@@ -224,5 +244,100 @@ module('Integration | Component | Lineal::Area', function (hooks) {
       .y0(0)
       .y1((d) => yScale(d.bar));
     assert.dom('path').hasAttribute('d', areaGenerator(data) as string);
+  });
+
+  test('when a @color encoding is provided, data is automatically stacked', async function (assert) {
+    this.setProperties({ data: stackableData });
+
+    await render(hbs`
+      <svg>
+      <Lineal::Area
+        @data={{this.data}}
+        @x="foo"
+        @y="bar"
+        @color="cat"
+        @colorScale="reds"
+        @xScale={{scale-linear range='0..200' domain='0..4'}}
+        @yScale={{scale-linear range='150..0' domain='0..'}}
+      />
+      </svg>
+    `);
+
+    assert.dom('g path').exists({ count: 3 });
+    assert.dom('g path.reds-3-1').exists();
+    assert.dom('g path.reds-3-2').exists();
+    assert.dom('g path.reds-3-3').exists();
+
+    const stack = new Stack({
+      data: stackableData,
+      x: 'foo',
+      y: 'bar',
+      z: 'cat',
+    });
+
+    const xScale = scaleLinear([0, 4], [0, 200]);
+    const yScale = scaleLinear(
+      [0, Math.max(...(merge(stack.data) as { y: number }[]).map((d) => d.y))],
+      [150, 0]
+    );
+
+    const areaGenerator = area<StackDatumVertical>()
+      .x((d) => xScale(d.x))
+      .y0((d) => yScale(d.y0))
+      .y1((d) => yScale(d.y));
+
+    const paths: string[] = stack.data.map(
+      (slice) => areaGenerator(slice as StackDatumVertical[]) as string
+    );
+
+    assert.dom('g path.reds-3-1').hasAttribute('d', paths[0] ?? '');
+    assert.dom('g path.reds-3-2').hasAttribute('d', paths[1] ?? '');
+    assert.dom('g path.reds-3-3').hasAttribute('d', paths[2] ?? '');
+  });
+
+  test('when @data is already stacked, a path for each data series is drawn', async function (assert) {
+    const stack = new Stack({
+      data: stackableData,
+      x: 'foo',
+      y: 'bar',
+      z: 'cat',
+    });
+
+    this.setProperties({ stack });
+
+    await render(hbs`
+      <svg>
+      <Lineal::Area
+        @data={{this.stack.data}}
+        @colorScale="reds"
+        @xScale={{scale-linear range='0..200' domain='0..4'}}
+        @yScale={{scale-linear range='150..0' domain='0..'}}
+      />
+      </svg>
+    `);
+
+    assert.dom('g path').exists({ count: 3 });
+    assert.dom('g path.reds-3-1').exists();
+    assert.dom('g path.reds-3-2').exists();
+    assert.dom('g path.reds-3-3').exists();
+
+    const xScale = scaleLinear([0, 4], [0, 200]);
+    const yScale = scaleLinear(
+      [0, Math.max(...(merge(stack.data) as { y: number }[]).map((d) => d.y))],
+      [150, 0]
+    );
+
+    const areaGenerator = area<StackDatumVertical>()
+      .x((d) => xScale(d.x))
+      .y0((d) => yScale(d.y0))
+      .y1((d) => yScale(d.y));
+
+    const paths: string[] = stack.data.map(
+      (slice) => areaGenerator(slice as StackDatumVertical[]) as string
+    );
+
+    assert.dom('g path.reds-3-1').hasAttribute('d', paths[0] ?? '');
+    assert.dom('g path.reds-3-2').hasAttribute('d', paths[1] ?? '');
+    assert.dom('g path.reds-3-3').hasAttribute('d', paths[2] ?? '');
   });
 });

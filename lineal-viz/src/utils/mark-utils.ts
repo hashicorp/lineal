@@ -32,16 +32,19 @@ export function qualifyScale(
   context: Component<MarkArgs>,
   scale: Scale,
   encoding: Encoding,
-  field: string
+  field: string,
+  data?: any[]
 ): void {
   if (scale instanceof ScaleIdentity) return;
+
+  const qualificationData = data ?? context.args.data;
 
   if (
     (scale.domain.__temp_duck_type_bounds || scale.domain instanceof Bounds) &&
     !scale.domain.isValid
   ) {
     scheduleOnce('afterRender', context, () => {
-      scale.domain.qualify(context.args.data, encoding.accessor);
+      scale.domain.qualify(qualificationData, encoding.accessor);
     });
   }
 
