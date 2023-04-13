@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) HashiCorp, Inc.
+ * SPDX-License-Identifier: MPL-2.0
+ */
+
 function* normal(length, options) {
   const { mean, stddev } = Object.assign({ mean: 0, stddev: 1 }, options);
 
