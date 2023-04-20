@@ -109,6 +109,9 @@
       "./helpers/scale-threshold.js": "./dist/_app_/helpers/scale-threshold.js",
       "./helpers/scale-time.js": "./dist/_app_/helpers/scale-time.js",
       "./helpers/scale-utc.js": "./dist/_app_/helpers/scale-utc.js",
+      "./helpers/stack-h.js": "./dist/_app_/helpers/stack-h.js",
+      "./helpers/stack-v.js": "./dist/_app_/helpers/stack-v.js",
+      "./helpers/stack.js": "./dist/_app_/helpers/stack.js",
       "./modifiers/interactor-cartesian-horizontal.js": "./dist/_app_/modifiers/interactor-cartesian-horizontal.js"
     }
   },
