@@ -5,9 +5,12 @@
 
 import Component from '@glimmer/component';
 import { cached } from '@glimmer/tracking';
+import { merge } from 'd3-array';
 import { Accessor, Encoding } from '../../../encoding';
-import { Scale, ScaleLinear } from '../../../scale';
+import { Scale, ScaleLinear, ScaleOrdinal } from '../../../scale';
+import CSSRange from '../../../css-range';
 import { qualifyScale, scaleFrom } from '../../../utils/mark-utils';
+import Stack from '../../../transforms/stack';
 
 export interface BarsArgs {
   data: any[];
@@ -15,9 +18,11 @@ export interface BarsArgs {
   y0: Accessor;
   y: Accessor;
   width: Accessor;
+  color: Accessor;
   xScale?: Scale;
   yScale?: Scale;
   widthScale?: Scale;
+  colorScale?: Scale;
 }
 
 export interface BarDatum {
@@ -26,6 +31,12 @@ export interface BarDatum {
   width: number;
   height: number;
   datum: any;
+}
+
+export interface BarSeries {
+  bars: BarDatum[];
+  fill?: string;
+  cssClass?: string;
 }
 
 export default class Bars extends Component<BarsArgs> {
@@ -45,15 +56,31 @@ export default class Bars extends Component<BarsArgs> {
     return new Encoding(this.args.width);
   }
 
+  @cached get color() {
+    if (this.args.color) return new Encoding(this.args.color);
+  }
+
   @cached get xScale() {
     const scale = scaleFrom(this.args.x, this.args.xScale) || new ScaleLinear();
-    qualifyScale(this, scale, this.x, 'x');
+    if (this.isStacked) {
+      qualifyScale(this, scale, new Encoding('x'), 'x', merge(this.data));
+    } else {
+      qualifyScale(this, scale, this.x, 'x');
+    }
     return scale;
   }
 
   @cached get yScale() {
     const scale = scaleFrom(this.args.y, this.args.yScale) || new ScaleLinear();
-    qualifyScale(this, scale, this.y, 'y');
+
+    // When the data is stacked, the scale must be qualified using the computed
+    // stack data since the cumulative y-values for an x-value will be greater than
+    // any individual y-value in the original dataset.
+    if (this.isStacked) {
+      qualifyScale(this, scale, new Encoding('y'), 'y', merge(this.data));
+    } else {
+      qualifyScale(this, scale, this.y, 'y');
+    }
     return scale;
   }
 
@@ -63,21 +90,90 @@ export default class Bars extends Component<BarsArgs> {
     return scale;
   }
 
-  @cached get bars(): BarDatum[] {
+  @cached get isStacked(): boolean {
+    return !!this.color || this.args.data[0] instanceof Array;
+  }
+
+  @cached get categories(): undefined | any[] {
+    if (this.isStacked) {
+      return this.data.map((series) => series.key);
+    }
+  }
+
+  @cached get data(): any[] {
+    // When data isn't stacked, pass through
+    if (!this.isStacked) return this.args.data;
+
+    // When data is already stacked, pass through
+    if (this.args.data[0] instanceof Array) return this.args.data;
+
+    // Finally, stack data that should be stacked but isn't yet
+    return new Stack({
+      x: this.args.x,
+      y: this.args.y,
+      z: this.args.color,
+      data: this.args.data,
+    }).data;
+  }
+
+  // When there is no color scale, don't color-code drawn points
+  @cached get colorScale(): Scale | undefined {
+    const scale = this.args.colorScale;
+    if (scale && this.isStacked) {
+      if (scale instanceof Object) return scale;
+
+      return new ScaleOrdinal({
+        domain: Array.from(this.categories ?? []),
+        range: new CSSRange(scale),
+      });
+    }
+  }
+
+  @cached get useCSSClass() {
+    return this.colorScale instanceof Object && this.colorScale.range instanceof CSSRange;
+  }
+
+  @cached get bars(): BarDatum[] | BarSeries[] {
     if (!this.xScale.isValid || !this.yScale.isValid || !this.widthScale.isValid) {
       return [];
     }
 
-    return this.args.data.map((d: any) => {
-      const bar: BarDatum = {
-        x: this.xScale.compute(this.x.accessor(d)),
-        y: this.yScale.compute(this.y.accessor(d)),
-        width: this.widthScale.compute(this.width.accessor(d)),
-        height: this.yScale.compute(this.y0.accessor(d)) - this.yScale.compute(this.y.accessor(d)),
-        datum: d,
-      };
+    if (this.isStacked) {
+      return this.data.map((series) => {
+        const barSeries: BarSeries = {
+          bars: series.map(
+            (d: any): BarDatum => ({
+              x: this.xScale.compute(d.x),
+              y: this.yScale.compute(d.y),
+              width: this.widthScale.compute(this.width.accessor(d)),
+              height: this.yScale.compute(d.y0) - this.yScale.compute(d.y),
+              datum: d,
+            })
+          ),
+        };
 
-      return bar;
-    });
+        if (this.colorScale) {
+          const colorValue = this.colorScale.compute(series.key);
+          if (this.useCSSClass) {
+            barSeries.cssClass = colorValue;
+          } else {
+            barSeries.fill = colorValue;
+          }
+        }
+
+        return barSeries;
+      });
+    } else {
+      return this.args.data.map(
+        (d: any): BarDatum => ({
+          x: this.xScale.compute(this.x.accessor(d)),
+          y: this.yScale.compute(this.y.accessor(d)),
+          width: this.widthScale.compute(this.width.accessor(d)),
+          height:
+            this.yScale.compute(this.y0.accessor(d)) - this.yScale.compute(this.y.accessor(d)),
+          datum: d,
+        })
+      );
+    }
   }
 }
