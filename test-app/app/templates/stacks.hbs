@@ -41,6 +41,49 @@
   {{/let}}
 </svg>
 
+<svg height='300' width='800' class='no-overflow m-100'>
+  {{#let
+    (scale-linear range='0..800' domain='..')
+    (scale-linear range='300..0' domain='0..')
+    (stack-v
+      data=this.paddedFrequencyByDay
+      x='hour'
+      y='value'
+      z='day'
+      offset='diverging'
+    )
+    as |xScale yScale stacked|
+  }}
+    {{#if (and xScale.isValid yScale.isValid)}}
+      <Lineal::Axis
+        @scale={{yScale}}
+        @orientation='left'
+        @includeDomain={{false}}
+      />
+      <Lineal::Axis
+        @scale={{xScale}}
+        @orientation='bottom'
+        transform='translate(0,300)'
+      />
+      <Lineal::Gridlines
+        @scale={{yScale}}
+        @direction='horizontal'
+        @length='800'
+        stroke-dasharray='5 5'
+      />
+    {{/if}}
+    <Lineal::VBars
+      @data={{stacked.data}}
+      @x='x'
+      @y='y'
+      @width={{30}}
+      @xScale={{xScale}}
+      @yScale={{yScale}}
+      @colorScale='ordinal'
+    />
+  {{/let}}
+</svg>
+
 <h2>Stacked Area 2</h2>
 <button type='button' {{on 'click' this.appendTestData}}>Append</button>
 <p>{{this.stacked._categories}}</p>

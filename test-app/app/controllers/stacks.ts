@@ -31,15 +31,15 @@ export default class StacksController extends Controller {
 
   get frequencyByDay() {
     return [
-      { day: 'Monday', hour: 9, value: rand(1, 20) },
-      { day: 'Monday', hour: 10, value: rand(1, 20) },
-      { day: 'Monday', hour: 11, value: rand(1, 20) },
-      { day: 'Monday', hour: 12, value: rand(1, 20) },
+      { day: 'Monday', hour: 9, value: -rand(1, 20) },
+      { day: 'Monday', hour: 10, value: -rand(1, 20) },
+      { day: 'Monday', hour: 11, value: -rand(1, 20) },
+      { day: 'Monday', hour: 12, value: -rand(1, 20) },
 
-      { day: 'Tuesday', hour: 11, value: rand(1, 20) },
-      { day: 'Tuesday', hour: 12, value: rand(1, 20) },
-      { day: 'Tuesday', hour: 14, value: rand(1, 20) },
-      { day: 'Tuesday', hour: 18, value: rand(1, 20) },
+      { day: 'Tuesday', hour: 11, value: -rand(1, 20) },
+      { day: 'Tuesday', hour: 12, value: -rand(1, 20) },
+      { day: 'Tuesday', hour: 14, value: -rand(1, 20) },
+      { day: 'Tuesday', hour: 18, value: -rand(1, 20) },
 
       { day: 'Wednesday', hour: 11, value: rand(1, 20) },
       { day: 'Wednesday', hour: 12, value: rand(1, 20) },
@@ -69,7 +69,7 @@ export default class StacksController extends Controller {
           freq.find((d) => d.day === day && d.hour === hour) || {
             day,
             hour,
-            value: 2,
+            value: ['Monday', 'Tuesday'].includes(day) ? -2 : 2,
           }
         );
       }

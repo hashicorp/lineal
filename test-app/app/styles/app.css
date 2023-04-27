@@ -68,6 +68,16 @@ body {
   }
 }
 
+.accent-color {
+  fill: #cc5a57;
+  color: #cc5a57;
+}
+
+.mass-color {
+  fill: #cfdbe0;
+  color: #cfdbe0;
+}
+
 .reds {
   fill: red;
 }

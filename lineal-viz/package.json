@@ -86,6 +86,7 @@
       "./components/lineal/gridlines/index.js": "./dist/_app_/components/lineal/gridlines/index.js",
       "./components/lineal/line/index.js": "./dist/_app_/components/lineal/line/index.js",
       "./components/lineal/points/index.js": "./dist/_app_/components/lineal/points/index.js",
+      "./components/lineal/v-bars/index.js": "./dist/_app_/components/lineal/v-bars/index.js",
       "./helpers/css-range.js": "./dist/_app_/helpers/css-range.js",
       "./helpers/scale-band.js": "./dist/_app_/helpers/scale-band.js",
       "./helpers/scale-diverging-log.js": "./dist/_app_/helpers/scale-diverging-log.js",
