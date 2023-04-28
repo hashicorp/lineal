@@ -309,3 +309,42 @@
     />
   {{/let}}
 </svg>
+
+<svg height='800' width='500' class='no-overflow m-100'>
+  {{#let
+    (scale-linear range='0..500' domain='..')
+    (scale-band range='0..800' domain=this.g20ByConsumption)
+    (stack-h
+      data=this.divergingEnergyMix
+      x='value'
+      y='region'
+      z='source'
+      offset='diverging'
+    )
+    as |xScale yScale stacked|
+  }}
+    {{#if (and xScale.isValid yScale.isValid)}}
+      <Lineal::Axis
+        @scale={{yScale}}
+        @orientation='left'
+        @includeDomain={{false}}
+      />
+      <Lineal::Axis @scale={{xScale}} @orientation='top' @tickCount={{5}} />
+      <Lineal::Gridlines
+        @scale={{xScale}}
+        @direction='vertical'
+        @length='800'
+        stroke-dasharray='5 5'
+      />
+    {{/if}}
+    <Lineal::HBars
+      @data={{stacked.data}}
+      @x='x'
+      @y='y'
+      @height={{30}}
+      @xScale={{xScale}}
+      @yScale={{yScale}}
+      @colorScale='energy-mix'
+    />
+  {{/let}}
+</svg>
