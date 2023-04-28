@@ -1,5 +1,21 @@
 # @lineal-viz/lineal
 
+## 0.5.0
+
+### Minor Changes
+
+- 20a1d8f: Stacks documentation
+- 2487494: Stack helpers (for creating stack transforms within templates)
+- d028f1b: New VBar mark for Bars that are always vertical and are stackable
+- 8180305: New HBars mark for Bars that are always horizontal and are stackable
+- d4ab2be: New Stack transform for use with stackable marks
+- d71b110: New tickCount and lineCount arguments for Axis and Gridlines
+
+### Patch Changes
+
+- 8b0c6a0: Type check devolved to constructor.name due to auto-import bug
+- 57b47da: Add static number support for Line and Area x and y encodings.
+
 ## 0.4.0
 
 ### Minor Changes
