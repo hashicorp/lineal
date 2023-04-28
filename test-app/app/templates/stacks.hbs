@@ -257,3 +257,55 @@
     ></rect>
   {{/let}}
 </svg>
+
+<h2>Stacked Bars, Energy Mix</h2>
+
+<svg height='300' width='800' class='no-overflow m-100'>
+  {{#let
+    (scale-band range='0..800' domain=this.g20ByConsumption)
+    (scale-linear range='300..0' domain='-80000..40000')
+    (stack-v
+      data=this.divergingEnergyMix
+      x='region'
+      y='value'
+      z='source'
+      offset='diverging'
+    )
+    as |xScale yScale stacked|
+  }}
+    {{#if (and xScale.isValid yScale.isValid)}}
+      <Lineal::Axis
+        @scale={{yScale}}
+        @orientation='left'
+        @includeDomain={{false}}
+      />
+      <Lineal::Axis
+        @scale={{xScale}}
+        @orientation='top'
+        @includeDomain={{false}}
+        as |tick|
+      >
+        <text
+          y={{tick.offset}}
+          text-anchor='start'
+          transform='rotate(-75)'
+        >{{tick.label}}</text>
+      </Lineal::Axis>
+      <Lineal::Gridlines
+        @scale={{yScale}}
+        @direction='horizontal'
+        @length='800'
+        stroke-dasharray='5 5'
+      />
+    {{/if}}
+    <Lineal::VBars
+      @data={{stacked.data}}
+      @x='x'
+      @y='y'
+      @width={{30}}
+      @xScale={{xScale}}
+      @yScale={{yScale}}
+      @colorScale='energy-mix'
+    />
+  {{/let}}
+</svg>

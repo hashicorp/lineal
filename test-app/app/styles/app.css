@@ -120,6 +120,34 @@ body {
   fill: #bf5b17;
 }
 
+.energy-mix {
+  fill: #f00;
+}
+.energy-mix-1 {
+  fill: #614418;
+}
+.energy-mix-2 {
+  fill: #2f3031;
+}
+.energy-mix-3 {
+  fill: #c1bba9;
+}
+.energy-mix-4 {
+  fill: #61c248;
+}
+.energy-mix-5 {
+  fill: #67aed6;
+}
+.energy-mix-6 {
+  fill: #7fd2be;
+}
+.energy-mix-7 {
+  fill: #f0cc4d;
+}
+.energy-mix-8 {
+  fill: #fb9ce0;
+}
+
 .axis .domain {
   fill: none;
 }
