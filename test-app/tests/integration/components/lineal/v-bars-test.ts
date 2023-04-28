@@ -8,7 +8,6 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render, findAll } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { ScaleLinear, ScaleBand } from '@lineal-viz/lineal/scale';
-import Bounds from '@lineal-viz/lineal/bounds';
 
 const getAttrs = (el: Element, ...attrs: string[]) =>
   attrs.map((attr) => el.getAttribute(attr));
@@ -97,7 +96,6 @@ module('Integration | Component | Lineal::VBars', function (hooks) {
           @data={{this.stackableData}}
           @x="foo"
           @y="bar"
-          @y0={{0}}
           @color="cat"
           @width={{this.xScale.bandwidth}}
           @xScale={{this.xScale}}
