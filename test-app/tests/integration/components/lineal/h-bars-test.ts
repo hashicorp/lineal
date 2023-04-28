@@ -39,27 +39,27 @@ const stackableData = [
   { foo: 'D', bar: 1, cat: 'c' },
 ];
 
-module('Integration | Component | Lineal::VBars', function (hooks) {
+module('Integration | Component | Lineal::HBars', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('Given a dataset and x and y and y0 accessors and scales, renders rects', async function (assert) {
-    const xScale = new ScaleBand({
+  test('Given a dataset and x and x0 and y accessors and scales, renders rects', async function (assert) {
+    const xScale = new ScaleLinear({ domain: '0..', range: '0..100' });
+    const yScale = new ScaleBand({
       domain: ['A', 'B', 'C', 'D', 'E', 'F', 'G'],
       range: '0..100',
       padding: 0.1,
     });
-    const yScale = new ScaleLinear({ domain: '0..', range: '100..0' });
 
     this.setProperties({ data, xScale, yScale });
 
     await render(hbs`
       <svg class="test-svg">
-        <Lineal::VBars
+        <Lineal::HBars
           @data={{this.data}}
-          @x="foo"
-          @y="bar"
-          @y0={{0}}
-          @width={{this.xScale.bandwidth}}
+          @x="bar"
+          @x0={{0}}
+          @y="foo"
+          @height={{this.yScale.bandwidth}}
           @xScale={{this.xScale}}
           @yScale={{this.yScale}}
         />
@@ -72,32 +72,32 @@ module('Integration | Component | Lineal::VBars', function (hooks) {
         getAttrs(el, 'x', 'y', 'width', 'height')
       ),
       data.map((d) => [
-        '' + xScale.compute(d.foo),
-        '' + yScale.compute(d.bar),
-        '' + xScale.bandwidth,
-        '' + (yScale.compute(0) - yScale.compute(d.bar)),
+        '' + xScale.compute(d.bar),
+        '' + yScale.compute(d.foo),
+        '' + (xScale.compute(d.bar) - xScale.compute(0)),
+        '' + yScale.bandwidth,
       ])
     );
   });
 
   test('when a @color encoding is provided, data is automatically stacked', async function (assert) {
-    const xScale = new ScaleBand({
+    const xScale = new ScaleLinear({ domain: '0..', range: '0..100' });
+    const yScale = new ScaleBand({
       domain: ['A', 'B', 'C', 'D'],
       range: '0..100',
       padding: 0.1,
     });
-    const yScale = new ScaleLinear({ domain: '0..', range: '100..0' });
 
     this.setProperties({ stackableData, xScale, yScale });
 
     await render(hbs`
       <svg class="test-svg">
-        <Lineal::VBars
+        <Lineal::HBars
           @data={{this.stackableData}}
-          @x="foo"
-          @y="bar"
+          @x="bar"
+          @y="foo"
           @color="cat"
-          @width={{this.xScale.bandwidth}}
+          @height={{this.yScale.bandwidth}}
           @xScale={{this.xScale}}
           @yScale={{this.yScale}}
           @colorScale="reds"
@@ -112,21 +112,21 @@ module('Integration | Component | Lineal::VBars', function (hooks) {
   });
 
   test('when @data is already stacked, a group of rects for each data series drawn', async function (assert) {
-    const xScale = new ScaleBand({
+    const xScale = new ScaleLinear({ domain: '0..', range: '0..100' });
+    const yScale = new ScaleBand({
       domain: ['A', 'B', 'C', 'D'],
       range: '0..100',
       padding: 0.1,
     });
-    const yScale = new ScaleLinear({ domain: '0..', range: '100..0' });
 
     this.setProperties({ stackableData, xScale, yScale });
 
     await render(hbs`
       <svg class="test-svg">
-        {{#let (stack-v data=this.stackableData x='foo' y='bar' z='cat') as |stacked|}}
-          <Lineal::VBars
+        {{#let (stack-h data=this.stackableData x='bar' y='foo' z='cat') as |stacked|}}
+          <Lineal::HBars
             @data={{stacked.data}}
-            @width={{this.xScale.bandwidth}}
+            @height={{this.yScale.bandwidth}}
             @xScale={{this.xScale}}
             @yScale={{this.yScale}}
             @colorScale="reds"

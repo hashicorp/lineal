@@ -7,6 +7,7 @@ import Controller from '@ember/controller';
 import { tracked, cached } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import Stack from '@lineal-viz/lineal/transforms/stack';
+import { energyMix } from '../utils/data/energy-mix';
 
 const rand = (min: number, max: number): number =>
   Math.random() * (max - min) + min;
@@ -28,6 +29,37 @@ export default class StacksController extends Controller {
   daysOfWeek = 'Monday Tuesday Wednesday Thursday Friday Saturday Sunday'.split(
     ' '
   );
+
+  energyMix = Object.freeze(energyMix);
+
+  @cached get g20() {
+    return Array.from(new Set(this.energyMix.map((d) => d.region)));
+  }
+
+  @cached get g20ByConsumption() {
+    const agg = this.energyMix.reduce(
+      (hash: { [key: string]: any }, record) => {
+        const region = hash[record.region] ?? {
+          region: record.region,
+          sum: 0,
+        };
+        region.sum += record.value;
+        hash[record.region] = region;
+        return hash;
+      },
+      {}
+    );
+    return this.g20.sort((a, b) => agg[b].sum - agg[a].sum);
+  }
+
+  @cached get divergingEnergyMix() {
+    return this.energyMix.map((d) => {
+      const value = ['Coal', 'Oil', 'Gas'].includes(d.source)
+        ? -d.value
+        : d.value;
+      return { ...d, value };
+    });
+  }
 
   get frequencyByDay() {
     return [

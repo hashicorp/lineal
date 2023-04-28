@@ -84,6 +84,7 @@
       "./components/lineal/bars/index.js": "./dist/_app_/components/lineal/bars/index.js",
       "./components/lineal/fluid/index.js": "./dist/_app_/components/lineal/fluid/index.js",
       "./components/lineal/gridlines/index.js": "./dist/_app_/components/lineal/gridlines/index.js",
+      "./components/lineal/h-bars/index.js": "./dist/_app_/components/lineal/h-bars/index.js",
       "./components/lineal/line/index.js": "./dist/_app_/components/lineal/line/index.js",
       "./components/lineal/points/index.js": "./dist/_app_/components/lineal/points/index.js",
       "./components/lineal/v-bars/index.js": "./dist/_app_/components/lineal/v-bars/index.js",
