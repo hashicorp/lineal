@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) HashiCorp, Inc.
+ * SPDX-License-Identifier: MPL-2.0
+ */
+
 // Data from Our World in Data https://ourworldindata.org/energy-mix#energy-mix-what-sources-do-we-get-our-energy-from
 //
 // All units are in kWh or kWh equivalent. All data is for the year 2021
