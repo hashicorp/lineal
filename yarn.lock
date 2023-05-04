@@ -1561,10 +1561,10 @@
   resolved "https://registry.yarnpkg.com/@csstools/selector-specificity/-/selector-specificity-2.0.2.tgz#1bfafe4b7ed0f3e4105837e056e0a89b108ebe36"
   integrity sha512-IkpVW/ehM1hWKln4fCA3NzJU8KwD+kIOvPZA4cqxoJHtE21CCzjyp+Kxbu0i5I4tBNOlXPL9mjwnWlL0VEG4Fg==
 
-"@docfy/core@^0.5.0":
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/@docfy/core/-/core-0.5.0.tgz#0f60eabefb4d72a111cd7980c8ab06790c8dde6c"
-  integrity sha512-4SBim8DAveFju1CiUfiHXGiWc+zC7CMWKid+jbwPW1AiVlwitrY2KJYGe+LN1dNxd3EcIVV8QULl7Po7ZTqxgg==
+"@docfy/core@^0.6.0":
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/@docfy/core/-/core-0.6.0.tgz#eaf11e44bb8ea4bdc586b12305a56077b6e29545"
+  integrity sha512-2L5UiE720h6tmkTxvB43Q+nZybKV/8UC6jYVBqiyP9YriVjWxxVpTkR80Egg4rrMnGfYKedOI4ZgxekgdoHDMQ==
   dependencies:
     debug "^4.3.3"
     fast-glob "^3.2.11"
@@ -1587,12 +1587,12 @@
     unist-util-visit "^2.0.2"
     yaml "^1.10.2"
 
-"@docfy/ember@^0.5.0":
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/@docfy/ember/-/ember-0.5.0.tgz#f07cf7448a41021dc1b44a19b8eb4d27cf23dec2"
-  integrity sha512-kgBGrryYXTQ5pB5q8X1R6IoJMwka6W6Z/+NFYbrxv6r2BY+4pR+P8Of7rBDf/ViPRMCYIU0BtZcQWZFPeN45KA==
+"@docfy/ember@^0.6.0":
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/@docfy/ember/-/ember-0.6.0.tgz#7ce4d286b9b6b1a5dc7803e0209fca4dee001926"
+  integrity sha512-TcZoNwZpQGs7EuvSvuxLp6gt11Fq/9qIHUESYR5j9qZOwLFvuvRXaui27n+Rq03LZQW/eGtBUQM06nSn9FsuXg==
   dependencies:
-    "@docfy/core" "^0.5.0"
+    "@docfy/core" "^0.6.0"
     broccoli-bridge "^1.0.0"
     broccoli-file-creator "^2.1.1"
     broccoli-funnel "^3.0.8"
