@@ -1,5 +1,6 @@
 ---
 title: Dev Log 04
+order: 4
 ---
 
 # Dev Log 04: More Scale and More Marks

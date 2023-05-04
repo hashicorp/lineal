@@ -1,5 +1,6 @@
 ---
 title: Dev Log 05
+order: 5
 ---
 
 # Dev Log 05: Learning Lineal

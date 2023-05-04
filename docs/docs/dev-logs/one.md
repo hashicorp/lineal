@@ -1,5 +1,6 @@
 ---
 title: Dev Log 01
+order: 1
 ---
 
 # Dev Log 01: Scales & Marks
