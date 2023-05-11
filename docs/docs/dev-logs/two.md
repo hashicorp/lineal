@@ -1,5 +1,6 @@
 ---
 title: Dev Log 02
+order: 2
 ---
 
 # Dev Log 02: Making a Line Chart

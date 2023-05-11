@@ -1,5 +1,6 @@
 ---
 title: Dev Log 03
+order: 3
 ---
 
 # Dev Log 03: Let's talk about interactivity
