@@ -219,9 +219,37 @@ I especially recommend spending some time with sample datasets and Pandas if you
 
 First and foremost, let's go back to that stacked bar chart example from the top. I never showed you the underlying data.
 
+[[demo:deep-bars]]
 
-## Interop with Modifiers
+Here the underlying data is in a record format like you would expect from a data object provided to a Mark component. If you look at the backing class, you'll see that there is still processing occurring to the initial dataset that is being fetched, but that processing is an initial aggregation to sum by cylinders and region. If you want to see the unprocessed data, by all means, check out the network tab.
+
+The neat thing that `Lineal::Area` and the new `Lineal::VBars` and `Lineal::HBars` will do is take a `@color` encoding and automatically group data by this encoding and internally create a stack. To do this, assumptions have to be made. For instance, stack order is equal to the data order and the stack offset is none. But! This is a reasonable default. It makes it nice and easy to quickly stack data with a couple lines of code.
+
+And then, when you're ready to finesse and add interactivity, you can drop down a level of abstraction and create the stack transform on your own.
+
+Here's a troubling dataset: energy mix per capita for all G20 regions in 2021.
+
+What we want to do is simultaneously compare total energy per capita by region as well as contrast fossil fuels and renewables. To do this we want to plot bars where x = value and y = region (this gets us the energy mix per capita comparison) and stack bars by source (this gives us the mix breakdown). To truly contrast fossil fuels and renewables we want to finesse our stack. We want to use the diverging `stackOffset` strategy to align our baseline between fossil fuel sources (coal, oil, and gas) and renewable sources (nuclear, hydro, wind, solar, and other).
+
+[[demo:energy-mix-svg]]
+
+What's happening here is the `stack-h` helper is being used to create a stack data structure where data is stacked horizontally and the offset is diverging.  The `z` argument is what we were calling `color` before, except since this is a stack in the abstract, calling the pivot field "color" feels a bit leading.
+
+What gets returned from the helper is a Stack, which is a stateful thing that tabulates and stacks record data. Then, when we want to render a mark, we provide `stacked.data` to the `@data` arg. Mark components are stack aware and know when data has already been stacked. We also don't need to provide `@x` and `@y` encodings, because stacks have known fields.
+
+## Interop with Interactors
+
+Another benefit of this stateful `Stack` thing is it helps us use existing interactor modifiers. Consider the `cartesian-horizontal-interactor`, which takes `x` and `y` encodings just like a mark would. However, we can't give it the unstacked data and expect it to just work. Our x or y coordinates will be unstacked and result in rendering bugs. But also it wouldn't make sense for the interactor to restack the data that the mark component already stacked.
+
+So instead, we stack once using the `stack-v` or `stack-h` helper (or the `Stack` class directly in a backing class or wherever) and then use the `Stack#stack` method as a helper to stack a single slice of data that we get back from an interactor.
+
+Here's a closer look at Japan's energy mix over time in another popular stacked visualization: the streamgraph.
+
+> Japan's energy mix over time as a streamgraph
+
+Streamgraphs are good at capturing vibes. Here we don't have a y-axis, but a touch of interactivity helps a user get specifics if they wish to. However, the chart is impactful even at a glance: we can see how nuclear power in Japan is halted almost immediately after the Fukushima Daiichi disaster in 2011.
 
 ## Stacking without Stacks
 
+> A note on accessibility and DOM order. A recreation of the diverging stack chart with HTML and CSS
 

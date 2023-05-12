@@ -493,7 +493,8 @@ dl {
   }
 }
 
-.demo-chart-with-axes {
+.demo-chart-with-axes,
+.demo-chart-energy-mix {
   padding: 50px;
   margin: auto;
   width: 100%;
@@ -519,6 +520,7 @@ dl {
       margin: 0;
       width: 100%;
       height: 100%;
+      overflow: visible;
     }
   }
 
@@ -554,6 +556,10 @@ dl {
       fill: var(--c-line-0);
     }
   }
+}
+
+.demo-chart-energy-mix {
+  padding: 30px 20px 20px 160px;
 }
 
 .ordinal {
@@ -744,4 +750,40 @@ blockquote {
 .accent {
   font-weight: bold;
   color: var(--c-blue-line);
+}
+.energy-mix {
+  fill: #f00;
+  color: #f00;
+}
+.energy-mix-1 {
+  fill: #614418;
+  color: #614418;
+}
+.energy-mix-2 {
+  fill: #2f3031;
+  color: #2f3031;
+}
+.energy-mix-3 {
+  fill: #847957;
+  color: #847957;
+}
+.energy-mix-4 {
+  fill: #3e9727;
+  color: #3e9727;
+}
+.energy-mix-5 {
+  fill: #67aed6;
+  color: #67aed6;
+}
+.energy-mix-6 {
+  fill: #7fd2be;
+  color: #7fd2be;
+}
+.energy-mix-7 {
+  fill: #f0cc4d;
+  color: #f0cc4d;
+}
+.energy-mix-8 {
+  fill: #fb9ce0;
+  color: #fb9ce0;
 }
