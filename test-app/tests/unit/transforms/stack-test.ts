@@ -25,6 +25,12 @@ import Stack, {
 
 type SeriesStd = Series<{ [key: string]: number }, string>;
 
+interface Datum {
+  day: 'Sunday' | 'Monday' | 'Tuesday';
+  hour: number;
+  value?: number | null;
+}
+
 const tag = (
   arr: StackDatumVertical[],
   { key, index }: SeriesStd
@@ -35,7 +41,7 @@ const convert = (data: SeriesStd[]) =>
 
 const sortByIndex = (a: SeriesStd, b: SeriesStd) => a.index - b.index;
 
-const TEST_DATA = [
+const TEST_DATA: Datum[] = [
   { day: 'Sunday', hour: 0, value: 1 },
   { day: 'Sunday', hour: 1, value: 2 },
   { day: 'Sunday', hour: 2, value: 1 },
@@ -402,6 +408,51 @@ module('Unit | Transforms | Stack', function () {
     assert.deepEqual(
       stackSlice.map(({ y0, y1 }: KeyedStackDatumVertical) => ({ y0, y1 })),
       [y0y1(data[0]?.[6]), y0y1(data[1]?.[6]), y0y1(data[2]?.[6])]
+    );
+  });
+
+  test('When the record data is tabulated, holes are filled with 0s', function (assert) {
+    const HOLE_DATA = TEST_DATA.map((d) => ({ ...d }));
+
+    const sundayAt10 = HOLE_DATA.find(
+      (d) => d.day === 'Sunday' && d.hour === 10
+    );
+    const mondayAt2 = HOLE_DATA.find((d) => d.day === 'Monday' && d.hour === 2);
+
+    assert.ok(sundayAt10);
+    assert.ok(mondayAt2);
+
+    if (sundayAt10) sundayAt10.value = undefined;
+    if (mondayAt2) mondayAt2.value = null;
+
+    const stack = new Stack({
+      data: HOLE_DATA,
+      direction: 'vertical',
+      x: 'hour',
+      y: 'value',
+      z: 'day',
+    });
+
+    assert.deepEqual(
+      stack.table[10],
+      {
+        x: 10,
+        Sunday: 0, // Converted from undefined
+        Monday: 11,
+        Tuesday: 25,
+      },
+      'The undefined value has been replaced with a 0'
+    );
+
+    assert.deepEqual(
+      stack.table[2],
+      {
+        x: 2,
+        Sunday: 1,
+        Monday: 0, // Converted from null
+        Tuesday: 5,
+      },
+      'The null value has been replaced with a 0'
     );
   });
 });
