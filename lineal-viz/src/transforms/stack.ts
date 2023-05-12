@@ -285,7 +285,7 @@ export default class Stack {
         ...categories.reduce((columns, category) => {
           // It is assumed that there is a single record per category, otherwise it would
           // mean there were duplicte records in the source data.
-          columns[category] = cell.accessor(records.get(category)?.[0] ?? {});
+          columns[category] = cell.accessor(records.get(category)?.[0] ?? {}) ?? 0;
           return columns;
         }, {}),
       });
