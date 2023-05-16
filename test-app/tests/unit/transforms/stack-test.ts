@@ -455,4 +455,26 @@ module('Unit | Transforms | Stack', function () {
       'The null value has been replaced with a 0'
     );
   });
+
+  test('The stackedCategories getter returns categories in the visual order data is stacked in', function (assert) {
+    const stack = new Stack({
+      data: TEST_DATA,
+      order: 'insideOut',
+      x: 'hour',
+      y: 'value',
+      z: 'day',
+    });
+
+    assert.deepEqual(
+      stack.categories,
+      ['Sunday', 'Monday', 'Tuesday'],
+      'categories are in input order'
+    );
+
+    assert.deepEqual(
+      stack.stackedCategories,
+      stack.data.map((d) => d.key).reverse(),
+      'stackedCategories are in visual stack order'
+    );
+  });
 });

@@ -413,4 +413,8 @@ export default class Stack {
       ? (stack as StackSeriesVertical[]).map(vMap)
       : (stack as StackSeriesHorizontal[]).map(hMap);
   };
+
+  get stackedCategories() {
+    return this.data.map((d) => d.key).reverse();
+  }
 }
