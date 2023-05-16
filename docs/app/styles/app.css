@@ -825,3 +825,30 @@ blockquote {
   font-weight: bold;
   fill: var(--c-blue-line);
 }
+
+.energy-mix-flex-chart {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+
+  dt,
+  dd {
+    all: unset;
+    margin: 0 0 5px 0;
+  }
+
+  dt {
+    font-weight: normal;
+    color: var(--c-line-0);
+  }
+
+  dd {
+    display: flex;
+    gap: 1px;
+    transform: translateX(calc(1px * var(--zero, 0) - 1px * var(--left, 0)));
+
+    > div {
+      width: calc(1px * var(--w));
+      background: currentColor;
+    }
+  }
+}

@@ -247,9 +247,51 @@ Here's a closer look at Japan's energy mix over time in another popular stacked 
 
 [[demo:japan]]
 
-Streamgraphs are good at capturing vibes. Here we don't have a y-axis, but a touch of interactivity helps a user get specifics if they wish to. However, the chart is impactful even at a glance: we can see how nuclear power in Japan is halted almost immediately after the Fukushima Daiichi disaster in 2011.
+Streamgraphs are good at capturing vibes. Here we don't have a y-axis, but a touch of interactivity helps a user get specifics if they wish to. However, the chart is impactful even at a glance: we can see how nuclear power in Japan tapers to zero swiftly after the Fukushima Daiichi disaster in 2011.
 
 ## Stacking without Stacks
 
-> A note on accessibility and DOM order. A recreation of the diverging stack chart with HTML and CSS
+Earlier I mentioned how this is the first transform in Lineal. I mean this in the [Vega Lite sense](https://vega.github.io/vega-lite/docs/transform.html): a utility that takes data and returns transformed data. Granted, data is transformed all the time; some of the Mark components even yield transformed data for custom rendering. You could also call the process of converting data+scales to a valid SVG path a data transformation. But in both of those cases, there is baggage and also a translation from data space to pixel space. The stack transform (like a theoritcal bin transform or rollup or many other functions) take data and return different data without any embedded assumptions about how the transformed data will be used.
 
+Except.... the data still has a structure and that structure is kinda leading. Also the nature of the transformation is pretty peculiar. Why else would you want to stack data if not to visualize it in a stacked manner? The fact is, this transform is for the benefit of _layout_. We stack data so we can lay out visual marks neatly one on top of the other. And the structure of a stack leads to this: each array within a stack represents a series of data (e.g., all data for Oil Consumption) rather than a row of data from the table (e.g., all data for Canada).
+
+This makes perfect sense when we consider stacked areas. Each series of data is singular path element all drawn together. It _has_ to be this way to draw a polygon. It makes less sense with bars, where every rectangle is a unique element. I mean, it works, SVG don't care about your draw order, but if we are intentional with our markup, we ought to care about DOM order.
+
+So if stacking is just a layout algorithm, and rectangles are individual DOM nodes, and we care about DOM order...maybe we can swap the layout algorithm and finesse our DOM order that way? It's not like we _have_ to use SVG, it's just a really a good graphics language for complex shapes. But rectangles aren't complex shapes, and while SVG has no built-in layout algorithms, HTML has several.
+
+Here's the above G20 power consumption diverging stacked bar chart implemented with HTML and Flexbox. The benefit here is that the DOM is ordered like you'd expect a table to be ordered, and semantic HTML is still the best way to futureproof your code for assistive tech (try stepping through all the rectangles with VoiceOver).
+
+[[demo:energy-mix-html]]
+
+```css
+.energy-mix-flex-chart {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+
+  dt,
+  dd {
+    all: unset;
+    margin: 0 0 5px 0;
+  }
+
+  dt {
+    font-weight: normal;
+    color: var(--c-line-0);
+  }
+
+  dd {
+    display: flex;
+    gap: 1px;
+    transform: translateX(calc(1px * var(--zero, 0) - 1px * var(--left, 0)));
+
+    > div {
+      width: calc(1px * var(--w));
+      background: currentColor;
+    }
+  }
+}
+```
+
+One big caveat here is that I am using the CSS declaration `all: unset` for the rectangles. I recommend you do the same. The number one rule of data viz (dare I say the only) is to faithfully represent the data. You can be as artistic and aesthetic with your visualization as you want, but if you make a 5 look bigger than a 2 without really good reason, then you have misled your user. Since HTML has paddings and margins and borders, it's easy to accidentally misrepresent numbers by setting a width or height properly but overlooking the added visual width or height that comes from other properties. By unsetting all properties, we return to an SVG-like position where you get nothing by default and must build up with precisely the properties you want.
+
+Alright! That's stacks. It opens the doors to richer visualizations and future transforms.

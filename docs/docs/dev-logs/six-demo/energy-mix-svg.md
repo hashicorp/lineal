@@ -70,7 +70,6 @@ stands out as having virtually no renewables in their energy mix.</p>
 import Component from '@glimmer/component';
 import { tracked, cached } from '@glimmer/tracking';
 import { task } from 'ember-concurrency';
-import { flatGroup } from 'd3-array';
 
 export default class extends Component {
   @tracked data = [];
