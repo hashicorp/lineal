@@ -379,6 +379,11 @@
   resolved "https://registry.yarnpkg.com/@babel/helper-string-parser/-/helper-string-parser-7.19.4.tgz#38d3acb654b4701a9b77fb0615a96f775c3a9e63"
   integrity sha512-nHtDoQcuqFmwYNYPz3Rah5ph2p8PFeFCsZk9A/48dPc/rGocJ5J3hAAZ7pb76VWX3fZKu+uEr/FhH5jLx7umrw==
 
+"@babel/helper-string-parser@^7.21.5":
+  version "7.21.5"
+  resolved "https://registry.yarnpkg.com/@babel/helper-string-parser/-/helper-string-parser-7.21.5.tgz#2b3eea65443c6bdc31c22d037c65f6d323b6b2bd"
+  integrity sha512-5pTUx3hAJaZIdW99sJ6ZUUgWq/Y+Hja7TowEnLNMm1VivRgZQL3vpBY3qUACVsvw+yQU6+YgfBVmcbLaZtrA1w==
+
 "@babel/helper-validator-identifier@^7.18.6":
   version "7.18.6"
   resolved "https://registry.yarnpkg.com/@babel/helper-validator-identifier/-/helper-validator-identifier-7.18.6.tgz#9c97e30d31b2b8c72a1d08984f2ca9b574d7a076"
@@ -1225,6 +1230,15 @@
     "@babel/helper-validator-identifier" "^7.18.6"
     to-fast-properties "^2.0.0"
 
+"@babel/types@^7.12.13":
+  version "7.21.5"
+  resolved "https://registry.yarnpkg.com/@babel/types/-/types-7.21.5.tgz#18dfbd47c39d3904d5db3d3dc2cc80bedb60e5b6"
+  integrity sha512-m4AfNvVF2mVC/F7fDEdH2El3HzUg9It/XsCxZiOTTA3m3qYfcSVSbTfM6Q9xG+hYDniZssYhlXKKUMD5m8tF4Q==
+  dependencies:
+    "@babel/helper-string-parser" "^7.21.5"
+    "@babel/helper-validator-identifier" "^7.19.1"
+    to-fast-properties "^2.0.0"
+
 "@babel/types@^7.19.0", "@babel/types@^7.19.3", "@babel/types@^7.19.4":
   version "7.19.4"
   resolved "https://registry.yarnpkg.com/@babel/types/-/types-7.19.4.tgz#0dd5c91c573a202d600490a35b33246fed8a41c7"
@@ -1561,10 +1575,10 @@
   resolved "https://registry.yarnpkg.com/@csstools/selector-specificity/-/selector-specificity-2.0.2.tgz#1bfafe4b7ed0f3e4105837e056e0a89b108ebe36"
   integrity sha512-IkpVW/ehM1hWKln4fCA3NzJU8KwD+kIOvPZA4cqxoJHtE21CCzjyp+Kxbu0i5I4tBNOlXPL9mjwnWlL0VEG4Fg==
 
-"@docfy/core@^0.5.0":
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/@docfy/core/-/core-0.5.0.tgz#0f60eabefb4d72a111cd7980c8ab06790c8dde6c"
-  integrity sha512-4SBim8DAveFju1CiUfiHXGiWc+zC7CMWKid+jbwPW1AiVlwitrY2KJYGe+LN1dNxd3EcIVV8QULl7Po7ZTqxgg==
+"@docfy/core@^0.6.0":
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/@docfy/core/-/core-0.6.0.tgz#eaf11e44bb8ea4bdc586b12305a56077b6e29545"
+  integrity sha512-2L5UiE720h6tmkTxvB43Q+nZybKV/8UC6jYVBqiyP9YriVjWxxVpTkR80Egg4rrMnGfYKedOI4ZgxekgdoHDMQ==
   dependencies:
     debug "^4.3.3"
     fast-glob "^3.2.11"
@@ -1587,12 +1601,12 @@
     unist-util-visit "^2.0.2"
     yaml "^1.10.2"
 
-"@docfy/ember@^0.5.0":
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/@docfy/ember/-/ember-0.5.0.tgz#f07cf7448a41021dc1b44a19b8eb4d27cf23dec2"
-  integrity sha512-kgBGrryYXTQ5pB5q8X1R6IoJMwka6W6Z/+NFYbrxv6r2BY+4pR+P8Of7rBDf/ViPRMCYIU0BtZcQWZFPeN45KA==
+"@docfy/ember@^0.6.0":
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/@docfy/ember/-/ember-0.6.0.tgz#7ce4d286b9b6b1a5dc7803e0209fca4dee001926"
+  integrity sha512-TcZoNwZpQGs7EuvSvuxLp6gt11Fq/9qIHUESYR5j9qZOwLFvuvRXaui27n+Rq03LZQW/eGtBUQM06nSn9FsuXg==
   dependencies:
-    "@docfy/core" "^0.5.0"
+    "@docfy/core" "^0.6.0"
     broccoli-bridge "^1.0.0"
     broccoli-file-creator "^2.1.1"
     broccoli-funnel "^3.0.8"
@@ -6774,6 +6788,20 @@ ember-composable-helpers@^5.0.0:
     ember-cli-babel "^7.26.3"
     resolve "^1.10.0"
 
+ember-concurrency@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/ember-concurrency/-/ember-concurrency-3.0.0.tgz#dc691998b08f8bb7166480229db437f92971f599"
+  integrity sha512-MUsOgl4qLkINxrY+9FuohSOsn7Ytd3xCxu9mThSrMPatxomscZz/0lT4M95S7xy2aNO4o/zGfAEULECQ09YkWA==
+  dependencies:
+    "@babel/helper-plugin-utils" "^7.12.13"
+    "@babel/types" "^7.12.13"
+    "@glimmer/tracking" "^1.0.4"
+    ember-cli-babel "^7.26.11"
+    ember-cli-babel-plugin-helpers "^1.1.1"
+    ember-cli-htmlbars "^5.7.1"
+    ember-compatibility-helpers "^1.2.0"
+    ember-destroyable-polyfill "^2.0.2"
+
 ember-data@~4.2.0:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/ember-data/-/ember-data-4.2.0.tgz#c0651e5fcb6c99dc843e5a0468ff99fa57c691e5"
@@ -6795,7 +6823,7 @@ ember-data@~4.2.0:
     ember-cli-typescript "^4.1.0"
     ember-inflector "^4.0.1"
 
-ember-destroyable-polyfill@^2.0.3:
+ember-destroyable-polyfill@^2.0.2, ember-destroyable-polyfill@^2.0.3:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/ember-destroyable-polyfill/-/ember-destroyable-polyfill-2.0.3.tgz#1673ed66609a82268ef270a7d917ebd3647f11e1"
   integrity sha512-TovtNqCumzyAiW0/OisSkkVK93xnVF4NRU6+FN0ubpfwEOpRrmM2RqDwXI6YAChCgSHON1cz0DfQStpA1Gjuuw==
