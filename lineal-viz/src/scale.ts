@@ -905,7 +905,7 @@ export class ScaleOrdinal implements Scale {
   @cached get d3Scale() {
     // TODO: Return to instanceof checks when https://github.com/ef4/ember-auto-import/pull/512 is released.
     const range: string[] =
-      this.range.constructor.name === 'CSSRange'
+      this.range.constructor.name === 'CSSRange' || this.range instanceof CSSRange
         ? (this.range as CSSRange).spread(this.domain.length)
         : (this.range as string[]);
     const scale = scales.scaleOrdinal(range).domain(this.domain);
