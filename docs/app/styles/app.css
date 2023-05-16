@@ -478,6 +478,27 @@ dl {
   }
 }
 
+.rigid-tooltip {
+  position: absolute;
+  top: 10px;
+  pointer-events: none;
+  background: var(--c-base-0);
+  padding: 1rem;
+  width: min-content;
+  border-right: 2px solid var(--c-line);
+  transform: translateX(calc(1px * var(--x, 0) - 100% - 5px));
+  z-index: 100;
+
+  h4 {
+    margin: 0;
+  }
+
+  dt,
+  dd {
+    white-space: nowrap;
+  }
+}
+
 .guideline {
   stroke-width: 2px;
   stroke: var(--c-line);
@@ -786,4 +807,21 @@ blockquote {
 .energy-mix-8 {
   fill: #fb9ce0;
   color: #fb9ce0;
+}
+
+.energy-streamgraph path {
+  stroke: var(--c-base-1);
+}
+
+.energy-streamgraph .axis text {
+  fill: black;
+}
+
+.energy-streamgraph .annotation line {
+  stroke-width: 2;
+  stroke: var(--c-blue-line);
+}
+.energy-streamgraph .annotation text {
+  font-weight: bold;
+  fill: var(--c-blue-line);
 }

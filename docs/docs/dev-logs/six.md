@@ -245,7 +245,7 @@ So instead, we stack once using the `stack-v` or `stack-h` helper (or the `Stack
 
 Here's a closer look at Japan's energy mix over time in another popular stacked visualization: the streamgraph.
 
-> Japan's energy mix over time as a streamgraph
+[[demo:japan]]
 
 Streamgraphs are good at capturing vibes. Here we don't have a y-axis, but a touch of interactivity helps a user get specifics if they wish to. However, the chart is impactful even at a glance: we can see how nuclear power in Japan is halted almost immediately after the Fukushima Daiichi disaster in 2011.
 
