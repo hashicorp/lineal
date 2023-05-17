@@ -7,5 +7,5 @@ import { helper } from '@ember/component/helper';
 import Stack, { StackConfig } from '../transforms/stack';
 
 export default helper(
-  ([], hash: StackConfig) => new Stack(Object.assign({}, hash, { direction: 'vertical' }))
+  (_, hash: StackConfig) => new Stack(Object.assign({}, hash, { direction: 'vertical' }))
 );

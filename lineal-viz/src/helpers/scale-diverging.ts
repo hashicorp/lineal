@@ -6,4 +6,4 @@
 import { helper } from '@ember/component/helper';
 import { ScaleDiverging, DivergingScaleConfig } from '../scale';
 
-export default helper(([], hash: DivergingScaleConfig) => new ScaleDiverging(hash));
+export default helper((_, hash: DivergingScaleConfig) => new ScaleDiverging(hash));

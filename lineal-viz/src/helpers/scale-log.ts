@@ -6,4 +6,4 @@
 import { helper } from '@ember/component/helper';
 import { ScaleLog, LogScaleConfig } from '../scale';
 
-export default helper(([], hash: LogScaleConfig) => new ScaleLog(hash));
+export default helper((_, hash: LogScaleConfig) => new ScaleLog(hash));

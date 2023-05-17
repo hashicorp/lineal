@@ -59,7 +59,7 @@ const NAV_KEYS = Object.values(NavKey);
 export default modifier(
   (
     element: HTMLElement,
-    [],
+    _,
     { data, xScale, x, y, onSeek, onSelect, distanceThreshold = 10 }: InteractorArgs
   ) => {
     const accessors: Accessor[] = y instanceof Array ? y : [y];
