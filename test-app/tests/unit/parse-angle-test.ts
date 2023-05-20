@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MPL-2.0
  */
 
-import { module, test } from 'qunit';
+import { module } from 'qunit';
 import parseAngle from '@lineal-viz/lineal/utils/parse-angle';
 import tableTest from '../utils/table-test';
 

@@ -5,7 +5,6 @@
 
 import Controller from '@ember/controller';
 import { tracked } from '@glimmer/tracking';
-import { scheduleOnce } from '@ember/runloop';
 import { ScaleTime } from '@lineal-viz/lineal/scale';
 
 function* sine(length: number, start = 0) {

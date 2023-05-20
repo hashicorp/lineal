@@ -14,16 +14,15 @@ body {
 
 .page {
   display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
+  flex-flow: row nowrap;
 }
 
 .page > nav {
   width: 200px;
   min-height: 100vh;
-  background: rgba(230, 230, 230, 0.5);
+  background: rgba(230 230 230 50%);
   border: none;
-  border-right: 1px solid #cccccc;
+  border-right: 1px solid #ccc;
 }
 
 .page > nav .sticky {
@@ -62,7 +61,7 @@ body {
   padding: 30px;
 }
 
-@media (max-width: 800px) {
+@media (width < 800px) {
   .page {
     flex-direction: column;
   }
@@ -81,15 +80,19 @@ body {
 .reds {
   fill: red;
 }
+
 .reds-1 {
   fill: #cc5a57;
 }
+
 .reds-2 {
   fill: #a94921;
 }
+
 .reds-3 {
   fill: #6d360f;
 }
+
 .reds-4 {
   fill: #480717;
 }
@@ -101,21 +104,27 @@ body {
 .ordinal-1 {
   fill: #7fc97f;
 }
+
 .ordinal-2 {
   fill: #beaed4;
 }
+
 .ordinal-3 {
   fill: #fdc086;
 }
+
 .ordinal-4 {
-  fill: #ffff99;
+  fill: #ff9;
 }
+
 .ordinal-5 {
   fill: #386cb0;
 }
+
 .ordinal-6 {
   fill: #f0027f;
 }
+
 .ordinal-7 {
   fill: #bf5b17;
 }
@@ -123,27 +132,35 @@ body {
 .energy-mix {
   fill: #f00;
 }
+
 .energy-mix-1 {
   fill: #614418;
 }
+
 .energy-mix-2 {
   fill: #2f3031;
 }
+
 .energy-mix-3 {
   fill: #c1bba9;
 }
+
 .energy-mix-4 {
   fill: #61c248;
 }
+
 .energy-mix-5 {
   fill: #67aed6;
 }
+
 .energy-mix-6 {
   fill: #7fd2be;
 }
+
 .energy-mix-7 {
   fill: #f0cc4d;
 }
+
 .energy-mix-8 {
   fill: #fb9ce0;
 }
@@ -184,7 +201,7 @@ body {
 }
 
 .interactor:focus-visible {
-  stroke: rgba(0, 0, 0, 0.2);
+  stroke: rgba(0 0 0 20%);
   stroke-width: 4;
 }
 
