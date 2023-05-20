@@ -75,7 +75,7 @@ The data that goes into the stack generator function is a table. What does that 
 {{#let (array
   (hash month='January'  apples=3840 bananas=1920 cherries=960 durians=400)
   (hash month='February' apples=1600 bananas=1440 cherries=960 durians=400)
-  (hash month='March'     apples=640  bananas=960 cherries=640 durians=400)
+  (hash month='March'    apples=640  bananas=960  cherries=640 durians=400)
 ) as |data|}}
   <table>
     <thead>
@@ -203,14 +203,14 @@ Suddenly our neatly formatted record data is showing some problems for when we g
 {{/let}}
 ```
 
-There are holes in out table! :o How could we possibly stack holes? The answser is we can't. D3 does. not. like. holes.
+There are holes in our table! :o How could we possibly stack holes? The answser is we can't. D3 does. not. like. holes.
 
 Hopefully this has sufficiently described why the problem is complicated enough to justify its own release and also the very first transform in Lineal.
 
 Before moving on to stacks in action, here are some further reading resources:
 
 1. [An interactive look at grouping and stacking data](https://observablehq.com/d/c6ab6dc6c4e5e7de)
-2. [The Pandas docs for reshaping and pivot tables](http://pandas.pydata.org/pandas-docs/stable/user_guide/reshaping.html#)
+2. [The Pandas docs for reshaping data and pivot tables](http://pandas.pydata.org/pandas-docs/stable/user_guide/reshaping.html#)
 3. [The Observable Plot docs for stacks](https://observablehq.com/plot/transforms/stack)
 
 I especially recommend spending some time with sample datasets and Pandas if you are feeling a little lost on working with data. The columnar approach to managing data will break your brain, and you'll be a better wiser person once you piece it all back together again.
@@ -292,6 +292,6 @@ Here's the above G20 power consumption diverging stacked bar chart implemented w
 }
 ```
 
-One big caveat here is that I am using the CSS declaration `all: unset` for the rectangles. I recommend you do the same. The number one rule of data viz (dare I say the only) is to faithfully represent the data. You can be as artistic and aesthetic with your visualization as you want, but if you make a 5 look bigger than a 2 without really good reason, then you have misled your user. Since HTML has paddings and margins and borders, it's easy to accidentally misrepresent numbers by setting a width or height properly but overlooking the added visual width or height that comes from other properties. By unsetting all properties, we return to an SVG-like position where you get nothing by default and must build up with precisely the properties you want.
+One big caveat here is that I am using the CSS declaration `all: unset` for the rectangles. I recommend you do the same. The number one rule of data viz (dare I say the only) is to faithfully represent the data. You can be as artistic and aesthetic with your visualization as you want, but if you make a 5 look smaller than a 2 without really good reason, then you have misled your user. Since HTML has paddings and margins and borders, it's easy to accidentally misrepresent numbers by setting a width or height properly but overlooking the added visual width or height that comes from other properties. By unsetting all properties, we return to an SVG-like position where you get nothing by default and must build up with precisely the properties you want.
 
 Alright! That's stacks. It opens the doors to richer visualizations and future transforms.
