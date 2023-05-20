@@ -68,7 +68,7 @@ export default modifier(
     const bis = bisector((d) => xEnc.accessor(d)).left;
 
     let activeData: ActiveData | null = null;
-    let seekIndex: number = 0;
+    let seekIndex = 0;
 
     function getDataAtPoint(pt: number): ActiveData | null {
       // Exit early when possible

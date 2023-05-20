@@ -41,10 +41,10 @@ export interface AxisArgs {
 }
 
 export type Tick = {
-  transform: String;
+  transform: string;
   size: number;
   offset: number;
-  textOffset: String;
+  textOffset: string;
   label: string;
   textAnchor: string;
   value: any;

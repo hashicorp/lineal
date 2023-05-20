@@ -212,7 +212,7 @@ export default class Stack {
   @tracked order: OrderFn;
   /** Tracked - The D3 stack offset algorithm used when stacking data. */
   @tracked offset: OffsetFn;
-  @tracked _stable: boolean = true;
+  @tracked _stable = true;
 
   /** Tracked - How the x encoding in the dataset is accessed. */
   @tracked xAccessor: Accessor | string;

@@ -25,7 +25,7 @@ export type ArcDatum = {
   [key: string]: unknown; // Thank you TS for this gem!!
   fill?: string;
   cssClass?: string;
-} & PieArcDatum<Number>;
+} & PieArcDatum<number>;
 
 export default class Arcs extends Component<ArcsArgs> {
   @cached get theta() {
