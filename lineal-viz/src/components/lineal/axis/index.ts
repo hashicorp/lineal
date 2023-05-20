@@ -4,7 +4,7 @@
  */
 
 import Component from '@glimmer/component';
-import { tracked, cached } from '@glimmer/tracking';
+import { cached } from '@glimmer/tracking';
 import { Scale } from '../../../scale';
 
 export enum Orientation {
@@ -41,10 +41,10 @@ export interface AxisArgs {
 }
 
 export type Tick = {
-  transform: String;
+  transform: string;
   size: number;
   offset: number;
-  textOffset: String;
+  textOffset: string;
   label: string;
   textAnchor: string;
   value: any;

@@ -137,6 +137,7 @@ module('Unit | Bounds.parse', function () {
         output: new Bounds(10, 1000),
       },
       { name: '"asdf" is bad input and throws', input: 'asdf', output: null },
+      { name: '"0.f10" is bad input and throws', input: '0.f10', output: null },
       {
         name: 'when provided with a two element array, it is interpreted as [min, max]',
         input: [5, 15],

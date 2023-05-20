@@ -7,7 +7,7 @@
 
 module.exports = {
   root: true,
-  parser: '@babel/eslint-parser',
+  parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',
@@ -15,12 +15,21 @@ module.exports = {
       legacyDecorators: true,
     },
   },
-  plugins: ['ember'],
-  extends: ['eslint:recommended', 'plugin:ember/recommended', 'plugin:prettier/recommended'],
+  plugins: ['@typescript-eslint', 'ember'],
+  extends: [
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:ember/recommended',
+    'plugin:prettier/recommended',
+  ],
   env: {
     browser: true,
   },
-  rules: {},
+  rules: {
+    // Anys are good! We're interop-ing with a JS library, anys are good.
+    '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/no-unused-vars': 'error',
+  },
   overrides: [
     // node files
     {
@@ -34,6 +43,9 @@ module.exports = {
       },
       plugins: ['node'],
       extends: ['plugin:node/recommended'],
+      rules: {
+        '@typescript-eslint/no-var-requires': 'off',
+      },
     },
   ],
 };

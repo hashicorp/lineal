@@ -6,4 +6,4 @@
 import { helper } from '@ember/component/helper';
 import { ScaleQuantile, QuantileScaleConfig } from '../scale';
 
-export default helper(([], hash: QuantileScaleConfig) => new ScaleQuantile(hash));
+export default helper((_, hash: QuantileScaleConfig) => new ScaleQuantile(hash));

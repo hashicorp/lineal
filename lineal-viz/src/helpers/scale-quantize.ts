@@ -6,4 +6,4 @@
 import { helper } from '@ember/component/helper';
 import { ScaleQuantize, QuantizeScaleConfig } from '../scale';
 
-export default helper(([], hash: QuantizeScaleConfig) => new ScaleQuantize(hash));
+export default helper((_, hash: QuantizeScaleConfig) => new ScaleQuantize(hash));

@@ -4,7 +4,7 @@
  */
 
 import Component from '@glimmer/component';
-import { tracked, cached } from '@glimmer/tracking';
+import { cached } from '@glimmer/tracking';
 import { Scale } from '../../../scale';
 
 export enum Direction {

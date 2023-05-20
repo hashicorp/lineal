@@ -10,7 +10,7 @@ import { Accessor, Encoding } from '../../../encoding';
 import { Scale, ScaleLinear, ScaleOrdinal } from '../../../scale';
 import CSSRange from '../../../css-range';
 import { qualifyScale, scaleFrom } from '../../../utils/mark-utils';
-import Stack, { StackDatumHorizontal } from '../../../transforms/stack';
+import Stack from '../../../transforms/stack';
 
 export interface BarsArgs {
   data: any[];

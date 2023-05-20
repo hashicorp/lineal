@@ -212,7 +212,7 @@ abstract class ScaleContinuous implements Scale {
   @tracked range: Bounds<number>;
   /** When `true`, values outside the domain are clamped to the min and max of the range
    * instead of extrapolated beyond the domain's bounds. */
-  @tracked clamp: boolean = false;
+  @tracked clamp = false;
   /** When `true`, domain bounds are rounded to nice numbers. */
   @tracked nice: boolean | number = false;
 
@@ -310,7 +310,7 @@ export class ScaleLinear extends ScaleContinuous {
  */
 export class ScalePow extends ScaleContinuous {
   /** The exponent of the power scale (e.g., 10 results in 10, 100, 1000 while 2 results in 2, 4, 8, 16). */
-  @tracked exponent: number = 1;
+  @tracked exponent = 1;
 
   constructor(config: PowScaleConfig) {
     super(config);
@@ -335,7 +335,7 @@ export class ScalePow extends ScaleContinuous {
  */
 export class ScaleLog extends ScaleContinuous {
   /** The base of the log scale (e.g., e results in a natural log while 10 results in the common log). */
-  @tracked base: number = 10;
+  @tracked base = 10;
 
   constructor(config: LogScaleConfig) {
     super(config);
@@ -414,7 +414,7 @@ abstract class AbstractScaleTime implements Scale {
   @tracked range: Bounds<number>;
   /** When `true`, values outside the domain are clamped to the min and max of the range
    * instead of extrapolated beyond the domain's bounds. */
-  @tracked clamp: boolean = false;
+  @tracked clamp = false;
   /** When `true`, domain bounds are rounded to nice numbers. */
   @tracked nice: boolean | number = false;
 
@@ -540,7 +540,7 @@ export class ScaleDiverging<T> implements Scale {
   @tracked range: (t: number) => T;
   /** When `true`, values outside the domain are clamped to the min and max of the range
    * instead of extrapolated beyond the domain's bounds. */
-  @tracked clamp: boolean = false;
+  @tracked clamp = false;
 
   /** Diverging scales do not support `Bounds` and are therefore always valid. */
   isValid = true;
@@ -606,7 +606,7 @@ export class ScaleDivergingLog<T> extends ScaleDiverging<T> {
   }
 
   @cached get d3Scale() {
-    // @ts-ignore
+    // @ts-expect-error: Bad type upstream
     const scale = this.scaleFn(this.range).domain(this.domain).base(this.base);
     if (this.clamp) scale.clamp(true);
     return scale;
@@ -641,7 +641,7 @@ export class ScaleDivergingPow<T> extends ScaleDiverging<T> {
   }
 
   @cached get d3Scale() {
-    // @ts-ignore
+    // @ts-expect-error: Bad type upstream
     const scale = this.scaleFn(this.range).domain(this.domain).exponent(this.exponent);
     if (this.clamp) scale.clamp(true);
     return scale;
@@ -1009,17 +1009,17 @@ export class ScaleBand implements Scale {
   /** The bounds of the scale's visual space. */
   @tracked range: Bounds<number>;
   /** When `true`, ensures that `step` and `bandwidth` are integers. */
-  @tracked round: boolean = false;
+  @tracked round = false;
   /** A number between 0 and 1 that specifies how the outer padding in the scale's
    * range is distributed. 0.5 represents centering bands in their range. */
-  @tracked align: number = 0.5;
+  @tracked align = 0.5;
   /** A number between 0 and 1 that specifies how much spacing there is between bands
    * in proportion to band widths (e.g., when `padding` is 0.5, gaps and bands are
    * equal widths. */
-  @tracked paddingInner: number = 0;
+  @tracked paddingInner = 0;
   /** A number between 0 and 1 that specifies how much padding is placed on the outside
    * of bands (while still subtracting available space from the `range`). */
-  @tracked paddingOuter: number = 0;
+  @tracked paddingOuter = 0;
 
   constructor({
     domain,
@@ -1115,13 +1115,13 @@ export class ScalePoint implements Scale {
   /** The bounds of the scale's visual space. */
   @tracked range: Bounds<number>;
   /** When `true`, ensures that `step` and `bandwidth` are integers. */
-  @tracked round: boolean = false;
+  @tracked round = false;
   /** A number between 0 and 1 that specifies how the outer padding in the scale's
    * range is distributed. 0.5 represents centering bands in their range. */
-  @tracked align: number = 0.5;
+  @tracked align = 0.5;
   /** A number between 0 and 1 that specifies how much padding is placed on the outside
    * of the points (while still subtracting available space from the `range`). */
-  @tracked padding: number = 0;
+  @tracked padding = 0;
 
   constructor({ domain, range, round, align, padding }: PointScaleConfig) {
     this.domain = domain || [];

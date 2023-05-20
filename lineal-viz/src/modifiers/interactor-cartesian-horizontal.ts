@@ -59,7 +59,7 @@ const NAV_KEYS = Object.values(NavKey);
 export default modifier(
   (
     element: HTMLElement,
-    [],
+    _,
     { data, xScale, x, y, onSeek, onSelect, distanceThreshold = 10 }: InteractorArgs
   ) => {
     const accessors: Accessor[] = y instanceof Array ? y : [y];
@@ -68,7 +68,7 @@ export default modifier(
     const bis = bisector((d) => xEnc.accessor(d)).left;
 
     let activeData: ActiveData | null = null;
-    let seekIndex: number = 0;
+    let seekIndex = 0;
 
     function getDataAtPoint(pt: number): ActiveData | null {
       // Exit early when possible

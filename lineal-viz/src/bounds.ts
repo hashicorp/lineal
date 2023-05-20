@@ -9,7 +9,7 @@ import { tracked } from '@glimmer/tracking';
 // Ranges and domains can be specified using an expression similar
 // to Rust's range expression. This validates the expression.
 const NUMBER_PATTERN = '[+-]?\\d+.?\\d*';
-const NUMERIC_RANGE_DSL = new RegExp(`^(${NUMBER_PATTERN})?\.\.(${NUMBER_PATTERN})?$`);
+const NUMERIC_RANGE_DSL = new RegExp(`^(${NUMBER_PATTERN})?\\.\\.(${NUMBER_PATTERN})?$`);
 
 /**
  * A utility class for modeling a min and max value of a type. Bounds can also be constructed

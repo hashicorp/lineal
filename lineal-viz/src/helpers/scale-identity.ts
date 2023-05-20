@@ -6,4 +6,4 @@
 import { helper } from '@ember/component/helper';
 import { ScaleIdentity, IdentityScaleConfig } from '../scale';
 
-export default helper(([], hash: IdentityScaleConfig) => new ScaleIdentity(hash));
+export default helper((_, hash: IdentityScaleConfig) => new ScaleIdentity(hash));
