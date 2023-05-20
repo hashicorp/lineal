@@ -39,6 +39,9 @@ module.exports = {
         'plugin:@typescript-eslint/recommended',
       ],
       rules: {
+        // Anys are good! We're interop-ing with a JS library, anys are good.
+        '@typescript-eslint/no-explicit-any': 'off',
+        '@typescript-eslint/no-unused-vars': 'error',
         '@typescript-eslint/ban-ts-comment': [
           'error',
           {
