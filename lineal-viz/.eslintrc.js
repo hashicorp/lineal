@@ -16,17 +16,21 @@ module.exports = {
     },
   },
   plugins: ['@typescript-eslint', 'ember'],
-  extends: ['eslint:recommended', 'plugin:ember/recommended', 'plugin:prettier/recommended'],
+  extends: [
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:ember/recommended',
+    'plugin:prettier/recommended',
+  ],
   env: {
     browser: true,
   },
-  rules: {},
+  rules: {
+    // Anys are good! We're interop-ing with a JS library, anys are good.
+    '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/no-unused-vars': 'error',
+  },
   overrides: [
-    // ts files
-    {
-      files: ['**/*.ts'],
-      extends: ['plugin:@typescript-eslint/eslint-recommended'],
-    },
     // node files
     {
       files: ['./.eslintrc.js', './.prettierrc.js', './.template-lintrc.js', './addon-main.js'],
@@ -39,6 +43,9 @@ module.exports = {
       },
       plugins: ['node'],
       extends: ['plugin:node/recommended'],
+      rules: {
+        '@typescript-eslint/no-var-requires': 'off',
+      },
     },
   ],
 };
