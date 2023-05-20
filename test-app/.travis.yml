@@ -1,0 +1,28 @@
+---
+language: node_js
+node_js:
+  - "14"
+
+dist: xenial
+
+addons:
+  chrome: stable
+
+cache:
+  yarn: true
+
+env:
+  global:
+    # See https://github.com/ember-cli/ember-cli/blob/master/docs/build-concurrency.md for details.
+    - JOBS=1
+
+branches:
+  only:
+    - master
+
+before_install:
+  - curl -o- -L https://yarnpkg.com/install.sh | bash
+  - export PATH=$HOME/.yarn/bin:$PATH
+
+script:
+  - yarn test
