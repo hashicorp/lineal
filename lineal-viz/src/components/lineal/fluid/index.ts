@@ -7,9 +7,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 
-export interface FluidArgs {}
-
-export default class Fluid extends Component<FluidArgs> {
+export default class Fluid extends Component {
   @tracked width = 0;
   @tracked height = 10;
   @tracked entry: ResizeObserverEntry | undefined;

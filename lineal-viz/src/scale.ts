@@ -606,7 +606,7 @@ export class ScaleDivergingLog<T> extends ScaleDiverging<T> {
   }
 
   @cached get d3Scale() {
-    // @ts-ignore
+    // @ts-expect-error: Bad type upstream
     const scale = this.scaleFn(this.range).domain(this.domain).base(this.base);
     if (this.clamp) scale.clamp(true);
     return scale;
@@ -641,7 +641,7 @@ export class ScaleDivergingPow<T> extends ScaleDiverging<T> {
   }
 
   @cached get d3Scale() {
-    // @ts-ignore
+    // @ts-expect-error: Bad type upstream
     const scale = this.scaleFn(this.range).domain(this.domain).exponent(this.exponent);
     if (this.clamp) scale.clamp(true);
     return scale;

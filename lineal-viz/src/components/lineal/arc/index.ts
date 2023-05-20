@@ -51,12 +51,12 @@ export default class Arc extends Component<ArcArgs> {
   }
 
   @cached get d() {
-    // @ts-ignore
+    // @ts-expect-error: Bad type upstream
     return this.arc();
   }
 
   @cached get centroid() {
-    // @ts-ignore
+    // @ts-expect-error: Bad type upstream
     const [x, y] = this.arc.centroid();
     return { x, y };
   }
