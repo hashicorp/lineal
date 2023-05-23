@@ -24,7 +24,8 @@ export default class ArcsController extends Controller {
         topRight: topRight ?? 0,
         bottomLeft: bottomLeft ?? 0,
         bottomRight: bottomRight ?? 0,
-      }
+      },
+      true
     );
   };
 }

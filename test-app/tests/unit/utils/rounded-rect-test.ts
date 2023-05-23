@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MPL-2.0
  */
 
-import { module, test } from 'qunit';
+import { module } from 'qunit';
 import { roundedRect } from '@lineal-viz/lineal/utils/rounded-rect';
 import tableTest from '../../utils/table-test';
 
@@ -84,6 +84,45 @@ module('Unit | roundedRect', function () {
       } else {
         assert.strictEqual(roundedRect(...t.input), t.output);
       }
+    }
+  );
+
+  tableTest<[Rect, BorderRadius], string>(
+    [
+      {
+        name: 'The safe directive does nothing when radii are 0',
+        input: [b(0, 0, 100, 100), r(0, 0, 0, 0)],
+        output:
+          'M 0,0 a 0,0 0 0 1 0,0 h 100 a 0,0 0 0 1 0,0 v 100 a 0,0 0 0 1 0,0 h -100 a 0,0 0 0 1 0,0 v -100 Z',
+      },
+      {
+        name: 'The safe directive does nothing when radii total less than width/height',
+        input: [b(0, 0, 100, 100), r(8, 8, 8, 8)],
+        output:
+          'M 0,8 a 8,8 0 0 1 8,-8 h 84 a 8,8 0 0 1 8,8 v 84 a 8,8 0 0 1 -8,8 h -84 a 8,8 0 0 1 -8,-8 v -84 Z',
+      },
+      {
+        name: 'The safe directive shrinks radii only when necessary',
+        input: [b(0, 0, 100, 100), r(60, 60, 60, 60)],
+        output:
+          'M 0,50 a 50,50 0 0 1 50,-50 h 0 a 50,50 0 0 1 50,50 v 0 a 50,50 0 0 1 -50,50 h 0 a 50,50 0 0 1 -50,-50 v 0 Z',
+      },
+      {
+        name: 'The safe directive shrinks x/y radii for each corner independently',
+        input: [b(0, 0, 100, 30), r(40, 40, 0, 0)],
+        output:
+          'M 0,30 a 40,30 0 0 1 40,-30 h 20 a 40,30 0 0 1 40,30 v 0 a 0,0 0 0 1 0,0 h -100 a 0,0 0 0 1 0,0 v 0 Z',
+      },
+      {
+        name: 'The safe directive shrinks radii proportionally when the width/height is too small',
+        input: [b(0, 0, 100, 100), r(90, 30, 90, 30)],
+        output:
+          'M 0,75 a 75,75 0 0 1 75,-75 h 0 a 25,25 0 0 1 25,25 v 0 a 75,75 0 0 1 -75,75 h 0 a 25,25 0 0 1 -25,-25 v 0 Z',
+      },
+    ],
+    1,
+    function (t, assert) {
+      assert.strictEqual(roundedRect.apply(null, [...t.input, true]), t.output);
     }
   );
 });

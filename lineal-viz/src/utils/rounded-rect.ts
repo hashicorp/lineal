@@ -24,8 +24,12 @@ const move = (x: number, y: number) => `M ${x},${y}`;
 const vLine = (y: number) => `v ${y}`;
 const hLine = (x: number) => `h ${x}`;
 
-// A clockwise-turning small arc with equal radii
-const arc = (r: number, hDir: number, vDir: number) => `a ${r},${r} 0 0 1 ${r * hDir},${r * vDir}`;
+// A clockwise-turning small arc with two radii. Since this is clockwise turning,
+// The radii are broken down as first and second radii components instead of vertical
+// and horizontal components. This means it is up to the caller to determine if the radii
+// order should be v,h or h,v based on the corner being drawn.
+const arc = (rx: number, ry: number, hDir: number, vDir: number) =>
+  `a ${rx},${ry} 0 0 1 ${rx * hDir},${ry * vDir}`;
 
 /**
  * A function that takes the bounding box of a rectangle along with all four
@@ -34,19 +38,58 @@ const arc = (r: number, hDir: number, vDir: number) => `a ${r},${r} 0 0 1 ${r * 
  *
  * @param rect - The rectangle to round.
  * @param radii - The four radii for the rectangle.
+ * @param safe - When true, radii are clipped to never exceed width/height.
  * @returns - A valid SVG path string (to use as a `d` attribute value)
  */
-export function roundedRect(rect: Rect, radii: BorderRadius): string {
+export function roundedRect(rect: Rect, radii: BorderRadius, safe = false): string {
+  let rtrx = radii.topRight;
+  let rbrx = radii.bottomRight;
+  let rblx = radii.bottomLeft;
+  let rtlx = radii.topLeft;
+  let rtry = rtrx;
+  let rbry = rbrx;
+  let rbly = rblx;
+  let rtly = rtlx;
+
+  // When creating a safe roundedRect, radii that exceed the width or height of the rectangle
+  // are truncated. This can result in oblong radii which is why the four radii are expanded into
+  // eight total variables (splitting radii into vertical and horizontal components).
+  if (safe) {
+    if (rtrx + rtlx > rect.width) {
+      const rsum = rtrx + rtlx;
+      rtrx = (rect.width * rtrx) / rsum;
+      rtlx = (rect.width * rtlx) / rsum;
+    }
+
+    if (rtry + rbry > rect.height) {
+      const rsum = rtry + rbry;
+      rtry = (rect.height * rtry) / rsum;
+      rbry = (rect.height * rbry) / rsum;
+    }
+
+    if (rbrx + rblx > rect.width) {
+      const rsum = rbrx + rblx;
+      rbrx = (rect.width * rbrx) / rsum;
+      rblx = (rect.width * rblx) / rsum;
+    }
+
+    if (rbly + rtly > rect.height) {
+      const rsum = rbly + rtly;
+      rbly = (rect.height * rbly) / rsum;
+      rtly = (rect.height * rtly) / rsum;
+    }
+  }
+
   return [
-    move(rect.x, rect.y + radii.topLeft),
-    arc(radii.topLeft, 1, -1),
-    hLine(rect.width - radii.topLeft - radii.topRight),
-    arc(radii.topRight, 1, 1),
-    vLine(rect.height - radii.topRight - radii.bottomRight),
-    arc(radii.bottomRight, -1, 1),
-    hLine(-rect.width + radii.bottomRight + radii.bottomLeft),
-    arc(radii.bottomLeft, -1, -1),
-    vLine(-rect.height + radii.bottomLeft + radii.topLeft),
+    move(rect.x, rect.y + rtly),
+    arc(rtlx, rtly, 1, -1),
+    hLine(rect.width - rtlx - rtrx),
+    arc(rtrx, rtry, 1, 1),
+    vLine(rect.height - rtry - rbry),
+    arc(rbrx, rbry, -1, 1),
+    hLine(-rect.width + rbrx + rblx),
+    arc(rblx, rbly, -1, -1),
+    vLine(-rect.height + rbly + rtly),
     'Z',
   ].join(' ');
 }
