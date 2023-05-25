@@ -8,6 +8,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render, findAll } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { ScaleLinear, ScaleBand } from '@lineal-viz/lineal/scale';
+import { roundedRect } from '@lineal-viz/lineal/utils/rounded-rect';
 
 const getAttrs = (el: Element, ...attrs: string[]) =>
   attrs.map((attr) => el.getAttribute(attr));
@@ -139,5 +140,84 @@ module('Integration | Component | Lineal::VBars', function (hooks) {
     assert.dom('g g rect.reds-3-1').exists({ count: 4 });
     assert.dom('g g rect.reds-3-2').exists({ count: 4 });
     assert.dom('g g rect.reds-3-3').exists({ count: 4 });
+  });
+
+  test('When @borderRadius is provided, paths of rounded rectangles are rendered instead of rects', async function (assert) {
+    const xScale = new ScaleBand({
+      domain: ['A', 'B', 'C', 'D', 'E', 'F', 'G'],
+      range: '0..100',
+      padding: 0.1,
+    });
+    const yScale = new ScaleLinear({ domain: '0..', range: '100..0' });
+
+    this.setProperties({ data, xScale, yScale });
+
+    await render(hbs`
+      <svg class="test-svg">
+        <Lineal::VBars
+          @data={{this.data}}
+          @x="foo"
+          @y="bar"
+          @y0={{0}}
+          @width={{this.xScale.bandwidth}}
+          @xScale={{this.xScale}}
+          @yScale={{this.yScale}}
+          @borderRadius='5 8'
+        />
+      </svg>
+    `);
+
+    assert.strictEqual(findAll('path').length, data.length);
+    assert.deepEqual(
+      findAll('path').map((el: Element) => el.getAttribute('d')),
+      data.map((d) =>
+        roundedRect(
+          {
+            x: xScale.compute(d.foo) ?? 0,
+            y: yScale.compute(d.bar),
+            width: xScale.bandwidth,
+            height: yScale.compute(0) - yScale.compute(d.bar),
+          },
+          { topLeft: 5, topRight: 8, bottomRight: 5, bottomLeft: 8 },
+          true
+        )
+      )
+    );
+  });
+
+  test('When @borderRadius is provided and data is stacked, visually top rects are half-rounded paths and visually bottom rects are half-rounded paths', async function (assert) {
+    // By half-rounding the top rects and half-rounding the bottom rects, the complete slice of data is fully rounded
+    const xScale = new ScaleBand({
+      domain: ['A', 'B', 'C', 'D'],
+      range: '0..100',
+      padding: 0.1,
+    });
+    const yScale = new ScaleLinear({ domain: '0..', range: '100..0' });
+
+    this.setProperties({ stackableData, xScale, yScale });
+
+    await render(hbs`
+      <svg class="test-svg">
+        <Lineal::VBars
+          @data={{this.stackableData}}
+          @x="foo"
+          @y="bar"
+          @color="cat"
+          @width={{this.xScale.bandwidth}}
+          @xScale={{this.xScale}}
+          @yScale={{this.yScale}}
+          @colorScale="reds"
+          @borderRadius='5 8'
+        />
+      </svg>
+    `);
+
+    assert.dom('g g').exists({ count: 3 });
+    assert.dom('g g path.reds-3-1').exists({ count: 4 });
+    assert.dom('g g rect.reds-3-2').exists({ count: 4 });
+    assert.dom('g g path.reds-3-3').exists({ count: 4 });
+    assert.dom('g g rect.reds-3-1').exists({ count: 0 });
+    assert.dom('g g path.reds-3-2').exists({ count: 0 });
+    assert.dom('g g rect.reds-3-3').exists({ count: 0 });
   });
 });
