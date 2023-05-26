@@ -26,6 +26,8 @@
     "lint:hbs:fix": "ember-template-lint . --fix --no-error-on-unmatched-pattern",
     "lint:js": "eslint . --cache",
     "lint:js:fix": "eslint . --fix",
+    "prettier:hbs": "prettier --write ./src/**/*.hbs",
+    "prettier:js": "prettier --write ./src/**/{*.js,*.ts}",
     "start": "rollup --config --watch",
     "test": "echo 'A v2 addon does not have tests, run tests in test-app'",
     "prepublishOnly": "cp ../README.md .",

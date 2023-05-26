@@ -4,87 +4,87 @@
 }}
 
 <h2>Axes</h2>
-{{#let (scale-pow range='15..785' domain='0..10' exponent='2') as |scale|}}
-  <svg class='no-overflow' width='800' height='30'>
-    <Lineal::Axis @scale={{scale}} @orientation='bottom' />
+{{#let (scale-pow range="15..785" domain="0..10" exponent="2") as |scale|}}
+  <svg class="no-overflow" width="800" height="30">
+    <Lineal::Axis @scale={{scale}} @orientation="bottom" />
   </svg>
-  <svg class='no-overflow' width='800' height='30'>
-    <Lineal::Axis @scale={{scale}} @orientation='top' as |tick|>
+  <svg class="no-overflow" width="800" height="30">
+    <Lineal::Axis @scale={{scale}} @orientation="top" as |tick|>
       <text
-        fill='red'
+        fill="red"
         y={{tick.offset}}
         text-anchor={{tick.textAnchor}}
       >{{tick.label}}</text>
-      <text x='15' y={{-20}} transform='rotate(-45)'>Fish!</text>
-      <circle r='3'></circle>
+      <text x="15" y={{-20}} transform="rotate(-45)">Fish!</text>
+      <circle r="3"></circle>
     </Lineal::Axis>
   </svg>
-  <svg class='no-overflow' width='100' height='300'>
-    <Lineal::Axis @scale={{scale}} @orientation='left' />
+  <svg class="no-overflow" width="100" height="300">
+    <Lineal::Axis @scale={{scale}} @orientation="left" />
   </svg>
-  <svg class='no-overflow' width='100' height='300'>
-    <Lineal::Axis @scale={{scale}} @orientation='right' />
+  <svg class="no-overflow" width="100" height="300">
+    <Lineal::Axis @scale={{scale}} @orientation="right" />
   </svg>
 {{/let}}
 
 <h2>Scale Linear</h2>
-<svg width='800' height='6'>
-  {{#let (scale-linear range='15..785' domain='0..10') as |scale|}}
+<svg width="800" height="6">
+  {{#let (scale-linear range="15..785" domain="0..10") as |scale|}}
     {{#each (array 0 1 2 3 4 5 6 7 8 9 10) as |v|}}
-      <circle cx={{scale-fn-compute scale v}} cy='3' r='3'></circle>
+      <circle cx={{scale-fn-compute scale v}} cy="3" r="3"></circle>
     {{/each}}
   {{/let}}
 </svg>
 
 <h2>Scale Pow (^2)</h2>
-<svg class='scale-pow' width='800' height='6'>
-  {{#let (scale-pow range='15..785' domain='0..10' exponent=2) as |scale|}}
+<svg class="scale-pow" width="800" height="6">
+  {{#let (scale-pow range="15..785" domain="0..10" exponent=2) as |scale|}}
     {{#each (array 0 1 2 3 4 5 6 7 8 9 10) as |v|}}
-      <circle cx={{scale.compute v}} cy='3' r='3'></circle>
+      <circle cx={{scale.compute v}} cy="3" r="3"></circle>
     {{/each}}
   {{/let}}
 </svg>
 
 <h2>Scale Log</h2>
-<svg class='scale-log' width='800' height='6'>
-  {{#let (scale-log range='15..785' domain='1..10') as |scale|}}
+<svg class="scale-log" width="800" height="6">
+  {{#let (scale-log range="15..785" domain="1..10") as |scale|}}
     {{#each (array 1 2 3 4 5 6 7 8 9 10) as |v|}}
-      <circle cx={{scale.compute v}} cy='3' r='3'></circle>
+      <circle cx={{scale.compute v}} cy="3" r="3"></circle>
     {{/each}}
   {{/let}}
 </svg>
 
 <h2>Scale Sqrt</h2>
-<svg class='scale-sqrt' width='800' height='6'>
-  {{#let (scale-sqrt range='15..785' domain='0..10') as |scale|}}
+<svg class="scale-sqrt" width="800" height="6">
+  {{#let (scale-sqrt range="15..785" domain="0..10") as |scale|}}
     {{#each (array 0 1 2 3 4 5 6 7 8 9 10) as |v|}}
-      <circle cx={{scale.compute v}} cy='3' r='3'></circle>
+      <circle cx={{scale.compute v}} cy="3" r="3"></circle>
     {{/each}}
   {{/let}}
 </svg>
 
 <h2>Scale Symlog</h2>
-<svg class='scale-symlog' width='800' height='6'>
-  {{#let (scale-symlog range='15..785' domain='0..10') as |scale|}}
+<svg class="scale-symlog" width="800" height="6">
+  {{#let (scale-symlog range="15..785" domain="0..10") as |scale|}}
     {{#each (array 0 1 2 3 4 5 6 7 8 9 10) as |v|}}
-      <circle cx={{scale.compute v}} cy='3' r='3'></circle>
+      <circle cx={{scale.compute v}} cy="3" r="3"></circle>
     {{/each}}
   {{/let}}
 </svg>
 
 <h2>Scale Ordinal</h2>
-<svg class='scale-symlog' width='800' height='10'>
+<svg class="scale-symlog" width="800" height="10">
   {{#let
-    (scale-ordinal range=(css-range 'reds') domain=(array 'A' 'B' 'C'))
-    (scale-linear range='15..785' domain='0..9')
+    (scale-ordinal range=(css-range "reds") domain=(array "A" "B" "C"))
+    (scale-linear range="15..785" domain="0..9")
     as |colorScale xScale|
   }}
-    {{#each (array 'A' 'A' 'B' 'C' 'B' 'B' 'A' 'B' 'C' 'A') as |v idx|}}
+    {{#each (array "A" "A" "B" "C" "B" "B" "A" "B" "C" "A") as |v idx|}}
       <circle
         class={{colorScale.compute v}}
         cx={{xScale.compute idx}}
-        cy='5'
-        r='5'
+        cy="5"
+        r="5"
       ></circle>
     {{/each}}
   {{/let}}
