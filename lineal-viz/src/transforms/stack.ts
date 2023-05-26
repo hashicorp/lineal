@@ -120,6 +120,7 @@ export interface KeyedStackDatumVertical extends StackDatumVertical {
 export interface StackSeriesHorizontal extends Array<StackDatumHorizontal> {
   key: string;
   index: number;
+  visualOrder: number;
 }
 
 /**
@@ -132,6 +133,7 @@ export interface StackSeriesHorizontal extends Array<StackDatumHorizontal> {
 export interface StackSeriesVertical extends Array<StackDatumVertical> {
   key: string;
   index: number;
+  visualOrder: number;
 }
 
 export const verticalStackMap = (d: D3StackSeriesPoint): StackDatumVertical => ({
@@ -153,7 +155,8 @@ export const horizontalStackMap = (d: D3StackSeriesPoint): StackDatumHorizontal 
 const tag = (
   arr: StackDatumVertical[] | StackDatumHorizontal[],
   { key, index }: D3StackSeries
-): StackSeriesVertical | StackSeriesHorizontal => Object.assign(arr, { key, index });
+): StackSeriesVertical | StackSeriesHorizontal =>
+  Object.assign(arr, { key, index, visualOrder: 0 });
 
 const indicesToProperties = (data: D3StackSeries[], isVertical: boolean) => {
   return isVertical
@@ -380,7 +383,26 @@ export default class Stack {
     }
 
     // Convert the array indexing format to a more Ember friendly property accessor format
-    return indicesToProperties(d3Stack, this.direction === 'vertical');
+    const stacked = indicesToProperties(d3Stack, this.direction === 'vertical');
+
+    // Annotate the stacked data structure with visual orders
+    const visualOrder = stacked
+      .map((d: StackSeriesVertical | StackSeriesHorizontal) => ({
+        key: d.key,
+        val: this.direction === 'vertical' ? d[0].y : d[0].x,
+      }))
+      .sort((a, b) => a.val - b.val);
+
+    const orderMap = visualOrder.reduce((hash: { [key: string]: number }, d, idx) => {
+      hash[d.key] = idx;
+      return hash;
+    }, {});
+
+    stacked.forEach((series) => {
+      series.visualOrder = orderMap[series.key] ?? 0;
+    });
+
+    return stacked;
   }
 
   /**
