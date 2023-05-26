@@ -10,6 +10,8 @@ import { Accessor, Encoding } from '../../../encoding';
 import { Scale, ScaleLinear, ScaleOrdinal } from '../../../scale';
 import CSSRange from '../../../css-range';
 import { qualifyScale, scaleFrom } from '../../../utils/mark-utils';
+import { cssFourPropParse } from '../../../utils/css-four-prop-parse';
+import { roundedRect } from '../../../utils/rounded-rect';
 import Stack from '../../../transforms/stack';
 
 export interface BarsArgs {
@@ -23,6 +25,7 @@ export interface BarsArgs {
   yScale?: Scale;
   heightScale?: Scale;
   colorScale?: Scale;
+  borderRadius?: string;
 }
 
 export interface BarDatum {
@@ -31,6 +34,7 @@ export interface BarDatum {
   width: number;
   height: number;
   datum: any;
+  d?: string;
 }
 
 export interface BarSeries {
@@ -133,14 +137,20 @@ export default class Bars extends Component<BarsArgs> {
     return this.colorScale instanceof Object && this.colorScale.range instanceof CSSRange;
   }
 
+  @cached get borderRadius() {
+    if (this.args.borderRadius) return cssFourPropParse(this.args.borderRadius);
+  }
+
   @cached get bars(): BarDatum[] | BarSeries[] {
     if (!this.xScale.isValid || !this.yScale.isValid || !this.heightScale.isValid) {
       return [];
     }
 
+    const borderRadius = this.borderRadius;
+
     if (this.isStacked) {
-      console.log(this.data);
       return this.data.map((series) => {
+        const idx = series.visualOrder;
         const barSeries: BarSeries = {
           bars: series.map(
             (d: any): BarDatum => ({
@@ -152,6 +162,28 @@ export default class Bars extends Component<BarsArgs> {
             })
           ),
         };
+
+        if (borderRadius && (idx === 0 || idx === this.data.length - 1)) {
+          const radii = {
+            topLeft: borderRadius.top,
+            topRight: borderRadius.right,
+            bottomRight: borderRadius.bottom,
+            bottomLeft: borderRadius.left,
+          };
+
+          // When multi series, render top corners if first series,
+          // or the bottom coners if last series.
+          if (this.data.length > 1) {
+            Object.assign(
+              radii,
+              idx === 0 ? { topRight: 0, bottomRight: 0 } : { topLeft: 0, bottomLeft: 0 }
+            );
+          }
+
+          barSeries.bars.forEach((bar) => {
+            bar.d = roundedRect(bar, radii, true);
+          });
+        }
 
         if (this.colorScale) {
           const colorValue = this.colorScale.compute(series.key);
@@ -165,7 +197,7 @@ export default class Bars extends Component<BarsArgs> {
         return barSeries;
       });
     } else {
-      return this.args.data.map(
+      const bars = this.args.data.map(
         (d: any): BarDatum => ({
           x: this.xScale.compute(this.x.accessor(d)),
           y: this.yScale.compute(this.y.accessor(d)),
@@ -174,6 +206,21 @@ export default class Bars extends Component<BarsArgs> {
           datum: d,
         })
       );
+
+      if (borderRadius) {
+        const radii = {
+          topLeft: borderRadius.top,
+          topRight: borderRadius.right,
+          bottomRight: borderRadius.bottom,
+          bottomLeft: borderRadius.left,
+        };
+
+        bars.forEach((bar) => {
+          bar.d = roundedRect(bar, radii, true);
+        });
+      }
+
+      return bars;
     }
   }
 }
