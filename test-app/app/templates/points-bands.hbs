@@ -4,48 +4,48 @@
 }}
 
 <h2>Points</h2>
-<svg height='300' width='800' class='no-overflow m-100'>
+<svg height="300" width="800" class="no-overflow m-100">
   {{#let
-    (scale-linear domain='0..23' range='0..800')
-    (scale-point domain=this.daysOfWeek range='0..300')
+    (scale-linear domain="0..23" range="0..800")
+    (scale-point domain=this.daysOfWeek range="0..300")
     as |xScale yScale|
   }}
     {{#if (and xScale.isValid yScale.isValid)}}
       <Lineal::Gridlines
         @scale={{yScale}}
-        @direction='horizontal'
-        @length='800'
+        @direction="horizontal"
+        @length="800"
       />
       <Lineal::Gridlines
         @scale={{xScale}}
-        @direction='vertical'
-        @length='300'
+        @direction="vertical"
+        @length="300"
       />
     {{/if}}
-    <rect x='0' y='0' width='800' height='300' class='svg-border'></rect>
+    <rect x="0" y="0" width="800" height="300" class="svg-border"></rect>
     <Lineal::Points
       @data={{this.frequencyByDay}}
       @renderCircles={{true}}
-      @x='hour'
-      @y='day'
-      @size='value'
-      @color='day'
+      @x="hour"
+      @y="day"
+      @size="value"
+      @color="day"
       @xScale={{xScale}}
       @yScale={{yScale}}
-      @sizeScale={{scale-sqrt domain='1..25' range='5..25'}}
+      @sizeScale={{scale-sqrt domain="1..25" range="5..25"}}
       @colorScale={{scale-ordinal
         domain=this.daysOfWeek
-        range=(css-range 'ordinal')
+        range=(css-range "ordinal")
       }}
-      class='svg-border-gray'
+      class="svg-border-gray"
       as |points|
     >
       {{#each points as |p|}}
         <text
-          class='plot-label'
+          class="plot-label"
           x={{p.x}}
           y={{p.y}}
-          dy={{if (lt p.size 10) '-15'}}
+          dy={{if (lt p.size 10) "-15"}}
         >{{fmt p.datum.value}}</text>
       {{/each}}
     </Lineal::Points>
@@ -53,40 +53,41 @@
 </svg>
 
 <h2>Bars</h2>
-<svg height='300' width='800' class='no-overflow m-100'>
+<svg height="300" width="800" class="no-overflow m-100">
   {{#let
-    (scale-band domain=this.categories range='0..800' padding=0.1)
-    (scale-linear range='0..300' domain='0..')
-    (scale-linear range='300..0' domain='0..')
+    (scale-band domain=this.categories range="0..800" padding=0.1)
+    (scale-linear range="0..300" domain="0..")
+    (scale-linear range="300..0" domain="0..")
     as |xScale hScale yScale|
   }}
     {{#if (and xScale.isValid yScale.isValid)}}
       <Lineal::Axis
         @scale={{yScale}}
-        @orientation='left'
+        @orientation="left"
         @includeDomain={{false}}
       />
       <Lineal::Axis
         @scale={{xScale}}
-        @orientation='bottom'
-        transform='translate(0,{{hScale.range.max}})'
+        @orientation="bottom"
+        transform="translate(0,{{hScale.range.max}})"
       />
       <Lineal::Gridlines
         @scale={{yScale}}
-        @direction='horizontal'
-        @length='800'
-        stroke-dasharray='5 5'
+        @direction="horizontal"
+        @length="800"
+        stroke-dasharray="5 5"
       />
     {{/if}}
     <Lineal::Bars
       @data={{this.ageDemo}}
-      @x='bracket'
-      @y='value'
-      @height='value'
+      @x="bracket"
+      @y="value"
+      @height="value"
       @width={{xScale.bandwidth}}
       @xScale={{xScale}}
       @yScale={{yScale}}
       @heightScale={{hScale}}
+      @borderRadius="40 40 0 0"
     />
   {{/let}}
 </svg>

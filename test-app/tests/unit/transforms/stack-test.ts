@@ -34,7 +34,7 @@ interface Datum {
 const tag = (
   arr: StackDatumVertical[],
   { key, index }: SeriesStd
-): StackSeriesVertical => Object.assign(arr, { key, index });
+): StackSeriesVertical => Object.assign(arr, { key, index, visualOrder: 0 });
 
 const convert = (data: SeriesStd[]) =>
   data.map((series) => tag(series.map(verticalStackMap), series));
@@ -126,7 +126,7 @@ module('Unit | Transforms | Stack', function () {
           { y0: 0, y1: 1, y: 1, x: 10, data: stack.table[10] },
           { y0: 0, y1: 2, y: 2, x: 11, data: stack.table[11] },
         ],
-        { key: 'Sunday', index: 0 }
+        { key: 'Sunday', index: 0, visualOrder: 0 }
       ),
       'Each stack series has y0, y1, and x properties in addition to the full corresponding table record'
     );
@@ -148,10 +148,13 @@ module('Unit | Transforms | Stack', function () {
           { y0: 1, y1: 12, y: 12, x: 10, data: stack.table[10] },
           { y0: 2, y1: 14, y: 14, x: 11, data: stack.table[11] },
         ],
-        { key: 'Monday', index: 1 }
+        { key: 'Monday', index: 1, visualOrder: 0 }
       ),
       'Each series in a stack stacks on the previous series'
     );
+
+    assert.strictEqual(stack.data[0]?.visualOrder, 0);
+    assert.strictEqual(stack.data[1]?.visualOrder, 1);
   });
 
   test('When the direction is horizontal, series stack on x values', function (assert) {
@@ -197,7 +200,7 @@ module('Unit | Transforms | Stack', function () {
           { x0: 1, x1: 12, x: 12, y: 10, data: stack.table[10] },
           { x0: 2, x1: 14, x: 14, y: 11, data: stack.table[11] },
         ],
-        { key: 'Monday', index: 1 }
+        { key: 'Monday', index: 1, visualOrder: 1 }
       ),
       'Each series in a stack stacks on the previous series'
     );

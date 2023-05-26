@@ -2,21 +2,24 @@
   Copyright (c) HashiCorp, Inc.
   SPDX-License-Identifier: MPL-2.0
 }}
-
 {{#if this.isStacked}}
   <g>
     {{#each this.bars as |series|}}
       <g>
         {{#each series.bars as |b|}}
-          <rect
-            x={{b.x}}
-            y={{b.y}}
-            width={{b.width}}
-            height={{b.height}}
-            fill={{series.fill}}
-            class={{series.cssClass}}
-            ...attributes
-          ></rect>
+          {{#if b.d}}
+            <path d={{b.d}} fill={{series.fill}} class={{series.cssClass}} ...attributes></path>
+          {{else}}
+            <rect
+              x={{b.x}}
+              y={{b.y}}
+              width={{b.width}}
+              height={{b.height}}
+              fill={{series.fill}}
+              class={{series.cssClass}}
+              ...attributes
+            ></rect>
+          {{/if}}
         {{/each}}
       </g>
     {{/each}}
@@ -24,7 +27,11 @@
 {{else}}
   <g>
     {{#each this.bars as |b|}}
-      <rect x={{b.x}} y={{b.y}} width={{b.width}} height={{b.height}} ...attributes></rect>
+      {{#if b.d}}
+        <path d={{b.d}} ...attributes></path>
+      {{else}}
+        <rect x={{b.x}} y={{b.y}} width={{b.width}} height={{b.height}} ...attributes></rect>
+      {{/if}}
     {{/each}}
   </g>
 {{/if}}

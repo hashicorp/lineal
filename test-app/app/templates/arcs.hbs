@@ -4,47 +4,47 @@
 }}
 
 <h2>Arcs</h2>
-<svg width='800' height='200'>
-  <g transform='translate(400 100)'>
+<svg width="800" height="200">
+  <g transform="translate(400 100)">
     <Lineal::Arc
-      @startAngle='90d'
-      @endAngle='270d'
+      @startAngle="90d"
+      @endAngle="270d"
       @innerRadius={{50}}
       @outerRadius={{75}}
-      fill='pink'
+      fill="pink"
     />
   </g>
 </svg>
 
 <h2>Pie</h2>
-<svg width='400' height='400'>
-  <g transform='translate(200 200)'>
+<svg width="400" height="400">
+  <g transform="translate(200 200)">
     <Lineal::Arcs
       @data={{array (hash v=1) (hash v=10) (hash v=4)}}
-      @theta='v'
-      @colorScale='reds'
+      @theta="v"
+      @colorScale="reds"
       @outerRadius={{150}}
       @innerRadius={{100}}
-      @padAngle='1d'
+      @padAngle="1d"
     />
   </g>
 </svg>
 
 <h2>Pie 2</h2>
-<svg width='400' height='400'>
-  <g transform='translate(200 200)'>
+<svg width="400" height="400">
+  <g transform="translate(200 200)">
     <Lineal::Arcs
       @data={{array
-        (hash v=1 c='red')
-        (hash v=0 c='blue')
-        (hash v=10 c='red')
-        (hash v=4 c='fish')
+        (hash v=1 c="red")
+        (hash v=0 c="blue")
+        (hash v=10 c="red")
+        (hash v=4 c="fish")
       }}
-      @theta='v'
-      @startAngle='270d'
-      @endAngle='450d'
-      @color='c'
-      @colorScale='reds'
+      @theta="v"
+      @startAngle="270d"
+      @endAngle="450d"
+      @color="c"
+      @colorScale="reds"
       as |pie|
     >
       {{#each pie as |slice|}}
@@ -53,19 +53,25 @@
           @endAngle={{slice.endAngle}}
           @outerRadius={{150}}
           @innerRadius={{100}}
-          stroke='white'
-          stroke-width='2'
+          stroke="white"
+          stroke-width="2"
           opacity={{if
             this.activeDatum
             (if (eq slice.data this.activeDatum) 1 0.3)
             1
           }}
           class={{slice.cssClass}}
-          {{on 'mouseover' (fn (mut this.activeDatum) slice.data)}}
-          {{on 'click' (fn this.logValue slice)}}
-          {{on 'mouseout' (fn (mut this.activeDatum) null)}}
+          {{on "mouseover" (fn (mut this.activeDatum) slice.data)}}
+          {{on "click" (fn this.logValue slice)}}
+          {{on "mouseout" (fn (mut this.activeDatum) null)}}
         />
       {{/each}}
     </Lineal::Arcs>
   </g>
+</svg>
+
+<h2>Rounded corners</h2>
+<svg width="500" height="500" style="overflow: visible">
+  <path d={{this.rrect "0 0 100 100" "15 15 15 15"}} />
+  <path d={{this.rrect "150 0 75 50" "50 50 40 40"}} />
 </svg>

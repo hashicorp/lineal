@@ -8,6 +8,8 @@ import { cached } from '@glimmer/tracking';
 import { Accessor, Encoding } from '../../../encoding';
 import { Scale, ScaleLinear } from '../../../scale';
 import { qualifyScale, scaleFrom } from '../../../utils/mark-utils';
+import { cssFourPropParse } from '../../../utils/css-four-prop-parse';
+import { roundedRect } from '../../../utils/rounded-rect';
 
 export interface BarsArgs {
   data: any[];
@@ -19,6 +21,7 @@ export interface BarsArgs {
   yScale?: Scale;
   widthScale?: Scale;
   heightScale?: Scale;
+  borderRadius?: string;
 }
 
 export interface BarDatum {
@@ -27,6 +30,7 @@ export interface BarDatum {
   width: number;
   height: number;
   datum: any;
+  d?: string;
 }
 
 export default class Bars extends Component<BarsArgs> {
@@ -70,6 +74,10 @@ export default class Bars extends Component<BarsArgs> {
     return scale;
   }
 
+  @cached get borderRadius() {
+    if (this.args.borderRadius) return cssFourPropParse(this.args.borderRadius);
+  }
+
   @cached get bars(): BarDatum[] {
     if (
       !this.xScale.isValid ||
@@ -80,7 +88,7 @@ export default class Bars extends Component<BarsArgs> {
       return [];
     }
 
-    return this.args.data.map((d: any) => {
+    const bars = this.args.data.map((d: any) => {
       const bar: BarDatum = {
         x: this.xScale.compute(this.x.accessor(d)),
         y: this.yScale.compute(this.y.accessor(d)),
@@ -91,5 +99,22 @@ export default class Bars extends Component<BarsArgs> {
 
       return bar;
     });
+
+    const borderRadius = this.borderRadius;
+
+    if (borderRadius) {
+      const radii = {
+        topLeft: borderRadius.top,
+        topRight: borderRadius.right,
+        bottomRight: borderRadius.bottom,
+        bottomLeft: borderRadius.left,
+      };
+
+      bars.forEach((bar) => {
+        bar.d = roundedRect(bar, radii, true);
+      });
+    }
+
+    return bars;
   }
 }
