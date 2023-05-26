@@ -21,6 +21,7 @@
     "lint:js": "eslint . --cache",
     "lint:js:fix": "eslint . --fix",
     "prettier:hbs": "prettier --write ./**/*.hbs",
+    "prettier:js": "prettier --write ./**/{*.js,*.ts}",
     "start": "ember serve",
     "test": "ember test",
     "test:ember": "ember test",
