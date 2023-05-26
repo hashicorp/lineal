@@ -4,167 +4,167 @@
 }}
 
 <h2>Stacked Area</h2>
-<svg height='300' width='800' class='no-overflow m-100'>
+<svg height="300" width="800" class="no-overflow m-100">
   {{#let
-    (scale-linear range='0..800' domain='..')
-    (scale-linear range='300..0' domain='0..')
+    (scale-linear range="0..800" domain="..")
+    (scale-linear range="300..0" domain="0..")
     as |xScale yScale|
   }}
     {{#if (and xScale.isValid yScale.isValid)}}
       <Lineal::Axis
         @scale={{yScale}}
-        @orientation='left'
+        @orientation="left"
         @includeDomain={{false}}
       />
       <Lineal::Axis
         @scale={{xScale}}
-        @orientation='bottom'
-        transform='translate(0,300)'
+        @orientation="bottom"
+        transform="translate(0,300)"
       />
       <Lineal::Gridlines
         @scale={{yScale}}
-        @direction='horizontal'
-        @length='800'
-        stroke-dasharray='5 5'
+        @direction="horizontal"
+        @length="800"
+        stroke-dasharray="5 5"
       />
     {{/if}}
     <Lineal::Area
       @data={{this.paddedFrequencyByDay}}
-      @curve='natural'
-      @x='hour'
-      @y='value'
-      @color='day'
+      @curve="natural"
+      @x="hour"
+      @y="value"
+      @color="day"
       @xScale={{xScale}}
       @yScale={{yScale}}
-      @colorScale='ordinal'
+      @colorScale="ordinal"
     />
   {{/let}}
 </svg>
 
-<svg height='300' width='800' class='no-overflow m-100'>
+<svg height="300" width="800" class="no-overflow m-100">
   {{#let
-    (scale-linear range='0..800' domain='..')
-    (scale-linear range='300..0' domain='0..')
+    (scale-linear range="0..800" domain="..")
+    (scale-linear range="300..0" domain="0..")
     (stack-v
       data=this.paddedFrequencyByDay
-      x='hour'
-      y='value'
-      z='day'
-      offset='diverging'
+      x="hour"
+      y="value"
+      z="day"
+      offset="diverging"
     )
     as |xScale yScale stacked|
   }}
     {{#if (and xScale.isValid yScale.isValid)}}
       <Lineal::Axis
         @scale={{yScale}}
-        @orientation='left'
+        @orientation="left"
         @includeDomain={{false}}
       />
       <Lineal::Axis
         @scale={{xScale}}
-        @orientation='bottom'
-        transform='translate(0,300)'
+        @orientation="bottom"
+        transform="translate(0,300)"
       />
       <Lineal::Gridlines
         @scale={{yScale}}
-        @direction='horizontal'
-        @length='800'
-        stroke-dasharray='5 5'
+        @direction="horizontal"
+        @length="800"
+        stroke-dasharray="5 5"
       />
     {{/if}}
     <Lineal::VBars
       @data={{stacked.data}}
-      @x='x'
-      @y='y'
+      @x="x"
+      @y="y"
       @width={{30}}
       @xScale={{xScale}}
       @yScale={{yScale}}
-      @colorScale='ordinal'
+      @colorScale="ordinal"
     />
   {{/let}}
 </svg>
 
 <h2>Stacked Area 2</h2>
-<button type='button' {{on 'click' this.appendTestData}}>Append</button>
+<button type="button" {{on "click" this.appendTestData}}>Append</button>
 <p>{{this.stacked._categories}}</p>
-<svg height='300' width='800' class='no-overflow m-100'>
+<svg height="300" width="800" class="no-overflow m-100">
   {{! (stack-y data=this.paddedFrequencyByDay x='hour' y='value' z='day') }}
   {{#let
-    (scale-linear range='0..800' domain='0..30')
-    (scale-linear range='300..0' domain='0..')
+    (scale-linear range="0..800" domain="0..30")
+    (scale-linear range="300..0" domain="0..")
     this.stacked
     as |xScale yScale stacked|
   }}
     {{#if (and xScale.isValid yScale.isValid)}}
       <Lineal::Axis
         @scale={{yScale}}
-        @orientation='left'
+        @orientation="left"
         @includeDomain={{false}}
       />
       <Lineal::Axis
         @scale={{xScale}}
-        @orientation='bottom'
-        transform='translate(0,300)'
+        @orientation="bottom"
+        transform="translate(0,300)"
       />
       <Lineal::Gridlines
         @scale={{yScale}}
-        @direction='horizontal'
-        @length='800'
-        stroke-dasharray='5 5'
+        @direction="horizontal"
+        @length="800"
+        stroke-dasharray="5 5"
       />
     {{/if}}
     <Lineal::Area
       @data={{stacked.data}}
-      @x='x'
-      @y='y'
+      @x="x"
+      @y="y"
       @xScale={{xScale}}
       @yScale={{yScale}}
-      @colorScale='ordinal'
+      @colorScale="ordinal"
     />
     {{#if (and xScale.isValid yScale.isValid)}}
       {{#if this.activeStackSlice}}
-        <g class='interaction-overlay'>
+        <g class="interaction-overlay">
           <line
-            stroke='red'
-            stroke-width='2'
+            stroke="red"
+            stroke-width="2"
             x1={{xScale.compute this.activeStackSlice.datum.datum.hour}}
             x2={{xScale.compute this.activeStackSlice.datum.datum.hour}}
-            y1='0'
-            y2='300'
+            y1="0"
+            y2="300"
           ></line>
           {{#each
-            (stacked.stack (map-by 'datum' this.activeStackSlice.data))
+            (stacked.stack (map-by "datum" this.activeStackSlice.data))
             as |d|
           }}
             <circle
               cx={{xScale.compute d.x}}
               cy={{yScale.compute d.y}}
-              r='5'
-              fill='black'
+              r="5"
+              fill="black"
             ></circle>
             <text
               x={{xScale.compute d.x}}
               y={{yScale.compute d.y}}
-              dx='10'
-              text-anchor='start'
+              dx="10"
+              text-anchor="start"
             >{{d.key}}</text>
           {{/each}}
         </g>
       {{/if}}
     {{/if}}
     <rect
-      x='0'
-      y='0'
-      width='800'
-      height='300'
-      tabindex='0'
-      fill='transparent'
-      class='interactor'
+      x="0"
+      y="0"
+      width="800"
+      height="300"
+      tabindex="0"
+      fill="transparent"
+      class="interactor"
       {{interactor-cartesian-horizontal
         data=stacked.dataIn
         xScale=xScale
-        x='hour'
-        y='value'
+        x="hour"
+        y="value"
         onSeek=this.updateActiveStackDatum
       }}
     ></rect>
@@ -172,86 +172,86 @@
 </svg>
 
 <h2>Stacked Area 3</h2>
-<button type='button' {{on 'click' this.appendTestData}}>Append</button>
+<button type="button" {{on "click" this.appendTestData}}>Append</button>
 <p>{{this.stacked._categories}}</p>
-<svg height='300' width='800' class='no-overflow m-100'>
+<svg height="300" width="800" class="no-overflow m-100">
   {{! (stack-y data=this.paddedFrequencyByDay x='hour' y='value' z='day') }}
   {{#let
-    (scale-linear range='0..800' domain='0..30')
-    (scale-linear range='300..0' domain='0..')
-    (stack-v data=this.newData order='ascending' x='hour' y='value' z='day')
+    (scale-linear range="0..800" domain="0..30")
+    (scale-linear range="300..0" domain="0..")
+    (stack-v data=this.newData order="ascending" x="hour" y="value" z="day")
     as |xScale yScale stacked|
   }}
     {{#if (and xScale.isValid yScale.isValid)}}
       <Lineal::Axis
         @scale={{yScale}}
-        @orientation='left'
+        @orientation="left"
         @includeDomain={{false}}
       />
       <Lineal::Axis
         @scale={{xScale}}
-        @orientation='bottom'
-        transform='translate(0,300)'
+        @orientation="bottom"
+        transform="translate(0,300)"
       />
       <Lineal::Gridlines
         @scale={{yScale}}
-        @direction='horizontal'
-        @length='800'
-        stroke-dasharray='5 5'
+        @direction="horizontal"
+        @length="800"
+        stroke-dasharray="5 5"
       />
     {{/if}}
     <Lineal::Area
       @data={{stacked.data}}
-      @x='x'
-      @y='y'
+      @x="x"
+      @y="y"
       @xScale={{xScale}}
       @yScale={{yScale}}
-      @colorScale='ordinal'
+      @colorScale="ordinal"
     />
     {{#if (and xScale.isValid yScale.isValid)}}
       {{#if this.activeStackSlice}}
-        <g class='interaction-overlay'>
+        <g class="interaction-overlay">
           <line
-            stroke='red'
-            stroke-width='2'
+            stroke="red"
+            stroke-width="2"
             x1={{xScale.compute this.activeStackSlice.datum.datum.hour}}
             x2={{xScale.compute this.activeStackSlice.datum.datum.hour}}
-            y1='0'
-            y2='300'
+            y1="0"
+            y2="300"
           ></line>
           {{#each
-            (stacked.stack (map-by 'datum' this.activeStackSlice.data))
+            (stacked.stack (map-by "datum" this.activeStackSlice.data))
             as |d|
           }}
             <circle
               cx={{xScale.compute d.x}}
               cy={{yScale.compute d.y}}
-              r='5'
-              fill='black'
+              r="5"
+              fill="black"
             ></circle>
             <text
               x={{xScale.compute d.x}}
               y={{yScale.compute d.y}}
-              dx='10'
-              text-anchor='start'
+              dx="10"
+              text-anchor="start"
             >{{d.key}}</text>
           {{/each}}
         </g>
       {{/if}}
     {{/if}}
     <rect
-      x='0'
-      y='0'
-      width='800'
-      height='300'
-      tabindex='0'
-      fill='transparent'
-      class='interactor'
+      x="0"
+      y="0"
+      width="800"
+      height="300"
+      tabindex="0"
+      fill="transparent"
+      class="interactor"
       {{interactor-cartesian-horizontal
         data=stacked.dataIn
         xScale=xScale
-        x='hour'
-        y='value'
+        x="hour"
+        y="value"
         onSeek=this.updateActiveStackDatum
       }}
     ></rect>
@@ -260,92 +260,92 @@
 
 <h2>Stacked Bars, Energy Mix</h2>
 
-<svg height='300' width='800' class='no-overflow m-100'>
+<svg height="300" width="800" class="no-overflow m-100">
   {{#let
-    (scale-band range='0..800' domain=this.g20ByConsumption)
-    (scale-linear range='300..0' domain='-80000..40000')
+    (scale-band range="0..800" domain=this.g20ByConsumption)
+    (scale-linear range="300..0" domain="-80000..40000")
     (stack-v
       data=this.divergingEnergyMix
-      x='region'
-      y='value'
-      z='source'
-      offset='diverging'
+      x="region"
+      y="value"
+      z="source"
+      offset="diverging"
     )
     as |xScale yScale stacked|
   }}
     {{#if (and xScale.isValid yScale.isValid)}}
       <Lineal::Axis
         @scale={{yScale}}
-        @orientation='left'
+        @orientation="left"
         @includeDomain={{false}}
       />
       <Lineal::Axis
         @scale={{xScale}}
-        @orientation='top'
+        @orientation="top"
         @includeDomain={{false}}
         as |tick|
       >
         <text
           y={{tick.offset}}
-          text-anchor='start'
-          transform='rotate(-75)'
+          text-anchor="start"
+          transform="rotate(-75)"
         >{{tick.label}}</text>
       </Lineal::Axis>
       <Lineal::Gridlines
         @scale={{yScale}}
-        @direction='horizontal'
-        @length='800'
-        stroke-dasharray='5 5'
+        @direction="horizontal"
+        @length="800"
+        stroke-dasharray="5 5"
       />
     {{/if}}
     <Lineal::VBars
       @data={{stacked.data}}
-      @x='x'
-      @y='y'
+      @x="x"
+      @y="y"
       @width={{30}}
       @xScale={{xScale}}
       @yScale={{yScale}}
-      @colorScale='energy-mix'
+      @colorScale="energy-mix"
       @borderRadius="10"
     />
   {{/let}}
 </svg>
 
-<svg height='800' width='500' class='no-overflow m-100'>
+<svg height="800" width="500" class="no-overflow m-100">
   {{#let
-    (scale-linear range='0..500' domain='..')
-    (scale-band range='0..800' domain=this.g20ByConsumption)
+    (scale-linear range="0..500" domain="..")
+    (scale-band range="0..800" domain=this.g20ByConsumption)
     (stack-h
       data=this.divergingEnergyMix
-      x='value'
-      y='region'
-      z='source'
-      offset='diverging'
+      x="value"
+      y="region"
+      z="source"
+      offset="diverging"
     )
     as |xScale yScale stacked|
   }}
     {{#if (and xScale.isValid yScale.isValid)}}
       <Lineal::Axis
         @scale={{yScale}}
-        @orientation='left'
+        @orientation="left"
         @includeDomain={{false}}
       />
-      <Lineal::Axis @scale={{xScale}} @orientation='top' @tickCount={{5}} />
+      <Lineal::Axis @scale={{xScale}} @orientation="top" @tickCount={{5}} />
       <Lineal::Gridlines
         @scale={{xScale}}
-        @direction='vertical'
-        @length='800'
-        stroke-dasharray='5 5'
+        @direction="vertical"
+        @length="800"
+        stroke-dasharray="5 5"
       />
     {{/if}}
     <Lineal::HBars
       @data={{stacked.data}}
-      @x='x'
-      @y='y'
+      @x="x"
+      @y="y"
       @height={{30}}
       @xScale={{xScale}}
       @yScale={{yScale}}
-      @colorScale='energy-mix'
+      @colorScale="energy-mix"
     />
   {{/let}}
 </svg>

@@ -20,6 +20,7 @@
     "lint:hbs:fix": "ember-template-lint . --fix",
     "lint:js": "eslint . --cache",
     "lint:js:fix": "eslint . --fix",
+    "prettier:hbs": "prettier --write ./**/*.hbs",
     "start": "ember serve",
     "test": "ember test",
     "test:ember": "ember test",
