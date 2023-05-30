@@ -1,5 +1,14 @@
 # @lineal-viz/lineal
 
+## 0.5.1
+
+### Patch Changes
+
+- a774b51: Linting corrections. Errant log lines, etc.
+- 55ab941: @borderRadius args for Bars, VBars, and HBars marks
+- 226160b: Bug fix: ScaleOrdinal wouldn't work with uglified bundles
+- 53b5dab: Bug fix: fill holes in data sets when tabulating from records
+
 ## 0.5.0
 
 ### Minor Changes
