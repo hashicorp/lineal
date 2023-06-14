@@ -101,4 +101,33 @@ module('Integration | Component | Lineal::Gridlines', function (hooks) {
       }))
     );
   });
+
+  test('When line values change, <line> elements are updated instead of recreated', async function (assert) {
+    const scale = new ScaleLinear({ range: '0..100', domain: '0..10' });
+    const lineValues = [0, 10, 20, 30, 50, 80];
+    this.setProperties({ scale, lineValues });
+
+    assert.expect(lineValues.length);
+
+    await render(hbs`
+      <svg>
+        <Lineal::Gridlines
+          @scale={{this.scale}}
+          @lineValues={{this.lineValues}}
+          @direction="vertical"
+          @length={{100}}
+          @offset={{0}} />
+      </svg>
+    `);
+
+    const firstLines = findAll('line');
+
+    this.set('lineValues', [5, 15, 25, 35, 55, 85]);
+
+    const secondLines = findAll('line');
+
+    firstLines.forEach((line, idx) => {
+      assert.strictEqual(line, secondLines[idx]);
+    });
+  });
 });
