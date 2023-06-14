@@ -21,7 +21,7 @@ jobs:
       - name: Install Node
         uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c # v3.6.0
         with:
-          node-version: 14.x
+          node-version: 16.x
           cache: yarn
       - name: Install Dependencies
         run: yarn install --frozen-lockfile
@@ -52,7 +52,7 @@ jobs:
       - name: Install Node
         uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c # v3.6.0
         with:
-          node-version: 14.x
+          node-version: 16.x
           cache: yarn
       - name: Install Dependencies
         run: yarn install --frozen-lockfile
