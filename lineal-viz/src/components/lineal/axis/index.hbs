@@ -8,7 +8,7 @@
     <path class='domain' stroke='currentColor' d={{this.domainPath}}></path>
   {{/if}}
   {{#if (eq this.direction 'horizontal')}}
-    {{#each this.ticks as |tick index|}}
+    {{#each this.ticks key='@index' as |tick index|}}
       <g transform={{tick.transform}}>
         {{#if (has-block)}}
           {{yield tick index}}
@@ -26,7 +26,7 @@
       </g>
     {{/each}}
   {{else}}
-    {{#each this.ticks as |tick index|}}
+    {{#each this.ticks key='@index' as |tick index|}}
       <g transform={{tick.transform}}>
         {{#if (has-block)}}
           {{yield tick index}}

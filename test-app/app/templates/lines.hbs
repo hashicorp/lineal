@@ -3,6 +3,58 @@
   SPDX-License-Identifier: MPL-2.0
 }}
 
+<h2>Can we break it?</h2>
+<div class="fluid-chart">
+  <Lineal::Fluid class="fluid-chart__plot" as |width height|>
+    <svg class="fluid-chart__svg">
+      {{#let
+        (this.pXScale.derive range=(array 0 width))
+        (this.pYScale.derive range=(array height 0))
+        as |xScale yScale|
+      }}
+        {{#if (and xScale.isValid yScale.isValid)}}
+          <Lineal::Axis @scale={{yScale}} @orientation="left" />
+          <Lineal::Axis
+            @scale={{xScale}}
+            @orientation="bottom"
+            transform="translate(0,{{height}})"
+          />
+          <Lineal::Gridlines
+            @scale={{yScale}}
+            @direction="horizontal"
+            @length={{width}}
+            opacity="0.7"
+          />
+          <Lineal::Gridlines
+            @scale={{xScale}}
+            @direction="vertical"
+            @length={{height}}
+            opacity="0.3"
+          />
+          {{#each this.populationX as |d|}}
+            <circle
+              cx={{xScale.compute d.year}}
+              cy={{yScale.compute d.people}}
+              r="3"
+            ></circle>
+          {{/each}}
+        {{/if}}
+        <Lineal::Line
+          @data={{this.populationX}}
+          @xScale={{xScale}}
+          @yScale={{yScale}}
+          @x="year"
+          @y="people"
+          @curve="natural"
+          fill="transparent"
+          stroke="black"
+          stroke-width="2"
+        />
+      {{/let}}
+    </svg>
+  </Lineal::Fluid>
+</div>
+
 <h2>Line</h2>
 <div class="fluid-chart">
   <Lineal::Fluid class="fluid-chart__plot" as |width height|>

@@ -389,4 +389,32 @@ module('Integration | Component | Lineal::Axis', function (hooks) {
       ]);
     }
   });
+
+  test('When tick values change, <g> elements are updated instead of recreated', async function (assert) {
+    const scale = new ScaleLinear({ range: '0..100', domain: '0..10' });
+    const tickValues = [0, 0.5, 1.5, 3, 5, 7.5];
+    this.setProperties({ scale, tickValues });
+
+    assert.expect(tickValues.length);
+
+    await render(hbs`
+      <svg>
+        <Lineal::Axis
+          @scale={{this.scale}}
+          @orientation="bottom"
+          @tickValues={{this.tickValues}}
+          @offset={{0}} />
+      </svg>
+    `);
+
+    const firstTicks = findAll('.axis g');
+
+    this.set('tickValues', [1, 1.5, 2.5, 4, 6, 8.5]);
+
+    const secondTicks = findAll('.axis g');
+
+    firstTicks.forEach((tick, idx) => {
+      assert.strictEqual(tick, secondTicks[idx]);
+    });
+  });
 });

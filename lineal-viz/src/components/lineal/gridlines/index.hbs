@@ -4,7 +4,7 @@
 }}
 
 <g class='gridlines'>
-  {{#each this.lines as |l|}}
+  {{#each this.lines key='@index' as |l|}}
     <line
       stroke='currentColor'
       x1={{l.x1}}
