@@ -1,5 +1,12 @@
 # @lineal-viz/lineal
 
+## 0.5.2
+
+### Patch Changes
+
+- 29d3c3c: Package audit: patch and minor upgrades that should not impact code using Lineal
+- 4d6884e: Add keys to Axis and Gridline loops to preserve elements
+
 ## 0.5.1
 
 ### Patch Changes

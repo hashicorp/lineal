@@ -1,6 +1,6 @@
 {
   "name": "@lineal-viz/lineal",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "private": false,
   "description": "A data visualization toolkit for Ember.",
   "keywords": [
