@@ -1,6 +1,5 @@
 /**
- * Copyright (c) HashiCorp, Inc.
- * SPDX-License-Identifier: MPL-2.0
+ * Copyright IBM Corp. 2020, 2026
  */
 
 /*!
@@ -19,6 +18,7 @@
 .hljs {
   /* var(--highlight-color) */
   color: #2f3337;
+
   /* var(--highlight-bg) */
   background: #f6f6f6;
 }
@@ -84,6 +84,7 @@
   color: #015692;
 }
 
+/* stylelint-disable-next-line selector-class-pattern -- highlight.js external library */
 .hljs-built_in,
 .hljs-title,
 .hljs-literal {

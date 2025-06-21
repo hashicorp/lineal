@@ -1,9 +1,11 @@
 /**
- * Copyright (c) HashiCorp, Inc.
- * SPDX-License-Identifier: MPL-2.0
+ * Copyright IBM Corp. 2020, 2026
  */
 
-import { helper } from '@ember/component/helper';
-import { ScaleDivergingSqrt, DivergingScaleConfig } from '../scale';
+import { ScaleDivergingSqrt } from '../scale.ts';
 
-export default helper((_, hash: DivergingScaleConfig) => new ScaleDivergingSqrt(hash));
+import type { DivergingScaleConfig } from '../scale.ts';
+
+export default function scaleDivergingSqrt(config: DivergingScaleConfig) {
+  return new ScaleDivergingSqrt(config);
+}

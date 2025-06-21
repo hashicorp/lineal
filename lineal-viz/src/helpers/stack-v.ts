@@ -1,11 +1,11 @@
 /**
- * Copyright (c) HashiCorp, Inc.
- * SPDX-License-Identifier: MPL-2.0
+ * Copyright IBM Corp. 2020, 2026
  */
 
-import { helper } from '@ember/component/helper';
-import Stack, { StackConfig } from '../transforms/stack';
+import Stack from '../transforms/stack.ts';
 
-export default helper(
-  (_, hash: StackConfig) => new Stack(Object.assign({}, hash, { direction: 'vertical' }))
-);
+import type { StackConfig } from '../transforms/stack.ts';
+
+export default function stackV(config: StackConfig) {
+  return new Stack(Object.assign({}, config, { direction: 'vertical' }));
+}

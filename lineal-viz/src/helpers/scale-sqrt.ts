@@ -1,9 +1,11 @@
 /**
- * Copyright (c) HashiCorp, Inc.
- * SPDX-License-Identifier: MPL-2.0
+ * Copyright IBM Corp. 2020, 2026
  */
 
-import { helper } from '@ember/component/helper';
-import { ScaleSqrt, ContinuousScaleConfig } from '../scale';
+import { ScaleSqrt } from '../scale.ts';
 
-export default helper((_, hash: ContinuousScaleConfig) => new ScaleSqrt(hash));
+import type { ContinuousScaleConfig } from '../scale.ts';
+
+export default function scaleSqrt(config: ContinuousScaleConfig) {
+  return new ScaleSqrt(config);
+}

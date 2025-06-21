@@ -1,6 +1,5 @@
 /**
- * Copyright (c) HashiCorp, Inc.
- * SPDX-License-Identifier: MPL-2.0
+ * Copyright IBM Corp. 2020, 2026
  */
 
 import { extent } from 'd3-array';
@@ -9,7 +8,9 @@ import { tracked } from '@glimmer/tracking';
 // Ranges and domains can be specified using an expression similar
 // to Rust's range expression. This validates the expression.
 const NUMBER_PATTERN = '[+-]?\\d+.?\\d*';
-const NUMERIC_RANGE_DSL = new RegExp(`^(${NUMBER_PATTERN})?\\.\\.(${NUMBER_PATTERN})?$`);
+const NUMERIC_RANGE_DSL = new RegExp(
+  `^(${NUMBER_PATTERN})?\\.\\.(${NUMBER_PATTERN})?$`,
+);
 
 /**
  * A utility class for modeling a min and max value of a type. Bounds can also be constructed
@@ -65,7 +66,7 @@ export default class Bounds<T> {
 
     if (!NUMERIC_RANGE_DSL.test(input)) {
       throw new Error(
-        'Invalid string provided as numeric range. Must match the syntax "1..1", where the min and the max are both optional (e.g., "1.." is valid).'
+        'Invalid string provided as numeric range. Must match the syntax "1..1", where the min and the max are both optional (e.g., "1.." is valid).',
       );
     }
 
@@ -99,7 +100,7 @@ export default class Bounds<T> {
       } else if (min.length === 1) {
         this.min = min[0];
         this.max = min[0];
-        this.steps = [min[0], min[0]];
+        this.steps = [min[0]!, min[0]!];
       } else {
         this.min = min[0];
         this.max = min[min.length - 1];
@@ -108,7 +109,8 @@ export default class Bounds<T> {
     } else {
       this.min = min;
       this.max = max;
-      this.steps = min != undefined && max != undefined ? [min as T, max as T] : [];
+      this.steps =
+        min != undefined && max != undefined ? [min as T, max as T] : [];
     }
   }
 
@@ -148,17 +150,21 @@ export default class Bounds<T> {
   qualify(data: any[], accessor: string | ((datum: any) => T)): Bounds<T> {
     if (this.isPiecewise) {
       throw new Error(
-        `Cannot qualify a piecewise Bounds. The steps of this Bounds are "${this.steps}".`
+        `Cannot qualify a piecewise Bounds. The steps of this Bounds are "${JSON.stringify(this.steps)}".`,
       );
     }
 
     if (this.min != undefined && this.max != undefined) return this;
 
-    const fn = typeof accessor === 'string' ? (d: any) => d[accessor] : accessor;
+    const fn =
+      typeof accessor === 'string' ? (d: any) => d[accessor] : accessor;
     const [min, max] = extent(data, fn);
-    if (typeof accessor === 'string' && (min == undefined || max == undefined)) {
+    if (
+      typeof accessor === 'string' &&
+      (min == undefined || max == undefined)
+    ) {
       throw new Error(
-        `Invalid extent for data set using field accessor "${accessor}". Is "${accessor}" defined in this dataset?`
+        `Invalid extent for data set using field accessor "${accessor}". Is "${accessor}" defined in this dataset?`,
       );
     }
     if (this.min == undefined) this.min = min;
@@ -172,7 +178,9 @@ export default class Bounds<T> {
    * Creates a new Bounds identical to this one.
    */
   copy(): Bounds<T> {
-    return this.isPiecewise ? new Bounds<T>(this.steps) : new Bounds<T>(this.min, this.max);
+    return this.isPiecewise
+      ? new Bounds<T>(this.steps)
+      : new Bounds<T>(this.min, this.max);
   }
 
   /**
@@ -184,7 +192,7 @@ export default class Bounds<T> {
   get bounds(): T[] {
     if (!this.isValid) {
       throw new Error(
-        'Bounds have not been qualified! These bounds were not constructed with both a min and a max. Use `bounds.qualify` with a dataset to fill in the missing bounds'
+        'Bounds have not been qualified! These bounds were not constructed with both a min and a max. Use `bounds.qualify` with a dataset to fill in the missing bounds',
       );
     }
 

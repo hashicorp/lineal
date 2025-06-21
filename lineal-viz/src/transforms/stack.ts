@@ -1,15 +1,20 @@
 /**
- * Copyright (c) HashiCorp, Inc.
- * SPDX-License-Identifier: MPL-2.0
+ * Copyright IBM Corp. 2020, 2026
  */
 
+import { tracked, cached } from '@glimmer/tracking';
 import * as shape from 'd3-shape';
 import { group } from 'd3-array';
-import { Accessor, Encoding } from '../encoding';
-import { tracked, cached } from '@glimmer/tracking';
+
+import { Encoding } from '../encoding.ts';
+
+import type { Accessor } from '../encoding.ts';
 
 type OrderFn = (series: shape.Series<any, any>) => number[];
-type OffsetFn = (series: shape.Series<any, any>, order: Iterable<number>) => void;
+type OffsetFn = (
+  series: shape.Series<any, any>[],
+  order: Iterable<number>,
+) => void;
 type Direction = 'vertical' | 'horizontal';
 type D3StackSeries = shape.Series<{ [key: string]: number }, string>;
 type D3StackSeriesPoint = shape.SeriesPoint<{ [key: string]: number }>;
@@ -136,32 +141,42 @@ export interface StackSeriesVertical extends Array<StackDatumVertical> {
   visualOrder: number;
 }
 
-export const verticalStackMap = (d: D3StackSeriesPoint): StackDatumVertical => ({
+export const verticalStackMap = (
+  d: D3StackSeriesPoint,
+): StackDatumVertical => ({
   y0: d[0],
   y1: d[1],
   y: d[1],
-  x: d.data.x,
+  x: d.data['x'],
   data: d.data,
 });
 
-export const horizontalStackMap = (d: D3StackSeriesPoint): StackDatumHorizontal => ({
+export const horizontalStackMap = (
+  d: D3StackSeriesPoint,
+): StackDatumHorizontal => ({
   x0: d[0],
   x1: d[1],
   x: d[1],
-  y: d.data.y,
+  y: d.data['y'],
   data: d.data,
 });
 
 const tag = (
   arr: StackDatumVertical[] | StackDatumHorizontal[],
-  { key, index }: D3StackSeries
+  { key, index }: D3StackSeries,
 ): StackSeriesVertical | StackSeriesHorizontal =>
   Object.assign(arr, { key, index, visualOrder: 0 });
 
 const indicesToProperties = (data: D3StackSeries[], isVertical: boolean) => {
   return isVertical
-    ? data.map((series) => tag(series.map(verticalStackMap), series) as StackSeriesVertical)
-    : data.map((series) => tag(series.map(horizontalStackMap), series) as StackSeriesHorizontal);
+    ? data.map(
+        (series) =>
+          tag(series.map(verticalStackMap), series) as StackSeriesVertical,
+      )
+    : data.map(
+        (series) =>
+          tag(series.map(horizontalStackMap), series) as StackSeriesHorizontal,
+      );
 };
 
 /**
@@ -229,13 +244,26 @@ export default class Stack {
 
   #categories: string[] | null = null;
 
-  constructor({ order, offset, data, direction, x, y, z, stable }: StackConfig) {
-    this.offset = offset ? OFFSETS[offset] ?? OFFSETS.none : OFFSETS.none;
-    this.order = order
-      ? ORDERS[order] ?? ORDERS.none
-      : this.offset === OFFSETS.wiggle
-      ? ORDERS.insideOut
-      : ORDERS.none;
+  constructor({
+    order,
+    offset,
+    data,
+    direction,
+    x,
+    y,
+    z,
+    stable,
+  }: StackConfig) {
+    this.offset = (
+      offset ? (OFFSETS[offset] ?? OFFSETS['none']) : OFFSETS['none']
+    )!;
+    this.order = (
+      order
+        ? (ORDERS[order] ?? ORDERS['none'])
+        : this.offset === OFFSETS['wiggle']
+          ? ORDERS['insideOut']
+          : ORDERS['none']
+    )!;
 
     this.xAccessor = x;
     this.yAccessor = y;
@@ -287,8 +315,9 @@ export default class Stack {
         [idField]: idVal,
         ...categories.reduce((columns, category) => {
           // It is assumed that there is a single record per category, otherwise it would
-          // mean there were duplicte records in the source data.
-          columns[category] = cell.accessor(records.get(category)?.[0] ?? {}) ?? 0;
+          // mean there were duplicate records in the source data.
+          columns[category] =
+            cell.accessor(records.get(category)?.[0] ?? {}) ?? 0;
           return columns;
         }, {}),
       });
@@ -325,7 +354,7 @@ export default class Stack {
   get #stacker() {
     return shape
       .stack()
-      .order(this.#categories ? ORDERS.none : this.order)
+      .order((this.#categories ? ORDERS['none'] : this.order)!)
       .offset(this.offset)
       .keys(this.#categories ?? this.categories);
   }
@@ -389,14 +418,17 @@ export default class Stack {
     const visualOrder = stacked
       .map((d: StackSeriesVertical | StackSeriesHorizontal) => ({
         key: d.key,
-        val: this.direction === 'vertical' ? d[0].y : d[0].x,
+        val: this.direction === 'vertical' ? d[0]!.y : d[0]!.x,
       }))
       .sort((a, b) => a.val - b.val);
 
-    const orderMap = visualOrder.reduce((hash: { [key: string]: number }, d, idx) => {
-      hash[d.key] = idx;
-      return hash;
-    }, {});
+    const orderMap = visualOrder.reduce(
+      (hash: { [key: string]: number }, d, idx) => {
+        hash[d.key] = idx;
+        return hash;
+      },
+      {},
+    );
 
     stacked.forEach((series) => {
       series.visualOrder = orderMap[series.key] ?? 0;
@@ -416,21 +448,29 @@ export default class Stack {
    * @param slice - A slice of data that matches properties with the original data
    *                for the stack (the same encodings will be used).
    */
-  stack = (slice: any[]): KeyedStackDatumVertical[] | KeyedStackDatumHorizontal[] => {
+  stack = (
+    slice: any[],
+  ): KeyedStackDatumVertical[] | KeyedStackDatumHorizontal[] => {
     // First table it
     const table = this.#tabulate(slice);
 
     // Then stack it
     const stack = indicesToProperties(
       this.#stacker(table).sort((a, b) => a.index - b.index),
-      this.direction === 'vertical'
+      this.direction === 'vertical',
     );
 
     // Finally flatten it ([ [{}], [{}], [{}] ] -> [{}, {}, {}] ])
     // These two mappers are identical, but they are typed differently to prevent the eventual map
     // from being typed as (StackSeriesVertical | StackSeriesHorizontal)[]
-    const vMap = (d: StackSeriesVertical): KeyedStackDatumVertical => ({ ...d[0], key: d.key });
-    const hMap = (d: StackSeriesHorizontal): KeyedStackDatumHorizontal => ({ ...d[0], key: d.key });
+    const vMap = (d: StackSeriesVertical): KeyedStackDatumVertical => ({
+      ...d[0]!,
+      key: d.key,
+    });
+    const hMap = (d: StackSeriesHorizontal): KeyedStackDatumHorizontal => ({
+      ...d[0]!,
+      key: d.key,
+    });
     return this.direction === 'vertical'
       ? (stack as StackSeriesVertical[]).map(vMap)
       : (stack as StackSeriesHorizontal[]).map(hMap);

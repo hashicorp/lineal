@@ -1,9 +1,11 @@
 /**
- * Copyright (c) HashiCorp, Inc.
- * SPDX-License-Identifier: MPL-2.0
+ * Copyright IBM Corp. 2020, 2026
  */
 
-import { helper } from '@ember/component/helper';
-import { ScaleUtc, DateScaleConfig } from '../scale';
+import { ScaleUtc } from '../scale.ts';
 
-export default helper((_, hash: DateScaleConfig) => new ScaleUtc(hash));
+import type { DateScaleConfig } from '../scale.ts';
+
+export default function scaleUtc(config: DateScaleConfig) {
+  return new ScaleUtc(config);
+}

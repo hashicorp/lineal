@@ -1,9 +1,11 @@
 /**
- * Copyright (c) HashiCorp, Inc.
- * SPDX-License-Identifier: MPL-2.0
+ * Copyright IBM Corp. 2020, 2026
  */
 
-import { helper } from '@ember/component/helper';
-import { ScaleIdentity, IdentityScaleConfig } from '../scale';
+import { ScaleIdentity } from '../scale.ts';
 
-export default helper((_, hash: IdentityScaleConfig) => new ScaleIdentity(hash));
+import type { IdentityScaleConfig } from '../scale.ts';
+
+export default function scaleIdentity(config: IdentityScaleConfig) {
+  return new ScaleIdentity(config);
+}

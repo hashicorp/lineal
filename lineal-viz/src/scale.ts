@@ -1,13 +1,12 @@
 /**
- * Copyright (c) HashiCorp, Inc.
- * SPDX-License-Identifier: MPL-2.0
+ * Copyright IBM Corp. 2020, 2026
  */
 
-import 'ember-cached-decorator-polyfill';
 import { tracked, cached } from '@glimmer/tracking';
 import * as scales from 'd3-scale';
-import Bounds from './bounds';
-import CSSRange from './css-range';
+
+import Bounds from './bounds.ts';
+import CSSRange from './css-range.ts';
 
 // TODO: D3 scales are incredibly fluid, but we can
 // still do a better job locking down these types.
@@ -31,6 +30,8 @@ export interface Scale {
   /** Creates a new scale of the same type and same properties. The options Config overrides
    * any set properties (like `Object.assign`). */
   derive: (options: any) => Scale;
+  /** The default tick values for the scale. These are domain values, not range values. */
+  ticks?: any[];
 }
 
 /**
@@ -326,7 +327,9 @@ export class ScalePow extends ScaleContinuous {
    * any set properties (like `Object.assign`).
    */
   derive = (options: ContinuousScaleConfig): ScalePow => {
-    return new ScalePow(Object.assign(this.commonCopyArgs, { exponent: this.exponent }, options));
+    return new ScalePow(
+      Object.assign(this.commonCopyArgs, { exponent: this.exponent }, options),
+    );
   };
 }
 
@@ -351,7 +354,9 @@ export class ScaleLog extends ScaleContinuous {
    * any set properties (like `Object.assign`).
    */
   derive = (options: ContinuousScaleConfig): ScaleLog => {
-    return new ScaleLog(Object.assign(this.commonCopyArgs, { base: this.base }, options));
+    return new ScaleLog(
+      Object.assign(this.commonCopyArgs, { base: this.base }, options),
+    );
   };
 }
 
@@ -548,8 +553,9 @@ export class ScaleDiverging<T> implements Scale {
   /**
    * The underlying d3Scale function before setting parameters.
    */
-  protected scaleFn: (interpolator?: (t: number) => T) => scales.ScaleDiverging<any, any> =
-    scales.scaleDiverging;
+  protected scaleFn: (
+    interpolator?: (t: number) => T,
+  ) => scales.ScaleDiverging<any, any> = scales.scaleDiverging;
 
   constructor({ domain, range, clamp }: DivergingScaleConfig) {
     this.domain = domain;
@@ -641,8 +647,10 @@ export class ScaleDivergingPow<T> extends ScaleDiverging<T> {
   }
 
   @cached get d3Scale() {
-    // @ts-expect-error: Bad type upstream
-    const scale = this.scaleFn(this.range).domain(this.domain).exponent(this.exponent);
+    const scale = this.scaleFn(this.range)
+      .domain(this.domain)
+      // @ts-expect-error: Bad type upstream
+      .exponent(this.exponent);
     if (this.clamp) scale.clamp(true);
     return scale;
   }
@@ -715,9 +723,12 @@ export class ScaleQuantize implements Scale {
   /** Derived number and string arrays to be used to construct a scale (when the domain is a
    * {@link bounds.default | Bounds} or the range is a {@link css-range.default | CSSRange}). */
   get scaleArgs(): [number[], string[]] {
-    const domain: number[] = this.domain instanceof Bounds ? this.domain.bounds : this.domain;
+    const domain: number[] =
+      this.domain instanceof Bounds ? this.domain.bounds : this.domain;
     const range: string[] =
-      this.range instanceof CSSRange ? this.range.spread(this.count ?? domain.length) : this.range;
+      this.range instanceof CSSRange
+        ? this.range.spread(this.count ?? domain.length)
+        : this.range;
     return [domain, range];
   }
 
@@ -745,11 +756,14 @@ export class ScaleQuantize implements Scale {
       Object.assign(
         {
           domain: this.domain.copy(),
-          range: this.range instanceof CSSRange ? this.range.copy() : this.range.slice(),
+          range:
+            this.range instanceof CSSRange
+              ? this.range.copy()
+              : this.range.slice(),
           count: this.count,
         },
-        options
-      )
+        options,
+      ),
     );
   };
 
@@ -819,11 +833,14 @@ export class ScaleQuantile implements Scale {
       Object.assign(
         {
           domain: this.domain.slice(),
-          range: this.range instanceof CSSRange ? this.range.copy() : this.range.slice(),
+          range:
+            this.range instanceof CSSRange
+              ? this.range.copy()
+              : this.range.slice(),
           count: this.count,
         },
-        options
-      )
+        options,
+      ),
     );
   };
 }
@@ -851,7 +868,9 @@ export class ScaleThreshold implements Scale {
    */
   @cached get d3Scale() {
     const range: string[] =
-      this.range instanceof CSSRange ? this.range.spread(this.domain.length + 1) : this.range;
+      this.range instanceof CSSRange
+        ? this.range.spread(this.domain.length + 1)
+        : this.range;
     return scales.scaleThreshold(range).domain(this.domain);
   }
 
@@ -871,10 +890,13 @@ export class ScaleThreshold implements Scale {
       Object.assign(
         {
           domain: this.domain.slice(),
-          range: this.range instanceof CSSRange ? this.range.copy() : this.range.slice(),
+          range:
+            this.range instanceof CSSRange
+              ? this.range.copy()
+              : this.range.slice(),
         },
-        options
-      )
+        options,
+      ),
     );
   };
 }
@@ -905,9 +927,10 @@ export class ScaleOrdinal implements Scale {
   @cached get d3Scale() {
     // TODO: Return to instanceof checks when https://github.com/ef4/ember-auto-import/pull/512 is released.
     const range: string[] =
-      this.range.constructor.name === 'CSSRange' || this.range instanceof CSSRange
+      this.range.constructor.name === 'CSSRange' ||
+      this.range instanceof CSSRange
         ? (this.range as CSSRange).spread(this.domain.length)
-        : (this.range as string[]);
+        : this.range;
     const scale = scales.scaleOrdinal(range).domain(this.domain);
 
     if (this.unknown != null) {
@@ -933,11 +956,14 @@ export class ScaleOrdinal implements Scale {
       Object.assign(
         {
           domain: this.domain.slice(),
-          range: this.range instanceof CSSRange ? this.range.copy() : this.range.slice(),
+          range:
+            this.range instanceof CSSRange
+              ? this.range.copy()
+              : this.range.slice(),
           unknown: this.unknown,
         },
-        options
-      )
+        options,
+      ),
     );
   };
 }
@@ -986,8 +1012,8 @@ export class ScaleIdentity implements Scale {
         {
           range: this.range.slice(),
         },
-        options
-      )
+        options,
+      ),
     );
   };
 
@@ -1050,7 +1076,8 @@ export class ScaleBand implements Scale {
    * The final d3Scale used for computation.
    */
   @cached get d3Scale() {
-    const range: number[] = this.range instanceof Bounds ? this.range.bounds : this.range;
+    const range: number[] =
+      this.range instanceof Bounds ? this.range.bounds : this.range;
     return scales
       .scaleBand(range)
       .domain(this.domain)
@@ -1143,7 +1170,8 @@ export class ScalePoint implements Scale {
    * The final d3Scale used for computation.
    */
   @cached get d3Scale() {
-    const range: number[] = this.range instanceof Bounds ? this.range.bounds : this.range;
+    const range: number[] =
+      this.range instanceof Bounds ? this.range.bounds : this.range;
     return scales
       .scalePoint(range)
       .domain(this.domain)
@@ -1186,8 +1214,8 @@ export class ScalePoint implements Scale {
           align: this.align,
           padding: this.padding,
         },
-        options
-      )
+        options,
+      ),
     );
   };
 }

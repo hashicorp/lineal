@@ -1,24 +1,23 @@
+/**
+ * This tsconfig is not used for publishing.
+ * It's only for the local editing experience
+ * (and linting)
+ */
 {
-  "compilerOptions": {
-    "target": "ESNext",
-    "module": "es2015",
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "inlineSourceMap": true,
-    "inlineSources": true,
-    "moduleResolution": "node",
-    "experimentalDecorators": true,
-    "strict": true,
-    "declaration": true
-  },
+  "extends": "@ember/app-tsconfig",
   "include": [
     "src/**/*",
-    "types/**/*"
+    "tests/**/*",
+    "unpublished-development-types/**/*",
+    "demo-app/**/*"
   ],
-  "glint": {
-    "environment": "ember-loose",
-    "transform": {
-      "include": ["src/**"]
-    }
+  "compilerOptions": {
+    "rootDir": ".",
+    "types": [
+      "ember-source/types",
+      "vite/client",
+      "@embroider/core/virtual",
+      "@glint/ember-tsc/types"
+    ]
   }
 }

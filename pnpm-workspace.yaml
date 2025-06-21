@@ -1,0 +1,24 @@
+packages:
+  - docs
+  - lineal-viz
+
+autoInstallPeers: true
+
+dedupeInjectedDeps: true
+
+dedupePeerDependents: true
+
+injectWorkspacePackages: true
+
+onlyBuiltDependencies:
+  - core-js
+  - esbuild
+
+publicHoistPattern:
+  - ember-source
+
+resolutionMode: highest
+
+resolvePeersFromWorkspaceRoot: false
+
+verifyDepsBeforeRun: install

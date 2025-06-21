@@ -1,6 +1,5 @@
 /**
- * Copyright (c) HashiCorp, Inc.
- * SPDX-License-Identifier: MPL-2.0
+ * Copyright IBM Corp. 2020, 2026
  */
 
 interface Rect {
@@ -41,7 +40,11 @@ const arc = (rx: number, ry: number, hDir: number, vDir: number) =>
  * @param safe - When true, radii are clipped to never exceed width/height.
  * @returns - A valid SVG path string (to use as a `d` attribute value)
  */
-export function roundedRect(rect: Rect, radii: BorderRadius, safe = false): string {
+export function roundedRect(
+  rect: Rect,
+  radii: BorderRadius,
+  safe = false,
+): string {
   let rtrx = radii.topRight;
   let rbrx = radii.bottomRight;
   let rblx = radii.bottomLeft;

@@ -1,9 +1,9 @@
 /**
- * Copyright (c) HashiCorp, Inc.
- * SPDX-License-Identifier: MPL-2.0
+ * Copyright IBM Corp. 2020, 2026
  */
 
-import { helper } from '@ember/component/helper';
-import { Scale } from '../scale';
+import type { Scale } from '../scale.ts';
 
-export default helper(([scale]: [Scale], config: object) => scale.derive(config));
+export default function scaleFnDerive(scale: Scale, config: object) {
+  return scale.derive(config);
+}

@@ -1,9 +1,11 @@
 /**
- * Copyright (c) HashiCorp, Inc.
- * SPDX-License-Identifier: MPL-2.0
+ * Copyright IBM Corp. 2020, 2026
  */
 
-import { helper } from '@ember/component/helper';
-import { ScaleLog, LogScaleConfig } from '../scale';
+import { ScaleLog } from '../scale.ts';
 
-export default helper((_, hash: LogScaleConfig) => new ScaleLog(hash));
+import type { LogScaleConfig } from '../scale.ts';
+
+export default function scaleLog(config: LogScaleConfig) {
+  return new ScaleLog(config);
+}

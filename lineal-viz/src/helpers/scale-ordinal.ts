@@ -1,9 +1,11 @@
 /**
- * Copyright (c) HashiCorp, Inc.
- * SPDX-License-Identifier: MPL-2.0
+ * Copyright IBM Corp. 2020, 2026
  */
 
-import { helper } from '@ember/component/helper';
-import { ScaleOrdinal, OrdinalScaleConfig } from '../scale';
+import { ScaleOrdinal } from '../scale.ts';
 
-export default helper((_, hash: OrdinalScaleConfig) => new ScaleOrdinal(hash));
+import type { OrdinalScaleConfig } from '../scale.ts';
+
+export default function scaleOrdinal(config: OrdinalScaleConfig) {
+  return new ScaleOrdinal(config);
+}

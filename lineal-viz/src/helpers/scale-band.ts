@@ -1,9 +1,11 @@
 /**
- * Copyright (c) HashiCorp, Inc.
- * SPDX-License-Identifier: MPL-2.0
+ * Copyright IBM Corp. 2020, 2026
  */
 
-import { helper } from '@ember/component/helper';
-import { ScaleBand, BandScaleConfig } from '../scale';
+import { ScaleBand } from '../scale.ts';
 
-export default helper((_, hash: BandScaleConfig) => new ScaleBand(hash));
+import type { BandScaleConfig } from '../scale.ts';
+
+export default function scaleBand(config: BandScaleConfig) {
+  return new ScaleBand(config);
+}
