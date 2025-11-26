@@ -6,13 +6,13 @@
 import Component from '@glimmer/component';
 import { cached } from '@glimmer/tracking';
 import { merge } from 'd3-array';
-import { Accessor, Encoding } from '../../../encoding';
-import { Scale, ScaleLinear, ScaleOrdinal } from '../../../scale';
-import CSSRange from '../../../css-range';
-import { qualifyScale, scaleFrom } from '../../../utils/mark-utils';
-import { cssFourPropParse } from '../../../utils/css-four-prop-parse';
-import { roundedRect } from '../../../utils/rounded-rect';
-import Stack from '../../../transforms/stack';
+import { Accessor, Encoding } from '../../encoding';
+import { Scale, ScaleLinear, ScaleOrdinal } from '../../scale';
+import CSSRange from '../../css-range';
+import { qualifyScale, scaleFrom } from '../../utils/mark-utils';
+import { cssFourPropParse } from '../../utils/css-four-prop-parse';
+import { roundedRect } from '../../utils/rounded-rect';
+import Stack from '../../transforms/stack';
 
 export interface BarsArgs {
   data: any[];

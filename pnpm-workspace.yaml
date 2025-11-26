@@ -1,0 +1,29 @@
+packages:
+  - lineal-viz
+  - test-app
+  - docs
+
+# super strict mode
+autoInstallPeers: false # we need to enable this this at some point
+strictPeerDependencies: true
+resolvePeersFromWorkspaceRoot: false
+
+# Optimizations
+# Less strict, but required for tooling to not barf on duplicate peer trees.
+# (many libraries declare the same peers, which resolve to the same versions)
+dedupeInjectedDeps: true
+dedupePeerDependents: true
+injectWorkspacePackages: true
+publicHoistPattern:
+  - ember-source
+
+# Compatibility
+# highest is what everyone is used to, but
+# not ensuring folks are actually compatible with declared ranges.
+resolutionMode: highest
+
+# Misc
+verifyDepsBeforeRun: install # always verify deps before running any scripts
+
+overrides:
+  aria-query: '5.1.3'

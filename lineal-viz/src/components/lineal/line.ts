@@ -6,10 +6,10 @@
 import Component from '@glimmer/component';
 import { cached } from '@glimmer/tracking';
 import { line } from 'd3-shape';
-import { Scale, ScaleLinear } from '../../../scale';
-import { Accessor, Encoding } from '../../../encoding';
-import { curveFor, CurveArgs } from '../../../utils/curves';
-import { scaleFrom, qualifyScale } from '../../../utils/mark-utils';
+import { Scale, ScaleLinear } from '../../scale';
+import { Accessor, Encoding } from '../../encoding';
+import { curveFor, CurveArgs } from '../../utils/curves';
+import { scaleFrom, qualifyScale } from '../../utils/mark-utils';
 
 export interface LineArgs {
   data: any[];

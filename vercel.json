@@ -1,16 +1,34 @@
 {
   "framework": "ember",
   "outputDirectory": "docs-dist",
-  "installCommand": "yarn",
-  "buildCommand": "yarn build:docs && yarn build:tsdocs && yarn publish:docs",
-  "rewrites": [
-    { "source": "/:path((?!tsdocs|assets/).*)", "destination": "/index.html" }
-  ],
+  "installCommand": "pnpm install",
+  "buildCommand": "pnpm build:docs && pnpm build:tsdocs && pnpm publish:docs",
+  "rewrites": [{ "source": "/:path((?!tsdocs|assets/).*)", "destination": "/index.html" }],
   "redirects": [
-    { "source": "/docs/dev-logs/a-dev-log-one", "destination": "/docs/dev-logs/one", "permanent": true },
-    { "source": "/docs/dev-logs/b-dev-log-two", "destination": "/docs/dev-logs/two", "permanent": true },
-    { "source": "/docs/dev-logs/c-dev-log-three", "destination": "/docs/dev-logs/three", "permanent": true },
-    { "source": "/docs/dev-logs/d-dev-log-four", "destination": "/docs/dev-logs/four", "permanent": true },
-    { "source": "/docs/dev-logs/e-dev-log-five", "destination": "/docs/dev-logs/five", "permanent": true }
+    {
+      "source": "/docs/dev-logs/a-dev-log-one",
+      "destination": "/docs/dev-logs/one",
+      "permanent": true
+    },
+    {
+      "source": "/docs/dev-logs/b-dev-log-two",
+      "destination": "/docs/dev-logs/two",
+      "permanent": true
+    },
+    {
+      "source": "/docs/dev-logs/c-dev-log-three",
+      "destination": "/docs/dev-logs/three",
+      "permanent": true
+    },
+    {
+      "source": "/docs/dev-logs/d-dev-log-four",
+      "destination": "/docs/dev-logs/four",
+      "permanent": true
+    },
+    {
+      "source": "/docs/dev-logs/e-dev-log-five",
+      "destination": "/docs/dev-logs/five",
+      "permanent": true
+    }
   ]
 }

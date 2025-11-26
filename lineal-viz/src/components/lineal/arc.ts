@@ -6,7 +6,7 @@
 import Component from '@glimmer/component';
 import { cached } from '@glimmer/tracking';
 import { arc } from 'd3-shape';
-import parseAngle from '../../../utils/parse-angle';
+import parseAngle from '../../utils/parse-angle';
 
 export interface ArcArgs {
   innerRadius?: number;

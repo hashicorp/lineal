@@ -5,7 +5,7 @@
 
 import Component from '@glimmer/component';
 import { cached } from '@glimmer/tracking';
-import { Scale } from '../../../scale';
+import { Scale } from '../../scale';
 
 export enum Direction {
   Vertical = 'vertical',

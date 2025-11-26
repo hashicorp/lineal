@@ -5,11 +5,11 @@
 
 import Component from '@glimmer/component';
 import { cached } from '@glimmer/tracking';
-import { Accessor, Encoding } from '../../../encoding';
-import { Scale, ScaleLinear } from '../../../scale';
-import { qualifyScale, scaleFrom } from '../../../utils/mark-utils';
-import { cssFourPropParse } from '../../../utils/css-four-prop-parse';
-import { roundedRect } from '../../../utils/rounded-rect';
+import { Accessor, Encoding } from '../../encoding';
+import { Scale, ScaleLinear } from '../../scale';
+import { qualifyScale, scaleFrom } from '../../utils/mark-utils';
+import { cssFourPropParse } from '../../utils/css-four-prop-parse';
+import { roundedRect } from '../../utils/rounded-rect';
 
 export interface BarsArgs {
   data: any[];

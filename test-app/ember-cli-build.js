@@ -13,6 +13,10 @@ module.exports = function (defaults) {
     autoImport: {
       watchDependencies: ['@lineal-viz/lineal'],
     },
+
+    'ember-cli-babel': {
+      enableTypeScriptTransform: true,
+    },
   });
 
   // Use `app.import` to add additional libraries to the generated

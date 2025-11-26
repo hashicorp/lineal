@@ -6,10 +6,10 @@
 import Component from '@glimmer/component';
 import { cached } from '@glimmer/tracking';
 import { pie, PieArcDatum } from 'd3-shape';
-import { Scale, ScaleOrdinal } from '../../../scale';
-import { Accessor, Encoding } from '../../../encoding';
-import CSSRange from '../../../css-range';
-import parseAngle from '../../../utils/parse-angle';
+import { Scale, ScaleOrdinal } from '../../scale';
+import { Accessor, Encoding } from '../../encoding';
+import CSSRange from '../../css-range';
+import parseAngle from '../../utils/parse-angle';
 
 export interface ArcsArgs {
   data: any[];

@@ -13,6 +13,7 @@ export default class PartitioningScaleDemo extends Component {
     const scale = this.args.scale;
 
     if (scale.domain instanceof Bounds && !scale.domain.isValid) {
+      // eslint-disable-next-line ember/no-incorrect-calls-with-inline-anonymous-functions
       scheduleOnce('afterRender', this, () => {
         scale.domain.qualify(this.args.data, 'y');
       });

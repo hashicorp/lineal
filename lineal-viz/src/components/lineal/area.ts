@@ -7,12 +7,12 @@ import Component from '@glimmer/component';
 import { cached } from '@glimmer/tracking';
 import { area, CurveFactory, SeriesPoint } from 'd3-shape';
 import { merge } from 'd3-array';
-import { Scale, ScaleLinear, ScaleOrdinal } from '../../../scale';
-import { Accessor, Encoding } from '../../../encoding';
-import CSSRange from '../../../css-range';
-import { curveFor, CurveArgs } from '../../../utils/curves';
-import { scaleFrom, qualifyScale } from '../../../utils/mark-utils';
-import Stack, { StackDatumVertical } from '../../../transforms/stack';
+import { Scale, ScaleLinear, ScaleOrdinal } from '../../scale';
+import { Accessor, Encoding } from '../../encoding';
+import CSSRange from '../../css-range';
+import { curveFor, CurveArgs } from '../../utils/curves';
+import { scaleFrom, qualifyScale } from '../../utils/mark-utils';
+import Stack, { StackDatumVertical } from '../../transforms/stack';
 
 type MaybeStackDatum = StackDatumVertical & SeriesPoint<any>;
 

@@ -3,7 +3,6 @@
  * SPDX-License-Identifier: MPL-2.0
  */
 
-import 'ember-cached-decorator-polyfill';
 import { tracked, cached } from '@glimmer/tracking';
 import * as scales from 'd3-scale';
 import Bounds from './bounds';

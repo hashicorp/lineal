@@ -4,7 +4,7 @@
 }}
 
 <div class='demo-chart-with-axes'>
-  <Lineal::Fluid as |width height|>
+  <Lineal::Fluid as |width|>
     {{#let (@scale.derive range=(array 0 width)) as |scale|}}
       <svg width='100%' height='20px' style='overflow:visible'>
         {{#if scale.isValid}}

@@ -5,10 +5,10 @@
 
 import Component from '@glimmer/component';
 import { cached } from '@glimmer/tracking';
-import { Accessor, Encoding } from '../../../encoding';
-import { Scale, ScaleLinear, ScaleOrdinal, ScaleSqrt } from '../../../scale';
-import CSSRange from '../../../css-range';
-import { scaleFrom, qualifyScale } from '../../../utils/mark-utils';
+import { Accessor, Encoding } from '../../encoding';
+import { Scale, ScaleLinear, ScaleOrdinal, ScaleSqrt } from '../../scale';
+import CSSRange from '../../css-range';
+import { scaleFrom, qualifyScale } from '../../utils/mark-utils';
 
 export interface PointsArgs {
   data: any[];

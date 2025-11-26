@@ -5,40 +5,23 @@
   "license": "MPL-2.0",
   "author": "",
   "scripts": {
-    "prepare": "yarn workspace @lineal-viz/lineal run prepare",
-    "start": "npm-run-all --parallel start:*",
-    "start:addon": "yarn workspace @lineal-viz/lineal run start",
-    "start:test-app": "yarn workspace test-app run start",
-    "start:docs": "yarn workspace docs run start",
-    "build:docs": "yarn workspace docs run build",
-    "build:tsdocs": "yarn workspace @lineal-viz/lineal run tsdocs",
+    "build:docs": "pnpm -F docs build",
+    "build:tsdocs": "pnpm -F @lineal-viz/lineal tsdocs",
+    "lint": "pnpm -r lint",
+    "lint:fix": "pnpm -r lint:fix",
     "publish:docs": "mkdir docs-dist && cp -r docs/dist/* docs-dist/ && cp -r lineal-viz/tsdocs docs-dist/tsdocs",
-    "lint": "npm-run-all --aggregate-output --continue-on-error --parallel \"lint:!(fix)\"",
-    "lint:addon": "yarn workspace @lineal-viz/lineal run lint",
-    "lint:test-app": "yarn workspace test-app run lint",
-    "lint:fix": "npm-run-all --aggregate-output --continue-on-error --parallel lint:fix:*",
-    "lint:fix:addon": "yarn workspace @lineal-viz/lineal run lint:fix",
-    "lint:fix:test-app": "yarn workspace test-app run lint:fix",
-    "test": "npm-run-all --aggregate-output --continue-on-error --parallel \"test:!(watch)\"",
-    "test:watch": "npm-run-all --aggregate-output --continue-on-error --parallel test:watch:*",
-    "test:test-app": "yarn workspace test-app run test",
-    "test:watch:test-app": "yarn workspace test-app run test:watch",
-    "test:watch:addon": "yarn workspace @lineal-viz/lineal run start",
-    "release": "yarn changeset publish"
+    "release": "pnpm changeset publish"
+  },
+  "dependencies": {
+    "@changesets/cli": "^2.24.4"
   },
   "devDependencies": {
     "npm-run-all": "^4.1.5",
     "prettier": "^2.5.1"
   },
-  "workspaces": [
-    "lineal-viz",
-    "test-app",
-    "docs"
-  ],
-  "dependencies": {
-    "@changesets/cli": "^2.24.4"
-  },
-  "resolutions": {
-    "aria-query": "5.1.3"
+  "packageManager": "pnpm@10.23.0+sha512.21c4e5698002ade97e4efe8b8b4a89a8de3c85a37919f957e7a0f30f38fbc5bbdd05980ffe29179b2fb6e6e691242e098d945d1601772cad0fef5fb6411e2a4b",
+  "engines": {
+    "node": ">= 24",
+    "pnpm": ">= 10"
   }
 }
