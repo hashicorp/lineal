@@ -2,5 +2,10 @@
   "framework": "ember",
   "outputDirectory": "docs/dist",
   "installCommand": "pnpm install",
-  "buildCommand": "pnpm -F docs build"
+  "buildCommand": "pnpm -F docs build",
+  "git": {
+    "deploymentEnabled": {
+      "dist": false
+    }
+  }
 }
