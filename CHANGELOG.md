@@ -1,4 +1,4 @@
-# @lineal-viz/lineal
+# Changelog
 
 ## 0.5.1
 
