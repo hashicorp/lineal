@@ -1,4 +1,8 @@
 {
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hashicorp/lineal"
+  },
   "scripts": {
     "build:tsdocs": "pnpm -F @lineal-viz/lineal tsdocs",
     "lint": "pnpm -r lint",
