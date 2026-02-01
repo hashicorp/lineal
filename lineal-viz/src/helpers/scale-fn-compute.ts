@@ -1,9 +1,9 @@
 /**
- * Copyright (c) HashiCorp, Inc.
- * SPDX-License-Identifier: MPL-2.0
+ * Copyright IBM Corp. 2020, 2026
  */
 
-import { helper } from '@ember/component/helper';
-import { Scale } from '../scale';
+import type { Scale } from '../scale.ts';
 
-export default helper(([scale, value]: [Scale, any]) => scale.compute(value));
+export default function scaleFnCompute(scale: Scale, value: any) {
+  return scale.compute(value);
+}

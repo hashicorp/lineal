@@ -1,20 +1,26 @@
 /**
- * Copyright (c) HashiCorp, Inc.
- * SPDX-License-Identifier: MPL-2.0
+ * Copyright IBM Corp. 2020, 2026
  */
 
 import { scheduleOnce } from '@ember/runloop';
-import Component from '@glimmer/component';
-import Bounds from '../bounds';
-import { Scale, ScaleIdentity } from '../scale';
-import { Accessor, Encoding } from '../encoding';
+
+import Bounds from '../bounds.ts';
+import { ScaleIdentity } from '../scale.ts';
+import { Encoding } from '../encoding.ts';
+
+import type { Scale } from '../scale.ts';
+import type { Accessor } from '../encoding.ts';
 
 /**
  * A valid Mark component must have a `data` arg.
  */
-export interface MarkArgs {
-  data: any[];
+export interface MarkSignature {
+  Args: {
+    data?: any[];
+  };
 }
+
+type MarkComponent = { args: { data?: any[] } };
 
 /**
  * This is used internally by Marks to qualify a scale with the data arg
@@ -29,11 +35,11 @@ export interface MarkArgs {
  *           part of scale qualification)
  */
 export function qualifyScale(
-  context: Component<MarkArgs>,
+  context: MarkComponent,
   scale: Scale,
   encoding: Encoding,
   field: string,
-  data?: any[]
+  data?: any[],
 ): void {
   if (scale instanceof ScaleIdentity) return;
 
@@ -48,12 +54,13 @@ export function qualifyScale(
     (scale.domain.__temp_duck_type_bounds || scale.domain instanceof Bounds) &&
     !scale.domain.isValid
   ) {
+    // eslint-disable-next-line ember/no-runloop
     scheduleOnce('afterRender', context, afterRender);
   }
 
   if (scale.range instanceof Bounds && !scale.range.isValid) {
     throw new Error(
-      `Qualifying @${field}Scale: Cannot determine the bounds for a range without a bounding box for the mark.`
+      `Qualifying @${field}Scale: Cannot determine the bounds for a range without a bounding box for the mark.`,
     );
   }
 }
@@ -67,7 +74,10 @@ export function qualifyScale(
  * @param scale - A scale, typically from a Mark component's args
  * @returns A scale, either the provided scale or a ScaleIdentity
  */
-export function scaleFrom(arg: Accessor, scale?: Scale): ScaleIdentity | Scale | undefined {
+export function scaleFrom(
+  arg: Accessor,
+  scale?: Scale,
+): ScaleIdentity | Scale | undefined {
   if (typeof arg === 'number' && scale == null) {
     return new ScaleIdentity({ range: arg });
   }

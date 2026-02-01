@@ -1,9 +1,11 @@
 /**
- * Copyright (c) HashiCorp, Inc.
- * SPDX-License-Identifier: MPL-2.0
+ * Copyright IBM Corp. 2020, 2026
  */
 
-import { helper } from '@ember/component/helper';
-import { ScalePow, PowScaleConfig } from '../scale';
+import { ScalePow } from '../scale.ts';
 
-export default helper((_, hash: PowScaleConfig) => new ScalePow(hash));
+import type { PowScaleConfig } from '../scale.ts';
+
+export default function scalePow(config: PowScaleConfig) {
+  return new ScalePow(config);
+}

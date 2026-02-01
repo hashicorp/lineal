@@ -4,15 +4,27 @@ Lineal is a template-first data visualization toolkit for Ember. Instead of offe
 
 ## Compatibility
 
-* Ember.js v3.24 or above
-* Embroider or ember-auto-import v2
+- Ember.js v5.8 or above
+- Embroider or ember-auto-import v2
 
-## Install
+## Installation
 
-```shell-session
+```bash
 ember install @lineal-viz/lineal
 ```
 
 ## Read the docs
 
 [Lineal documentation](https://lineal-docs.vercel.app/docs).
+
+## Usage
+
+[Longer description of how to use the addon in apps.]
+
+## Contributing
+
+See the [Contributing](CONTRIBUTING.md) guide for details.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE.md).

@@ -1,9 +1,11 @@
 /**
- * Copyright (c) HashiCorp, Inc.
- * SPDX-License-Identifier: MPL-2.0
+ * Copyright IBM Corp. 2020, 2026
  */
 
-import { helper } from '@ember/component/helper';
-import { ScaleQuantize, QuantizeScaleConfig } from '../scale';
+import { ScaleQuantize } from '../scale.ts';
 
-export default helper((_, hash: QuantizeScaleConfig) => new ScaleQuantize(hash));
+import type { QuantizeScaleConfig } from '../scale.ts';
+
+export default function scaleQuantize(config: QuantizeScaleConfig) {
+  return new ScaleQuantize(config);
+}

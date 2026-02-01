@@ -1,16 +1,16 @@
 /**
- * Copyright (c) HashiCorp, Inc.
- * SPDX-License-Identifier: MPL-2.0
+ * Copyright IBM Corp. 2020, 2026
  */
 
-export type Accessor = (d: any) => any;
+export type AccessorFn = (d: any) => any;
+export type Accessor = string | number | AccessorFn;
 
 /**
  * A utility class that contains an accessor function
  * and metadata.
  *
  * Encodings are used by marks to model what properties of
- * a mark can be "encoded" (derivded from a scale and a dataset).
+ * a mark can be "encoded" (derived from a scale and a dataset).
  */
 export class Encoding {
   /** The name of a the field when the Encoding is using a field accessor;
@@ -18,7 +18,7 @@ export class Encoding {
   field?: string;
   /** The accessor function that will return the appropriate value from
    * a dataset for the encoding. */
-  accessor: Accessor;
+  accessor: AccessorFn;
 
   /**
    * Creates an Accessor and captures metadata.
@@ -43,7 +43,7 @@ export class Encoding {
    *                   When the accessor is a `string`, the string is a field accessor.
    *                   When the accessor is a `number`, the accessor always returns that number.
    */
-  constructor(accessor: string | number | Accessor) {
+  constructor(accessor: Accessor) {
     if (typeof accessor === 'string') {
       this.field = accessor;
       this.accessor = (d: any) => d[accessor];

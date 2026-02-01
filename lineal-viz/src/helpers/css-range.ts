@@ -1,9 +1,9 @@
 /**
- * Copyright (c) HashiCorp, Inc.
- * SPDX-License-Identifier: MPL-2.0
+ * Copyright IBM Corp. 2020, 2026
  */
 
-import { helper } from '@ember/component/helper';
-import CSSRange from '../css-range';
+import CSSRange from '../css-range.ts';
 
-export default helper(([name]: [string]) => new CSSRange(name));
+export default function cssRange(name: string) {
+  return new CSSRange(name);
+}

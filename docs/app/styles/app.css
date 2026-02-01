@@ -1,9 +1,10 @@
 /**
- * Copyright (c) HashiCorp, Inc.
- * SPDX-License-Identifier: MPL-2.0
+ * Copyright IBM Corp. 2020, 2026
  */
 
-@import './highlight.css';
+/* stylelint-disable no-descending-specificity -- complex documentation stylesheet with deep nesting */
+
+@import url("./highlight.css");
 
 :root {
   --c-base-0: #fff1d9;
@@ -59,8 +60,7 @@ pre code.hljs {
 
 .docs {
   display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
+  flex-flow: row nowrap;
   gap: 15px;
 
   > nav {
@@ -105,7 +105,7 @@ pre code.hljs {
           text-decoration: none;
 
           &::after {
-            content: ' ';
+            content: " ";
             position: absolute;
             display: block;
             left: 0;
@@ -149,10 +149,11 @@ pre code.hljs {
 
       .brand {
         font-size: 60px;
+
         > p {
           font-size: 22px;
           font-style: italic;
-          font-weight: light;
+          font-weight: 300;
           margin-top: 0;
         }
       }
@@ -164,12 +165,14 @@ pre code.hljs {
         font-weight: bold;
       }
 
+      /* stylelint-disable-next-line selector-class-pattern -- docfy external library */
       .docfy-demo__snippet > pre {
         padding: 0;
         background: inherit;
         font-weight: inherit;
       }
 
+      /* stylelint-disable-next-line selector-class-pattern -- docfy external library */
       .docfy-demo__example {
         position: relative;
         padding: 15px;
@@ -179,17 +182,16 @@ pre code.hljs {
 
         &::before {
           --spacing: -9px;
-          content: ' ';
+
+          content: " ";
           position: absolute;
-          left: var(--spacing);
-          right: var(--spacing);
-          bottom: var(--spacing);
-          top: var(--spacing);
+          inset: var(--spacing);
           border: 4px solid var(--c-line);
           pointer-events: none;
         }
       }
 
+      /* stylelint-disable-next-line selector-class-pattern -- docfy external library */
       .docfy-demo__snippets__tabs {
         display: flex;
         flex-wrap: nowrap;
@@ -227,7 +229,7 @@ pre code.hljs {
 
         &::before {
           position: absolute;
-          content: '#';
+          content: "#";
           color: var(--c-base-2);
           width: 1.5ch;
           transform: translateX(-100%);
@@ -236,6 +238,7 @@ pre code.hljs {
         &:hover,
         &:focus {
           text-decoration: underline;
+
           &::before {
             color: var(--c-line);
           }
@@ -293,18 +296,22 @@ pre code.hljs {
   color: var(--c-red);
   fill: var(--c-red);
 }
+
 .nominal-2 {
   color: var(--c-yellow);
   fill: var(--c-yellow);
 }
+
 .nominal-3 {
   color: var(--c-green);
   fill: var(--c-green);
 }
+
 .nominal-4 {
   color: var(--c-blue);
   fill: var(--c-blue);
 }
+
 .nominal-5 {
   color: var(--c-purple);
   fill: var(--c-purple);
@@ -369,7 +376,7 @@ pre code.hljs {
     }
   }
 
-  .gridlines line {
+  .grid-lines line {
     stroke-dasharray: 5 5;
     stroke: var(--c-base);
     opacity: 0.9;
@@ -463,7 +470,7 @@ dl {
   z-index: 100;
 
   &::before {
-    content: ' ';
+    content: " ";
     position: absolute;
     bottom: -2px;
     left: -2px;
@@ -561,7 +568,7 @@ dl {
     fill: transparent;
   }
 
-  .gridlines line {
+  .grid-lines line {
     stroke-dasharray: 5 5;
     stroke-width: 2;
     stroke: var(--c-base);
@@ -586,28 +593,36 @@ dl {
 .ordinal {
   fill: gray;
 }
+
 .ordinal-1 {
   fill: var(--c-green-line);
 }
+
 .ordinal-2 {
   fill: var(--c-yellow-line);
 }
+
 .ordinal-3 {
   fill: var(--c-red-line);
 }
+
 .ordinal-4 {
   fill: var(--c-blue-line);
 }
+
 .ordinal-5 {
   fill: #973e6e;
 }
+
 .ordinal-6 {
   fill: #b76a33;
 }
+
 .ordinal-7 {
   fill: #79695f;
 }
 
+/* stylelint-disable-next-line selector-class-pattern -- docfy external library */
 .docfy-demo__example table.heatmap {
   margin-top: 0;
 
@@ -615,6 +630,7 @@ dl {
     font-size: 12px;
     text-align: center;
     padding: 8px 3px;
+    /* stylelint-disable-next-line color-function-notation, color-function-alias-notation -- hsla needed for calc */
     background-color: hsla(
       180deg,
       calc(1% * var(--v, 0)),
@@ -700,13 +716,15 @@ blockquote {
   }
 
   .fruit-apple {
-    --fruit: '🍎';
+    --fruit: "🍎";
   }
+
   .fruit-banana {
-    --fruit: '🍌';
+    --fruit: "🍌";
   }
+
   .fruit-grapes {
-    --fruit: '🍇';
+    --fruit: "🍇";
   }
 }
 
@@ -753,9 +771,10 @@ blockquote {
 
   li {
     vertical-align: center;
+
     &::before {
       display: inline-block;
-      content: ' ';
+      content: " ";
       background: currentcolor;
       width: 15px;
       height: 15px;
@@ -763,47 +782,58 @@ blockquote {
       margin-right: 0.5ch;
       vertical-align: -2px;
     }
+
     span {
       color: var(--c-line);
     }
   }
 }
+
 .accent {
   font-weight: bold;
   color: var(--c-blue-line);
 }
+
 .energy-mix {
   fill: #f00;
   color: #f00;
 }
+
 .energy-mix-1 {
   fill: #614418;
   color: #614418;
 }
+
 .energy-mix-2 {
   fill: #2f3031;
   color: #2f3031;
 }
+
 .energy-mix-3 {
   fill: #847957;
   color: #847957;
 }
+
 .energy-mix-4 {
   fill: #3e9727;
   color: #3e9727;
 }
+
 .energy-mix-5 {
   fill: #67aed6;
   color: #67aed6;
 }
+
 .energy-mix-6 {
   fill: #7fd2be;
   color: #7fd2be;
 }
+
 .energy-mix-7 {
   fill: #f0cc4d;
   color: #f0cc4d;
 }
+
 .energy-mix-8 {
   fill: #fb9ce0;
   color: #fb9ce0;
@@ -821,6 +851,7 @@ blockquote {
   stroke-width: 2;
   stroke: var(--c-blue-line);
 }
+
 .energy-streamgraph .annotation text {
   font-weight: bold;
   fill: var(--c-blue-line);
@@ -833,7 +864,7 @@ blockquote {
   dt,
   dd {
     all: unset;
-    margin: 0 0 5px 0;
+    margin: 0 0 5px;
   }
 
   dt {
@@ -848,6 +879,7 @@ blockquote {
 
     > div {
       width: calc(1px * var(--w));
+      /* stylelint-disable-next-line value-keyword-case -- currentColor is valid CSS */
       background: currentColor;
     }
   }

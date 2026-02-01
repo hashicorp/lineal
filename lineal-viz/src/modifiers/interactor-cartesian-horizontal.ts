@@ -1,12 +1,14 @@
 /**
- * Copyright (c) HashiCorp, Inc.
- * SPDX-License-Identifier: MPL-2.0
+ * Copyright IBM Corp. 2020, 2026
  */
 
 import { modifier } from 'ember-modifier';
-import { Scale } from '../scale';
-import { Accessor, Encoding } from '../encoding';
 import { bisector } from 'd3-array';
+
+import { Encoding } from '../encoding.ts';
+
+import type { Accessor } from '../encoding.ts';
+import type { Scale } from '../scale.ts';
 
 /**
  * The available arguments to the `interactor-cartesian-horizontal` modifier.
@@ -60,11 +62,20 @@ export default modifier(
   (
     element: HTMLElement,
     _,
-    { data, xScale, x, y, onSeek, onSelect, distanceThreshold = 10 }: InteractorArgs
+    {
+      data,
+      xScale,
+      x,
+      y,
+      onSeek,
+      onSelect,
+      distanceThreshold = 10,
+    }: InteractorArgs,
   ) => {
     const accessors: Accessor[] = y instanceof Array ? y : [y];
     const xEnc = new Encoding(x);
     const yEncs = accessors.map((y) => new Encoding(y));
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     const bis = bisector((d) => xEnc.accessor(d)).left;
 
     let activeData: ActiveData | null = null;
@@ -78,46 +89,65 @@ export default modifier(
       const dx = xScale.d3Scale.invert(pt);
 
       // For each y encoding, find the nearest datum to the data-space value
-      const activeData: ActiveDatum[] = yEncs.reduce((agg: ActiveDatum[], encoding) => {
-        // Only bisect data that has values for the current y encoding
-        const subjectData = data.filter((d) => encoding.accessor(d) != null);
+      const activeData: ActiveDatum[] = yEncs.reduce(
+        (agg: ActiveDatum[], encoding) => {
+          // Only bisect data that has values for the current y encoding
+          const subjectData = data.filter((d) => encoding.accessor(d) != null);
 
-        if (!subjectData.length) return agg;
+          if (!subjectData.length) return agg;
 
-        const index = bis(subjectData, dx, 1);
-        const dLeft = subjectData[index - 1];
-        const dRight = subjectData[index];
+          const index = bis(subjectData, dx, 1);
+          const dLeft = subjectData[index - 1];
+          const dRight = subjectData[index];
 
-        let datum;
+          let datum;
 
-        // If there is only one datum, it's the active datum
-        if (dLeft && !dRight) {
-          datum = dLeft;
-        } else {
-          // Pick the closer datum
-          datum = dx - xEnc.accessor(dLeft) > xEnc.accessor(dRight) - dx ? dRight : dLeft;
-        }
+          // If there is only one datum, it's the active datum
+          if (dLeft && !dRight) {
+            datum = dLeft;
+          } else {
+            // Pick the closer datum
+            datum =
+              dx - xEnc.accessor(dLeft) > xEnc.accessor(dRight) - dx
+                ? dRight
+                : dLeft;
+          }
 
-        // Collect all data with the same x value as the active datum (generally means a
-        // multi-series dataset).
-        const matchVal = xEnc.accessor(datum);
-        const relatedData = subjectData.filter((d) => xEnc.accessor(d) === matchVal);
+          // Collect all data with the same x value as the active datum (generally means a
+          // multi-series dataset).
+          const matchVal = xEnc.accessor(datum);
+          const relatedData = subjectData.filter(
+            (d) => xEnc.accessor(d) === matchVal,
+          );
 
-        agg.push(...relatedData.map((datum) => ({ encoding, datum })));
-        return agg;
-      }, []);
+          agg.push(...relatedData.map((datum) => ({ encoding, datum })));
+          return agg;
+        },
+        [],
+      );
 
       // Now determine which of the active data is closest
       const closestDatum = activeData
         .slice()
         .sort(
-          (a, b) => Math.abs(xEnc.accessor(a.datum) - dx) - Math.abs(xEnc.accessor(b.datum) - dx)
+          (a, b) =>
+            Math.abs(xEnc.accessor(a.datum) - dx) -
+            Math.abs(xEnc.accessor(b.datum) - dx),
         )[0];
 
+      // Return null if no closest datum found
+      if (!closestDatum) {
+        return null;
+      }
+
       // Finally filter out active data based on a pixel-space distance threshold
-      const dist: number = Math.abs(xScale.compute(xEnc.accessor(closestDatum.datum)) - pt);
+      const dist: number = Math.abs(
+        xScale.compute(xEnc.accessor(closestDatum.datum)) - pt,
+      );
       const filteredData = activeData.filter(
-        (d) => Math.abs(xScale.compute(xEnc.accessor(d.datum)) - pt) < dist + distanceThreshold
+        (d) =>
+          Math.abs(xScale.compute(xEnc.accessor(d.datum)) - pt) <
+          dist + distanceThreshold,
       );
 
       return {
@@ -171,7 +201,9 @@ export default modifier(
       }
 
       if (key === NavKey.Right || key === NavKey.Left) {
-        const points = getDataAtPoint(xScale.compute(xEnc.accessor(data[seekIndex])));
+        const points = getDataAtPoint(
+          xScale.compute(xEnc.accessor(data[seekIndex])),
+        );
         setState(points);
         onSeek?.(points);
       }
@@ -189,5 +221,4 @@ export default modifier(
       element.removeEventListener('keydown', keyControls);
     };
   },
-  { eager: false }
 );
