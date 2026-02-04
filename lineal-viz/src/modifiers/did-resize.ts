@@ -1,4 +1,9 @@
 /**
+ * Copyright IBM Corp. 2020, 2026
+ * SPDX-License-Identifier: MPL-2.0
+ */
+
+/**
  * did-resize modifier
  *
  * Localized implementation based on ember-resize-modifier by Jordan Hawker.
