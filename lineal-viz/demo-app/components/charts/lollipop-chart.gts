@@ -1,3 +1,8 @@
+/**
+ * Copyright IBM Corp. 2020, 2026
+ * SPDX-License-Identifier: MPL-2.0
+ */
+
 import Component from '@glimmer/component';
 import { cached } from '@glimmer/tracking';
 import { htmlSafe } from '@ember/template';
