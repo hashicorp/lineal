@@ -26,7 +26,7 @@ importers:
         version: 3.22.0
       '@universal-ember/test-support':
         specifier: ^0.5.1
-        version: 0.5.1(@babel/core@7.29.0)(@glint/template@1.7.4)(ember-source@6.10.0(@glimmer/component@2.0.0)(rsvp@4.8.5))(qunit@2.25.0)
+        version: 0.5.1(@babel/core@7.29.0)(@glint/template@1.7.4)(ember-source@6.10.1(@glimmer/component@2.0.0)(rsvp@4.8.5))(qunit@2.25.0)
       change-case:
         specifier: ^5.4.4
         version: 5.4.4
@@ -162,7 +162,7 @@ importers:
         version: 4.0.0(@babel/core@7.29.0)
       ember-load-initializers:
         specifier: ^3.0.1
-        version: 3.0.1(ember-source@6.10.0(@glimmer/component@2.0.0)(rsvp@4.8.5))
+        version: 3.0.1(ember-source@6.10.1(@glimmer/component@2.0.0)(rsvp@4.8.5))
       ember-modifier:
         specifier: ^4.2.2
         version: 4.2.2(@babel/core@7.29.0)
@@ -176,8 +176,8 @@ importers:
         specifier: ^13.1.1
         version: 13.1.1
       ember-source:
-        specifier: ~6.10.0
-        version: 6.10.0(@glimmer/component@2.0.0)(rsvp@4.8.5)
+        specifier: ~6.10.1
+        version: 6.10.1(@glimmer/component@2.0.0)(rsvp@4.8.5)
       ember-style-modifier:
         specifier: ^4.5.1
         version: 4.5.1(@babel/core@7.29.0)(@ember/string@4.0.1)
@@ -345,8 +345,8 @@ importers:
         specifier: ^9.0.4
         version: 9.0.4(@ember/test-helpers@5.4.1(@babel/core@7.29.0)(@glint/template@1.7.4))(@glint/template@1.7.4)(qunit@2.25.0)
       ember-source:
-        specifier: ^6.10.0
-        version: 6.10.0(@glimmer/component@2.0.0)(rsvp@4.8.5)
+        specifier: ^6.10.1
+        version: 6.10.1(@glimmer/component@2.0.0)(rsvp@4.8.5)
       ember-strict-application-resolver:
         specifier: ^0.1.1
         version: 0.1.1(@babel/core@7.29.0)
@@ -3845,8 +3845,8 @@ packages:
     resolution: {integrity: sha512-89oVHVJwmLDvGvAUWgS87KpBoRhy3aZ6U0Ql6HOmU4TrPkyaa8pM0W81wj9cIwjYprcQtN9EwzZMHnq46+oUyw==}
     engines: {node: 8.* || 10.* || >= 12}
 
-  ember-source@6.10.0:
-    resolution: {integrity: sha512-2oCxVajWrOIt2MGZRGLBSBSAO/yM/bHG4+cb1b9DTpbdGKkwHVRqs3XGg8L7HOGseCNMvMdgH4RZW3fqodbgTg==}
+  ember-source@6.10.1:
+    resolution: {integrity: sha512-23tmGxW4Q58nGlz2HxqVeOoMKlT6z9L0f2ELsoLReynybZHE3uPh6NAZ6uGivYOH3K8QCACUItfumut6eCy4qA==}
     engines: {node: '>= 20.19'}
     peerDependencies:
       '@glimmer/component': '>= 1.1.2'
@@ -4581,7 +4581,7 @@ packages:
 
   glob@5.0.15:
     resolution: {integrity: sha512-c9IPMazfRITpmAAKi22dK1VKxGDX9ehhqfABDriL/lzO92xcUKEJPQHrVA/2YHSNFB4iFlykVmWvwo48nr3OxA==}
-    deprecated: Glob versions prior to v9 are no longer supported
+    deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
 
   glob@7.2.3:
     resolution: {integrity: sha512-nFR0zLpU2YCaRxwoCJvL6UvCH2JFyFVIvwTLsIf21AuHlMskA1hhTdk+LlYJtOlYt9v6dvszD2BGRqBL+iQK9Q==}
@@ -4590,6 +4590,7 @@ packages:
   glob@9.3.5:
     resolution: {integrity: sha512-e1LleDykUz2Iu+MTYdkSsuWX8lvAjAcs0Xef0lNIu0S2wOAzuTxCJtcd9S3cijlwYF18EsU3rzb8jPVobxDh9Q==}
     engines: {node: '>=16 || 14 >=14.17'}
+    deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
 
   global-modules@1.0.0:
     resolution: {integrity: sha512-sKzpEkf11GpOFuw0Zzjzmt4B4UZwjOcG757PPvrfhxcLFbq0wpsgpOqxpxtxFiCG4DtG93M6XRVbF2oGdev7bg==}
@@ -6756,6 +6757,11 @@ packages:
 
   semver@7.7.3:
     resolution: {integrity: sha512-SdsKMrI9TdgjdweUSR9MweHA4EJ8YxHn8DFaDisvhVlUOe4BF1tLD7GAj0lIqWVl+dPb/rExr0Btby5loQm20Q==}
+    engines: {node: '>=10'}
+    hasBin: true
+
+  semver@7.7.4:
+    resolution: {integrity: sha512-vFKC2IEtQnVhpT78h1Yp8wzwrf8CM+MzKMHGJZfBtzhZNycRFnXsHk6E5TxIkkMsgNS7mdX3AGB7x2QM2di4lA==}
     engines: {node: '>=10'}
     hasBin: true
 
@@ -9289,7 +9295,7 @@ snapshots:
       pkg-entry-points: 1.1.1
       resolve-package-path: 4.0.3
       resolve.exports: 2.0.3
-      semver: 7.7.3
+      semver: 7.7.4
       typescript-memoize: 1.1.1
     transitivePeerDependencies:
       - supports-color
@@ -9947,7 +9953,7 @@ snapshots:
   '@npmcli/fs@1.1.1':
     dependencies:
       '@gar/promisify': 1.1.3
-      semver: 7.7.3
+      semver: 7.7.4
 
   '@npmcli/git@6.0.3':
     dependencies:
@@ -9957,7 +9963,7 @@ snapshots:
       npm-pick-manifest: 10.0.0
       proc-log: 5.0.0
       promise-retry: 2.0.1
-      semver: 7.7.3
+      semver: 7.7.4
       which: 5.0.0
 
   '@npmcli/move-file@1.1.2':
@@ -9972,7 +9978,7 @@ snapshots:
       hosted-git-info: 8.1.0
       json-parse-even-better-errors: 4.0.0
       proc-log: 5.0.0
-      semver: 7.7.3
+      semver: 7.7.4
       validate-npm-package-license: 3.0.4
 
   '@npmcli/promise-spawn@8.0.3':
@@ -10479,7 +10485,7 @@ snapshots:
       '@typescript-eslint/visitor-keys': 8.54.0
       debug: 4.4.3
       minimatch: 9.0.5
-      semver: 7.7.3
+      semver: 7.7.4
       tinyglobby: 0.2.15
       ts-api-utils: 2.4.0(typescript@5.9.3)
       typescript: 5.9.3
@@ -10504,11 +10510,11 @@ snapshots:
 
   '@ungap/structured-clone@1.3.0': {}
 
-  '@universal-ember/test-support@0.5.1(@babel/core@7.29.0)(@glint/template@1.7.4)(ember-source@6.10.0(@glimmer/component@2.0.0)(rsvp@4.8.5))(qunit@2.25.0)':
+  '@universal-ember/test-support@0.5.1(@babel/core@7.29.0)(@glint/template@1.7.4)(ember-source@6.10.1(@glimmer/component@2.0.0)(rsvp@4.8.5))(qunit@2.25.0)':
     dependencies:
       '@ember/test-helpers': 5.4.1(@babel/core@7.29.0)(@glint/template@1.7.4)
       '@embroider/addon-shim': 1.10.2
-      ember-source: 6.10.0(@glimmer/component@2.0.0)(rsvp@4.8.5)
+      ember-source: 6.10.1(@glimmer/component@2.0.0)(rsvp@4.8.5)
       qunit: 2.25.0
     transitivePeerDependencies:
       - '@babel/core'
@@ -10823,7 +10829,7 @@ snapshots:
     dependencies:
       '@babel/core': 7.29.0
       babel-import-util: 2.1.1
-      semver: 7.7.3
+      semver: 7.7.4
 
   babel-plugin-ember-data-packages-polyfill@0.1.2:
     dependencies:
@@ -12098,7 +12104,7 @@ snapshots:
       hash-for-dep: 1.5.1
       heimdalljs-logger: 0.1.10
       json-stable-stringify: 1.3.0
-      semver: 7.7.3
+      semver: 7.7.4
       silent-error: 1.1.1
       strip-bom: 4.0.0
       walk-sync: 2.2.0
@@ -12142,7 +12148,7 @@ snapshots:
   ember-cli-version-checker@5.1.2:
     dependencies:
       resolve-package-path: 3.1.0
-      semver: 7.7.3
+      semver: 7.7.4
       silent-error: 1.1.1
     transitivePeerDependencies:
       - supports-color
@@ -12328,9 +12334,9 @@ snapshots:
       - eslint
       - typescript
 
-  ember-load-initializers@3.0.1(ember-source@6.10.0(@glimmer/component@2.0.0)(rsvp@4.8.5)):
+  ember-load-initializers@3.0.1(ember-source@6.10.1(@glimmer/component@2.0.0)(rsvp@4.8.5)):
     dependencies:
-      ember-source: 6.10.0(@glimmer/component@2.0.0)(rsvp@4.8.5)
+      ember-source: 6.10.1(@glimmer/component@2.0.0)(rsvp@4.8.5)
 
   ember-modifier@4.2.2(@babel/core@7.29.0):
     dependencies:
@@ -12552,7 +12558,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  ember-source@6.10.0(@glimmer/component@2.0.0)(rsvp@4.8.5):
+  ember-source@6.10.1(@glimmer/component@2.0.0)(rsvp@4.8.5):
     dependencies:
       '@babel/core': 7.29.0
       '@ember/edition-utils': 1.2.0
@@ -12592,7 +12598,7 @@ snapshots:
       inflection: 2.0.1
       route-recognizer: 0.3.4
       router_js: 8.0.6(route-recognizer@0.3.4)(rsvp@4.8.5)
-      semver: 7.7.3
+      semver: 7.7.4
       silent-error: 1.1.1
       simple-html-tokenizer: 0.5.11
     transitivePeerDependencies:
@@ -12824,7 +12830,7 @@ snapshots:
   eslint-compat-utils@0.5.1(eslint@9.39.2(jiti@2.6.1)):
     dependencies:
       eslint: 9.39.2(jiti@2.6.1)
-      semver: 7.7.3
+      semver: 7.7.4
 
   eslint-config-prettier@10.1.8(eslint@9.39.2(jiti@2.6.1)):
     dependencies:
@@ -15294,7 +15300,7 @@ snapshots:
     dependencies:
       growly: 1.3.0
       is-wsl: 2.2.0
-      semver: 7.7.3
+      semver: 7.7.4
       shellwords: 0.1.1
       uuid: 8.3.2
       which: 2.0.2
@@ -15315,7 +15321,7 @@ snapshots:
 
   npm-install-checks@7.1.2:
     dependencies:
-      semver: 7.7.3
+      semver: 7.7.4
 
   npm-normalize-package-bin@4.0.0: {}
 
@@ -15323,14 +15329,14 @@ snapshots:
     dependencies:
       hosted-git-info: 8.1.0
       proc-log: 5.0.0
-      semver: 7.7.3
+      semver: 7.7.4
       validate-npm-package-name: 6.0.2
 
   npm-package-arg@13.0.2:
     dependencies:
       hosted-git-info: 9.0.2
       proc-log: 6.1.0
-      semver: 7.7.3
+      semver: 7.7.4
       validate-npm-package-name: 7.0.2
 
   npm-pick-manifest@10.0.0:
@@ -15338,7 +15344,7 @@ snapshots:
       npm-install-checks: 7.1.2
       npm-normalize-package-bin: 4.0.0
       npm-package-arg: 12.0.2
-      semver: 7.7.3
+      semver: 7.7.4
 
   npm-run-path@2.0.2:
     dependencies:
@@ -15530,7 +15536,7 @@ snapshots:
       ky: 1.14.3
       registry-auth-token: 5.1.1
       registry-url: 6.0.1
-      semver: 7.7.3
+      semver: 7.7.4
 
   package-name-regex@5.0.0: {}
 
@@ -16279,6 +16285,8 @@ snapshots:
 
   semver@7.7.3: {}
 
+  semver@7.7.4: {}
+
   send@0.18.0:
     dependencies:
       debug: 2.6.9
@@ -16555,7 +16563,7 @@ snapshots:
       get-stdin: 9.0.0
       git-hooks-list: 3.2.0
       is-plain-obj: 4.1.0
-      semver: 7.7.3
+      semver: 7.7.4
       sort-object-keys: 1.1.3
       tinyglobby: 0.2.15
 
@@ -16565,7 +16573,7 @@ snapshots:
       detect-newline: 4.0.1
       git-hooks-list: 4.2.1
       is-plain-obj: 4.1.0
-      semver: 7.7.3
+      semver: 7.7.4
       sort-object-keys: 2.1.0
       tinyglobby: 0.2.15
 
@@ -17228,7 +17236,7 @@ snapshots:
 
   typescript-auto-import-cache@0.3.6:
     dependencies:
-      semver: 7.7.3
+      semver: 7.7.4
 
   typescript-eslint@8.54.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3):
     dependencies:
@@ -17425,7 +17433,7 @@ snapshots:
   volar-service-typescript@0.0.68(@volar/language-service@2.4.28):
     dependencies:
       path-browserify: 1.0.1
-      semver: 7.7.3
+      semver: 7.7.4
       typescript-auto-import-cache: 0.3.6
       vscode-languageserver-textdocument: 1.0.12
       vscode-nls: 5.2.0
