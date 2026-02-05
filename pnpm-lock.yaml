@@ -35,10 +35,10 @@ importers:
         version: 4.1.0
       ember-primitives:
         specifier: ^0.53.0
-        version: 0.53.0(@babel/core@7.29.0)(@ember/test-helpers@5.4.1(@babel/core@7.29.0)(@glint/template@1.7.4))(@ember/test-waiters@4.1.1(@glint/template@1.7.4))(@glimmer/component@2.0.0)(@glint/template@1.7.4)(ember-modifier@4.2.2(@babel/core@7.29.0))(ember-resources@7.0.7(@babel/core@7.29.0)(@glimmer/component@2.0.0)(@glint/template@1.7.4))
+        version: 0.53.0(@babel/core@7.29.0)(@ember/test-helpers@5.4.1(@babel/core@7.29.0)(@glint/template@1.7.4))(@ember/test-waiters@4.1.1(@glint/template@1.7.4))(@glimmer/component@2.0.0)(@glint/template@1.7.4)(ember-modifier@4.3.0(@babel/core@7.29.0))(ember-resources@7.0.7(@babel/core@7.29.0)(@glimmer/component@2.0.0)(@glint/template@1.7.4))
       ember-repl:
         specifier: ^7.3.1
-        version: 7.3.1(@babel/core@7.29.0)(@codemirror/lang-css@6.3.1)(@glimmer/component@2.0.0)(@glint/template@1.7.4)(@lezer/javascript@1.5.4)(@lezer/lr@1.4.7)(ember-modifier@4.2.2(@babel/core@7.29.0))(encoding@0.1.13)
+        version: 7.3.1(@babel/core@7.29.0)(@codemirror/lang-css@6.3.1)(@glimmer/component@2.0.0)(@glint/template@1.7.4)(@lezer/javascript@1.5.4)(@lezer/lr@1.4.7)(ember-modifier@4.3.0(@babel/core@7.29.0))(encoding@0.1.13)
       ember-truth-helpers:
         specifier: ^5.0.0
         version: 5.0.0
@@ -164,8 +164,8 @@ importers:
         specifier: ^3.0.1
         version: 3.0.1(ember-source@6.10.0(@glimmer/component@2.0.0)(rsvp@4.8.5))
       ember-modifier:
-        specifier: ^4.2.2
-        version: 4.2.2(@babel/core@7.29.0)
+        specifier: ^4.3.0
+        version: 4.3.0(@babel/core@7.29.0)
       ember-page-title:
         specifier: ^9.0.3
         version: 9.0.3
@@ -251,8 +251,8 @@ importers:
         specifier: ^2.3.1
         version: 2.3.1(@babel/core@7.29.0)
       ember-modifier:
-        specifier: ^4.2.2
-        version: 4.2.2(@babel/core@7.29.0)
+        specifier: ^4.3.0
+        version: 4.3.0(@babel/core@7.29.0)
       ember-truth-helpers:
         specifier: ^5.0.0
         version: 5.0.0
@@ -3709,8 +3709,8 @@ packages:
     peerDependencies:
       ember-source: '>= 5'
 
-  ember-modifier@4.2.2:
-    resolution: {integrity: sha512-pPYBAGyczX0hedGWQFQOEiL9s45KS9efKxJxUQkMLjQyh+1Uef1mcmAGsdw2KmvNupITkE/nXxmVO1kZ9tt3ag==}
+  ember-modifier@4.3.0:
+    resolution: {integrity: sha512-O0rirSLQbGg0VJ/NqoQ4uN1bh2iAekZC/Ykma+FkjCM2ofrO38u+d8n3+AK6uVWeMJmogGX2KL+Is5fofoInJg==}
 
   ember-page-title@9.0.3:
     resolution: {integrity: sha512-fedRHUsvq8tIZgOii8jTrfAyeq+la/9H5eAzhNNwEyzo7nDMmqK2SxsyBUGXprd8fOacsPabLlzlucMi/4mUpA==}
@@ -12092,12 +12092,10 @@ snapshots:
     dependencies:
       ember-source: 6.10.0(@glimmer/component@2.0.0)(rsvp@4.8.5)
 
-  ember-modifier@4.2.2(@babel/core@7.29.0):
+  ember-modifier@4.3.0(@babel/core@7.29.0):
     dependencies:
       '@embroider/addon-shim': 1.10.2
       decorator-transforms: 2.3.1(@babel/core@7.29.0)
-      ember-cli-normalize-entity-name: 1.0.0
-      ember-cli-string-utils: 1.1.0
     transitivePeerDependencies:
       - '@babel/core'
       - supports-color
@@ -12109,7 +12107,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  ember-primitives@0.48.2(@babel/core@7.29.0)(@ember/test-helpers@5.4.1(@babel/core@7.29.0)(@glint/template@1.7.4))(@ember/test-waiters@4.1.1(@glint/template@1.7.4))(@glimmer/component@2.0.0)(@glint/template@1.7.3)(ember-modifier@4.2.2(@babel/core@7.29.0))(ember-resources@7.0.7(@babel/core@7.29.0)(@glimmer/component@2.0.0)(@glint/template@1.7.4)):
+  ember-primitives@0.48.2(@babel/core@7.29.0)(@ember/test-helpers@5.4.1(@babel/core@7.29.0)(@glint/template@1.7.4))(@ember/test-waiters@4.1.1(@glint/template@1.7.4))(@glimmer/component@2.0.0)(@glint/template@1.7.3)(ember-modifier@4.3.0(@babel/core@7.29.0))(ember-resources@7.0.7(@babel/core@7.29.0)(@glimmer/component@2.0.0)(@glint/template@1.7.4)):
     dependencies:
       '@babel/runtime': 7.28.6
       '@ember/test-waiters': 4.1.1(@glint/template@1.7.4)
@@ -12119,7 +12117,7 @@ snapshots:
       '@glimmer/component': 2.0.0
       decorator-transforms: 2.3.1(@babel/core@7.29.0)
       ember-element-helper: 0.8.8
-      ember-modifier: 4.2.2(@babel/core@7.29.0)
+      ember-modifier: 4.3.0(@babel/core@7.29.0)
       ember-resources: 7.0.7(@babel/core@7.29.0)(@glimmer/component@2.0.0)(@glint/template@1.7.4)
       form-data-utils: 0.6.0
       reactiveweb: 1.9.1(@babel/core@7.29.0)(@ember/test-waiters@4.1.1(@glint/template@1.7.4))(@glimmer/component@2.0.0)(@glint/template@1.7.3)
@@ -12135,7 +12133,7 @@ snapshots:
       - '@babel/core'
       - supports-color
 
-  ember-primitives@0.51.0(@babel/core@7.29.0)(@ember/test-helpers@5.4.1(@babel/core@7.29.0)(@glint/template@1.7.4))(@ember/test-waiters@4.1.1(@glint/template@1.7.4))(@glimmer/component@2.0.0)(@glint/template@1.7.3)(ember-modifier@4.2.2(@babel/core@7.29.0))(ember-resources@7.0.7(@babel/core@7.29.0)(@glimmer/component@2.0.0)(@glint/template@1.7.4)):
+  ember-primitives@0.51.0(@babel/core@7.29.0)(@ember/test-helpers@5.4.1(@babel/core@7.29.0)(@glint/template@1.7.4))(@ember/test-waiters@4.1.1(@glint/template@1.7.4))(@glimmer/component@2.0.0)(@glint/template@1.7.3)(ember-modifier@4.3.0(@babel/core@7.29.0))(ember-resources@7.0.7(@babel/core@7.29.0)(@glimmer/component@2.0.0)(@glint/template@1.7.4)):
     dependencies:
       '@babel/runtime': 7.28.6
       '@ember/test-waiters': 4.1.1(@glint/template@1.7.4)
@@ -12145,7 +12143,7 @@ snapshots:
       '@glimmer/component': 2.0.0
       decorator-transforms: 2.3.1(@babel/core@7.29.0)
       ember-element-helper: 0.8.8
-      ember-modifier: 4.2.2(@babel/core@7.29.0)
+      ember-modifier: 4.3.0(@babel/core@7.29.0)
       ember-resources: 7.0.7(@babel/core@7.29.0)(@glimmer/component@2.0.0)(@glint/template@1.7.4)
       form-data-utils: 0.6.0
       reactiveweb: 1.9.1(@babel/core@7.29.0)(@ember/test-waiters@4.1.1(@glint/template@1.7.4))(@glimmer/component@2.0.0)(@glint/template@1.7.3)
@@ -12161,7 +12159,7 @@ snapshots:
       - '@babel/core'
       - supports-color
 
-  ember-primitives@0.51.0(@babel/core@7.29.0)(@ember/test-helpers@5.4.1(@babel/core@7.29.0)(@glint/template@1.7.4))(@ember/test-waiters@4.1.1(@glint/template@1.7.4))(@glimmer/component@2.0.0)(@glint/template@1.7.4)(ember-modifier@4.2.2(@babel/core@7.29.0))(ember-resources@7.0.7(@babel/core@7.29.0)(@glimmer/component@2.0.0)(@glint/template@1.7.4)):
+  ember-primitives@0.51.0(@babel/core@7.29.0)(@ember/test-helpers@5.4.1(@babel/core@7.29.0)(@glint/template@1.7.4))(@ember/test-waiters@4.1.1(@glint/template@1.7.4))(@glimmer/component@2.0.0)(@glint/template@1.7.4)(ember-modifier@4.3.0(@babel/core@7.29.0))(ember-resources@7.0.7(@babel/core@7.29.0)(@glimmer/component@2.0.0)(@glint/template@1.7.4)):
     dependencies:
       '@babel/runtime': 7.28.6
       '@ember/test-waiters': 4.1.1(@glint/template@1.7.4)
@@ -12171,7 +12169,7 @@ snapshots:
       '@glimmer/component': 2.0.0
       decorator-transforms: 2.3.1(@babel/core@7.29.0)
       ember-element-helper: 0.8.8
-      ember-modifier: 4.2.2(@babel/core@7.29.0)
+      ember-modifier: 4.3.0(@babel/core@7.29.0)
       ember-resources: 7.0.7(@babel/core@7.29.0)(@glimmer/component@2.0.0)(@glint/template@1.7.4)
       form-data-utils: 0.6.0
       reactiveweb: 1.9.1(@babel/core@7.29.0)(@ember/test-waiters@4.1.1(@glint/template@1.7.4))(@glimmer/component@2.0.0)(@glint/template@1.7.4)
@@ -12187,7 +12185,7 @@ snapshots:
       - '@babel/core'
       - supports-color
 
-  ember-primitives@0.53.0(@babel/core@7.29.0)(@ember/test-helpers@5.4.1(@babel/core@7.29.0)(@glint/template@1.7.4))(@ember/test-waiters@4.1.1(@glint/template@1.7.4))(@glimmer/component@2.0.0)(@glint/template@1.7.4)(ember-modifier@4.2.2(@babel/core@7.29.0))(ember-resources@7.0.7(@babel/core@7.29.0)(@glimmer/component@2.0.0)(@glint/template@1.7.4)):
+  ember-primitives@0.53.0(@babel/core@7.29.0)(@ember/test-helpers@5.4.1(@babel/core@7.29.0)(@glint/template@1.7.4))(@ember/test-waiters@4.1.1(@glint/template@1.7.4))(@glimmer/component@2.0.0)(@glint/template@1.7.4)(ember-modifier@4.3.0(@babel/core@7.29.0))(ember-resources@7.0.7(@babel/core@7.29.0)(@glimmer/component@2.0.0)(@glint/template@1.7.4)):
     dependencies:
       '@babel/runtime': 7.28.6
       '@ember/test-waiters': 4.1.1(@glint/template@1.7.4)
@@ -12197,7 +12195,7 @@ snapshots:
       '@glimmer/component': 2.0.0
       decorator-transforms: 2.3.1(@babel/core@7.29.0)
       ember-element-helper: 0.8.8
-      ember-modifier: 4.2.2(@babel/core@7.29.0)
+      ember-modifier: 4.3.0(@babel/core@7.29.0)
       ember-resources: 7.0.7(@babel/core@7.29.0)(@glimmer/component@2.0.0)(@glint/template@1.7.4)
       form-data-utils: 0.6.0
       reactiveweb: 1.9.1(@babel/core@7.29.0)(@ember/test-waiters@4.1.1(@glint/template@1.7.4))(@glimmer/component@2.0.0)(@glint/template@1.7.4)
@@ -12224,7 +12222,7 @@ snapshots:
       - '@glint/template'
       - supports-color
 
-  ember-repl@7.3.1(@babel/core@7.29.0)(@codemirror/lang-css@6.3.1)(@glimmer/component@2.0.0)(@glint/template@1.7.3)(@lezer/javascript@1.5.4)(@lezer/lr@1.4.7)(ember-modifier@4.2.2(@babel/core@7.29.0))(encoding@0.1.13):
+  ember-repl@7.3.1(@babel/core@7.29.0)(@codemirror/lang-css@6.3.1)(@glimmer/component@2.0.0)(@glint/template@1.7.3)(@lezer/javascript@1.5.4)(@lezer/lr@1.4.7)(ember-modifier@4.3.0(@babel/core@7.29.0))(encoding@0.1.13):
     dependencies:
       '@ember/test-helpers': 5.4.1(@babel/core@7.29.0)(@glint/template@1.7.3)
       '@ember/test-waiters': 4.1.1(@glint/template@1.7.3)
@@ -12232,7 +12230,7 @@ snapshots:
       codemirror: 6.0.2
       content-tag: 4.1.0
       decorator-transforms: 2.3.1(@babel/core@7.29.0)
-      ember-primitives: 0.51.0(@babel/core@7.29.0)(@ember/test-helpers@5.4.1(@babel/core@7.29.0)(@glint/template@1.7.4))(@ember/test-waiters@4.1.1(@glint/template@1.7.4))(@glimmer/component@2.0.0)(@glint/template@1.7.3)(ember-modifier@4.2.2(@babel/core@7.29.0))(ember-resources@7.0.7(@babel/core@7.29.0)(@glimmer/component@2.0.0)(@glint/template@1.7.4))
+      ember-primitives: 0.51.0(@babel/core@7.29.0)(@ember/test-helpers@5.4.1(@babel/core@7.29.0)(@glint/template@1.7.4))(@ember/test-waiters@4.1.1(@glint/template@1.7.4))(@glimmer/component@2.0.0)(@glint/template@1.7.3)(ember-modifier@4.3.0(@babel/core@7.29.0))(ember-resources@7.0.7(@babel/core@7.29.0)(@glimmer/component@2.0.0)(@glint/template@1.7.4))
       ember-resolver: 13.1.1
       ember-resources: 7.0.7(@babel/core@7.29.0)(@glimmer/component@2.0.0)(@glint/template@1.7.3)
       repl-sdk: 1.1.2(@codemirror/lang-css@6.3.1)(@lezer/javascript@1.5.4)(@lezer/lr@1.4.7)(encoding@0.1.13)
@@ -12250,7 +12248,7 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  ember-repl@7.3.1(@babel/core@7.29.0)(@codemirror/lang-css@6.3.1)(@glimmer/component@2.0.0)(@glint/template@1.7.4)(@lezer/javascript@1.5.4)(@lezer/lr@1.4.7)(ember-modifier@4.2.2(@babel/core@7.29.0))(encoding@0.1.13):
+  ember-repl@7.3.1(@babel/core@7.29.0)(@codemirror/lang-css@6.3.1)(@glimmer/component@2.0.0)(@glint/template@1.7.4)(@lezer/javascript@1.5.4)(@lezer/lr@1.4.7)(ember-modifier@4.3.0(@babel/core@7.29.0))(encoding@0.1.13):
     dependencies:
       '@ember/test-helpers': 5.4.1(@babel/core@7.29.0)(@glint/template@1.7.4)
       '@ember/test-waiters': 4.1.1(@glint/template@1.7.4)
@@ -12258,7 +12256,7 @@ snapshots:
       codemirror: 6.0.2
       content-tag: 4.1.0
       decorator-transforms: 2.3.1(@babel/core@7.29.0)
-      ember-primitives: 0.51.0(@babel/core@7.29.0)(@ember/test-helpers@5.4.1(@babel/core@7.29.0)(@glint/template@1.7.4))(@ember/test-waiters@4.1.1(@glint/template@1.7.4))(@glimmer/component@2.0.0)(@glint/template@1.7.4)(ember-modifier@4.2.2(@babel/core@7.29.0))(ember-resources@7.0.7(@babel/core@7.29.0)(@glimmer/component@2.0.0)(@glint/template@1.7.4))
+      ember-primitives: 0.51.0(@babel/core@7.29.0)(@ember/test-helpers@5.4.1(@babel/core@7.29.0)(@glint/template@1.7.4))(@ember/test-waiters@4.1.1(@glint/template@1.7.4))(@glimmer/component@2.0.0)(@glint/template@1.7.4)(ember-modifier@4.3.0(@babel/core@7.29.0))(ember-resources@7.0.7(@babel/core@7.29.0)(@glimmer/component@2.0.0)(@glint/template@1.7.4))
       ember-resolver: 13.1.1
       ember-resources: 7.0.7(@babel/core@7.29.0)(@glimmer/component@2.0.0)(@glint/template@1.7.4)
       repl-sdk: 1.1.2(@codemirror/lang-css@6.3.1)(@lezer/javascript@1.5.4)(@lezer/lr@1.4.7)(encoding@0.1.13)
@@ -12375,7 +12373,7 @@ snapshots:
       '@embroider/addon-shim': 1.10.2
       csstype: 3.2.3
       decorator-transforms: 2.3.1(@babel/core@7.29.0)
-      ember-modifier: 4.2.2(@babel/core@7.29.0)
+      ember-modifier: 4.3.0(@babel/core@7.29.0)
     transitivePeerDependencies:
       - '@babel/core'
       - supports-color
@@ -14175,9 +14173,9 @@ snapshots:
       '@glint/template': 1.7.3
       common-tags: 1.8.2
       decorator-transforms: 2.3.1(@babel/core@7.29.0)
-      ember-modifier: 4.2.2(@babel/core@7.29.0)
-      ember-primitives: 0.48.2(@babel/core@7.29.0)(@ember/test-helpers@5.4.1(@babel/core@7.29.0)(@glint/template@1.7.4))(@ember/test-waiters@4.1.1(@glint/template@1.7.4))(@glimmer/component@2.0.0)(@glint/template@1.7.3)(ember-modifier@4.2.2(@babel/core@7.29.0))(ember-resources@7.0.7(@babel/core@7.29.0)(@glimmer/component@2.0.0)(@glint/template@1.7.4))
-      ember-repl: 7.3.1(@babel/core@7.29.0)(@codemirror/lang-css@6.3.1)(@glimmer/component@2.0.0)(@glint/template@1.7.3)(@lezer/javascript@1.5.4)(@lezer/lr@1.4.7)(ember-modifier@4.2.2(@babel/core@7.29.0))(encoding@0.1.13)
+      ember-modifier: 4.3.0(@babel/core@7.29.0)
+      ember-primitives: 0.48.2(@babel/core@7.29.0)(@ember/test-helpers@5.4.1(@babel/core@7.29.0)(@glint/template@1.7.4))(@ember/test-waiters@4.1.1(@glint/template@1.7.4))(@glimmer/component@2.0.0)(@glint/template@1.7.3)(ember-modifier@4.3.0(@babel/core@7.29.0))(ember-resources@7.0.7(@babel/core@7.29.0)(@glimmer/component@2.0.0)(@glint/template@1.7.4))
+      ember-repl: 7.3.1(@babel/core@7.29.0)(@codemirror/lang-css@6.3.1)(@glimmer/component@2.0.0)(@glint/template@1.7.3)(@lezer/javascript@1.5.4)(@lezer/lr@1.4.7)(ember-modifier@4.3.0(@babel/core@7.29.0))(encoding@0.1.13)
       ember-resources: 7.0.7(@babel/core@7.29.0)(@glimmer/component@2.0.0)(@glint/template@1.7.3)
       globby: 16.1.0
       json5: 2.2.3

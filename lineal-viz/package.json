@@ -55,7 +55,7 @@
     "d3-scale": "^4.0.2",
     "d3-shape": "^3.2.0",
     "decorator-transforms": "^2.3.1",
-    "ember-modifier": "^4.2.2",
+    "ember-modifier": "^4.3.0",
     "ember-truth-helpers": "^5.0.0"
   },
   "devDependencies": {
