@@ -6,13 +6,13 @@ import Component from '@glimmer/component';
 import { cached } from '@glimmer/tracking';
 import { line } from 'd3-shape';
 
-import { ScaleLinear } from '../scale.ts';
-import { Encoding } from '../encoding.ts';
+import { ScaleLinear } from '../utils/scale.ts';
+import { Encoding } from '../utils/encoding.ts';
 import { curveFor } from '../utils/curves.ts';
 import { scaleFrom, qualifyScale } from '../utils/mark-utils.ts';
 
-import type { Scale } from '../scale.ts';
-import type { Accessor } from '../encoding.ts';
+import type { Scale } from '../utils/scale.ts';
+import type { Accessor } from '../utils/encoding.ts';
 import type { CurveArgs } from '../utils/curves.ts';
 
 export interface LineSignature {

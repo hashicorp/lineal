@@ -1,0 +1,669 @@
+/**
+ * Copyright IBM Corp. 2020, 2026
+ * SPDX-License-Identifier: MPL-2.0
+ */
+
+/* ─── Color Palette ──────────────────────────────────────────────────── */
+/* Mapped to VitePress theme vars for light/dark mode support */
+
+:root {
+  --c-base-0: var(--vp-c-bg);
+  --c-base: var(--vp-c-border);
+  --c-base-1: var(--vp-c-gray-1);
+  --c-base-2: var(--vp-c-gray-2);
+  --c-line-0: var(--vp-c-text-2);
+  --c-line: var(--vp-c-text-1);
+
+  /* Chart data colors — vibrant enough for both modes */
+  --c-green: var(--vp-c-green-3);
+  --c-green-line: var(--vp-c-green-1);
+  --c-yellow: var(--vp-c-yellow-3);
+  --c-yellow-line: var(--vp-c-yellow-1);
+  --c-red: var(--vp-c-red-3);
+  --c-red-line: var(--vp-c-red-1);
+  --c-blue: var(--vp-c-indigo-3);
+  --c-blue-line: var(--vp-c-indigo-1);
+  --c-purple: var(--vp-c-purple-3);
+  --c-purple-line: var(--vp-c-purple-1);
+}
+
+/* ─── Nominal Scale Classes ──────────────────────────────────────────── */
+
+.nominal {
+  color: var(--c-base);
+  fill: var(--c-base);
+}
+
+.nominal-1 {
+  color: var(--c-red);
+  fill: var(--c-red);
+}
+.nominal-2 {
+  color: var(--c-yellow);
+  fill: var(--c-yellow);
+}
+.nominal-3 {
+  color: var(--c-green);
+  fill: var(--c-green);
+}
+.nominal-4 {
+  color: var(--c-blue);
+  fill: var(--c-blue);
+}
+.nominal-5 {
+  color: var(--c-purple);
+  fill: var(--c-purple);
+}
+
+/* ─── Ordinal Scale Classes ──────────────────────────────────────────── */
+
+.ordinal {
+  fill: gray;
+}
+.ordinal-1 {
+  fill: var(--c-green-line);
+}
+.ordinal-2 {
+  fill: var(--c-yellow-line);
+}
+.ordinal-3 {
+  fill: var(--c-red-line);
+}
+.ordinal-4 {
+  fill: var(--c-blue-line);
+}
+.ordinal-5 {
+  fill: #973e6e;
+}
+.ordinal-6 {
+  fill: #b76a33;
+}
+.ordinal-7 {
+  fill: #79695f;
+}
+
+/* ─── Accent Scale Classes ───────────────────────────────────────────── */
+
+.accent-green {
+  color: var(--c-base-1);
+  fill: var(--c-base-1);
+}
+
+.accent-green-1 {
+  color: var(--c-green-line);
+  fill: var(--c-green-line);
+}
+
+.cool-1 {
+  color: #6a9aba;
+  fill: #6a9aba;
+}
+
+.cool-2 {
+  color: #9a6a9a;
+  fill: #9a6a9a;
+}
+
+.cool-3 {
+  color: #5e9478;
+  fill: #5e9478;
+}
+
+/* ─── Energy Mix Scale Classes ───────────────────────────────────────── */
+
+.energy-mix {
+  fill: #f00;
+  color: #f00;
+}
+.energy-mix-1 {
+  fill: #8b6914;
+  color: #8b6914;
+}
+.energy-mix-2 {
+  fill: #6b6e70;
+  color: #6b6e70;
+}
+.energy-mix-3 {
+  fill: #a89a6e;
+  color: #a89a6e;
+}
+.energy-mix-4 {
+  fill: #3e9727;
+  color: #3e9727;
+}
+.energy-mix-5 {
+  fill: #67aed6;
+  color: #67aed6;
+}
+.energy-mix-6 {
+  fill: #7fd2be;
+  color: #7fd2be;
+}
+.energy-mix-7 {
+  fill: #f0cc4d;
+  color: #f0cc4d;
+}
+.energy-mix-8 {
+  fill: #fb9ce0;
+  color: #fb9ce0;
+}
+
+/* ─── Demo Chart Layout ──────────────────────────────────────────────── */
+
+/* Prevent SVGs from overflowing the content area */
+.vp-doc svg {
+  max-width: 100%;
+  height: auto;
+}
+
+.demo-chart {
+  margin: auto;
+  width: 100%;
+}
+
+.demo-chart .lineal-fluid {
+  width: 100%;
+}
+
+/* Default fill for SVG marks (dots, circles) so they're visible in both modes */
+.vp-doc svg circle,
+.demo-chart circle,
+.demo-chart-with-axes circle,
+.demo-chart-energy-mix circle {
+  fill: var(--vp-c-text-1);
+}
+
+/* Default fill for SVG text so it's readable in both modes */
+.vp-doc svg text,
+.demo-chart text,
+.demo-chart-with-axes text,
+.demo-chart-energy-mix text {
+  fill: var(--vp-c-text-1);
+}
+
+.demo-chart-with-axes,
+.demo-chart-energy-mix {
+  padding: 40px 30px;
+  margin: auto;
+  width: 100%;
+  font-size: 12px;
+}
+
+.demo-chart-with-axes .lineal-fluid,
+.demo-chart-energy-mix .lineal-fluid {
+  width: 100%;
+}
+
+.demo-chart-with-axes.with-left-axis,
+.demo-chart-energy-mix.with-left-axis {
+  padding-left: 80px;
+}
+
+.demo-chart-with-axes.with-legend,
+.demo-chart-energy-mix.with-legend {
+  padding-top: 0;
+}
+
+.demo-chart-with-axes svg,
+.demo-chart-energy-mix svg {
+  display: block;
+  margin: auto;
+  overflow: visible;
+}
+
+.demo-chart-with-axes svg.fluid,
+.demo-chart-energy-mix svg.fluid {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.demo-chart-with-axes .axis .domain,
+.demo-chart-energy-mix .axis .domain {
+  fill: none;
+}
+
+.demo-chart-with-axes .axis text,
+.demo-chart-energy-mix .axis text {
+  fill: var(--c-line-0);
+}
+
+.demo-chart-with-axes .axis line,
+.demo-chart-with-axes .axis path,
+.demo-chart-with-axes .axis circle,
+.demo-chart-energy-mix .axis line,
+.demo-chart-energy-mix .axis path,
+.demo-chart-energy-mix .axis circle {
+  stroke-width: 2;
+  stroke: var(--c-base);
+  fill: transparent;
+}
+
+.demo-chart-with-axes .gridlines line,
+.demo-chart-energy-mix .gridlines line {
+  stroke-dasharray: 5 5;
+  stroke-width: 2;
+  stroke: var(--c-base);
+}
+
+.demo-chart-with-axes .plot-label,
+.demo-chart-energy-mix .plot-label {
+  font-size: 12px;
+  alignment-baseline: middle;
+  text-anchor: middle;
+  fill: var(--c-base-0);
+}
+
+.demo-chart-with-axes .plot-label--dark,
+.demo-chart-energy-mix .plot-label--dark {
+  fill: var(--c-line-0);
+}
+
+.demo-chart-energy-mix {
+  padding: 20px 20px 20px 120px;
+}
+
+/* ─── Line Chart Styles (Dev Log 2) ──────────────────────────────────── */
+
+.demo-two-line-chart {
+  margin: 25px;
+  overflow: visible;
+}
+
+.demo-two-line-chart .line {
+  stroke: var(--c-red-line);
+  stroke-width: 4;
+  stroke-linecap: round;
+  fill: none;
+}
+
+.demo-two-line-chart .point {
+  fill: var(--c-red-line);
+}
+
+.demo-two-line-chart .point:hover,
+.demo-two-line-chart .point.active {
+  fill: var(--c-blue-line);
+}
+
+.demo-two-line-chart .axis {
+  fill: none;
+}
+
+.demo-two-line-chart .axis line,
+.demo-two-line-chart .axis path {
+  stroke: var(--c-base);
+  stroke-width: 2;
+}
+
+.demo-two-line-chart .axis text {
+  fill: var(--c-line-0);
+}
+
+.demo-two-line-chart .gridlines line {
+  stroke-dasharray: 5 5;
+  stroke: var(--c-base);
+  opacity: 0.9;
+}
+
+/* ─── Fluid Chart (Dev Log 2) ────────────────────────────────────────── */
+
+.demo-two-fluid-chart {
+  position: relative;
+  padding: 25px;
+}
+
+.demo-two-fluid-chart__plot {
+  width: 100%;
+  height: 25vh;
+}
+
+.demo-two-fluid-chart__svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  margin: 0;
+}
+
+/* ─── Flex Layout ────────────────────────────────────────────────────── */
+
+.flex {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 15px;
+  height: 100%;
+}
+
+.min-col {
+  flex-grow: 1;
+}
+
+.animated-gutter {
+  width: 50px;
+  background: var(--vp-c-bg-soft);
+  height: 25vh;
+  margin: 25px 0;
+  animation: expand ease-in-out 3s infinite alternate;
+}
+
+@keyframes expand {
+  0% {
+    width: 50px;
+  }
+  100% {
+    width: 250px;
+  }
+}
+
+/* ─── Definition Lists (scoped to chart tooltips) ───────────────────── */
+
+.chart-tooltip dl,
+.rigid-tooltip dl {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.chart-tooltip dt,
+.rigid-tooltip dt {
+  font-weight: bold;
+}
+
+/* ─── Interactor Overlay ─────────────────────────────────────────────── */
+
+.interactor-overlay:focus {
+  outline: none;
+}
+
+.interactor-overlay:focus-visible {
+  outline: 2px solid var(--vp-c-brand-1);
+}
+
+/* ─── Tooltips ───────────────────────────────────────────────────────── */
+
+.chart-tooltip {
+  position: absolute;
+  transform-style: preserve-3d;
+  top: 25px;
+  left: 25px;
+  pointer-events: none;
+  background: var(--vp-c-bg-elv);
+  color: var(--vp-c-text-1);
+  padding: 1rem;
+  width: min-content;
+  transform: translate(
+      calc(1px * var(--x, 0)),
+      calc(-100% + 1px * var(--y, 0) - 1rem)
+    )
+    rotate(-30deg);
+  transform-origin: bottom left;
+  z-index: 100;
+}
+
+.chart-tooltip::before {
+  content: ' ';
+  position: absolute;
+  bottom: -2px;
+  left: -2px;
+  width: 30px;
+  height: 30px;
+  background: var(--vp-c-text-1);
+  transform: translateZ(-1px);
+}
+
+.chart-tooltip h4 {
+  margin: 0;
+}
+
+.rigid-tooltip {
+  position: absolute;
+  top: 10px;
+  pointer-events: none;
+  background: var(--vp-c-bg-elv);
+  color: var(--vp-c-text-1);
+  padding: 1rem;
+  width: min-content;
+  border-right: 2px solid var(--vp-c-border);
+  transform: translateX(calc(1px * var(--x, 0) - 100% - 5px));
+  z-index: 100;
+}
+
+.rigid-tooltip h4 {
+  margin: 0;
+}
+
+.rigid-tooltip dt,
+.rigid-tooltip dd {
+  white-space: nowrap;
+}
+
+/* ─── Guideline ──────────────────────────────────────────────────────── */
+
+.guideline {
+  stroke-width: 2px;
+  stroke: var(--c-line);
+  opacity: 0.5;
+}
+
+/* ─── Diverging Scale Demo ───────────────────────────────────────────── */
+
+.flex-grid {
+  display: flex;
+  flex-direction: row;
+  height: 25px;
+  gap: 2px;
+  margin: 10px 0;
+}
+
+.flex-grid .diverging-scale-datum {
+  text-align: center;
+  color: var(--c-line-0);
+  font-size: 11px;
+  width: 100%;
+}
+
+.flex-grid .diverging-scale-datum div {
+  height: 10px;
+  width: 100%;
+  margin-top: 5px;
+}
+
+/* ─── Partitioning Scale Demo (Waffle Chart) ─────────────────────────── */
+
+.waffle-chart {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 45px);
+  gap: 2px;
+}
+
+.waffle-chart > div {
+  border: 1px solid var(--vp-c-border);
+  text-align: center;
+  font-size: 12px;
+  padding: 8px 0;
+  background: currentcolor;
+}
+
+.waffle-chart > div span {
+  color: var(--c-line);
+}
+
+/* ─── Fruit List (Ordinal Scale Demo) ────────────────────────────────── */
+
+.fruit-list li::before {
+  content: var(--fruit);
+  padding-right: 1ch;
+}
+
+.fruit-list .fruit-apple {
+  --fruit: '🍎';
+}
+.fruit-list .fruit-banana {
+  --fruit: '🍌';
+}
+.fruit-list .fruit-grapes {
+  --fruit: '🍇';
+}
+
+/* ─── Band Scale Demo ────────────────────────────────────────────────── */
+
+.relative-bars {
+  position: relative;
+  height: 30px;
+}
+
+.relative-bars .bar {
+  position: absolute;
+  top: 0;
+  color: var(--c-line);
+  background: var(--c-red);
+  border: 1px solid var(--c-red-line);
+  text-align: center;
+  padding: 5px 0;
+}
+
+/* ─── Point Scale Demo ───────────────────────────────────────────────── */
+
+.relative-points {
+  position: relative;
+  height: 30px;
+}
+
+.relative-points .point {
+  position: absolute;
+  top: 0;
+  left: -15px;
+  padding: 15px 0;
+  width: 30px;
+  line-height: 0;
+  border-radius: 100%;
+  color: var(--c-line);
+  background: var(--c-green);
+  border: 1px solid var(--c-green-line);
+  box-sizing: content-box;
+  text-align: center;
+}
+
+/* ─── Legend ──────────────────────────────────────────────────────────── */
+
+.legend {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+  padding: 0 0 10px 0;
+  margin: 0;
+}
+
+.legend li {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.legend li::before {
+  display: inline-block;
+  content: ' ';
+  flex-shrink: 0;
+  background: currentcolor;
+  width: 12px;
+  height: 12px;
+  border-radius: 100%;
+  margin-right: 6px;
+}
+
+.legend li span {
+  color: var(--vp-c-text-1);
+}
+
+/* ─── Accent Text ────────────────────────────────────────────────────── */
+
+.accent {
+  font-weight: bold;
+  color: var(--c-blue-line);
+}
+
+/* ─── Energy Streamgraph ─────────────────────────────────────────────── */
+
+.energy-streamgraph path {
+  stroke: var(--c-base-1);
+}
+
+.energy-streamgraph .axis text {
+  fill: var(--vp-c-text-1);
+}
+
+.energy-streamgraph .annotation line {
+  stroke-width: 2;
+  stroke: var(--c-blue-line);
+}
+
+.energy-streamgraph .annotation text {
+  font-weight: bold;
+  fill: var(--c-blue-line);
+}
+
+/* ─── Energy Mix Flex Chart ──────────────────────────────────────────── */
+
+.energy-mix-flex-chart {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+}
+
+.energy-mix-flex-chart dt,
+.energy-mix-flex-chart dd {
+  all: unset;
+  margin: 0 0 5px 0;
+}
+
+.energy-mix-flex-chart dt {
+  font-weight: normal;
+  color: var(--c-line-0);
+}
+
+.energy-mix-flex-chart dd {
+  display: flex;
+  gap: 1px;
+  transform: translateX(calc(1px * var(--zero, 0) - 1px * var(--left, 0)));
+}
+
+.energy-mix-flex-chart dd > div {
+  width: calc(1px * var(--w));
+  background: currentColor;
+}
+
+/* ─── Heatmap Table ──────────────────────────────────────────────────── */
+
+table.heatmap {
+  margin-top: 0;
+}
+
+table.heatmap tbody td {
+  font-size: 12px;
+  text-align: center;
+  padding: 8px 3px;
+  background-color: hsla(
+    180deg,
+    calc(1% * var(--v, 0)),
+    calc(30% + 0.4% * var(--v, 0)),
+    calc(1% * var(--v, 0))
+  );
+}
+
+table.heatmap td.domain {
+  font-size: 14px;
+  font-weight: bold;
+  text-align: right;
+  border-right: 2px solid var(--c-base);
+  padding-right: 8px;
+  background-color: transparent;
+  color: var(--c-line-0);
+}
+
+table.heatmap th.domain {
+  text-align: center;
+  border-bottom: 2px solid var(--c-base);
+  color: var(--c-line-0);
+}
+
+

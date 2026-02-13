@@ -3,8 +3,8 @@
  */
 
 // Re-export core types and classes for convenience
-export type { Scale } from './scale.ts';
-export type { Accessor, AccessorFn } from './encoding.ts';
-export { Encoding } from './encoding.ts';
-export { default as Bounds } from './bounds.ts';
-export { default as CSSRange } from './css-range.ts';
+export type { Scale } from './utils/scale.ts';
+export type { Accessor, AccessorFn } from './utils/encoding.ts';
+export { Encoding } from './utils/encoding.ts';
+export { default as Bounds } from './utils/bounds.ts';
+export { default as CSSRange } from './utils/css-range.ts';

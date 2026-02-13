@@ -6,16 +6,16 @@ import Component from '@glimmer/component';
 import { cached } from '@glimmer/tracking';
 import { merge } from 'd3-array';
 
-import { Encoding } from '../encoding.ts';
-import { ScaleLinear, ScaleOrdinal } from '../scale.ts';
+import { Encoding } from '../utils/encoding.ts';
+import { ScaleLinear, ScaleOrdinal } from '../utils/scale.ts';
 import { qualifyScale, scaleFrom } from '../utils/mark-utils.ts';
 import { cssFourPropParse } from '../utils/css-four-prop-parse.ts';
 import { roundedRect } from '../utils/rounded-rect.ts';
-import CSSRange from '../css-range.ts';
+import CSSRange from '../utils/css-range.ts';
 import Stack from '../transforms/stack.ts';
 
-import type { Accessor } from '../encoding.ts';
-import type { Scale } from '../scale.ts';
+import type { Accessor } from '../utils/encoding.ts';
+import type { Scale } from '../utils/scale.ts';
 
 export interface BarsSignature {
   Args: {

@@ -4,7 +4,7 @@
 
 import Component from '@glimmer/component';
 import { tracked, cached } from '@glimmer/tracking';
-import { ScaleLinear } from '@lineal-viz/lineal/scale';
+import { ScaleLinear } from '@lineal-viz/lineal/utils/scale';
 import { extent } from 'd3-array';
 import Fluid from '@lineal-viz/lineal/components/fluid';
 import Axis, {

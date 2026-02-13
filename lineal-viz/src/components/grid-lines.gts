@@ -5,7 +5,7 @@
 import Component from '@glimmer/component';
 import { cached } from '@glimmer/tracking';
 
-import type { Scale } from '../scale.ts';
+import type { Scale } from '../utils/scale.ts';
 
 // String literal type for component args
 export type DirectionType = 'vertical' | 'horizontal';

@@ -1,6 +1,6 @@
 {
-  "framework": "ember",
-  "outputDirectory": "docs/dist",
+  "framework": null,
+  "outputDirectory": "docs/.vitepress/dist",
   "installCommand": "pnpm install",
   "buildCommand": "pnpm -F docs build",
   "git": {
