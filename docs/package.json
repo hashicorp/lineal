@@ -29,7 +29,7 @@
     "ember-source": "~6.10.1",
     "ember-truth-helpers": "^5.0.0",
     "markdownlint-cli2": "^0.20.0",
-    "vite-plugin-ember": "^0.3.0",
+    "vite-plugin-ember": "^0.3.1",
     "vitepress": "^1.6.4",
     "vue": "^3.5.28"
   },
