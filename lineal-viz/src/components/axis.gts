@@ -6,7 +6,7 @@ import Component from '@glimmer/component';
 import { cached } from '@glimmer/tracking';
 import { eq } from 'ember-truth-helpers';
 
-import type { Scale } from '../scale.ts';
+import type { Scale } from '../utils/scale.ts';
 
 // String literal types for component args
 export type OrientationType = 'top' | 'right' | 'bottom' | 'left';

@@ -6,9 +6,9 @@ import { tracked, cached } from '@glimmer/tracking';
 import * as shape from 'd3-shape';
 import { group } from 'd3-array';
 
-import { Encoding } from '../encoding.ts';
+import { Encoding } from '../utils/encoding.ts';
 
-import type { Accessor } from '../encoding.ts';
+import type { Accessor } from '../utils/encoding.ts';
 
 type OrderFn = (series: shape.Series<any, any>) => number[];
 type OffsetFn = (

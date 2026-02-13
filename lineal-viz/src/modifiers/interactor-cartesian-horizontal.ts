@@ -5,10 +5,10 @@
 import { modifier } from 'ember-modifier';
 import { bisector } from 'd3-array';
 
-import { Encoding } from '../encoding.ts';
+import { Encoding } from '../utils/encoding.ts';
 
-import type { Accessor } from '../encoding.ts';
-import type { Scale } from '../scale.ts';
+import type { Accessor } from '../utils/encoding.ts';
+import type { Scale } from '../utils/scale.ts';
 
 /**
  * The available arguments to the `interactor-cartesian-horizontal` modifier.

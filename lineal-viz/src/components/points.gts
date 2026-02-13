@@ -6,13 +6,13 @@ import Component from '@glimmer/component';
 import { cached } from '@glimmer/tracking';
 import { not, or } from 'ember-truth-helpers';
 
-import { Encoding } from '../encoding.ts';
-import { ScaleLinear, ScaleOrdinal, ScaleSqrt } from '../scale.ts';
+import { Encoding } from '../utils/encoding.ts';
+import { ScaleLinear, ScaleOrdinal, ScaleSqrt } from '../utils/scale.ts';
 import { scaleFrom, qualifyScale } from '../utils/mark-utils.ts';
-import CSSRange from '../css-range.ts';
+import CSSRange from '../utils/css-range.ts';
 
-import type { Accessor } from '../encoding.ts';
-import type { Scale } from '../scale.ts';
+import type { Accessor } from '../utils/encoding.ts';
+import type { Scale } from '../utils/scale.ts';
 
 export interface PointsArgs {
   Args: {

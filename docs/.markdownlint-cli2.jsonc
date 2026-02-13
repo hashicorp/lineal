@@ -1,0 +1,31 @@
+{
+  "config": {
+    "default": true,
+    // Allow HTML in markdown (needed for VitePress components)
+    "MD033": false,
+    // Allow duplicate headings in different sections
+    "MD024": { "siblings_only": true },
+    // Allow long lines
+    "MD013": false,
+    // Allow bare URLs
+    "MD034": false,
+    // Disable table column style (false positives with escaped pipes in cells)
+    "MD060": false,
+    // Allow multiple top-level headings (frontmatter title + body heading)
+    "MD025": false,
+    // Allow trailing punctuation in headings
+    "MD026": false,
+    // Allow emphasis as heading
+    "MD036": false,
+    // Allow first line to not be a heading (sub-demo files start with code blocks)
+    "MD041": false,
+    // Allow flexible list indentation
+    "MD007": false,
+    // Allow trailing spaces (preserved from original content)
+    "MD009": false,
+    // Allow multiple consecutive blank lines
+    "MD012": false
+  },
+  "customRules": [],
+  "ignores": ["node_modules/", ".vitepress/dist/", ".vitepress/cache/"]
+}

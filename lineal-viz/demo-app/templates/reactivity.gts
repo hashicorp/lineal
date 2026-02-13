@@ -4,7 +4,7 @@
 
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { ScaleTime } from '@lineal-viz/lineal/scale';
+import { ScaleTime } from '@lineal-viz/lineal/utils/scale';
 import scaleLinear from '@lineal-viz/lineal/helpers/scale-linear';
 import { and } from 'ember-truth-helpers';
 import Axis, {

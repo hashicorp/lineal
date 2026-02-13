@@ -17,6 +17,7 @@
 
 import Modifier from 'ember-modifier';
 import { registerDestructor } from '@ember/destroyable';
+
 import type Owner from '@ember/owner';
 
 type ResizeHandler = (
@@ -35,6 +36,7 @@ export default class DidResizeModifier extends Modifier<DidResizeSignature> {
   // Public API
   declare element: Element | null;
   declare handler: ResizeHandler;
+
   options: ResizeObserverOptions = {};
 
   // Shared singleton observer and handler registry
@@ -72,7 +74,7 @@ export default class DidResizeModifier extends Modifier<DidResizeSignature> {
   modify(
     element: Element,
     positional: [ResizeHandler, ResizeObserverOptions?],
-  ): void {
+  ) {
     unobserve(this);
 
     this.element = element;
@@ -86,27 +88,27 @@ export default class DidResizeModifier extends Modifier<DidResizeSignature> {
     this.observe();
   }
 
-  observe(): void {
+  observe() {
     if (DidResizeModifier.observer && this.element) {
       this.addHandler();
       DidResizeModifier.observer.observe(this.element, this.options);
     }
   }
 
-  addHandler(): void {
+  addHandler() {
     if (this.element) {
       DidResizeModifier.handlers?.set(this.element, this.handler);
     }
   }
 
-  removeHandler(): void {
+  removeHandler() {
     if (this.element) {
       DidResizeModifier.handlers?.delete(this.element);
     }
   }
 }
 
-function unobserve(instance: DidResizeModifier): void {
+function unobserve(instance: DidResizeModifier) {
   if (instance.element && DidResizeModifier.observer) {
     DidResizeModifier.observer.unobserve(instance.element);
     instance.removeHandler();

@@ -6,15 +6,15 @@ import Component from '@glimmer/component';
 import { cached } from '@glimmer/tracking';
 import { pie } from 'd3-shape';
 
-import { ScaleOrdinal } from '../scale.ts';
-import { Encoding } from '../encoding.ts';
-import CSSRange from '../css-range.ts';
+import { ScaleOrdinal } from '../utils/scale.ts';
+import { Encoding } from '../utils/encoding.ts';
+import CSSRange from '../utils/css-range.ts';
 import parseAngle from '../utils/parse-angle.ts';
 import Arc from './arc.gts';
 
 import type { PieArcDatum } from 'd3-shape';
-import type { Scale } from '../scale.ts';
-import type { Accessor } from '../encoding.ts';
+import type { Scale } from '../utils/scale.ts';
+import type { Accessor } from '../utils/encoding.ts';
 
 export type ArcDatum = {
   [key: string]: unknown; // Thank you TS for this gem!!

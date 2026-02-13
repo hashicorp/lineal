@@ -4,12 +4,12 @@
 
 import { scheduleOnce } from '@ember/runloop';
 
-import Bounds from '../bounds.ts';
-import { ScaleIdentity } from '../scale.ts';
-import { Encoding } from '../encoding.ts';
+import Bounds from './bounds.ts';
+import { ScaleIdentity } from './scale.ts';
+import { Encoding } from './encoding.ts';
 
-import type { Scale } from '../scale.ts';
-import type { Accessor } from '../encoding.ts';
+import type { Scale } from './scale.ts';
+import type { Accessor } from './encoding.ts';
 
 /**
  * A valid Mark component must have a `data` arg.
