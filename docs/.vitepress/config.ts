@@ -70,13 +70,11 @@ export default defineConfig({
       ],
       alias: {
         '~docs': path.resolve(__dirname, '..'),
+        '@lineal-viz/lineal': path.resolve(__dirname, '../../dist'),
       },
     },
-    optimizeDeps: {
-      exclude: ['@lineal-viz/lineal'],
-    },
     ssr: {
-      noExternal: ['vite-plugin-ember', '@lineal-viz/lineal'],
+      noExternal: [/vite-plugin-ember/],
     },
   },
 
