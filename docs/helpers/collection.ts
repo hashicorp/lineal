@@ -6,7 +6,11 @@ export function mapBy<T>(key: string, arr: T[]): unknown[] {
   return arr.map((item) => (item as Record<string, unknown>)[key]);
 }
 
-export function findBy<T>(key: string, value: unknown, arr: T[]): T | undefined {
+export function findBy<T>(
+  key: string,
+  value: unknown,
+  arr: T[],
+): T | undefined {
   return arr.find((item) => (item as Record<string, unknown>)[key] === value);
 }
 

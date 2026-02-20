@@ -37,7 +37,15 @@ const tsParserOptions = {
 };
 
 export default defineConfig([
-  globalIgnores(['dist/', 'dist-*/', 'declarations/', 'coverage/', '!**/.*']),
+  globalIgnores([
+    'dist/',
+    'dist-*/',
+    'declarations/',
+    'coverage/',
+    'docs/.vitepress/cache/',
+    'docs/.vitepress/dist/',
+    '!**/.*',
+  ]),
   js.configs.recommended,
   prettier,
   ember.configs.base,
@@ -54,6 +62,8 @@ export default defineConfig([
       'declarations/',
       'node_modules/',
       'coverage/',
+      'docs/.vitepress/cache/',
+      'docs/.vitepress/dist/',
       '!**/.*',
     ],
   },
@@ -109,6 +119,15 @@ export default defineConfig([
     rules: {
       // require relative imports use full extensions
       'import/extensions': ['error', 'always', { ignorePackages: true }],
+    },
+  },
+  /**
+   * Docs — demo components have relaxed rules
+   */
+  {
+    files: ['docs/**/*.{ts,gts,js,gjs}'],
+    rules: {
+      'ember/no-incorrect-calls-with-inline-anonymous-functions': 'off',
     },
   },
   /**

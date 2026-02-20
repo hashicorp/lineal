@@ -6,6 +6,10 @@
 /dist-*/
 /declarations/
 
+# vitepress
+docs/.vitepress/cache/
+docs/.vitepress/dist/
+
 # misc
 /coverage/
 pnpm-lock.yaml

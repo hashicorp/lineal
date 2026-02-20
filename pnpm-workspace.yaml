@@ -1,6 +1,6 @@
 packages:
+  - .
   - docs
-  - lineal-viz
 
 autoInstallPeers: true
 

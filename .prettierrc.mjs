@@ -1,8 +1,16 @@
 /**
  * Copyright IBM Corp. 2020, 2026
- * SPDX-License-Identifier: MPL-2.0
  */
 
 export default {
-  singleQuote: true,
+  plugins: ['prettier-plugin-ember-template-tag'],
+  overrides: [
+    {
+      files: '*.{js,gjs,ts,gts,mjs,mts,cjs,cts}',
+      options: {
+        singleQuote: true,
+        templateSingleQuote: false,
+      },
+    },
+  ],
 };

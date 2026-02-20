@@ -15,6 +15,14 @@ export default {
       },
     },
     {
+      files: '**/docs/**/*.{ts,js,gts,gjs}',
+      rules: {
+        'no-bare-strings': false,
+        'no-inline-styles': false,
+        'style-concatenation': false,
+      },
+    },
+    {
       files: '**/tests/**/*.{ts,js,gts,gjs}',
       rules: {
         'no-bare-strings': false,

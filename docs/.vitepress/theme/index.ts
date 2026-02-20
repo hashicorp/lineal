@@ -4,13 +4,13 @@
  */
 
 import DefaultTheme from 'vitepress/theme';
-import CodePreview from 'vite-plugin-ember/components/code-preview.vue';
+import { setupEmber } from 'vite-plugin-ember/setup';
 import type { Theme } from 'vitepress';
 import './custom.css';
 
 export default {
   ...DefaultTheme,
   enhanceApp({ app }) {
-    app.component('CodePreview', CodePreview);
+    setupEmber(app);
   },
 } satisfies Theme;

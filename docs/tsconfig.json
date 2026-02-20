@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "verbatimModuleSyntax": true,
+    "allowJs": false,
+    "skipLibCheck": true,
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "allowSyntheticDefaultImports": true,
+    "noEmitOnError": false,
+    "noEmit": true,
+    "experimentalDecorators": true,
+    "allowImportingTsExtensions": true,
+    "types": ["ember-source/types"],
+    "paths": {
+      "~docs/*": ["./*"]
+    }
+  },
+  "include": ["components/**/*", "helpers/**/*", ".vitepress/**/*"]
+}

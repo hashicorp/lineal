@@ -73,7 +73,10 @@ export default defineConfig({
       },
     },
     optimizeDeps: {
-      exclude: ['ember-modifier', 'ember-truth-helpers'],
+      exclude: ['@lineal-viz/lineal'],
+    },
+    ssr: {
+      noExternal: ['vite-plugin-ember', '@lineal-viz/lineal'],
     },
   },
 
