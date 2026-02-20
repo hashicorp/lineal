@@ -3,7 +3,7 @@
  */
 
 import { module, test } from 'qunit';
-import CSSRange from '#src/css-range.ts';
+import CSSRange from '#src/utils/css-range.ts';
 
 module('Unit | CSSRange', function () {
   test('CSSRanges are constructed with a string prefix', function (assert) {

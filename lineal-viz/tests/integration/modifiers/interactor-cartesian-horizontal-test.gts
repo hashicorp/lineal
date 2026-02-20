@@ -13,8 +13,8 @@ import {
   focus,
 } from '@ember/test-helpers';
 import { spy } from 'sinon';
-import { ScaleLinear } from '#src/scale.ts';
-import { Encoding } from '#src/encoding.ts';
+import { ScaleLinear } from '#src/utils/scale.ts';
+import { Encoding } from '#src/utils/encoding.ts';
 import interactorCartesianHorizontal from '#src/modifiers/interactor-cartesian-horizontal.ts';
 
 import type { ActiveDatum } from '#src/modifiers/interactor-cartesian-horizontal.ts';

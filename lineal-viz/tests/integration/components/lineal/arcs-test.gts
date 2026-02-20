@@ -7,7 +7,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render, findAll } from '@ember/test-helpers';
 import { pie, arc } from 'd3-shape';
 import { spy } from 'sinon';
-import { ScaleOrdinal } from '#src/scale.ts';
+import { ScaleOrdinal } from '#src/utils/scale.ts';
 import { Arcs } from '#src/components.ts';
 
 import type { ArcDatum } from '#src/components/arcs.gts';

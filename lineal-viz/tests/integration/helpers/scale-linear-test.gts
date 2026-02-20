@@ -7,7 +7,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import { spy } from 'sinon';
 import scaleLinear from '#src/helpers/scale-linear.ts';
-import { ScaleLinear } from '#src/scale.ts';
+import { ScaleLinear } from '#src/utils/scale.ts';
 import spyHelper from '#tests/helpers/spy.ts';
 
 module('Integration | helpers | scale-linear', function (hooks) {

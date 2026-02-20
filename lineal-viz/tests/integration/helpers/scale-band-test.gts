@@ -8,7 +8,7 @@ import { render } from '@ember/test-helpers';
 import { array } from '@ember/helper';
 import { spy } from 'sinon';
 import scaleBand from '#src/helpers/scale-band.ts';
-import { ScaleBand } from '#src/scale.ts';
+import { ScaleBand } from '#src/utils/scale.ts';
 import spyHelper from '#tests/helpers/spy.ts';
 
 module('Integration | helpers | scale-band', function (hooks) {

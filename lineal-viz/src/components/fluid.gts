@@ -5,7 +5,7 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 
-import didResize from '../modifiers/did-resize.ts';
+import { didResize } from 'ember-resize-modifier';
 
 /**
  * A responsive container component that yields its current pixel dimensions.

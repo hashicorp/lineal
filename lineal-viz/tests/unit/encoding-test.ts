@@ -3,7 +3,7 @@
  */
 
 import { module, test } from 'qunit';
-import { Encoding } from '#src/encoding.ts';
+import { Encoding } from '#src/utils/encoding.ts';
 
 module('Unit | Encoding', function () {
   test('The accessor may be a function', function (assert) {

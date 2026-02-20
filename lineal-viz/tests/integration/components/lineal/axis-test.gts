@@ -6,12 +6,12 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, findAll, rerender } from '@ember/test-helpers';
 import { spy } from 'sinon';
-import { ScaleLinear, ScalePow } from '#src/scale.ts';
+import { ScaleLinear, ScalePow } from '#src/utils/scale.ts';
 import { Axis } from '#src/components.ts';
 import { Orientation } from '#src/components/axis.gts';
 
 import type { TestContext } from '@ember/test-helpers';
-import type { Scale } from '#src/scale.ts';
+import type { Scale } from '#src/utils/scale.ts';
 import type { Tick } from '#src/components/axis.gts';
 import { tracked } from '@glimmer/tracking';
 import spyHelper from '#tests/helpers/spy.ts';

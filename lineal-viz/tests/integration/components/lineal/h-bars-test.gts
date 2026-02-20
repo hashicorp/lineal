@@ -5,7 +5,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, findAll } from '@ember/test-helpers';
-import { ScaleLinear, ScaleBand } from '#src/scale.ts';
+import { ScaleLinear, ScaleBand } from '#src/utils/scale.ts';
 import { roundedRect } from '#src/utils/rounded-rect.ts';
 import { HBars } from '#src/components.ts';
 import stackH from '#src/helpers/stack-h.ts';

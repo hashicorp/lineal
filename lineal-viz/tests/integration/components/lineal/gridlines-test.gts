@@ -5,7 +5,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, findAll, rerender } from '@ember/test-helpers';
-import { ScaleLinear } from '#src/scale.ts';
+import { ScaleLinear } from '#src/utils/scale.ts';
 import { GridLines } from '#src/components.ts';
 import { Direction } from '#src/components/grid-lines.gts';
 import { tracked } from '@glimmer/tracking';

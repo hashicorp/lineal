@@ -8,7 +8,7 @@ import { render } from '@ember/test-helpers';
 import { array } from '@ember/helper';
 import { spy } from 'sinon';
 import scaleOrdinal from '#src/helpers/scale-ordinal.ts';
-import { ScaleOrdinal } from '#src/scale.ts';
+import { ScaleOrdinal } from '#src/utils/scale.ts';
 import spyHelper from '#tests/helpers/spy.ts';
 
 module('Integration | helpers | scale-ordinal', function (hooks) {

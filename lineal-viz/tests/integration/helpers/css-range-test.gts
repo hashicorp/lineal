@@ -7,7 +7,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import { spy } from 'sinon';
 import cssRange from '#src/helpers/css-range.ts';
-import CSSRange from '#src/css-range.ts';
+import CSSRange from '#src/utils/css-range.ts';
 import spyHelper from '#tests/helpers/spy.ts';
 
 module('Integration | helpers | css-range', function (hooks) {

@@ -7,7 +7,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import { spy } from 'sinon';
 import scaleLog from '#src/helpers/scale-log.ts';
-import { ScaleLog } from '#src/scale.ts';
+import { ScaleLog } from '#src/utils/scale.ts';
 import spyHelper from '#tests/helpers/spy.ts';
 
 module('Integration | helpers | scale-log', function (hooks) {

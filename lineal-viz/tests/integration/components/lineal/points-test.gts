@@ -6,7 +6,7 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, findAll } from '@ember/test-helpers';
 import { spy } from 'sinon';
-import { ScaleLinear } from '#src/scale.ts';
+import { ScaleLinear } from '#src/utils/scale.ts';
 import { Points } from '#src/components.ts';
 import scaleLinearHelper from '#src/helpers/scale-linear.ts';
 import spyHelper from '#tests/helpers/spy.ts';

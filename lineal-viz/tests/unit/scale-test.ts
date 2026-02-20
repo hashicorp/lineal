@@ -10,9 +10,9 @@ import {
   ScaleOrdinal,
   ScaleBand,
   ScalePoint,
-} from '#src/scale.ts';
-import Bounds from '#src/bounds.ts';
-import CSSRange from '#src/css-range.ts';
+} from '#src/utils/scale.ts';
+import Bounds from '#src/utils/bounds.ts';
+import CSSRange from '#src/utils/css-range.ts';
 
 const NOW = Date.now();
 const DAY = 1000 * 60 * 60 * 24;

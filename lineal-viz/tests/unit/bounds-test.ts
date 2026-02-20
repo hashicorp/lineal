@@ -3,7 +3,7 @@
  */
 
 import { module, test } from 'qunit';
-import Bounds from '#src/bounds.ts';
+import Bounds from '#src/utils/bounds.ts';
 import tableTest from '../helpers/table-test.ts';
 
 module('Unit | Bounds', function () {
