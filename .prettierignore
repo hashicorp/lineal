@@ -1,0 +1,20 @@
+# unconventional js
+/blueprints/*/files/
+
+# compiled output
+/dist/
+/dist-*/
+/declarations/
+
+# vitepress
+docs/.vitepress/cache/
+docs/.vitepress/dist/
+
+# misc
+/coverage/
+pnpm-lock.yaml
+config/ember-cli-update.json
+*.yaml
+*.yml
+*.md
+*.html

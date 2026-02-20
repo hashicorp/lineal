@@ -10,13 +10,15 @@ on:
       - master
     paths:
       - 'docs/**'
-      - 'lineal-viz/**'
+      - 'src/**'
+      - 'package.json'
       - 'pnpm-lock.yaml'
       - '.github/workflows/ci-docs.yml'
   pull_request:
     paths:
       - 'docs/**'
-      - 'lineal-viz/**'
+      - 'src/**'
+      - 'package.json'
       - 'pnpm-lock.yaml'
       - '.github/workflows/ci-docs.yml'
 

@@ -24,8 +24,8 @@
     // Allow trailing spaces (preserved from original content)
     "MD009": false,
     // Allow multiple consecutive blank lines
-    "MD012": false
+    "MD012": false,
   },
   "customRules": [],
-  "ignores": ["node_modules/", ".vitepress/dist/", ".vitepress/cache/"]
+  "ignores": ["node_modules/", ".vitepress/dist/", ".vitepress/cache/"],
 }
