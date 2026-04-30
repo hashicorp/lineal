@@ -9,10 +9,9 @@ import { fn, array } from '@ember/helper';
 import { eq } from 'ember-truth-helpers';
 import { htmlSafe } from '@ember/template';
 
-import Fluid from '@lineal-viz/lineal/components/fluid';
-import Area from '@lineal-viz/lineal/components/area';
-import Axis, { Orientation } from '@lineal-viz/lineal/components/axis';
-import scaleLinear from '@lineal-viz/lineal/helpers/scale-linear';
+import { Area, Axis, Fluid } from '#src/components.ts';
+import { Orientation } from '#src/components/axis.gts';
+import { scaleLinear } from '#src/helpers.ts';
 
 interface StreamGraphSignature {
   Element: HTMLDivElement;

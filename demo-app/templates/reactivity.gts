@@ -4,15 +4,11 @@
 
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { ScaleTime } from '@lineal-viz/lineal/utils/scale';
-import scaleLinear from '@lineal-viz/lineal/helpers/scale-linear';
+import { ScaleTime } from '#src/utils/scale.ts';
+import { scaleLinear } from '#src/helpers.ts';
 import { and } from 'ember-truth-helpers';
-import Axis, {
-  Direction,
-  Orientation,
-} from '@lineal-viz/lineal/components/axis';
-import GridLines from '@lineal-viz/lineal/components/grid-lines';
-import Line from '@lineal-viz/lineal/components/line';
+import { Axis, GridLines, Line } from '#src/components.ts';
+import { Direction, Orientation } from '#src/components/axis.gts';
 import type Owner from '@ember/owner';
 
 function* sine(length: number, start = 0) {

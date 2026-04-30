@@ -13,23 +13,6 @@ import type { Scale } from '../utils/scale.ts';
 /**
  * The available arguments to the `interactor-cartesian-horizontal` modifier.
  */
-export interface InteractorArgs {
-  /** A dataset of any type of data. */
-  data: any[];
-  /** The scale the represents the x-axis of the plot being interacted with. */
-  xScale: Scale;
-  /** The accessor for the x encoding of the plot being interacted with. */
-  x: Accessor;
-  /** The accessor (or accessors) for looking up data encoded on the y-axis. */
-  y: Accessor | Accessor[];
-  /** How sensitive rounding is when determining if near data should be included in
-   * a selection. Measured in pixel space (i.e., after values have been computed by scales). */
-  distanceThreshold: number;
-  /** Called when the the modified element receives mouse movement or left/right arrow key input. */
-  onSeek?: (data: ActiveData | null) => void;
-  /** Called when the the modified element receives mouse click or space/enter key input. */
-  onSelect?: (datum: ActiveDatum | null) => void;
-}
 
 export interface ActiveDatum {
   /** The encoding that corresponds to the `datum`. Useful for determining which
@@ -58,19 +41,35 @@ enum NavKey {
 
 const NAV_KEYS = Object.values(NavKey);
 
-export default modifier(
+export interface InteractorCartesianHorizontalSignature {
+  Element: HTMLElement | SVGElement;
+  Args: {
+    Named: {
+      /** A dataset of any type of data. */
+      data: any[];
+      /** The scale the represents the x-axis of the plot being interacted with. */
+      xScale: Scale;
+      /** The accessor for the x encoding of the plot being interacted with. */
+      x: Accessor;
+      /** The accessor (or accessors) for looking up data encoded on the y-axis. */
+      y: Accessor | Accessor[];
+      /** How sensitive rounding is when determining if near data should be included in
+       * a selection. Measured in pixel space (i.e., after values have been computed by scales). */
+      distanceThreshold?: number;
+      /** Called when the the modified element receives mouse movement or left/right arrow key input. */
+      onSeek?: (data: ActiveData | null) => void;
+      /** Called when the the modified element receives mouse click or space/enter key input. */
+      onSelect?: (datum: ActiveDatum | null) => void;
+    };
+    Positional: [];
+  };
+}
+
+export default modifier<InteractorCartesianHorizontalSignature>(
   (
-    element: HTMLElement,
+    element,
     _,
-    {
-      data,
-      xScale,
-      x,
-      y,
-      onSeek,
-      onSelect,
-      distanceThreshold = 10,
-    }: InteractorArgs,
+    { data, xScale, x, y, onSeek, onSelect, distanceThreshold = 10 },
   ) => {
     const accessors: Accessor[] = y instanceof Array ? y : [y];
     const xEnc = new Encoding(x);
@@ -209,16 +208,16 @@ export default modifier(
       }
     }
 
-    element.addEventListener('mousemove', seek);
-    element.addEventListener('click', select);
+    element.addEventListener('mousemove', seek as EventListener);
+    element.addEventListener('click', select as EventListener);
     element.addEventListener('mouseleave', clear);
-    element.addEventListener('keydown', keyControls);
+    element.addEventListener('keydown', keyControls as EventListener);
 
     return () => {
-      element.removeEventListener('mousemove', seek);
-      element.removeEventListener('click', select);
+      element.removeEventListener('mousemove', seek as EventListener);
+      element.removeEventListener('click', select as EventListener);
       element.removeEventListener('mouseleave', clear);
-      element.removeEventListener('keydown', keyControls);
+      element.removeEventListener('keydown', keyControls as EventListener);
     };
   },
 );

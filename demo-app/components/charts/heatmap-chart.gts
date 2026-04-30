@@ -9,9 +9,10 @@ import { fn } from '@ember/helper';
 import { and, eq } from 'ember-truth-helpers';
 import { htmlSafe } from '@ember/template';
 
-import Axis, { Orientation } from '@lineal-viz/lineal/components/axis';
+import { Axis } from '#src/components.ts';
+import { Orientation } from '#src/components/axis.gts';
 // scaleLinear not needed - using getColor method
-import scaleBand from '@lineal-viz/lineal/helpers/scale-band';
+import { scaleBand } from '#src/helpers.ts';
 
 interface HeatmapDatum {
   row: string;

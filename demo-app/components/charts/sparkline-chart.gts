@@ -6,9 +6,8 @@ import Component from '@glimmer/component';
 import { cached } from '@glimmer/tracking';
 import { array } from '@ember/helper';
 
-import Line from '@lineal-viz/lineal/components/line';
-import Area from '@lineal-viz/lineal/components/area';
-import scaleLinear from '@lineal-viz/lineal/helpers/scale-linear';
+import { Area, Line } from '#src/components.ts';
+import { scaleLinear } from '#src/helpers.ts';
 
 interface SparklineSignature {
   Element: HTMLDivElement;

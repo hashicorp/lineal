@@ -8,9 +8,8 @@ import { on } from '@ember/modifier';
 import { fn, array } from '@ember/helper';
 import { eq } from 'ember-truth-helpers';
 
-import Arcs from '@lineal-viz/lineal/components/arcs';
-import Arc from '@lineal-viz/lineal/components/arc';
-import scaleOrdinal from '@lineal-viz/lineal/helpers/scale-ordinal';
+import { Arc, Arcs } from '#src/components.ts';
+import { scaleOrdinal } from '#src/helpers.ts';
 
 interface DonutChartDatum {
   label: string;

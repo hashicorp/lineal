@@ -109,8 +109,7 @@ export default class Bounds<T> {
     } else {
       this.min = min;
       this.max = max;
-      this.steps =
-        min != undefined && max != undefined ? [min as T, max as T] : [];
+      this.steps = min != undefined && max != undefined ? [min, max] : [];
     }
   }
 

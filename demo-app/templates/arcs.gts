@@ -7,9 +7,8 @@ import { hash } from '@ember/helper';
 import { fn } from '@ember/helper';
 import { array } from '@ember/helper';
 import { tracked } from '@glimmer/tracking';
-import { roundedRect } from '@lineal-viz/lineal/utils/rounded-rect';
-import Arcs from '@lineal-viz/lineal/components/arcs';
-import Arc from '@lineal-viz/lineal/components/arc';
+import { roundedRect } from '#src/utils/rounded-rect.ts';
+import { Arc, Arcs } from '#src/components.ts';
 import { on } from '@ember/modifier';
 import { eq } from 'ember-truth-helpers';
 

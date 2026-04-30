@@ -22,7 +22,6 @@ function orientationTest(
   attrValue: string,
   translateFn: (scale: Scale, value: number) => string,
 ) {
-  // eslint-disable-next-line no-undef
   return async function (this: TestContext, assert: Assert) {
     const scale = new ScaleLinear({ range: '0..100', domain: '0..10' });
 

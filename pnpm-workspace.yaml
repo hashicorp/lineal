@@ -2,6 +2,10 @@ packages:
   - .
   - docs
 
+allowBuilds:
+  esbuild: true
+  core-js: false
+
 autoInstallPeers: true
 
 dedupeInjectedDeps: true
@@ -9,10 +13,6 @@ dedupeInjectedDeps: true
 dedupePeerDependents: true
 
 injectWorkspacePackages: true
-
-onlyBuiltDependencies:
-  - core-js
-  - esbuild
 
 publicHoistPattern:
   - ember-source

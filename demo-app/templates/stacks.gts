@@ -7,26 +7,17 @@ import { tracked, cached } from '@glimmer/tracking';
 import { on } from '@ember/modifier';
 import { and } from 'ember-truth-helpers';
 import { energyMix } from '../utils/data/energy-mix';
-import Stack from '@lineal-viz/lineal/transforms/stack';
-import Area from '@lineal-viz/lineal/components/area';
-import Axis, {
-  Direction,
-  Orientation,
-} from '@lineal-viz/lineal/components/axis';
-import GridLines from '@lineal-viz/lineal/components/grid-lines';
-import VBars from '@lineal-viz/lineal/components/v-bars';
-import HBars from '@lineal-viz/lineal/components/h-bars';
-import scaleLinear from '@lineal-viz/lineal/helpers/scale-linear';
-import stackV from '@lineal-viz/lineal/helpers/stack-v';
-import stackH from '@lineal-viz/lineal/helpers/stack-h';
-import scaleBand from '@lineal-viz/lineal/helpers/scale-band';
-import interactorCartesianHorizontal from '@lineal-viz/lineal/modifiers/interactor-cartesian-horizontal';
+import Stack from '#src/transforms/stack.ts';
+import { Area, Axis, GridLines, HBars, VBars } from '#src/components.ts';
+import { Direction, Orientation } from '#src/components/axis.gts';
+import { scaleBand, scaleLinear, stackH, stackV } from '#src/helpers.ts';
+import { interactorCartesianHorizontal } from '#src/modifiers.ts';
 
 import type {
   StackSeriesVertical,
   StackDatumVertical,
   KeyedStackDatumVertical,
-} from '@lineal-viz/lineal/transforms/stack';
+} from '#src/transforms/stack.ts';
 
 const rand = (min: number, max: number): number =>
   Math.random() * (max - min) + min;

@@ -6,15 +6,9 @@ import Component from '@glimmer/component';
 import { tracked, cached } from '@glimmer/tracking';
 import { and } from 'ember-truth-helpers';
 
-import Axis, {
-  Direction,
-  Orientation,
-} from '@lineal-viz/lineal/components/axis';
-import GridLines from '@lineal-viz/lineal/components/grid-lines';
-import stackV from '@lineal-viz/lineal/helpers/stack-v';
-import scaleLinear from '@lineal-viz/lineal/helpers/scale-linear';
-import scaleBand from '@lineal-viz/lineal/helpers/scale-band';
-import VBars from '@lineal-viz/lineal/components/v-bars';
+import { Axis, GridLines, VBars } from '#src/components.ts';
+import { Direction, Orientation } from '#src/components/axis.gts';
+import { scaleBand, scaleLinear, stackV } from '#src/helpers.ts';
 
 interface StackedBarChartSignature {
   Element: HTMLDivElement;
