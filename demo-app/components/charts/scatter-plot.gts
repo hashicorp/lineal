@@ -10,15 +10,9 @@ import { array } from '@ember/helper';
 import { and, eq } from 'ember-truth-helpers';
 import { htmlSafe } from '@ember/template';
 
-import Points from '@lineal-viz/lineal/components/points';
-import Axis, {
-  Direction,
-  Orientation,
-} from '@lineal-viz/lineal/components/axis';
-import GridLines from '@lineal-viz/lineal/components/grid-lines';
-import scaleLinear from '@lineal-viz/lineal/helpers/scale-linear';
-import scaleSqrt from '@lineal-viz/lineal/helpers/scale-sqrt';
-import scaleOrdinal from '@lineal-viz/lineal/helpers/scale-ordinal';
+import { Axis, GridLines, Points } from '#src/components.ts';
+import { Direction, Orientation } from '#src/components/axis.gts';
+import { scaleLinear, scaleOrdinal, scaleSqrt } from '#src/helpers.ts';
 
 interface ScatterDatum {
   x: number;

@@ -8,13 +8,11 @@ import { array } from '@ember/helper';
 import { and } from 'ember-truth-helpers';
 import { htmlSafe } from '@ember/template';
 
-import Line from '@lineal-viz/lineal/components/line';
-import Area from '@lineal-viz/lineal/components/area';
-import Fluid from '@lineal-viz/lineal/components/fluid';
-import Axis, { Orientation } from '@lineal-viz/lineal/components/axis';
-import GridLines, { Direction } from '@lineal-viz/lineal/components/grid-lines';
-import scaleLinear from '@lineal-viz/lineal/helpers/scale-linear';
-import interactorCartesianHorizontal from '@lineal-viz/lineal/modifiers/interactor-cartesian-horizontal';
+import { Area, Axis, Fluid, GridLines, Line } from '#src/components.ts';
+import { Orientation } from '#src/components/axis.gts';
+import { Direction } from '#src/components/grid-lines.gts';
+import { scaleLinear } from '#src/helpers.ts';
+import { interactorCartesianHorizontal } from '#src/modifiers.ts';
 
 interface MultiLineChartSignature {
   Element: HTMLDivElement;

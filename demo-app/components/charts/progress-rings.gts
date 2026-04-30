@@ -9,7 +9,7 @@ import { fn } from '@ember/helper';
 import { eq } from 'ember-truth-helpers';
 import { htmlSafe } from '@ember/template';
 
-import Arc from '@lineal-viz/lineal/components/arc';
+import { Arc } from '#src/components.ts';
 
 interface RingData {
   label: string;

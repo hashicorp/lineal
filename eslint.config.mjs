@@ -99,7 +99,15 @@ export default defineConfig([
         ...globals.browser,
       },
     },
-    extends: [...ts.configs.recommendedTypeChecked, ember.configs.gts],
+    extends: [
+      ...ts.configs.recommendedTypeChecked,
+      // https://github.com/ember-cli/ember-addon-blueprint/issues/119
+      {
+        ...ts.configs.eslintRecommended,
+        files: undefined,
+      },
+      ember.configs.gts,
+    ],
     rules: {
       '@typescript-eslint/ban-ts-comment': 'warn',
       // TODO: this needs to be fixed in the codebase, but for now, turn it off

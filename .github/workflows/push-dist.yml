@@ -31,6 +31,8 @@ jobs:
           cache: pnpm
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
+      - name: Build
+        run: pnpm build
       - uses: kategengler/put-built-npm-package-contents-on-branch@v2.1.0
         with:
           branch: dist

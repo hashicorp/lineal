@@ -4,20 +4,14 @@
 
 import Component from '@glimmer/component';
 import { tracked, cached } from '@glimmer/tracking';
-import { ScaleLinear } from '@lineal-viz/lineal/utils/scale';
+import { ScaleLinear } from '#src/utils/scale.ts';
 import { extent } from 'd3-array';
-import Fluid from '@lineal-viz/lineal/components/fluid';
-import Axis, {
-  Direction,
-  Orientation,
-} from '@lineal-viz/lineal/components/axis';
-import GridLines from '@lineal-viz/lineal/components/grid-lines';
-import Line from '@lineal-viz/lineal/components/line';
-import Area from '@lineal-viz/lineal/components/area';
-import scaleLinear from '@lineal-viz/lineal/helpers/scale-linear';
+import { Area, Axis, Fluid, GridLines, Line } from '#src/components.ts';
+import { Direction, Orientation } from '#src/components/axis.gts';
+import { scaleLinear } from '#src/helpers.ts';
 import { array } from '@ember/helper';
 import { and } from 'ember-truth-helpers';
-import interactorCartesianHorizontal from '@lineal-viz/lineal/modifiers/interactor-cartesian-horizontal';
+import { interactorCartesianHorizontal } from '#src/modifiers.ts';
 
 interface LinesSignature {
   Args: {

@@ -2,7 +2,7 @@
   "framework": null,
   "outputDirectory": "docs/.vitepress/dist",
   "installCommand": "pnpm install",
-  "buildCommand": "pnpm -F docs build",
+  "buildCommand": "pnpm build && pnpm -F docs build",
   "git": {
     "deploymentEnabled": {
       "dist": false

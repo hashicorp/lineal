@@ -3,20 +3,17 @@
  */
 
 import Component from '@glimmer/component';
-import scaleLinear from '@lineal-viz/lineal/helpers/scale-linear';
-import scalePoint from '@lineal-viz/lineal/helpers/scale-point';
+import {
+  cssRange,
+  scaleBand,
+  scaleLinear,
+  scaleOrdinal,
+  scalePoint,
+  scaleSqrt,
+} from '#src/helpers.ts';
 import { and, lt } from 'ember-truth-helpers';
-import GridLines from '@lineal-viz/lineal/components/grid-lines';
-import Points from '@lineal-viz/lineal/components/points';
-import Axis, {
-  Direction,
-  Orientation,
-} from '@lineal-viz/lineal/components/axis';
-import Bars from '@lineal-viz/lineal/components/bars';
-import scaleSqrt from '@lineal-viz/lineal/helpers/scale-sqrt';
-import scaleOrdinal from '@lineal-viz/lineal/helpers/scale-ordinal';
-import scaleBand from '@lineal-viz/lineal/helpers/scale-band';
-import cssRange from '@lineal-viz/lineal/helpers/css-range';
+import { Axis, Bars, GridLines, Points } from '#src/components.ts';
+import { Direction, Orientation } from '#src/components/axis.gts';
 import fmt from '../helpers/fmt';
 
 const rand = (min: number, max: number): number =>

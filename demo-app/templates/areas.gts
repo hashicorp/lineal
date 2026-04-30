@@ -3,18 +3,12 @@
  */
 
 import Component from '@glimmer/component';
-import scaleLinear from '@lineal-viz/lineal/helpers/scale-linear';
-import scaleBand from '@lineal-viz/lineal/helpers/scale-band';
-import Area from '@lineal-viz/lineal/components/area';
+import { scaleBand, scaleLinear } from '#src/helpers.ts';
+import { Area, Axis, GridLines, VBars } from '#src/components.ts';
+import { Direction, Orientation } from '#src/components/axis.gts';
 import { hash } from '@ember/helper';
 import { array } from '@ember/helper';
 import { and } from 'ember-truth-helpers';
-import Axis, {
-  Direction,
-  Orientation,
-} from '@lineal-viz/lineal/components/axis';
-import GridLines from '@lineal-viz/lineal/components/grid-lines';
-import VBars from '@lineal-viz/lineal/components/v-bars';
 
 export default class ArcsRoute extends Component {
   categories = '0-18 18-25 25-35 35-50 50-70 70+'.split(' ');

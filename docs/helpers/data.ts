@@ -108,5 +108,5 @@ export default function data<K extends DatasetName>(dataset: K): Datasets[K] {
   const dataResult = datasets[dataset];
   if (!dataResult) throw new Error(`No dataset "${String(dataset)}".`);
 
-  return dataResult as Datasets[K];
+  return dataResult;
 }

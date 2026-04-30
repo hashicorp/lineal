@@ -3,15 +3,18 @@
  */
 
 import { array } from '@ember/helper';
-import scalePow from '@lineal-viz/lineal/helpers/scale-pow';
-import Axis, { Orientation } from '@lineal-viz/lineal/components/axis';
-import scaleLinear from '@lineal-viz/lineal/helpers/scale-linear';
-import scaleFnCompute from '@lineal-viz/lineal/helpers/scale-fn-compute';
-import scaleLog from '@lineal-viz/lineal/helpers/scale-log';
-import scaleSqrt from '@lineal-viz/lineal/helpers/scale-sqrt';
-import scaleSymlog from '@lineal-viz/lineal/helpers/scale-symlog';
-import scaleOrdinal from '@lineal-viz/lineal/helpers/scale-ordinal';
-import cssRange from '@lineal-viz/lineal/helpers/css-range';
+import {
+  cssRange,
+  scaleLinear,
+  scaleLog,
+  scaleOrdinal,
+  scalePow,
+  scaleSqrt,
+  scaleSymlog,
+} from '#src/helpers.ts';
+import scaleFnCompute from '#src/helpers/scale-fn-compute.ts';
+import { Axis } from '#src/components.ts';
+import { Orientation } from '#src/components/axis.gts';
 
 <template>
   <h2>Axes </h2>

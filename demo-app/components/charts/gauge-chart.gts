@@ -4,7 +4,7 @@
 
 import Component from '@glimmer/component';
 
-import Arc from '@lineal-viz/lineal/components/arc';
+import { Arc } from '#src/components.ts';
 
 interface GaugeChartSignature {
   Element: HTMLDivElement;
