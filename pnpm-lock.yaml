@@ -196,7 +196,7 @@ importers:
       '@glimmer/tracking':
         specifier: ^1.1.2
         version: 1.1.2
-      '@lineal-viz/lineal':
+      '@hashicorp/lineal':
         specifier: workspace:*
         version: file:(@babel/core@7.29.0)
       '@nullvoxpopuli/ember-composable-helpers':
@@ -1232,6 +1232,10 @@ packages:
     resolution: {integrity: sha512-n/SZW+12rwikx/f8YcSv9JCi5p9vn1Bnts9ZtVvfErG4h0gbjHI1H1ZMhVUnaOC7yzFc6PtsCKIK8XeTnL90Gw==}
     engines: {node: ^18 || ^20 || ^22 || >=24}
 
+  '@hashicorp/lineal@file:':
+    resolution: {directory: '', type: directory}
+    engines: {node: '>= 24', pnpm: '>= 10'}
+
   '@humanfs/core@0.19.2':
     resolution: {integrity: sha512-UhXNm+CFMWcbChXywFwkmhqjs3PRCmcSa/hfBgLIb7oQ5HNb1wS0icWsGtSAUNgefHeI+eBrA8I1fxmbHsGdvA==}
     engines: {node: '>=18.18.0'}
@@ -1280,10 +1284,6 @@ packages:
 
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
-
-  '@lineal-viz/lineal@file:':
-    resolution: {directory: '', type: directory}
-    engines: {node: '>= 24', pnpm: '>= 10'}
 
   '@lint-todo/utils@13.1.1':
     resolution: {integrity: sha512-F5z53uvRIF4dYfFfJP3a2Cqg+4P1dgJchJsFnsZE0eZp0LK8X7g2J0CsJHRgns+skpXOlM7n5vFGwkWCWj8qJg==}
@@ -7848,6 +7848,20 @@ snapshots:
 
   '@handlebars/parser@2.2.2': {}
 
+  '@hashicorp/lineal@file:(@babel/core@7.29.0)':
+    dependencies:
+      '@embroider/addon-shim': 1.10.2
+      d3-array: 3.2.4
+      d3-scale: 4.0.2
+      d3-shape: 3.2.0
+      decorator-transforms: 2.3.2(@babel/core@7.29.0)
+      ember-modifier: 4.3.0(@babel/core@7.29.0)
+      ember-resize-modifier: 1.1.0(@babel/core@7.29.0)
+      ember-truth-helpers: 5.0.0
+    transitivePeerDependencies:
+      - '@babel/core'
+      - supports-color
+
   '@humanfs/core@0.19.2':
     dependencies:
       '@humanfs/types': 0.15.0
@@ -7902,20 +7916,6 @@ snapshots:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
-
-  '@lineal-viz/lineal@file:(@babel/core@7.29.0)':
-    dependencies:
-      '@embroider/addon-shim': 1.10.2
-      d3-array: 3.2.4
-      d3-scale: 4.0.2
-      d3-shape: 3.2.0
-      decorator-transforms: 2.3.2(@babel/core@7.29.0)
-      ember-modifier: 4.3.0(@babel/core@7.29.0)
-      ember-resize-modifier: 1.1.0(@babel/core@7.29.0)
-      ember-truth-helpers: 5.0.0
-    transitivePeerDependencies:
-      - '@babel/core'
-      - supports-color
 
   '@lint-todo/utils@13.1.1':
     dependencies:

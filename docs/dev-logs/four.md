@@ -5,7 +5,7 @@ order: 4
 
 # Dev Log 04: More Scale and More Marks
 
-[Lineal v0.3.0 just shipped](https://www.npmjs.com/package/@lineal-viz/lineal)! This release includes two new scales and two new marks, which lay the foundations for common charts like bars and bubbles.
+[Lineal v0.3.0 just shipped](https://www.npmjs.com/package/@hashicorp/lineal)! This release includes two new scales and two new marks, which lay the foundations for common charts like bars and bubbles.
 
 ## Scales Pt. 2
 
@@ -36,8 +36,8 @@ Instead, let's assume the data has already been binned and our task is to draw r
 Since we need to determine the rectangle x coordinate as well as the width, we want to use the `ScaleBand` since it has the derived `band` value in addition to the partitioning of a range.
 
 ```gjs live preview
-import { scaleBand, scaleLinear } from '@lineal-viz/lineal/helpers';
-import { Line, Axis, GridLines } from '@lineal-viz/lineal/components';
+import { scaleBand, scaleLinear } from '@hashicorp/lineal/helpers';
+import { Line, Axis, GridLines } from '@hashicorp/lineal/components';
 import { array } from '@ember/helper';
 import { and } from '~docs/helpers/truth-helpers';
 import data from '~docs/helpers/data';
@@ -90,8 +90,8 @@ import data from '~docs/helpers/data';
 With our scales established, let's draw some rectangles.
 
 ```gjs live preview
-import { scaleBand, scaleLinear } from '@lineal-viz/lineal/helpers';
-import { Bars, Axis, GridLines } from '@lineal-viz/lineal/components';
+import { scaleBand, scaleLinear } from '@hashicorp/lineal/helpers';
+import { Bars, Axis, GridLines } from '@hashicorp/lineal/components';
 import { array } from '@ember/helper';
 import { and } from '~docs/helpers/truth-helpers';
 import data from '~docs/helpers/data';
@@ -153,8 +153,8 @@ A neat property of `y` and `height` for this particular chart is that they are s
 This is another fun chart for showing distributions across two dimensions. It also conveniently exercises the new `ScalePoint` and `Points` mark. We'll make a fairly typical activity chart here, plotting hours on the x-axis and days of the week on the y-axis. A chart like this helps analysts identity usage patterns (e.g., does activity skew towards a 9-5 schedule? Are weekends less busy than week days?).
 
 ```gjs live preview
-import { scaleLinear, scalePoint } from '@lineal-viz/lineal/helpers';
-import { Line, Axis, GridLines, Fluid } from '@lineal-viz/lineal/components';
+import { scaleLinear, scalePoint } from '@hashicorp/lineal/helpers';
+import { Line, Axis, GridLines, Fluid } from '@hashicorp/lineal/components';
 import { array } from '@ember/helper';
 import { and } from '~docs/helpers/truth-helpers';
 import data from '~docs/helpers/data';
@@ -207,8 +207,8 @@ This should look pretty much the same as the axes and bars for our bar chart abo
 - **Making room for circle sizes**: The range for the size scale for the points will need to fit within the step size of both the x-scale and the y-scale. Assuming the x and y scale ranges are hardcoded, then this math can be done upfront.
 
 ```gjs live preview
-import { scaleLinear, scalePoint, scaleSqrt, scaleOrdinal, cssRange } from '@lineal-viz/lineal/helpers';
-import { Points, Axis, GridLines, Fluid } from '@lineal-viz/lineal/components';
+import { scaleLinear, scalePoint, scaleSqrt, scaleOrdinal, cssRange } from '@hashicorp/lineal/helpers';
+import { Points, Axis, GridLines, Fluid } from '@hashicorp/lineal/components';
 import { array } from '@ember/helper';
 import { and } from '~docs/helpers/truth-helpers';
 import { div as divide } from '~docs/helpers/math';
@@ -265,8 +265,8 @@ import data from '~docs/helpers/data';
 Points themselves can still feel squishy from an analytics perspective. [Our perception of differences in area isn't very good](https://courses.ischool.berkeley.edu/i247/f05/readings/Cleveland_GraphicalPerception_Science85.pdf), so let's add text.
 
 ```gjs live preview
-import { scaleLinear, scalePoint, scaleSqrt, scaleOrdinal, cssRange } from '@lineal-viz/lineal/helpers';
-import { Points, Axis, GridLines, Fluid } from '@lineal-viz/lineal/components';
+import { scaleLinear, scalePoint, scaleSqrt, scaleOrdinal, cssRange } from '@hashicorp/lineal/helpers';
+import { Points, Axis, GridLines, Fluid } from '@hashicorp/lineal/components';
 import { array } from '@ember/helper';
 import { and } from '~docs/helpers/truth-helpers';
 import { div as divide } from '~docs/helpers/math';
@@ -346,8 +346,8 @@ First, let's make sure our data is well-ordered. The `Points` component will ren
 If we assume a typical Western reading order of left to right and top to bottom, then what we want to do is pre-sort our data by y encoding and x encoding. But we also can't rely on the axis ticks to assist a screen reader user. A visual user will associate axis ticks with marks due to positional alignment, but that alignment isn't present in the DOM. Instead we'll mark the axes as `aria-hidden` and bake the x and y encodings into the text `aria-label`.
 
 ```gjs live preview
-import { scaleLinear, scalePoint, scaleSqrt, scaleOrdinal, cssRange } from '@lineal-viz/lineal/helpers';
-import { Points, Axis, GridLines, Fluid } from '@lineal-viz/lineal/components';
+import { scaleLinear, scalePoint, scaleSqrt, scaleOrdinal, cssRange } from '@hashicorp/lineal/helpers';
+import { Points, Axis, GridLines, Fluid } from '@hashicorp/lineal/components';
 import { array } from '@ember/helper';
 import { and } from '~docs/helpers/truth-helpers';
 import { div as divide } from '~docs/helpers/math';
@@ -430,7 +430,7 @@ All this talk of tables and HTML makes for a good opportunity to use Lineal prim
 **Table**
 
 ```gjs live preview
-import { scaleLinear } from '@lineal-viz/lineal/helpers';
+import { scaleLinear } from '@hashicorp/lineal/helpers';
 import { concat } from '@ember/helper';
 import { or } from '~docs/helpers/truth-helpers';
 import { range, groupBy, findBy } from '~docs/helpers/collection';

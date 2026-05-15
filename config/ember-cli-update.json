@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "projectName": "@lineal-viz/lineal",
+  "projectName": "@hashicorp/lineal",
   "packages": [
     {
       "name": "@ember/addon-blueprint",

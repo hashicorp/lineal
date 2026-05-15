@@ -271,7 +271,7 @@ import SlopeChart from '../components/charts/slope-chart';
     <footer class="showcase-footer">
       <p>
         Built with
-        <strong>@lineal-viz/lineal</strong>
+        <strong>@hashicorp/lineal</strong>
         — A declarative data visualization library for Ember.js
       </p>
     </footer>

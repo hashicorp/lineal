@@ -10,8 +10,8 @@ To talk about stacks we first have to talk about data. Well, first let's look at
 ```gjs live preview
 import Component from '@glimmer/component';
 import { tracked, cached } from '@glimmer/tracking';
-import { scalePoint, scaleLinear } from '@lineal-viz/lineal/helpers';
-import { Area, Axis, GridLines, Fluid } from '@lineal-viz/lineal/components';
+import { scalePoint, scaleLinear } from '@hashicorp/lineal/helpers';
+import { Area, Axis, GridLines, Fluid } from '@hashicorp/lineal/components';
 import { array } from '@ember/helper';
 import { and } from '~docs/helpers/truth-helpers';
 import { flatGroup } from 'd3-array';
@@ -96,8 +96,8 @@ Let's try again with the other kind of mark that is commonly stacked: bars.
 ```gjs live preview
 import Component from '@glimmer/component';
 import { tracked, cached } from '@glimmer/tracking';
-import { scaleBand, scaleLinear } from '@lineal-viz/lineal/helpers';
-import { VBars, Axis, GridLines, Fluid } from '@lineal-viz/lineal/components';
+import { scaleBand, scaleLinear } from '@hashicorp/lineal/helpers';
+import { VBars, Axis, GridLines, Fluid } from '@hashicorp/lineal/components';
 import { array } from '@ember/helper';
 import { and } from '~docs/helpers/truth-helpers';
 import { flatGroup } from 'd3-array';
@@ -413,8 +413,8 @@ First and foremost, let's go back to that stacked bar chart example from the top
 ```gjs live preview
 import Component from '@glimmer/component';
 import { tracked, cached } from '@glimmer/tracking';
-import { scaleBand, scaleLinear } from '@lineal-viz/lineal/helpers';
-import { VBars, Axis, GridLines, Fluid } from '@lineal-viz/lineal/components';
+import { scaleBand, scaleLinear } from '@hashicorp/lineal/helpers';
+import { VBars, Axis, GridLines, Fluid } from '@hashicorp/lineal/components';
 import { array } from '@ember/helper';
 import { and } from '~docs/helpers/truth-helpers';
 import { flatGroup } from 'd3-array';
@@ -525,8 +525,8 @@ What we want to do is simultaneously compare total energy per capita by region a
 ```gjs live preview
 import Component from '@glimmer/component';
 import { tracked, cached } from '@glimmer/tracking';
-import { stackH, scaleLinear, scaleBand } from '@lineal-viz/lineal/helpers';
-import { HBars, Axis, GridLines, Fluid } from '@lineal-viz/lineal/components';
+import { stackH, scaleLinear, scaleBand } from '@hashicorp/lineal/helpers';
+import { HBars, Axis, GridLines, Fluid } from '@hashicorp/lineal/components';
 import { array } from '@ember/helper';
 import { and } from '~docs/helpers/truth-helpers';
 import { inc } from '~docs/helpers/math';
@@ -654,10 +654,10 @@ Here's a closer look at Japan's energy mix over time in another popular stacked 
 ```gjs live preview
 import Component from '@glimmer/component';
 import { tracked, cached } from '@glimmer/tracking';
-import { stackV, scaleLinear } from '@lineal-viz/lineal/helpers';
-import { Area, Axis, Fluid } from '@lineal-viz/lineal/components';
-import { interactorCartesianHorizontal } from '@lineal-viz/lineal/modifiers';
-import { ScaleOrdinal } from '@lineal-viz/lineal/utils/scale';
+import { stackV, scaleLinear } from '@hashicorp/lineal/helpers';
+import { Area, Axis, Fluid } from '@hashicorp/lineal/components';
+import { interactorCartesianHorizontal } from '@hashicorp/lineal/modifiers';
+import { ScaleOrdinal } from '@hashicorp/lineal/utils/scale';
 import { array, concat } from '@ember/helper';
 import { and } from '~docs/helpers/truth-helpers';
 import { mapBy, findBy } from '~docs/helpers/collection';
@@ -820,8 +820,8 @@ Here's the above G20 power consumption diverging stacked bar chart implemented w
 ```gjs live preview
 import Component from '@glimmer/component';
 import { tracked, cached } from '@glimmer/tracking';
-import { scaleLinear } from '@lineal-viz/lineal/helpers';
-import { Fluid } from '@lineal-viz/lineal/components';
+import { scaleLinear } from '@hashicorp/lineal/helpers';
+import { Fluid } from '@hashicorp/lineal/components';
 import { array, concat } from '@ember/helper';
 import { flatGroup, sum, max } from 'd3-array';
 import { inc, sub } from '~docs/helpers/math';

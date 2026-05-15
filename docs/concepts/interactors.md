@@ -12,7 +12,7 @@ Lineal, being a toolkit for Ember, first and foremost doesn't want to be respons
 ```gjs live preview
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { Arcs, Arc } from '@lineal-viz/lineal/components';
+import { Arcs, Arc } from '@hashicorp/lineal/components';
 import { array, hash, fn } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { eq } from '~docs/helpers/truth-helpers';
@@ -86,9 +86,9 @@ Interactors are the answer to this dilemma. They are modifiers that Lineal inclu
 ```gjs live preview
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { scaleLinear } from '@lineal-viz/lineal/helpers';
-import { Fluid, Axis, GridLines, Line } from '@lineal-viz/lineal/components';
-import { interactorCartesianHorizontal } from '@lineal-viz/lineal/modifiers';
+import { scaleLinear } from '@hashicorp/lineal/helpers';
+import { Fluid, Axis, GridLines, Line } from '@hashicorp/lineal/components';
+import { interactorCartesianHorizontal } from '@hashicorp/lineal/modifiers';
 import { array, concat } from '@ember/helper';
 import { and } from '~docs/helpers/truth-helpers';
 import generateSine from '~docs/helpers/generate-sine';

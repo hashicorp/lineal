@@ -41,7 +41,7 @@ import { didResize } from 'ember-resize-modifier';
  * ### ✅ Correct (stable scale instances)
  * ```gts
  * import { cached } from '@glimmer/tracking';
- * import { ScaleLinear } from '@lineal-viz/lineal/utils/scale';
+ * import { ScaleLinear } from '@hashicorp/lineal/utils/scale';
  *
  * class MyChart extends Component {
  *   @cached get xScale() {

@@ -8,8 +8,8 @@ order: 1
 Lineal is not a chart library. It does not provide charts, it provides the tools to build charts. The foundation of all data visualization are scales: ways to map data-space to pixel-space.
 
 ```gjs live preview
-import { scaleLinear, scalePow, scaleLog, scaleSqrt, scaleSymlog } from '@lineal-viz/lineal/helpers';
-import { Fluid } from '@lineal-viz/lineal/components';
+import { scaleLinear, scalePow, scaleLog, scaleSqrt, scaleSymlog } from '@hashicorp/lineal/helpers';
+import { Fluid } from '@hashicorp/lineal/components';
 import { array } from '@ember/helper';
 import { sub } from '~docs/helpers/math';
 
@@ -114,8 +114,8 @@ With marks, scales, and a little bit of CSS, we can already achieve a lot.
 A gauge chart is just a couple arcs.
 
 ```gjs live preview
-import { Arc } from '@lineal-viz/lineal/components';
-import { scaleLinear } from '@lineal-viz/lineal/helpers';
+import { Arc } from '@hashicorp/lineal/components';
+import { scaleLinear } from '@hashicorp/lineal/helpers';
 
 <template>
   <svg viewBox='-135 -130 270 175' width='300' role='img' aria-label="7.2" style='display:block; margin:auto;'>
@@ -145,7 +145,7 @@ import { scaleLinear } from '@lineal-viz/lineal/helpers';
 Donut charts can have rings if you're careful with your radii.
 
 ```gjs live preview
-import { Arcs } from '@lineal-viz/lineal/components';
+import { Arcs } from '@hashicorp/lineal/components';
 import { array, hash } from '@ember/helper';
 
 <template>

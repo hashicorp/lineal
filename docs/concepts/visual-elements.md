@@ -14,8 +14,8 @@ Without axes, charts can only be read as a mood (data art) or by people steeped 
 Lineal's axis component (by wrapping D3 scales) provide automatic tick and label generation while deferring style and positioning to CSS. Importantly, Lineal's axis component does not wrap D3 axis. It is a native Glimmer component that uses a D3 scale as a data source just like the D3 access component does. This way all DOM creation and manipulation remains within the Glimmer VM.
 
 ```gjs live preview
-import { scaleLinear, scalePow } from '@lineal-viz/lineal/helpers';
-import { Fluid, Axis } from '@lineal-viz/lineal/components';
+import { scaleLinear, scalePow } from '@hashicorp/lineal/helpers';
+import { Fluid, Axis } from '@hashicorp/lineal/components';
 import { array } from '@ember/helper';
 
 <template>
@@ -51,8 +51,8 @@ Gridlines, like axes, help a viewer interpret a visualization. When using D3 dir
 Since gridlines are so common, Lineal has a first-class gridlines component so no tricks are needed. Just like the Lineal axis component, the Lineal gridlines component is built with Glimmer.
 
 ```gjs live preview
-import { scaleLinear, scalePow } from '@lineal-viz/lineal/helpers';
-import { Fluid, Axis, GridLines } from '@lineal-viz/lineal/components';
+import { scaleLinear, scalePow } from '@hashicorp/lineal/helpers';
+import { Fluid, Axis, GridLines } from '@hashicorp/lineal/components';
 import { array } from '@ember/helper';
 
 <template>

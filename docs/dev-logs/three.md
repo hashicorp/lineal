@@ -61,7 +61,7 @@ So extending this (with a smattering of splattributes) we can do things like thi
 ```gjs live preview
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { Arcs, Arc } from '@lineal-viz/lineal/components';
+import { Arcs, Arc } from '@hashicorp/lineal/components';
 import { array, hash, fn } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { eq } from '~docs/helpers/truth-helpers';
@@ -128,8 +128,8 @@ If we _must_ use DOM events with no extra spice, we can try adding `circle` elem
 ```gjs live preview
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { scaleLinear } from '@lineal-viz/lineal/helpers';
-import { Fluid, Axis, GridLines, Line } from '@lineal-viz/lineal/components';
+import { scaleLinear } from '@hashicorp/lineal/helpers';
+import { Fluid, Axis, GridLines, Line } from '@hashicorp/lineal/components';
 import { array, fn } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { and } from '~docs/helpers/truth-helpers';
@@ -303,9 +303,9 @@ Let's update the previous example to use an interactor. First, the diff:
 ```gjs live preview
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { scaleLinear } from '@lineal-viz/lineal/helpers';
-import { Fluid, Axis, GridLines, Line } from '@lineal-viz/lineal/components';
-import { interactorCartesianHorizontal } from '@lineal-viz/lineal/modifiers';
+import { scaleLinear } from '@hashicorp/lineal/helpers';
+import { Fluid, Axis, GridLines, Line } from '@hashicorp/lineal/components';
+import { interactorCartesianHorizontal } from '@hashicorp/lineal/modifiers';
 import { array } from '@ember/helper';
 import { and, eq } from '~docs/helpers/truth-helpers';
 import generateSine from '~docs/helpers/generate-sine';
@@ -447,9 +447,9 @@ Please ignore the part where the tooltip doesn't go away when you mouse out of t
 ```gjs live preview
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { scaleLinear } from '@lineal-viz/lineal/helpers';
-import { Fluid, Axis, GridLines, Line } from '@lineal-viz/lineal/components';
-import { interactorCartesianHorizontal } from '@lineal-viz/lineal/modifiers';
+import { scaleLinear } from '@hashicorp/lineal/helpers';
+import { Fluid, Axis, GridLines, Line } from '@hashicorp/lineal/components';
+import { interactorCartesianHorizontal } from '@hashicorp/lineal/modifiers';
 import { array, concat } from '@ember/helper';
 import { and } from '~docs/helpers/truth-helpers';
 import generateSine from '~docs/helpers/generate-sine';

@@ -10,7 +10,7 @@ Ultimately, every data visualization maps the data to be visualized to a visual 
 Scales map **domain** data to **range** data. Or put another way, scales map data space to visual space.
 
 ```js
-import { ScaleLinear } from '@lineal-viz/lineal/utils/scale';
+import { ScaleLinear } from '@hashicorp/lineal/utils/scale';
 
 // Our dataset is for birth years. We know the minimum is 1900 and the maximum
 // is 2023.
@@ -32,7 +32,7 @@ const x = scale.compute(1984); // 535.37
 Since this is Ember, and Lineal has a template-first design philosophy, scales are all also available as helpers.
 
 ```gts
-import { scaleLinear } from '@lineal-viz/lineal/helpers';
+import { scaleLinear } from '@hashicorp/lineal/helpers';
 
 <template>
   {{#let (scaleLinear domain='1900..2023' range='30..770') as |scale|}}
@@ -91,7 +91,7 @@ console.log(scale.compute(3)) // 30
 The immediate benefit of this feature is a nice experience when using scales in templates. The `array` helper can be used to construct static arrays in templates, but it's just a bit of friction that can be smoothed over.
 
 ```gts
-import { scaleLinear } from '@lineal-viz/lineal/helpers';
+import { scaleLinear } from '@hashicorp/lineal/helpers';
 import { array } from '@ember/helper';
 
 <template>
@@ -163,7 +163,7 @@ Lineal has a class and a helper for almost all D3 Scales.
 ### Linear
 
 ```gjs live preview
-import { scaleLinear } from '@lineal-viz/lineal/helpers';
+import { scaleLinear } from '@hashicorp/lineal/helpers';
 import generateLinear from '~docs/helpers/generate-linear';
 import ScaleDemo from '~docs/components/scale-demo';
 
@@ -178,7 +178,7 @@ import ScaleDemo from '~docs/components/scale-demo';
 ### Power
 
 ```gjs live preview
-import { scalePow } from '@lineal-viz/lineal/helpers';
+import { scalePow } from '@hashicorp/lineal/helpers';
 import generateLinear from '~docs/helpers/generate-linear';
 import ScaleDemo from '~docs/components/scale-demo';
 
@@ -193,7 +193,7 @@ import ScaleDemo from '~docs/components/scale-demo';
 ### Logarithmic
 
 ```gjs live preview
-import { scaleLog } from '@lineal-viz/lineal/helpers';
+import { scaleLog } from '@hashicorp/lineal/helpers';
 import generateLinear from '~docs/helpers/generate-linear';
 import ScaleDemo from '~docs/components/scale-demo';
 
@@ -208,7 +208,7 @@ import ScaleDemo from '~docs/components/scale-demo';
 ### Square Root
 
 ```gjs live preview
-import { scaleSqrt } from '@lineal-viz/lineal/helpers';
+import { scaleSqrt } from '@hashicorp/lineal/helpers';
 import generateLinear from '~docs/helpers/generate-linear';
 import ScaleDemo from '~docs/components/scale-demo';
 
@@ -223,7 +223,7 @@ import ScaleDemo from '~docs/components/scale-demo';
 ### Symmetric Logarithmic
 
 ```gjs live preview
-import { scaleSymlog } from '@lineal-viz/lineal/helpers';
+import { scaleSymlog } from '@hashicorp/lineal/helpers';
 import generateLinear from '~docs/helpers/generate-linear';
 import ScaleDemo from '~docs/components/scale-demo';
 
@@ -238,9 +238,9 @@ import ScaleDemo from '~docs/components/scale-demo';
 ### Radial
 
 ```gjs live preview
-import { scaleRadial } from '@lineal-viz/lineal/helpers';
+import { scaleRadial } from '@hashicorp/lineal/helpers';
 import generateLinear from '~docs/helpers/generate-linear';
-import { Fluid, Points } from '@lineal-viz/lineal/components';
+import { Fluid, Points } from '@hashicorp/lineal/components';
 import { array } from '@ember/helper';
 import { div as divide, min } from '~docs/helpers/math';
 
@@ -280,7 +280,7 @@ import { div as divide, min } from '~docs/helpers/math';
 ### Time
 
 ```gjs live preview
-import { scaleTime } from '@lineal-viz/lineal/helpers';
+import { scaleTime } from '@hashicorp/lineal/helpers';
 import generateLinearDates from '~docs/helpers/generate-linear-dates';
 import date from '~docs/helpers/date';
 import ScaleDemo from '~docs/components/scale-demo';
@@ -297,7 +297,7 @@ import { array } from '@ember/helper';
 ### UTC
 
 ```gjs live preview
-import { scaleUtc } from '@lineal-viz/lineal/helpers';
+import { scaleUtc } from '@hashicorp/lineal/helpers';
 import generateLinearDates from '~docs/helpers/generate-linear-dates';
 import date from '~docs/helpers/date';
 import ScaleDemo from '~docs/components/scale-demo';
@@ -314,7 +314,7 @@ import { array } from '@ember/helper';
 ### Diverging
 
 ```gjs live preview
-import { scaleDiverging } from '@lineal-viz/lineal/helpers';
+import { scaleDiverging } from '@hashicorp/lineal/helpers';
 import generateLinear from '~docs/helpers/generate-linear';
 import colorInterpolator from '~docs/helpers/color-interpolator';
 import DivergingScaleDemo from '~docs/components/diverging-scale-demo';
@@ -335,7 +335,7 @@ import { array } from '@ember/helper';
 ### Diverging Power
 
 ```gjs live preview
-import { scaleDivergingPow } from '@lineal-viz/lineal/helpers';
+import { scaleDivergingPow } from '@hashicorp/lineal/helpers';
 import generateLinear from '~docs/helpers/generate-linear';
 import colorInterpolator from '~docs/helpers/color-interpolator';
 import DivergingScaleDemo from '~docs/components/diverging-scale-demo';
@@ -357,7 +357,7 @@ import { array } from '@ember/helper';
 ### Diverging Log
 
 ```gjs live preview
-import { scaleDivergingLog } from '@lineal-viz/lineal/helpers';
+import { scaleDivergingLog } from '@hashicorp/lineal/helpers';
 import generateLinear from '~docs/helpers/generate-linear';
 import colorInterpolator from '~docs/helpers/color-interpolator';
 import DivergingScaleDemo from '~docs/components/diverging-scale-demo';
@@ -379,7 +379,7 @@ import { array } from '@ember/helper';
 ### Diverging Square Root
 
 ```gjs live preview
-import { scaleDivergingSqrt } from '@lineal-viz/lineal/helpers';
+import { scaleDivergingSqrt } from '@hashicorp/lineal/helpers';
 import generateLinear from '~docs/helpers/generate-linear';
 import colorInterpolator from '~docs/helpers/color-interpolator';
 import DivergingScaleDemo from '~docs/components/diverging-scale-demo';
@@ -400,7 +400,7 @@ import { array } from '@ember/helper';
 ### Diverging Symmetric Logarithmic
 
 ```gjs live preview
-import { scaleDivergingSymlog } from '@lineal-viz/lineal/helpers';
+import { scaleDivergingSymlog } from '@hashicorp/lineal/helpers';
 import generateLinear from '~docs/helpers/generate-linear';
 import colorInterpolator from '~docs/helpers/color-interpolator';
 import DivergingScaleDemo from '~docs/components/diverging-scale-demo';
@@ -421,7 +421,7 @@ import { array } from '@ember/helper';
 ### Quantize
 
 ```gjs live preview
-import { scaleQuantize, cssRange } from '@lineal-viz/lineal/helpers';
+import { scaleQuantize, cssRange } from '@hashicorp/lineal/helpers';
 import generateNormal from '~docs/helpers/generate-normal';
 import PartitioningScaleDemo from '~docs/components/partitioning-scale-demo';
 
@@ -436,7 +436,7 @@ import PartitioningScaleDemo from '~docs/components/partitioning-scale-demo';
 ### Quantile
 
 ```gjs live preview
-import { scaleQuantile, cssRange } from '@lineal-viz/lineal/helpers';
+import { scaleQuantile, cssRange } from '@hashicorp/lineal/helpers';
 import generateNormal from '~docs/helpers/generate-normal';
 import PartitioningScaleDemo from '~docs/components/partitioning-scale-demo';
 import { mapBy } from '~docs/helpers/collection';
@@ -454,7 +454,7 @@ import { mapBy } from '~docs/helpers/collection';
 ### Threshold
 
 ```gjs live preview
-import { scaleThreshold, cssRange } from '@lineal-viz/lineal/helpers';
+import { scaleThreshold, cssRange } from '@hashicorp/lineal/helpers';
 import generateNormal from '~docs/helpers/generate-normal';
 import PartitioningScaleDemo from '~docs/components/partitioning-scale-demo';
 import { array } from '@ember/helper';
@@ -470,7 +470,7 @@ import { array } from '@ember/helper';
 ### Ordinal
 
 ```gjs live preview
-import { scaleOrdinal } from '@lineal-viz/lineal/helpers';
+import { scaleOrdinal } from '@hashicorp/lineal/helpers';
 import { array } from '@ember/helper';
 
 <template>
@@ -492,8 +492,8 @@ import { array } from '@ember/helper';
 ### Band
 
 ```gjs live preview
-import { scaleBand } from '@lineal-viz/lineal/helpers';
-import { Fluid } from '@lineal-viz/lineal/components';
+import { scaleBand } from '@hashicorp/lineal/helpers';
+import { Fluid } from '@hashicorp/lineal/components';
 import { array, concat } from '@ember/helper';
 
 <template>
@@ -520,8 +520,8 @@ import { array, concat } from '@ember/helper';
 ### Point
 
 ```gjs live preview
-import { scalePoint } from '@lineal-viz/lineal/helpers';
-import { Fluid } from '@lineal-viz/lineal/components';
+import { scalePoint } from '@hashicorp/lineal/helpers';
+import { Fluid } from '@hashicorp/lineal/components';
 import { array, concat } from '@ember/helper';
 
 <template>

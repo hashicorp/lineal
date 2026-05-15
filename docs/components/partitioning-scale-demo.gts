@@ -5,10 +5,10 @@
 import Component from '@glimmer/component';
 import { cached } from '@glimmer/tracking';
 import { scheduleOnce } from '@ember/runloop';
-import { Bounds } from '@lineal-viz/lineal';
+import { Bounds } from '@hashicorp/lineal';
 import fmt from '~docs/helpers/fmt';
 
-import type { Scale } from '@lineal-viz/lineal/utils/scale';
+import type { Scale } from '@hashicorp/lineal/utils/scale';
 
 export interface PartitioningScaleDemoSignature {
   Args: {

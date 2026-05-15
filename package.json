@@ -1,5 +1,5 @@
 {
-  "name": "@lineal-viz/lineal",
+  "name": "@hashicorp/lineal",
   "version": "0.5.1",
   "description": "A data visualization toolkit for Ember.",
   "keywords": [

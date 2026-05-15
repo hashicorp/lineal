@@ -18,7 +18,7 @@
     "@babel/core": "^7.29.0",
     "@glimmer/component": "^2.1.1",
     "@glimmer/tracking": "^1.1.2",
-    "@lineal-viz/lineal": "workspace:*",
+    "@hashicorp/lineal": "workspace:*",
     "@nullvoxpopuli/ember-composable-helpers": "^5.3.1",
     "@types/d3-scale-chromatic": "^3.1.0",
     "babel-plugin-ember-template-compilation": "^4.0.0",
