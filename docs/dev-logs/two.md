@@ -49,8 +49,8 @@ import generateSine from '~docs/helpers/generate-sine';
 Alright, now let's plot it. This should look familiar if you read the last dev log.
 
 ```gjs live preview
-import { scaleLinear } from '@lineal-viz/lineal/helpers';
-import { Line, Fluid } from '@lineal-viz/lineal/components';
+import { scaleLinear } from '@hashicorp/lineal/helpers';
+import { Line, Fluid } from '@hashicorp/lineal/components';
 import { sub } from '~docs/helpers/math';
 import { array } from '@ember/helper';
 import generateSine from '~docs/helpers/generate-sine';
@@ -92,8 +92,8 @@ The new `Axis` component is a Glimmer rewrite of [d3-axis](https://github.com/d3
 Since we already have scales in the template context, we can pass them along to our axis components, which will treat them as tracked properties that SVG elements can be derived from.
 
 ```gjs live preview
-import { scaleLinear } from '@lineal-viz/lineal/helpers';
-import { Line, Axis, Fluid } from '@lineal-viz/lineal/components';
+import { scaleLinear } from '@hashicorp/lineal/helpers';
+import { Line, Axis, Fluid } from '@hashicorp/lineal/components';
 import { array } from '@ember/helper';
 import { and } from '~docs/helpers/truth-helpers';
 import generateSine from '~docs/helpers/generate-sine';
@@ -149,8 +149,8 @@ For the full graph paper experience, we want gridlines too. Traditionally with d
 Since this is such a common pattern and since we aren't in the business of imperatively tweaking things, Lineal has a `GridLines` component.
 
 ```gjs live preview
-import { scaleLinear } from '@lineal-viz/lineal/helpers';
-import { Line, Axis, GridLines, Fluid } from '@lineal-viz/lineal/components';
+import { scaleLinear } from '@hashicorp/lineal/helpers';
+import { Line, Axis, GridLines, Fluid } from '@hashicorp/lineal/components';
 import { array } from '@ember/helper';
 import { and } from '~docs/helpers/truth-helpers';
 import generateSine from '~docs/helpers/generate-sine';
@@ -250,8 +250,8 @@ We have a few presentational attributes on our SVG elements that we can move to 
 ```
 
 ```gjs live preview
-import { scaleLinear } from '@lineal-viz/lineal/helpers';
-import { Line, Axis, GridLines, Fluid } from '@lineal-viz/lineal/components';
+import { scaleLinear } from '@hashicorp/lineal/helpers';
+import { Line, Axis, GridLines, Fluid } from '@hashicorp/lineal/components';
 import { array } from '@ember/helper';
 import { and } from '~docs/helpers/truth-helpers';
 import generateSine from '~docs/helpers/generate-sine';
@@ -316,8 +316,8 @@ Next, let's try to make the chart somewhat useful for the screen reader experien
 Finally, to prevent the loss of granular information, we'll provide a table of the underlying data. The entire premise of data visualization is that visually encoding data makes patterns, trends, and anomolies immediately apparent where they wouldn't be in a table. Given this premise, providing a table might seem counterproductive, or even a forfeit of the ideals of the data viz. I wouldn't argue that it's a forfeit of something, but consider the alternative: _no_ information for users who with low or no vision.
 
 ```gjs live preview
-import { scaleLinear } from '@lineal-viz/lineal/helpers';
-import { Line, Axis, GridLines, Fluid } from '@lineal-viz/lineal/components';
+import { scaleLinear } from '@hashicorp/lineal/helpers';
+import { Line, Axis, GridLines, Fluid } from '@hashicorp/lineal/components';
 import { array } from '@ember/helper';
 import { and } from '~docs/helpers/truth-helpers';
 import generateSine from '~docs/helpers/generate-sine';
@@ -432,8 +432,8 @@ We will construct a few wrapping elements like so:
 ```
 
 ```gjs live preview
-import { scaleLinear } from '@lineal-viz/lineal/helpers';
-import { Line, Axis, GridLines, Fluid } from '@lineal-viz/lineal/components';
+import { scaleLinear } from '@hashicorp/lineal/helpers';
+import { Line, Axis, GridLines, Fluid } from '@hashicorp/lineal/components';
 import { array } from '@ember/helper';
 import { and } from '~docs/helpers/truth-helpers';
 import generateSine from '~docs/helpers/generate-sine';

@@ -10,7 +10,7 @@ Lineal is a template-first data visualization toolkit for Ember. Instead of offe
 ## Installation
 
 ```bash
-ember install @lineal-viz/lineal
+ember install @hashicorp/lineal
 ```
 
 ## Read the docs

@@ -12,8 +12,8 @@ Charts on the web need to adapt to their container size. While CSS can handle la
 Wrap your chart in `Fluid` to get responsive dimensions:
 
 ```gjs live preview
-import { Fluid } from '@lineal-viz/lineal/components';
-import { scaleLinear } from '@lineal-viz/lineal/helpers';
+import { Fluid } from '@hashicorp/lineal/components';
+import { scaleLinear } from '@hashicorp/lineal/helpers';
 import { array } from '@ember/helper';
 
 <template>
@@ -70,9 +70,9 @@ Define your scales as `@cached` class properties, then use `.derive()` inside th
 ```gts
 import Component from '@glimmer/component';
 import { cached } from '@glimmer/tracking';
-import { ScaleLinear } from '@lineal-viz/lineal/utils/scale';
+import { ScaleLinear } from '@hashicorp/lineal/utils/scale';
 import { extent } from 'd3-array';
-import { Fluid, Line } from '@lineal-viz/lineal/components';
+import { Fluid, Line } from '@hashicorp/lineal/components';
 import { array } from '@ember/helper';
 
 export default class MyChart extends Component {
@@ -131,8 +131,8 @@ Scale helpers (`scaleLinear`, `scaleTime`, etc.) are perfectly fine to use:
 - When scales have static domains that don't need qualification
 
 ```gts
-import { Fluid, Line } from '@lineal-viz/lineal/components';
-import { scaleLinear } from '@lineal-viz/lineal/helpers';
+import { Fluid, Line } from '@hashicorp/lineal/components';
+import { scaleLinear } from '@hashicorp/lineal/helpers';
 import { array } from '@ember/helper';
 
 <template>
@@ -163,10 +163,10 @@ Here's a complete responsive line chart with proper scale handling:
 ```gts
 import Component from '@glimmer/component';
 import { tracked, cached } from '@glimmer/tracking';
-import { ScaleLinear } from '@lineal-viz/lineal/utils/scale';
+import { ScaleLinear } from '@hashicorp/lineal/utils/scale';
 import { extent } from 'd3-array';
-import { Fluid, Axis, GridLines, Line } from '@lineal-viz/lineal/components';
-import { interactorCartesianHorizontal } from '@lineal-viz/lineal/modifiers';
+import { Fluid, Axis, GridLines, Line } from '@hashicorp/lineal/components';
+import { interactorCartesianHorizontal } from '@hashicorp/lineal/modifiers';
 import { array } from '@ember/helper';
 import { and } from '~docs/helpers/truth-helpers';
 

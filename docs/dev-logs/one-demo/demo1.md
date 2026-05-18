@@ -10,8 +10,8 @@ A line chart of U.S. population over the last few decades.
 ```gjs live preview
 import Component from '@glimmer/component';
 import { tracked, cached } from '@glimmer/tracking';
-import { scaleLinear } from '@lineal-viz/lineal/helpers';
-import { Line, Fluid } from '@lineal-viz/lineal/components';
+import { scaleLinear } from '@hashicorp/lineal/helpers';
+import { Line, Fluid } from '@hashicorp/lineal/components';
 import { array } from '@ember/helper';
 import { and } from '~docs/helpers/truth-helpers';
 

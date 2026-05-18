@@ -3,10 +3,10 @@
  */
 
 import { array } from '@ember/helper';
-import { Fluid, GridLines, Axis, Points } from '@lineal-viz/lineal/components';
+import { Fluid, GridLines, Axis, Points } from '@hashicorp/lineal/components';
 
 import type { TOC } from '@ember/component/template-only';
-import type { Scale } from '@lineal-viz/lineal/utils/scale';
+import type { Scale } from '@hashicorp/lineal/utils/scale';
 
 export interface ScaleDemoSignature {
   Element: HTMLDivElement;

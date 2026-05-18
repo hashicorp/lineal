@@ -5,7 +5,7 @@
 import { concat } from '@ember/helper';
 
 import type { TOC } from '@ember/component/template-only';
-import type { Scale } from '@lineal-viz/lineal/utils/scale';
+import type { Scale } from '@hashicorp/lineal/utils/scale';
 
 export interface DivergingScaleDemoSignature {
   Element: HTMLDivElement;

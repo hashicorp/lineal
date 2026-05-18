@@ -10,7 +10,7 @@ Once data has been mapped to visual space using [scales](/concepts/scales), the 
 Sometimes it is simple enough to create these presentational elements on your own. After all, scales can compute values and those values can be bound to attributes using Handlebars.
 
 ```gjs live preview
-import { scaleLinear } from '@lineal-viz/lineal/helpers';
+import { scaleLinear } from '@hashicorp/lineal/helpers';
 import generateSine from '~docs/helpers/generate-sine';
 
 <template>
@@ -36,8 +36,8 @@ import generateSine from '~docs/helpers/generate-sine';
 Other times, the mark we want to make isn't as simple as binding data, a transformation of some sort is needed first. That transformation can be tucked within a Mark component.
 
 ```gjs live preview
-import { scaleLinear } from '@lineal-viz/lineal/helpers';
-import { Line } from '@lineal-viz/lineal/components';
+import { scaleLinear } from '@hashicorp/lineal/helpers';
+import { Line } from '@hashicorp/lineal/components';
 import generateSine from '~docs/helpers/generate-sine';
 
 <template>
@@ -73,8 +73,8 @@ import generateSine from '~docs/helpers/generate-sine';
 Additionally, sometimes marks have their own properties that aren't derived from data. Like the way a line is drawn through points.
 
 ```gjs live preview
-import { scaleLinear } from '@lineal-viz/lineal/helpers';
-import { Line } from '@lineal-viz/lineal/components';
+import { scaleLinear } from '@hashicorp/lineal/helpers';
+import { Line } from '@hashicorp/lineal/components';
 import generateSine from '~docs/helpers/generate-sine';
 
 <template>
@@ -111,8 +111,8 @@ import generateSine from '~docs/helpers/generate-sine';
 And, much like with any component, sometimes having a Mark is useful just because it's nice to abstract repetitive code.
 
 ```gjs live preview
-import { scaleLinear } from '@lineal-viz/lineal/helpers';
-import { Line, Points } from '@lineal-viz/lineal/components';
+import { scaleLinear } from '@hashicorp/lineal/helpers';
+import { Line, Points } from '@hashicorp/lineal/components';
 import generateSine from '~docs/helpers/generate-sine';
 
 <template>
@@ -150,8 +150,8 @@ import generateSine from '~docs/helpers/generate-sine';
 Additionally, keeping the level of abstraction at Marks and not something higher level, like a chart type, means composing marks into richer visualizations comes naturally rather than being a battle against the toolkit or framework.
 
 ```gjs live preview
-import { scaleLinear, scaleBand } from '@lineal-viz/lineal/helpers';
-import { Line, Points, Bars } from '@lineal-viz/lineal/components';
+import { scaleLinear, scaleBand } from '@hashicorp/lineal/helpers';
+import { Line, Points, Bars } from '@hashicorp/lineal/components';
 import generateSine from '~docs/helpers/generate-sine';
 import { mapBy } from '~docs/helpers/collection';
 
@@ -268,8 +268,8 @@ For some marks, there is value in just the translating data values from data spa
 Here is an example of using `Points` to render text.
 
 ```gjs live preview
-import { scaleLinear } from '@lineal-viz/lineal/helpers';
-import { Line, Points } from '@lineal-viz/lineal/components';
+import { scaleLinear } from '@hashicorp/lineal/helpers';
+import { Line, Points } from '@hashicorp/lineal/components';
 import generateSine from '~docs/helpers/generate-sine';
 import { eq, lt } from '~docs/helpers/truth-helpers';
 import { mod } from '~docs/helpers/math';
@@ -362,8 +362,8 @@ This process of using `extent` to get the min/max of a dataset based on an acces
 Then a Mark accepts encodings and data that describe how a mark should be constructed. Using the data, the scale, and the encoding, Mark components will automatically compute the extent of a dataset and update the scale's domain to now be qualified.
 
 ```gjs live preview
-import { scaleLinear } from '@lineal-viz/lineal/helpers';
-import { Line, Axis } from '@lineal-viz/lineal/components';
+import { scaleLinear } from '@hashicorp/lineal/helpers';
+import { Line, Axis } from '@hashicorp/lineal/components';
 import { array, hash } from '@ember/helper';
 import { and } from '~docs/helpers/truth-helpers';
 
