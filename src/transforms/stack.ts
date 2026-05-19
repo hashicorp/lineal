@@ -183,7 +183,7 @@ const indicesToProperties = (data: D3StackSeries[], isVertical: boolean) => {
  * A transformation class to convert record data into stacked data.
  *
  * ```ts
- * import Stack from '@lineal-viz/transforms/stack';
+ * import Stack from '@hashicorp/lineal/transforms/stack';
  *
  *  const stack = new Stack({
  *    // Encodings
