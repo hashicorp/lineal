@@ -26,7 +26,7 @@
     "d3-array": "^3.2.4",
     "d3-scale-chromatic": "^3.1.0",
     "ember-modifier": "^4.3.0",
-    "ember-source": "~6.12.0",
+    "ember-source": "~7.0.0",
     "ember-truth-helpers": "^5.0.0",
     "markdownlint-cli2": "^0.22.1",
     "vite-plugin-ember": "^0.4.0",
