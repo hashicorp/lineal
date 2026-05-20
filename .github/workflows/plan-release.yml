@@ -18,6 +18,8 @@ jobs:
   should-run-release-plan-prepare:
     name: Should we run release-plan prepare?
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     outputs:
       should-prepare: ${{ steps.should-prepare.outputs.should-prepare }}
     steps:
