@@ -1,4 +1,4 @@
-name: lineal-viz
+name: addon
 
 permissions:
   contents: read
@@ -14,17 +14,17 @@ on:
       - 'tests/**'
       - 'package.json'
       - 'pnpm-lock.yaml'
-      - '.github/workflows/ci-lineal-viz.yml'
+      - '.github/workflows/ci-addon.yml'
   pull_request:
     paths:
       - 'src/**'
       - 'tests/**'
       - 'package.json'
       - 'pnpm-lock.yaml'
-      - '.github/workflows/ci-lineal-viz.yml'
+      - '.github/workflows/ci-addon.yml'
 
 concurrency:
-  group: ci-lineal-viz-${{ github.head_ref || github.ref }}
+  group: ci-addon-${{ github.head_ref || github.ref }}
   cancel-in-progress: true
 
 jobs:
