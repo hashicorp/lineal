@@ -70,7 +70,7 @@ export default defineConfig({
       ],
       alias: {
         '~docs': path.resolve(__dirname, '..'),
-        '@lineal-viz/lineal': path.resolve(__dirname, '../../dist'),
+        '@hashicorp/lineal': path.resolve(__dirname, '../../dist'),
       },
     },
     ssr: {
