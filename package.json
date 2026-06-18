@@ -60,10 +60,10 @@
     "ember-truth-helpers": "^5.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.29.0",
-    "@babel/eslint-parser": "^7.28.6",
-    "@babel/plugin-transform-typescript": "^7.28.6",
-    "@babel/runtime": "^7.29.2",
+    "@babel/core": "^8.0.1",
+    "@babel/eslint-parser": "^8.0.1",
+    "@babel/plugin-transform-typescript": "^8.0.1",
+    "@babel/runtime": "^8.0.0",
     "@ember/app-tsconfig": "^2.0.0",
     "@ember/library-tsconfig": "^2.0.0",
     "@ember/test-helpers": "^5.4.2",
@@ -86,7 +86,7 @@
     "@types/qunit": "^2.19.14",
     "@types/sinon": "^21.0.1",
     "babel-plugin-ember-template-compilation": "^4.0.0",
-    "concurrently": "^9.2.1",
+    "concurrently": "^10.0.3",
     "ember-page-title": "^9.0.3",
     "ember-qunit": "^9.0.4",
     "ember-source": "~7.0.0",
