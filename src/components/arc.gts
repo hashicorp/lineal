@@ -84,14 +84,12 @@ export default class Arc extends Component<ArcSignature> {
 
   @cached
   get d() {
-    // @ts-expect-error: Bad type upstream
-    return this.arc();
+    return this.arc(undefined as never);
   }
 
   @cached
   get centroid() {
-    // @ts-expect-error: Bad type upstream
-    const [x, y] = this.arc.centroid();
+    const [x, y] = this.arc.centroid(undefined as never);
     return { x, y };
   }
 

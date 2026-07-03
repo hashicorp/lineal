@@ -197,15 +197,13 @@ export default class Bars extends Component<BarsSignature> {
       return this.data.map((series) => {
         const idx = series.visualOrder;
         const barSeries: BarSeries = {
-          bars: series.map(
-            (d: any): BarDatum => ({
-              x: this.xScale.compute(d.x),
-              y: this.yScale.compute(d.y),
-              width: this.widthScale.compute(this.width.accessor(d)),
-              height: this.yScale.compute(d.y0) - this.yScale.compute(d.y),
-              datum: d,
-            }),
-          ),
+          bars: series.map((d: any): BarDatum => ({
+            x: this.xScale.compute(d.x),
+            y: this.yScale.compute(d.y),
+            width: this.widthScale.compute(this.width.accessor(d)),
+            height: this.yScale.compute(d.y0) - this.yScale.compute(d.y),
+            datum: d,
+          })),
         };
 
         if (borderRadius && (idx === 0 || idx === this.data.length - 1)) {
@@ -244,17 +242,15 @@ export default class Bars extends Component<BarsSignature> {
         return barSeries;
       });
     } else {
-      const bars = this.args.data.map(
-        (d: any): BarDatum => ({
-          x: this.xScale.compute(this.x.accessor(d)),
-          y: this.yScale.compute(this.y.accessor(d)),
-          width: this.widthScale.compute(this.width.accessor(d)),
-          height:
-            this.yScale.compute(this.y0?.accessor(d) ?? 0) -
-            this.yScale.compute(this.y.accessor(d)),
-          datum: d,
-        }),
-      );
+      const bars = this.args.data.map((d: any): BarDatum => ({
+        x: this.xScale.compute(this.x.accessor(d)),
+        y: this.yScale.compute(this.y.accessor(d)),
+        width: this.widthScale.compute(this.width.accessor(d)),
+        height:
+          this.yScale.compute(this.y0?.accessor(d) ?? 0) -
+          this.yScale.compute(this.y.accessor(d)),
+        datum: d,
+      }));
 
       if (borderRadius) {
         const radii = {
