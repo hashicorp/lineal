@@ -1,0 +1,1 @@
+{"version":3,"file":"css-four-prop-parse.d.ts","sourceRoot":"","sources":["../../src/utils/css-four-prop-parse.ts"],"names":[],"mappings":"AAAA;;GAEG;AAEH,MAAM,MAAM,QAAQ,GAAG;IACrB,GAAG,EAAE,MAAM,CAAC;IACZ,KAAK,EAAE,MAAM,CAAC;IACd,MAAM,EAAE,MAAM,CAAC;IACf,IAAI,EAAE,MAAM,CAAC;CACd,CAAC;AAIF,wBAAgB,gBAAgB,CAAC,GAAG,EAAE,MAAM,GAAG,QAAQ,CA+CtD"}
