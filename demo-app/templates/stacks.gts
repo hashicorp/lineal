@@ -4,8 +4,6 @@
 
 import Component from '@glimmer/component';
 import { tracked, cached } from '@glimmer/tracking';
-import { on } from '@ember/modifier';
-import { and } from 'ember-truth-helpers';
 import { energyMix } from '../utils/data/energy-mix';
 import Stack from '#src/transforms/stack.ts';
 import { Area, Axis, GridLines, HBars, VBars } from '#src/components.ts';

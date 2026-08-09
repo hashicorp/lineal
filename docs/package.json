@@ -15,22 +15,22 @@
     "lint:md:fix": "markdownlint-cli2 --fix \"**/*.md\" \"!node_modules\""
   },
   "devDependencies": {
-    "@babel/core": "^7.29.0",
+    "@babel/core": "^8.0.1",
     "@glimmer/component": "^2.1.1",
     "@glimmer/tracking": "^1.1.2",
     "@hashicorp/lineal": "workspace:*",
     "@nullvoxpopuli/ember-composable-helpers": "^5.3.2",
     "@types/d3-scale-chromatic": "^3.1.0",
     "babel-plugin-ember-template-compilation": "^4.0.0",
-    "concurrently": "^9.2.1",
+    "concurrently": "^10.0.3",
     "d3-array": "^3.2.4",
     "d3-scale-chromatic": "^3.1.0",
     "ember-modifier": "^4.3.0",
-    "ember-source": "~7.0.0",
     "ember-truth-helpers": "^5.0.0",
-    "markdownlint-cli2": "^0.22.1",
-    "vite-plugin-ember": "^0.7.2",
+    "ember-source": "~7.1.0",
+    "markdownlint-cli2": "^0.23.0",
+    "vite-plugin-ember": "^0.8.1",
     "vitepress": "^1.6.4",
-    "vue": "^3.5.34"
+    "vue": "^3.5.39"
   }
 }

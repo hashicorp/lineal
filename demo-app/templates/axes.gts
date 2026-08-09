@@ -2,7 +2,6 @@
  * Copyright IBM Corp. 2020, 2026
  */
 
-import { array } from '@ember/helper';
 import {
   cssRange,
   scaleLinear,

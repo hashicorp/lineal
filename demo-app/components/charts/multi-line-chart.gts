@@ -4,8 +4,6 @@
 
 import Component from '@glimmer/component';
 import { tracked, cached } from '@glimmer/tracking';
-import { array } from '@ember/helper';
-import { and } from 'ember-truth-helpers';
 import { htmlSafe } from '@ember/template';
 
 import { Area, Axis, Fluid, GridLines, Line } from '#src/components.ts';

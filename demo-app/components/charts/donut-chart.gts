@@ -4,9 +4,6 @@
 
 import Component from '@glimmer/component';
 import { tracked, cached } from '@glimmer/tracking';
-import { on } from '@ember/modifier';
-import { fn, array } from '@ember/helper';
-import { eq } from 'ember-truth-helpers';
 
 import { Arc, Arcs } from '#src/components.ts';
 import { scaleOrdinal } from '#src/helpers.ts';

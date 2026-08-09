@@ -142,6 +142,7 @@ export default class Points extends Component<PointsArgs> {
   }
 
   <template>
+    {{! @glint-in-svg }}
     {{#if (or @renderCircles (not (has-block)))}}
       {{#each this.points as |p|}}
         <circle

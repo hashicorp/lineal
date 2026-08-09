@@ -6,9 +6,9 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { ScaleTime } from '#src/utils/scale.ts';
 import { scaleLinear } from '#src/helpers.ts';
-import { and } from 'ember-truth-helpers';
 import { Axis, GridLines, Line } from '#src/components.ts';
 import { Direction, Orientation } from '#src/components/axis.gts';
+
 import type Owner from '@ember/owner';
 
 function* sine(length: number, start = 0) {

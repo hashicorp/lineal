@@ -3,17 +3,14 @@
  */
 
 import Component from '@glimmer/component';
-import { hash } from '@ember/helper';
-import { fn } from '@ember/helper';
-import { array } from '@ember/helper';
 import { tracked } from '@glimmer/tracking';
 import { roundedRect } from '#src/utils/rounded-rect.ts';
 import { Arc, Arcs } from '#src/components.ts';
-import { on } from '@ember/modifier';
-import { eq } from 'ember-truth-helpers';
+
+import type { ArcDatum } from '#src/components/arcs.gts';
 
 export default class ArcsRoute extends Component {
-  @tracked activeDatum = null;
+  @tracked activeDatum: ArcDatum['data'] | null = null;
 
   logValue = (...args: any[]) => console.log(...args);
 

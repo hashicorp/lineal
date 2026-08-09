@@ -9,8 +9,6 @@ import { extent } from 'd3-array';
 import { Area, Axis, Fluid, GridLines, Line } from '#src/components.ts';
 import { Direction, Orientation } from '#src/components/axis.gts';
 import { scaleLinear } from '#src/helpers.ts';
-import { array } from '@ember/helper';
-import { and } from 'ember-truth-helpers';
 import { interactorCartesianHorizontal } from '#src/modifiers.ts';
 
 interface LinesSignature {

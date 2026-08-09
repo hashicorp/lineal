@@ -6,9 +6,6 @@ import Component from '@glimmer/component';
 import { scaleBand, scaleLinear } from '#src/helpers.ts';
 import { Area, Axis, GridLines, VBars } from '#src/components.ts';
 import { Direction, Orientation } from '#src/components/axis.gts';
-import { hash } from '@ember/helper';
-import { array } from '@ember/helper';
-import { and } from 'ember-truth-helpers';
 
 export default class ArcsRoute extends Component {
   categories = '0-18 18-25 25-35 35-50 50-70 70+'.split(' ');

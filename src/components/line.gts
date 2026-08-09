@@ -80,6 +80,7 @@ export default class Line extends Component<LineSignature> {
   }
 
   <template>
+    {{! @glint-in-svg }}
     <path d={{this.d}} ...attributes></path>
   </template>
 }

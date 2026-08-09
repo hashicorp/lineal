@@ -4,7 +4,6 @@
 
 import Component from '@glimmer/component';
 import { cached } from '@glimmer/tracking';
-import { and } from 'ember-truth-helpers';
 
 import { Axis, GridLines } from '#src/components.ts';
 import { Direction, Orientation } from '#src/components/axis.gts';
