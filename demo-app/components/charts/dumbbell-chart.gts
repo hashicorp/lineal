@@ -4,8 +4,6 @@
 
 import Component from '@glimmer/component';
 import { tracked, cached } from '@glimmer/tracking';
-import { on } from '@ember/modifier';
-import { fn } from '@ember/helper';
 import { htmlSafe } from '@ember/template';
 
 interface DumbbellSignature {

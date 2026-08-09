@@ -4,7 +4,6 @@
 
 import Component from '@glimmer/component';
 import { cached } from '@glimmer/tracking';
-import { array } from '@ember/helper';
 
 import { Area, Line } from '#src/components.ts';
 import { scaleLinear } from '#src/helpers.ts';

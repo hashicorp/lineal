@@ -94,6 +94,7 @@ export default class Arc extends Component<ArcSignature> {
   }
 
   <template>
+    {{! @glint-in-svg }}
     <path d={{this.d}} ...attributes></path>
     {{yield (hash centroid=this.centroid)}}
   </template>

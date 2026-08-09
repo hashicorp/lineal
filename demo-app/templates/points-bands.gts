@@ -11,7 +11,6 @@ import {
   scalePoint,
   scaleSqrt,
 } from '#src/helpers.ts';
-import { and, lt } from 'ember-truth-helpers';
 import { Axis, Bars, GridLines, Points } from '#src/components.ts';
 import { Direction, Orientation } from '#src/components/axis.gts';
 import fmt from '../helpers/fmt';

@@ -1,13 +1,15 @@
 # Copyright IBM Corp. 2020, 2026
 # SPDX-License-Identifier: MPL-2.0
+allowBuilds:
+  esbuild: true
+  core-js: false
+
+# Docs: https://pnpm.io/settings
+# https://github.com/emberjs/rfcs/pull/907
 
 packages:
   - .
   - docs
-
-allowBuilds:
-  esbuild: true
-  core-js: false
 
 autoInstallPeers: true
 

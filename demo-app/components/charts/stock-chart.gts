@@ -4,8 +4,6 @@
 
 import Component from '@glimmer/component';
 import { tracked, cached } from '@glimmer/tracking';
-import { array } from '@ember/helper';
-import { and } from 'ember-truth-helpers';
 
 import { Area, Axis, Fluid, Line } from '#src/components.ts';
 import { Orientation } from '#src/components/axis.gts';

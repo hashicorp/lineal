@@ -144,6 +144,7 @@ export default class Bars extends Component<BarsSignature> {
   }
 
   <template>
+    {{! @glint-in-svg }}
     {{#each this.bars as |b|}}
       {{#if b.d}}
         <path d={{b.d}} ...attributes></path>

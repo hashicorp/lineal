@@ -181,78 +181,34 @@ export default class Bars extends Component<BarsSignature> {
     return undefined;
   }
 
+  get scalesAreValid(): boolean {
+    return (
+      this.xScale.isValid && this.yScale.isValid && this.widthScale.isValid
+    );
+  }
+
+  // Bars grouped by series. Only meaningful when `isStacked`; the template
+  // reads this instead of a `BarDatum[] | BarSeries[]` union so the series
+  // properties below can be type-checked.
   @cached
-  get bars(): BarDatum[] | BarSeries[] {
-    if (
-      !this.xScale.isValid ||
-      !this.yScale.isValid ||
-      !this.widthScale.isValid
-    ) {
-      return [];
-    }
+  get barSeries(): BarSeries[] {
+    if (!this.isStacked || !this.scalesAreValid) return [];
 
     const borderRadius = this.borderRadius;
 
-    if (this.isStacked) {
-      return this.data.map((series) => {
-        const idx = series.visualOrder;
-        const barSeries: BarSeries = {
-          bars: series.map((d: any): BarDatum => ({
-            x: this.xScale.compute(d.x),
-            y: this.yScale.compute(d.y),
-            width: this.widthScale.compute(this.width.accessor(d)),
-            height: this.yScale.compute(d.y0) - this.yScale.compute(d.y),
-            datum: d,
-          })),
-        };
+    return this.data.map((series) => {
+      const idx = series.visualOrder;
+      const barSeries: BarSeries = {
+        bars: series.map((d: any): BarDatum => ({
+          x: this.xScale.compute(d.x),
+          y: this.yScale.compute(d.y),
+          width: this.widthScale.compute(this.width.accessor(d)),
+          height: this.yScale.compute(d.y0) - this.yScale.compute(d.y),
+          datum: d,
+        })),
+      };
 
-        if (borderRadius && (idx === 0 || idx === this.data.length - 1)) {
-          const radii = {
-            topLeft: borderRadius.top,
-            topRight: borderRadius.right,
-            bottomRight: borderRadius.bottom,
-            bottomLeft: borderRadius.left,
-          };
-
-          // When multi series, render top corners if first series,
-          // or the bottom coners if last series.
-          if (this.data.length > 1) {
-            Object.assign(
-              radii,
-              idx === 0
-                ? { topLeft: 0, topRight: 0 }
-                : { bottomLeft: 0, bottomRight: 0 },
-            );
-          }
-
-          barSeries.bars.forEach((bar) => {
-            bar.d = roundedRect(bar, radii, true);
-          });
-        }
-
-        if (this.colorScale) {
-          const colorValue = this.colorScale.compute(series.key);
-          if (this.useCSSClass) {
-            barSeries.cssClass = colorValue;
-          } else {
-            barSeries.fill = colorValue;
-          }
-        }
-
-        return barSeries;
-      });
-    } else {
-      const bars = this.args.data.map((d: any): BarDatum => ({
-        x: this.xScale.compute(this.x.accessor(d)),
-        y: this.yScale.compute(this.y.accessor(d)),
-        width: this.widthScale.compute(this.width.accessor(d)),
-        height:
-          this.yScale.compute(this.y0?.accessor(d) ?? 0) -
-          this.yScale.compute(this.y.accessor(d)),
-        datum: d,
-      }));
-
-      if (borderRadius) {
+      if (borderRadius && (idx === 0 || idx === this.data.length - 1)) {
         const radii = {
           topLeft: borderRadius.top,
           topRight: borderRadius.right,
@@ -260,29 +216,79 @@ export default class Bars extends Component<BarsSignature> {
           bottomLeft: borderRadius.left,
         };
 
-        bars.forEach((bar) => {
+        // When multi series, render top corners if first series,
+        // or the bottom coners if last series.
+        if (this.data.length > 1) {
+          Object.assign(
+            radii,
+            idx === 0
+              ? { topLeft: 0, topRight: 0 }
+              : { bottomLeft: 0, bottomRight: 0 },
+          );
+        }
+
+        barSeries.bars.forEach((bar) => {
           bar.d = roundedRect(bar, radii, true);
         });
       }
 
-      return bars;
+      if (this.colorScale) {
+        const colorValue = this.colorScale.compute(series.key);
+        if (this.useCSSClass) {
+          barSeries.cssClass = colorValue;
+        } else {
+          barSeries.fill = colorValue;
+        }
+      }
+
+      return barSeries;
+    });
+  }
+
+  // The flat list of bars drawn when the data isn't stacked.
+  @cached
+  get bars(): BarDatum[] {
+    if (this.isStacked || !this.scalesAreValid) return [];
+
+    const borderRadius = this.borderRadius;
+
+    const bars = this.args.data.map((d: any): BarDatum => ({
+      x: this.xScale.compute(this.x.accessor(d)),
+      y: this.yScale.compute(this.y.accessor(d)),
+      width: this.widthScale.compute(this.width.accessor(d)),
+      height:
+        this.yScale.compute(this.y0?.accessor(d) ?? 0) -
+        this.yScale.compute(this.y.accessor(d)),
+      datum: d,
+    }));
+
+    if (borderRadius) {
+      const radii = {
+        topLeft: borderRadius.top,
+        topRight: borderRadius.right,
+        bottomRight: borderRadius.bottom,
+        bottomLeft: borderRadius.left,
+      };
+
+      bars.forEach((bar) => {
+        bar.d = roundedRect(bar, radii, true);
+      });
     }
+
+    return bars;
   }
 
   <template>
+    {{! @glint-in-svg }}
     {{#if this.isStacked}}
       <g>
-        {{! @glint-expect-error }}
-        {{#each this.bars as |series|}}
+        {{#each this.barSeries as |series|}}
           <g>
-            {{! @glint-expect-error }}
             {{#each series.bars as |b|}}
               {{#if b.d}}
                 <path
                   d={{b.d}}
-                  {{! @glint-expect-error }}
                   fill={{series.fill}}
-                  {{! @glint-expect-error }}
                   class={{series.cssClass}}
                   ...attributes
                 ></path>
@@ -292,9 +298,7 @@ export default class Bars extends Component<BarsSignature> {
                   y={{b.y}}
                   width={{b.width}}
                   height={{b.height}}
-                  {{! @glint-expect-error }}
                   fill={{series.fill}}
-                  {{! @glint-expect-error }}
                   class={{series.cssClass}}
                   ...attributes
                 ></rect>
@@ -305,7 +309,6 @@ export default class Bars extends Component<BarsSignature> {
       </g>
     {{else}}
       <g>
-        {{! @glint-expect-error }}
         {{#each this.bars as |b|}}
           {{#if b.d}}
             <path d={{b.d}} ...attributes></path>

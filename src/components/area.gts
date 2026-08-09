@@ -165,59 +165,67 @@ export default class Area extends Component<AreaSignature> {
     return curveFor(this.args.curve) as CurveFactory;
   }
 
+  // One path per stacked series. Only meaningful when `isStacked`; the
+  // template reads this instead of a `string | AreaSeries[]` union so the
+  // series properties below can be type-checked.
   @cached
-  get d() {
+  get stackedSeries(): AreaSeries[] {
+    if (!this.isStacked) return [];
+    if (!this.xScale.isValid || !this.yScale.isValid) return [];
+
+    const generator = area<MaybeStackDatum>()
+      .curve(this.curve)
+      .x((d) => this.xScale.compute(d.x))
+      .y0((d) => this.yScale.compute(d.y0))
+      .y1((d) => this.yScale.compute(d.y1));
+
+    return this.data.map((series) => {
+      const d: AreaSeries = { d: generator(series) };
+      if (this.colorScale) {
+        const colorValue = this.colorScale.compute(series.key);
+        if (this.useCSSClass) {
+          d.cssClass = colorValue;
+        } else {
+          d.fill = colorValue;
+        }
+      }
+      return d;
+    });
+  }
+
+  // The single path drawn when the data isn't stacked.
+  @cached
+  get d(): string | null {
+    if (this.isStacked) return '';
     if (!this.xScale.isValid || !this.yScale.isValid) return '';
 
-    if (this.isStacked) {
-      const generator = area<MaybeStackDatum>()
-        .curve(this.curve)
-        .x((d) => this.xScale.compute(d.x))
-        .y0((d) => this.yScale.compute(d.y0))
-        .y1((d) => this.yScale.compute(d.y1));
+    const generator = area()
+      .curve(this.curve)
+      .defined(
+        this.args.defined ||
+          ((d) => this.y.accessor(d) != null && this.x.accessor(d) != null),
+      )
+      .x((d) => this.xScale.compute(this.x.accessor(d)))
+      .y0((d) => this.yScale.compute(this.y0?.accessor(d) ?? 0))
+      .y1((d) => this.yScale.compute(this.y.accessor(d)));
 
-      return this.data.map((series) => {
-        const d: AreaSeries = { d: generator(series) };
-        if (this.colorScale) {
-          const colorValue = this.colorScale.compute(series.key);
-          if (this.useCSSClass) {
-            d.cssClass = colorValue;
-          } else {
-            d.fill = colorValue;
-          }
-        }
-        return d;
-      });
-    } else {
-      const generator = area()
-        .curve(this.curve)
-        .defined(
-          this.args.defined ||
-            ((d) => this.y.accessor(d) != null && this.x.accessor(d) != null),
-        )
-        .x((d) => this.xScale.compute(this.x.accessor(d)))
-        .y0((d) => this.yScale.compute(this.y0?.accessor(d) ?? 0))
-        .y1((d) => this.yScale.compute(this.y.accessor(d)));
-
-      return generator(this.args.data);
-    }
+    return generator(this.args.data);
   }
 
   <template>
+    {{! @glint-in-svg }}
     {{#if this.isStacked}}
       <g>
-        {{! @glint-expect-error }}
-        {{#each this.d as |d|}}
+        {{#each this.stackedSeries as |series|}}
           <path
-            d={{d.d}}
-            fill={{d.fill}}
-            class={{d.cssClass}}
+            d={{series.d}}
+            fill={{series.fill}}
+            class={{series.cssClass}}
             ...attributes
           ></path>
         {{/each}}
       </g>
     {{else}}
-      {{! @glint-expect-error }}
       <path d={{this.d}} ...attributes></path>
     {{/if}}
   </template>

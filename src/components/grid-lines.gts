@@ -97,6 +97,7 @@ export default class GridLines extends Component<GridLinesSignature> {
   }
 
   <template>
+    {{! @glint-in-svg }}
     <g class="grid-lines">
       {{#each this.lines key="@index" as |l|}}
         <line
